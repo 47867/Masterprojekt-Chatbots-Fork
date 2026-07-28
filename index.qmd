@@ -87,7 +87,7 @@ Selbstauskünfte stellen eines der am häufigsten eingesetzten Instrumente zur E
 Insbesondere in der Kommunikations-, Medien- und Bildungsforschung beruhen viele empirische Untersuchungen auf Befragungsdaten, da diese vergleichsweise einfach und kostengünstig erhoben werden können.
 Gleichzeitig ist seit Langem bekannt, dass Selbstauskünfte verschiedenen Fehlerquellen unterliegen und daher nicht zwangsläufig das tatsächliche Verhalten einer Person widerspiegeln [@tourangeau2000].
 
-Die Beantwortung von Surveyfragen ist ein komplexer kognitiver Prozess.
+Das Beantworten von Surveyfragen ist ein komplexer kognitiver Prozess.
 Nach dem Modell von @tourangeau2000 müssen Befragte zunächst relevante Informationen aus ihrem Gedächtnis abrufen, diese zu einer Antwort zusammenfassen, ein Urteil bilden und schließlich entscheiden, wie sie dieses Urteil auf die vorgegebenen Antwortkategorien übertragen.
 Fehler können auf jeder dieser Stufen entstehen.
 Erinnerungen an vergangenes Verhalten sind häufig unvollständig oder verzerrt, insbesondere wenn Ereignisse länger zurückliegen oder regelmäßig auftreten.
