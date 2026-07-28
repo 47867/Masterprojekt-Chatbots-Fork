@@ -122,7 +122,7 @@ Sowohl Studieninformation als auch Datenschutzerklärung sind modifizierte Versi
 
 Im zweiten Block wurden Fragen gestellt, die zu einem Screenout führen, um sicherzustellen, dass die Teilnehmenden nicht übermäßig lange Zeit für den Fragebogen aufbringen, obwohl sie nicht zur Zielgruppe gehören.
 Die Fragen zum Screenout betrafen den Studierendenstatus, die Nutzungshäufigkeit von ChatGPT [vgl. @köhler2024] im Rahmen des Studiums und die allgemeine Nutzung von verschiedenen KI-Tools [vgl. @falk2025].
-Personen die nicht an einer Hochschule immatrikuliert sind, die nie ChatGPT für Studienzwecke nutzen oder generell ChatGPT nicht nutzen wurden ausgescreent.
+Personen die angegeben haben, dass sie nicht an einer Hochschule immatrikuliert sind, nie ChatGPT für Studienzwecke nutzen oder ChatGPT generell nicht nutzen wurden ausgescreent.
 
 In einem dritten Block wurde die allgemeine Nutzung von generativen KI-Chatbots erfragt.
 Dazu gehören zum einen die Vertrautheit und die Kompetenz im Umgang mit generativer KI angelehnt an @shin2022.
@@ -145,7 +145,7 @@ Als nächstes sollten die Respondenten jeweils angeben, ob sie zustimmen bzw.
 ablehenen, dass ihre Angaben ihre Nutzung widerspiegeln, sich ihre Nutzung stark nach Aufgabe unterscheidet und ihre hochgeladenen Chatlogs ihre Nutzung gut widerspiegeln.
 
 Nach den Angaben zu den zentralen Konzepten wurden die soziodemographischen Variablen abgefragt, die für die Analyse relevant sind.
-Dazu gehören das Alter, das Geschlecht nach @ZA10100, der Studienfach, der angestrebte Studienabschluss und die soziale Erwünschtheit nach @kemper2014.
+Dazu gehören das Alter, das Geschlecht nach @ZA10100, das Studienfach, der angestrebte Studienabschluss und die soziale Erwünschtheit nach @kemper2014.
 
 <!-- TODO: Hier noch Operationalisierung beschreiben -->
 
@@ -185,7 +185,7 @@ Darüber hinaus zeigten sich keine weiteren Verständlichkeits- oder Bedienprobl
 Die Feldzeit begann am 09.
 Juli 2026.
 <!-- TODO: Hier noch Ende der Feldphase ergänzen --> Teilnehmende wurden über den Verteiler der Studierenden im Masterprojekt und im Kanal des Masters Computational Social Science mit weiteren Studierenden zur Teilnahme eingeladen, welche insgesamt 27 Studierende umfasst.
-Um eine hinreichend großes Sample zu erreichen wurden weitere Teilnehmende im privaten Umfeld rekruitert.
+Um eine hinreichend großes Sample zu erreichen wurden weitere Teilnehmende im privaten Umfeld und über den Instagram-Kanal der Soziologiefachschaft rekruitert.
 Die Teilnahme war freiwillig und anonym.
 
 Zu Beginn der Feldphase wurde erkennbar, dass die Texteingaben im Survey über ein internes Limit verfügen, was nicht direkt in SoSci Survey erkennbar war.

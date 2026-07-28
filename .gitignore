@@ -70,3 +70,5 @@ data/raw/
 
 # Private Adressen
 private-authors.tex
+
+**/*.quarto_ipynb
