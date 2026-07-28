@@ -59,7 +59,6 @@ editor:
 
 # Abstract {.unnumbered .unlisted}
 
-
 \clearpage
 
 \tableofcontents
@@ -78,18 +77,161 @@ editor:
 
 # Einleitung
 
-
-
 \newpage
 
 # Unterschiede zwischen angegebenem und tatsächlichem Nutzungsverhalten von KI-Chatbots
 
+## Grenzen von Selbstauskünften
+
+Selbstauskünfte stellen eines der am häufigsten eingesetzten Instrumente zur Erfassung menschlichen Verhaltens, Einstellungen und Nutzungsweisen dar.
+Insbesondere in der Kommunikations-, Medien- und Bildungsforschung beruhen viele empirische Untersuchungen auf Befragungsdaten, da diese vergleichsweise einfach und kostengünstig erhoben werden können.
+Gleichzeitig ist seit Langem bekannt, dass Selbstauskünfte verschiedenen Fehlerquellen unterliegen und daher nicht zwangsläufig das tatsächliche Verhalten einer Person widerspiegeln [@tourangeau2000].
+
+Die Beantwortung von Surveyfragen ist ein komplexer kognitiver Prozess.
+Nach dem Modell von @tourangeau2000 müssen Befragte zunächst relevante Informationen aus ihrem Gedächtnis abrufen, diese zu einer Antwort zusammenfassen, ein Urteil bilden und schließlich entscheiden, wie sie dieses Urteil auf die vorgegebenen Antwortkategorien übertragen.
+Fehler können auf jeder dieser Stufen entstehen.
+Erinnerungen an vergangenes Verhalten sind häufig unvollständig oder verzerrt, insbesondere wenn Ereignisse länger zurückliegen oder regelmäßig auftreten.
+Statt einzelne Episoden exakt abzurufen, greifen Befragte häufig auf allgemeine Eindrücke oder Heuristiken zurück, wodurch systematische Schätzfehler entstehen können.
+
+Darüber hinaus ist die Fähigkeit zur korrekten Selbstauskunft grundsätzlich begrenzt.
+Bereits @nisbett1977 zeigten, dass Menschen häufig keinen direkten introspektiven Zugang zu den kognitiven Prozessen haben, die ihr Verhalten steuern; Selbstauskünfte beruhen demnach oft eher auf impliziten Kausaltheorien darüber, was eine plausible Erklärung für das eigene Verhalten wäre, als auf tatsächlicher Introspektion.
+Diese frühe Erkenntnis bildet die theoretische Grundlage für einen ganzen Forschungsstrang, der die Validität von Selbstauskünften systematisch gegen objektivere Vergleichsmaße prüft.
+
+Neben Erinnerungs- und Introspektionsfehlern stellen sozial erwünschte Antworttendenzen (Social Desirability Bias) eine weitere zentrale Fehlerquelle von Selbstauskünften dar.
+Darunter wird die Tendenz verstanden, Fragen so zu beantworten, dass die eigene Person in einem möglichst positiven Licht erscheint oder sozial akzeptierte Normen erfüllt werden [@larson2019; @nederhof1985].
+Besonders bei sensiblen Themen besteht die Gefahr, dass Befragte unerwünschtes Verhalten herunterspielen oder gesellschaftlich erwünschtes Verhalten überbetonen.
+Dabei handelt es sich nicht ausschließlich um bewusste Täuschung anderer, sondern teilweise auch um Formen der Selbsttäuschung, bei denen Personen ihr eigenes Verhalten positiver wahrnehmen als es tatsächlich ist [@nederhof1985].
+
+Die Surveyforschung zeigt, dass solche Verzerrungen insbesondere bei sensiblen Fragestellungen auftreten und stark vom Erhebungskontext abhängen.
+So beeinflussen unter anderem die Anwesenheit eines Interviewers, der Grad der Anonymität sowie die wahrgenommenen sozialen Konsequenzen einer Antwort das Ausmaß sozial erwünschten Antwortverhaltens [@tourangeau2007].
+Befragte passen ihre Antworten dabei häufig bewusst an, um Peinlichkeiten zu vermeiden oder negative Bewertungen durch Dritte zu verhindern.
+Verschiedene methodische Ansätze wie etwa indirekte Fragetechniken oder Social-Desirability-Skalen können diese Verzerrungen zwar reduzieren, beseitigen sie jedoch nicht vollständig [@bernardi2023; @harel2023; @krause2022].
+
+Für die Untersuchung der Nutzung generativer KI-Chatbots könnten diese Mechanismen besonders relevant sein.
+Obwohl KI-Anwendungen inzwischen weit verbreitet sind, wird ihr Einsatz im Hochschulkontext weiterhin kritisch diskutiert und mit Fragen wissenschaftlicher Integrität oder unerlaubter Unterstützung bei Studienleistungen verbunden.
+Dadurch kann die Nutzung generativer KI für Studierende ein sensibles Thema darstellen.
+Erste empirische Hinweise bestätigen diese Annahme: @ling2026 zeigen, dass Studierende ihre eigene KI-Nutzung deutlich geringer angeben als die Nutzung ihrer Kommilitoninnen und Kommilitonen.
+Die Autor:innen führen diese Diskrepanz maßgeblich auf Social Desirability Bias zurück und argumentieren, dass Selbstberichte die tatsächliche Verbreitung von KI-Nutzung im Hochschulkontext systematisch unterschätzen könnten.
+
+## Selbstauskünfte vs. Verhaltensdaten
+
+Die beschriebenen Einschränkungen von Selbstauskünften haben dazu geführt, dass in zahlreichen Forschungsfeldern verstärkt Verhaltensdaten zur Validierung von Surveyangaben eingesetzt werden.
+Während Selbstauskünfte erfassen, wie Personen ihr eigenes Verhalten wahrnehmen oder erinnern, bilden Beobachtungs- oder Logdaten tatsächliches Verhalten unmittelbar ab.
+Beide Datenquellen liefern dabei unterschiedliche Informationen und sollten nicht als konkurrierende, sondern als komplementäre Messansätze verstanden werden [@nielsen2015].
+
+Vergleichsstudien aus unterschiedlichen Anwendungsbereichen zeigen, dass Selbstauskünfte häufig nur begrenzt mit beobachtetem Verhalten übereinstimmen.
+So fanden @nielsen2015 für die Beurteilung von Alltagskompetenzen bei Personen mit Depression, dass zwischen Selbstauskunft und Beobachtung nur ein geringer Zusammenhang bestand, was die Autorinnen als Argument für die Kombination beider Erhebungsmethoden werten.
+
+Ähnliche Ergebnisse zeigen sich auch in anderen Forschungsbereichen.
+Im Gesundheits- und Verhaltensbereich fanden @kendall2004 für lebensmittelhygienisches Verhalten zwar für einen Teil der Items brauchbare Übereinstimmungen zwischen Fragebogenangaben und beobachtetem Verhalten, jedoch auch systematische Abweichungen bei konkreten Handlungsschritten, die im Interview kaum sichtbar wurden.
+Auch Metaanalysen aus der Kriminologie berichten lediglich moderate Zusammenhänge zwischen selbstberichtetem delinquentem Verhalten und offiziellen Verhaltensdaten, wobei die Übereinstimmung je nach Art des Verhaltens und Erhebungsmethode erheblich variiert [@li2026].
+
+Neben der begrenzten Übereinstimmung weisen neuere Arbeiten darauf hin, dass Messfehler in Selbstauskünften nicht ausschließlich zufällig auftreten, sondern systematischen Mustern folgen.
+Eine Analyse der UK Biobank von @schoeler2025 zeigt beispielsweise, dass selbst vermeintlich stabile Selbstberichte über persönliche Merkmale über verschiedene Erhebungszeitpunkte hinweg teilweise erhebliche Inkonsistenzen aufweisen.
+Dieser Befund verdeutlicht, dass Verzerrungen in Selbstauskünften nicht nur zufällig auftreten, sondern mit weiteren Personenmerkmalen konfundiert sein können.
+
+Methodische Rahmenbedingungen der Erhebung selbst scheinen dabei eine untergeordnete Rolle zu spielen: @sharpe2025 fanden für Studierendenstichproben nur geringe Unterschiede in der Datenvalidität zwischen Labor- und Online-Erhebung, wohl aber Unterschiede je nach eingesetztem Prüfverfahren für invalide Antwortmuster.
+
+Die Befunde verdeutlichen, dass Selbstauskünfte zwar eine zentrale und häufig unverzichtbare Datenquelle darstellen, ihre Validität jedoch nicht selbstverständlich vorausgesetzt werden kann.
+Der Vergleich mit objektiveren Verhaltensdaten ermöglicht es, systematische Abweichungen zwischen berichteter und tatsächlicher Verhaltensausführung zu identifizieren und potenzielle Ursachen dieser Diskrepanzen näher zu untersuchen.
+Insbesondere in Forschungsfeldern, in denen Verhaltensdaten zunehmend verfügbar sind, eröffnet die Kombination beider Datenquellen daher neue Möglichkeiten zur Bewertung der Aussagekraft von Selbstauskünften und zur Verbesserung empirischer Messungen.
+
+## Digitale Verhaltensdaten und Data Donations
+
+Mit der zunehmenden Digitalisierung menschlichen Verhaltens stehen Forschenden heute jedoch neue Formen objektiver Verhaltensdaten zur Verfügung.
+Insbesondere digitale Trace-Daten ermöglichen es, tatsächliches Nutzungsverhalten ohne ausschließliche Abhängigkeit von Selbstauskünften zu erfassen.
+Im Gegensatz zu Selbstauskünften entstehen diese Daten unmittelbar während der Nutzung digitaler Anwendungen und sind daher nicht auf Erinnerungsleistungen oder subjektive Einschätzungen der Befragten angewiesen.
+Logdaten, Serverdaten oder geräteinterne Nutzungsprotokolle ermöglichen damit eine deutlich detailliertere Erfassung individuellen Verhaltens und werden zunehmend als Ergänzung oder Alternative zu klassischen Surveydaten eingesetzt [@ohme2024].
+
+Besonders umfangreich ist die Evidenz aus der Forschung zur Internet-, Smartphone- und Social-Media-Nutzung.
+Zahlreiche Studien haben dort Selbstauskünfte mit objektiv erfassten Logdaten verglichen und kommen übereinstimmend zu dem Ergebnis, dass beide Datenquellen häufig nur moderat miteinander korrelieren.
+@scharkow2016 zeigte beispielsweise anhand von Client-Logdaten, dass sowohl die Häufigkeit als auch die Dauer der Internetnutzung von Befragten häufig ungenau eingeschätzt werden.
+Die Abweichungen folgen dabei systematischen Mustern und sind keineswegs zufällig.
+Während Angaben zu spezifischen Plattformen vergleichsweise präzise ausfallen können, weisen allgemeine Schätzungen der Internetnutzung deutlich geringere Genauigkeit auf.
+
+Ähnliche Befunde finden sich für die Nutzung mobiler Endgeräte.
+Vergleiche zwischen Selbstauskünften und automatisch erfassten Smartphone- oder Mobilfunkdaten zeigen, dass Nutzungsdauer und Nutzungsfrequenz häufig falsch erinnert oder systematisch über- beziehungsweise unterschätzt werden [@boase2013; @kobayashi2012; @vandenabeele2013].
+Dabei unterscheiden sich die Richtung und das Ausmaß der Abweichungen unter anderem nach Intensität der Nutzung: Während Personen mit geringer Nutzung ihr Verhalten eher überschätzen, unterschätzen intensive Nutzerinnen und Nutzer ihre tatsächliche Nutzung häufiger [@vandenabeele2013].
+
+Auch für Social-Media-Plattformen berichten Studien eine nur begrenzte Übereinstimmung zwischen Selbstauskünften und objektiven Nutzungsdaten.
+@ernala2020 fanden beispielsweise lediglich moderate Zusammenhänge zwischen selbstberichteter und tatsächlich protokollierter Facebook-Nutzung.
+Gleichzeitig überschätzten die Befragten ihre Nutzungsdauer, unterschätzten jedoch die Anzahl ihrer Plattformbesuche.
+Vergleichbare Ergebnisse berichten @coyne2023, deren Untersuchung zeigt, dass insbesondere Selbstauskünfte zur Social-Media-Nutzung und verschiedene Skalen problematischer Smartphone-Nutzung nur schwach mit objektiv gemessenen Nutzungsdaten zusammenhängen.
+Eine systematische Meta-Analyse von @parry2021, die über einhundert Effektgrößen zusammenfasst, bestätigt diese Befunde.
+Insgesamt korrelieren selbstberichtete und geloggte Mediennutzung lediglich moderat, wobei insbesondere Maße problematischer Mediennutzung eine noch geringere Übereinstimmung mit den tatsächlichen Verhaltensdaten aufweisen.
+
+Vor diesem Hintergrund gewinnen sogenannte Data Donations zunehmend an Bedeutung.
+Dabei stellen Teilnehmende Forschenden freiwillig digitale Verhaltensdaten zur Verfügung, die von Plattformen oder Endgeräten bereits automatisch gespeichert wurden.
+Im Unterschied zu klassischen Trackingverfahren behalten die Nutzenden dabei die Kontrolle über ihre Daten und entscheiden selbst, welche Informationen sie für wissenschaftliche Zwecke bereitstellen möchten [@ohme2024; @vandriel2022].
+Dadurch verbinden Data Donations die Vorteile objektiver Verhaltensdaten mit hohen Transparenz- und Datenschutzstandards.
+
+Gleichzeitig bringt dieser Ansatz eigene methodische Herausforderungen mit sich.
+Mehrere Studien zeigen, dass die Bereitschaft zur Datenspende zwischen verschiedenen Bevölkerungsgruppen und Plattformen variiert und dadurch Selektionsverzerrungen entstehen können [@kmetty2025; @strycharz2024; @wedel2026].
+Zudem beeinflussen technische Anforderungen der Datenerhebung die Teilnahmebereitschaft erheblich.
+So erzielen Verfahren, bei denen Nutzende ihre Logdaten manuell übertragen, teilweise deutlich höhere Teilnahmequoten als das Hochladen von Screenshots oder Bildschirmaufnahmen, gehen jedoch mit einem geringeren Detailgrad der erhobenen Daten einher [@asensio2026].
+Trotz dieser Herausforderungen gelten Data Donations inzwischen als vielversprechender Ansatz, um objektive digitale Verhaltensdaten datenschutzkonform zu erheben und klassische Surveydaten sinnvoll zu ergänzen [@ohme2024].
+
+Für die vorliegende Studie ist dieser methodische Ansatz besonders relevant.
+Während Data Donations bislang vor allem zur Untersuchung der Nutzung sozialer Medien oder mobiler Endgeräte eingesetzt wurden, lassen sich auf diese Weise grundsätzlich auch Chatverläufe generativer KI-Systeme erfassen.
+Dadurch wird es erstmals möglich, Selbstauskünfte zur KI-Nutzung unmittelbar mit den tatsächlich geführten Konversationen zu vergleichen und potenzielle Diskrepanzen zwischen berichteter und beobachteter Nutzung systematisch zu untersuchen.
+
+## Messung von KI-Nutzung
+
+Mit der raschen Verbreitung generativer KI-Systeme ist in den vergangenen Jahren auch das wissenschaftliche Interesse an deren Nutzung deutlich gestiegen.
+Die überwiegende Mehrheit der bisherigen Studien basiert jedoch auf Selbstauskünften der Nutzenden.
+Angaben zur Häufigkeit der Nutzung, zu Einsatzbereichen oder zu Einstellungen gegenüber KI werden dabei nahezu ausschließlich mittels standardisierter Befragungen erhoben [@balabdaoui2024; @garrel2025].
+Obwohl diese Studien wertvolle Erkenntnisse über die Verbreitung generativer KI liefern, gelten grundsätzlich dieselben Einschränkungen wie für Selbstauskünfte in anderen Forschungsbereichen.
+
+Erste Arbeiten deuten darauf hin, dass diese Einschränkungen bei der Erfassung der KI-Nutzung besonders relevant sein könnten.
+Anders als bei vielen alltäglichen Verhaltensweisen ist der Einsatz generativer KI im Hochschulkontext häufig normativ aufgeladen.
+Einerseits werden KI-Chatbots zunehmend als hilfreiche Lernwerkzeuge betrachtet, andererseits bestehen weiterhin Diskussionen über wissenschaftliche Integrität, unzulässige Unterstützung bei Prüfungsleistungen sowie mögliche negative Auswirkungen auf selbstständiges Lernen und kritisches Denken [@kasneci2023].
+Dadurch kann die Nutzung generativer KI von Studierenden als sensibles Thema wahrgenommen werden.
+
+Vor diesem Hintergrund argumentieren @ling2026, dass insbesondere Social Desirability Bias zu einer systematischen Unterschätzung der tatsächlichen KI-Nutzung führen könnte.
+In ihrer Studie berichten lediglich etwa 60 % der befragten Studierenden, selbst generative KI zu nutzen, während rund 90 % angeben, dass ihre Kommilitoninnen und Kommilitonen entsprechende Systeme verwenden.
+Die Autor:innen interpretieren diese Diskrepanz als Hinweis darauf, dass Befragte ihre eigene Nutzung aufgrund sozialer Normen oder befürchteter negativer Bewertungen eher herunterspielen.
+Sie argumentieren daher, dass die bislang verfügbaren Schätzungen zur Verbreitung generativer KI mit Vorsicht interpretiert werden sollten und stärker durch objektive Verhaltensdaten validiert werden müssten.
+
+Bislang existieren jedoch kaum Studien, die Selbstauskünfte zur Nutzung generativer KI unmittelbar mit tatsächlichen Nutzungsdaten vergleichen.
+Während sich in der Forschung zu Internet- oder Social-Media-Nutzung digitale Verhaltensdaten bereits als wichtige Ergänzung zu Surveydaten etabliert haben (vgl. Abschnitt 2.3), stehen vergleichbare Validierungsstudien für generative KI noch weitgehend aus.
+Entsprechend bleibt bislang offen, in welchem Ausmaß Selbstauskünfte über die Nutzung von KI-Chatbots das tatsächliche Nutzungsverhalten widerspiegeln.
+
+## KI-Nutzung im Studium
+
+Seit der Veröffentlichung von ChatGPT Ende 2022 haben sich generative KI-Systeme innerhalb kurzer Zeit zu einem festen Bestandteil des Hochschulalltags entwickelt.
+Zahlreiche Studien zeigen, dass Studierende diese Werkzeuge regelmäßig zur Unterstützung verschiedener studienbezogener Aufgaben einsetzen.
+Gleichzeitig wird generative KI zunehmend nicht mehr als kurzfristiger Technologietrend, sondern als dauerhafte Veränderung akademischer Lehr- und Lernprozesse betrachtet [@kasneci2023].
+
+Aktuelle Befragungen verdeutlichen die hohe Verbreitung generativer KI unter Studierenden.
+So berichten @garrel2025 auf Grundlage einer deutschlandweiten Längsschnittstudie mit rund 5.000 Studierenden, dass mittlerweile über 90 % der Befragten KI-basierte Werkzeuge im Studium nutzen.
+Im Vergleich zu einer Erhebung aus dem Jahr 2023, in der noch 63 % der Studierenden entsprechende Anwendungen verwendeten, zeigt sich damit ein deutlicher Anstieg innerhalb kurzer Zeit.
+Auch internationale Studien bestätigen diese Entwicklung.
+@balabdaoui2024a zeigen anhand einer Befragung von etwa 4.800 Studierenden, dass generative KI an Hochschulen inzwischen breit akzeptiert wird und von vielen Studierenden als hilfreiche Unterstützung im Lernprozess wahrgenommen wird.
+
+Neben der steigenden Verbreitung haben sich auch die Einsatzbereiche generativer KI deutlich erweitert.
+Während Chatbots zunächst vor allem genutzt wurden, um Verständnisfragen zu klären oder fachliche Inhalte erklären zu lassen, unterstützen sie Studierende inzwischen in nahezu allen Phasen des wissenschaftlichen Arbeitsprozesses.
+Häufig genannte Anwendungsbereiche sind die Recherche von Informationen, das Zusammenfassen komplexer Inhalte, die Erstellung oder Überarbeitung wissenschaftlicher Texte, Übersetzungen sowie datenbezogene Analysen [@garrel2025].
+Generative KI entwickelt sich damit zunehmend von einem reinen Auskunftssystem zu einem vielseitigen Werkzeug für akademisches Arbeiten.
+
+Gleichzeitig weist die Forschung darauf hin, dass der erfolgreiche Einsatz generativer KI nicht allein von ihrer Verfügbarkeit, sondern maßgeblich von der Art ihrer Nutzung abhängt.
+Große Sprachmodelle können überzeugend formulierte, jedoch fehlerhafte oder verzerrte Informationen erzeugen.
+Daher betonen verschiedene Autor:innen, dass Studierende Kompetenzen entwickeln müssen, um Antworten generativer KI kritisch zu hinterfragen, Informationen mit weiteren Quellen abzugleichen und die Grenzen solcher Systeme einschätzen zu können.
+Kritisches Denken, Quellenprüfung und die reflektierte Einbindung KI-generierter Inhalte gelten dementsprechend als zentrale Voraussetzungen für einen verantwortungsvollen Einsatz generativer KI im Studium [@kasneci2023].
+
+Die bisherige Forschung liefert somit ein umfassendes Bild über die Verbreitung generativer KI sowie über typische Einsatzbereiche und wahrgenommene Chancen im Studium.
+Diese Erkenntnisse beruhen jedoch nahezu ausschließlich auf Selbstauskünften der Studierenden.
+Ob die berichteten Nutzungsarten sowie Angaben zur kritischen Prüfung KI-generierter Inhalte tatsächlich mit dem beobachtbaren Nutzungsverhalten übereinstimmen, bleibt bislang weitgehend ungeklärt.
+
+## Forschungslücke
+
+Obwohl inzwischen umfangreiche Erkenntnisse zur Verbreitung generativer KI sowie zu den berichteten Nutzungsweisen im Studium vorliegen, fehlen bislang Studien, die Selbstauskünfte mit tatsächlichen KI-Interaktionen vergleichen.
+Während sich digitale Verhaltensdaten in der Forschung zu Internet- und Social-Media-Nutzung bereits als wertvolle Ergänzung von Surveydaten etabliert haben [@ohme2024; @parry2021], wurde dieser Ansatz auf generative KI bislang kaum übertragen.
+Insbesondere ist bislang weitgehend ungeklärt, inwiefern Studierende ihre tatsächliche Nutzung, ihre Nutzungsarten oder die kritische Prüfung von KI-generierten Antworten zutreffend berichten.
+An dieser Forschungslücke setzt die vorliegende Studie an, indem sie Selbstauskünfte aus einer Onlinebefragung mit tatsächlich geführten Chatverläufen generativer KI-Systeme vergleicht und diese mithilfe einer LLM-basierten Klassifikation systematisch auswertet.
 
 \newpage
 
 # Forschungsfragen
-
-
 
 \newpage
 
@@ -181,96 +323,133 @@ Später erhielten wir von SoSci Survey die gelöschten Eingaben per Mail zugesan
 
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
 
-## Datenauswertung 
+## Datenauswertung
 
--LLM-Evaluation + zero shot klassifikation theorie (der Große Teil davon im Appendix)
--statisitsch Vorangehensweiße und rechtfertigung
+-LLM-Evaluation + zero shot klassifikation theorie (der Große Teil davon im Appendix) -statisitsch Vorangehensweiße und rechtfertigung
 
 ##Textklassifikation mit LMMs
 
-
-
-##Opperationalisierung (ca  4000 zeichen) 
+##Opperationalisierung (ca 4000 zeichen)
 
 -Wahrscheinlich kürzen oder einfach komplett in den Appendix?
 
-Ziel der Studie ist es zum einen, Unterschiede zwischen surveybasierten Selbstauskünften und dem tatsächlich beobachteten Verhalten in den Chatlogs zu ermitteln, und zum anderen zu untersuchen, ob sich aus diesen Abweichungsmustern Gruppen mit unterschiedlichen Merkmalen identifizieren lassen. Hierfür müssen die Ergebnisse der Selbstauskunft und der gewonnenen Daten aus den Chats vergleichbar miteinander werden. 
-Die Survey-Daten liegen auf Personenebene vor, während die Ergebnisse der quantitativen Textanalyse auf Chat-Ebene erhoben wurden. Da die Datenspende auf Chat-Ebene erfolgt (jede Person stellt mehrere Chats bereit), ist zunächst eine Transformation in ein Wide-Format auf Personenebene erforderlich. Im Anschluss werden die Chat-basierten Ergebnisse pro Person aggregiert, um sie auf ein Skalenniveau zu überführen, das mit den Selbstauskunftsdaten vergleichbar ist. Zur Vereinheitlichung der Messniveaus werden die Survey-Variablen zu Sentiment und kritischem Nachfragen kategorial reduziert. Die Ausprägungen „sehr (un)freundlich“ und „(un)freundlich“ werden jeweils zusammengefasst. Analog werden die Antwortkategorien „stimme eher (nicht) zu“ und „stimme (nicht) zu“ aggregiert. Für die Chat-Daten erfolgt eine entsprechende Operationalisierung durch Aggregation über alle Chats einer Person. Dabei wird für die Variablen Sentiment und kritisches Nachfragen jeweils der Modus berechnet, um eine personenbezogene Ausprägung zu erhalten. Bei Sentiment kann es vorkommen, dass kein eindeutiger Wert berechnet werden kann, wenn die Verteilung exakt bimodal ist. Wenn kein eindeutiger Wert berechnet werden kann, wird stattdessen „Neutral“ als konservativer Wert verwendet. In einem späteren Robustheitscheck werden diese Beobachtungen ausgeschlossen, um die Ergebnisse zu überprüfen. Um die Selbstauskunft mit dem beobachteten Verhalten vergleichbar zu machen, werden beide Seiten auf denselben Wertebereich [0,1] normiert. Auf Seiten der Selbstauskunft geben die Befragten im Fragebogen an, wie sie ihre Nutzung auf die fünf Aufgabenbereiche verteilen, indem sie insgesamt zehn Punkte vergeben. Der Anteil eines Aufgabenbereichs ergibt sich, indem die für diesen Bereich vergebene Punktzahl durch die maximal mögliche Gesamtpunktzahl von zehn geteilt wird. Analog dazu werden die Klassifikationen der einzelnen Chats auf denselben Wertebereich [0,1] überführt: Für jeden Aufgabenbereich wird der Anteil an den insgesamt gespendeten Chats einer Person berechnet, also die Anzahl der einem Bereich zugeordneten Chats geteilt durch die Gesamtzahl ihrer gültigen Chats.
-Durch die quantitative Textklassifikation können somit insgesamt sieben Variablen operationalisiert werden (fünf Aufgabenbereiche, Sentiment und kritisches Nachfragen), die strukturell äquivalent zu den sieben im Survey erhobenen Variablen sind. Auf diese Weise wird eine direkte Vergleichbarkeit zwischen Selbstauskunft und Verhaltensdaten ermöglicht.
-Diese durch die Anpassung gewonnene Vergleichbarkeit wird verwendet, um zu beobachten, wie das tatsächliche Verhalten von der Selbstauskunft divergiert. Dazu werden folgende Variablen erstellt. Die Daten durch den Chat sind der Grundwert, mit dem die Selbstauskünfte verglichen werden. Bei Sentiment “1” heißt es also, dass die Person freundlicher ist als sie angegeben hat, “0”, dass die Selbstauskunft zutrifft, und “-1” , dass die Person unfreundlicher ist als sie angegeben hat.
+Ziel der Studie ist es zum einen, Unterschiede zwischen surveybasierten Selbstauskünften und dem tatsächlich beobachteten Verhalten in den Chatlogs zu ermitteln, und zum anderen zu untersuchen, ob sich aus diesen Abweichungsmustern Gruppen mit unterschiedlichen Merkmalen identifizieren lassen.
+Hierfür müssen die Ergebnisse der Selbstauskunft und der gewonnenen Daten aus den Chats vergleichbar miteinander werden.
+Die Survey-Daten liegen auf Personenebene vor, während die Ergebnisse der quantitativen Textanalyse auf Chat-Ebene erhoben wurden.
+Da die Datenspende auf Chat-Ebene erfolgt (jede Person stellt mehrere Chats bereit), ist zunächst eine Transformation in ein Wide-Format auf Personenebene erforderlich.
+Im Anschluss werden die Chat-basierten Ergebnisse pro Person aggregiert, um sie auf ein Skalenniveau zu überführen, das mit den Selbstauskunftsdaten vergleichbar ist.
+Zur Vereinheitlichung der Messniveaus werden die Survey-Variablen zu Sentiment und kritischem Nachfragen kategorial reduziert.
+Die Ausprägungen „sehr (un)freundlich“ und „(un)freundlich“ werden jeweils zusammengefasst.
+Analog werden die Antwortkategorien „stimme eher (nicht) zu“ und „stimme (nicht) zu“ aggregiert.
+Für die Chat-Daten erfolgt eine entsprechende Operationalisierung durch Aggregation über alle Chats einer Person.
+Dabei wird für die Variablen Sentiment und kritisches Nachfragen jeweils der Modus berechnet, um eine personenbezogene Ausprägung zu erhalten.
+Bei Sentiment kann es vorkommen, dass kein eindeutiger Wert berechnet werden kann, wenn die Verteilung exakt bimodal ist.
+Wenn kein eindeutiger Wert berechnet werden kann, wird stattdessen „Neutral“ als konservativer Wert verwendet.
+In einem späteren Robustheitscheck werden diese Beobachtungen ausgeschlossen, um die Ergebnisse zu überprüfen.
+Um die Selbstauskunft mit dem beobachteten Verhalten vergleichbar zu machen, werden beide Seiten auf denselben Wertebereich \[0,1\] normiert.
+Auf Seiten der Selbstauskunft geben die Befragten im Fragebogen an, wie sie ihre Nutzung auf die fünf Aufgabenbereiche verteilen, indem sie insgesamt zehn Punkte vergeben.
+Der Anteil eines Aufgabenbereichs ergibt sich, indem die für diesen Bereich vergebene Punktzahl durch die maximal mögliche Gesamtpunktzahl von zehn geteilt wird.
+Analog dazu werden die Klassifikationen der einzelnen Chats auf denselben Wertebereich \[0,1\] überführt: Für jeden Aufgabenbereich wird der Anteil an den insgesamt gespendeten Chats einer Person berechnet, also die Anzahl der einem Bereich zugeordneten Chats geteilt durch die Gesamtzahl ihrer gültigen Chats.
+Durch die quantitative Textklassifikation können somit insgesamt sieben Variablen operationalisiert werden (fünf Aufgabenbereiche, Sentiment und kritisches Nachfragen), die strukturell äquivalent zu den sieben im Survey erhobenen Variablen sind.
+Auf diese Weise wird eine direkte Vergleichbarkeit zwischen Selbstauskunft und Verhaltensdaten ermöglicht.
+Diese durch die Anpassung gewonnene Vergleichbarkeit wird verwendet, um zu beobachten, wie das tatsächliche Verhalten von der Selbstauskunft divergiert.
+Dazu werden folgende Variablen erstellt.
+Die Daten durch den Chat sind der Grundwert, mit dem die Selbstauskünfte verglichen werden.
+Bei Sentiment “1” heißt es also, dass die Person freundlicher ist als sie angegeben hat, “0”, dass die Selbstauskunft zutrifft, und “-1” , dass die Person unfreundlicher ist als sie angegeben hat.
 
-$(i) Sentiment (S):$ 
+$(i) Sentiment (S):$
 
-$$
-S_{\text{Diskrepanz}} =
+$$S_{\text{Diskrepanz}} =
 \begin{cases}
 -1, & \text{unfreundlicher} \\
 0, & \text{korrekt} \\
 1, & \text{freundlicher}
-\end{cases}
-$$
+\end{cases}$$
 
-Bei kritischen Nachfragen bedeutet “-1”, dass die Person denkt nachzufragen, aber es nicht tut, “0”, dass die Selbstauskunft korrekt ist und “1”, dass die Person denkt, dass sie nicht nachfragt, aber es tut. 
+Bei kritischen Nachfragen bedeutet “-1”, dass die Person denkt nachzufragen, aber es nicht tut, “0”, dass die Selbstauskunft korrekt ist und “1”, dass die Person denkt, dass sie nicht nachfragt, aber es tut.
 
 $(ii) Für Kritisches nachfragen (K):$
 
-$$
-K_{\text{Diskrepanz}} =
+$$K_{\text{Diskrepanz}} =
 \begin{cases}
 -1, & \text{unkritischer als angegeben} \\
 0, & \text{korrekt} \\
 1, & \text{kritischer als angegeben}
-\end{cases}
-$$
+\end{cases}$$
 
-Bei den fünf Aufgaben der Informationsnutzung bedeutet ein positiver Wert für eine Aufgabe “i”, dass die Selbstauskunft der Person um den Anteil nach oben abweicht. Ein negativer Wert, analog dazu, dass die Person nach unten abweicht. 
- “SA” ist die Selbstauskunft und “BE” ist das beobachtete Verhalten.
- 
+Bei den fünf Aufgaben der Informationsnutzung bedeutet ein positiver Wert für eine Aufgabe “i”, dass die Selbstauskunft der Person um den Anteil nach oben abweicht.
+Ein negativer Wert, analog dazu, dass die Person nach unten abweicht.
+“SA” ist die Selbstauskunft und “BE” ist das beobachtete Verhalten.
+
 <!-- $(iii) Aufgaben (A)$ -->
 
-$$
-D_i = SA_i - BE_i, \qquad A_{i,\text{Diskrepanz}} \in [-1, 1]
-$$
+$$D_i = SA_i - BE_i, \qquad A_{i,\text{Diskrepanz}} \in [-1, 1]$$
 
-$$
-A_{i,\text{Diskrepanz}} =
+$$A_{i,\text{Diskrepanz}} =
 \begin{cases}
 \text{Unterschätzung}, & -1 \leq D_i < 0 \\
 \text{Übereinstimmung}, & D_i = 0 \\
 \text{Überschätzung}, & 0 < D_i \leq 1
-\end{cases}
-$$
-
+\end{cases}$$
 
 ## Statistische Analyse (ca 5000 zeichen)
-Die explorative Analyse der gewonnenen Daten soll mittels einer k-medoids-Clusteranalyse durchgeführt werden. Da die Variablen, die in das Cluster einfließen sollen, aus fünf kontinuierlichen Diskrepanzscores (Kategorien der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Nachfragen und Sentiment) bestehen, liegen gemischte Skalenniveaus vor. Die Manhattan-Distanz und Euklidische-Distanz, die in der Literatur sehr prominent sind, benötigen metrische oder binäre Daten. Für das Clustering wird daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert (Gower 1971). Die Idee der Gower-Distanz ist, dass für alle Variablen eine eigene Distanz berechnet wird, die immer zwischen 0 und 1 liegt. Diese berechneten Einzel-Distanzen werden am Ende in einer Gesamtdistanz pro Personenpaar verrechnet, bei der 0 bedeutet, dass die Personen identisch sind, und 1 bedeutet, dass sie möglichst unterschiedlich sind. Von den kontinuierlichen Variablen $A_i$ wird die absolute Differenz genommen, während $S_{\text{Diskrepanz}}$ und $K_{\text{Diskrepanz}}$ zuerst als geordnete Faktoren codiert werden, damit ihre Richtung (Unter- vs. Überschätzung) erhalten bleibt und nicht wie bei einer rein nominalen Codierung verloren geht. Anschließend werden die ordinalen Maßzahlen in Ränge übersetzt. Da die inhaltliche Domäne mit fünf Variablen gegenüber Sentiment und Kritik mit je einer Variable bei Gleichgewichtung aller einzelnen Variablen überproportional stark in die Distanz eingeht, werden die 5 aufgabenspezifischen Diskrepanzmaße mit $\frac{1}{5} = 0{,}2$ gewichtet.
 
-Der Algorithmus, der für die Clusteranalyse verwendet wird, ist der "Partitioning around Medoids"-Algorithmus, kurz PAM (Kaufman und Rousseeuw 1990). Dieser funktioniert wie folgt: Wie der k-means-Algorithmus unterteilt er den Datensatz in eine Anzahl von k-Partitionen. Dabei werden aber statt des arithmetischen Mittels oder des Medians tatsächliche Beobachtungseinheiten als Clusterzentrum gewählt. Dies erlaubt auch, dass beliebige Distanzmaße verwendet werden können und man nicht wie bei k-means auf die euklidischen Distanzmaße beschränkt ist, die metrische oder binäre Daten verwenden. Da PAM Personen als Zentrum der k-Partitionen erlaubt, kann man die Cluster-Zentren intuitiver interpretieren: So kann man diese Person, die im Zentrum steht, als eine Art Idealtyp des Clusters interpretieren, dem die anderen Personen ähneln. Dies macht den Algorithmus zu einer attraktiven Wahl für unser exploratives Vorhaben. Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall drei Beobachtungen ausgewählt (dies wird durch einen Seed "404" replizierbar gehalten). Danach werden alle Personen dem Medoid (Zentrum) zugeordnet, an dem sie am nächsten liegen, und die Summe aller Distanzen von den Personen zu ihrem Medoid berechnet. Schließlich werden die Beobachtungen, die Medoid sind, mit Beobachtungen, die nicht Medoid sind, ausgetauscht. Dieser Prozess wiederholt sich, bis keine Verbesserung mehr möglich ist.
+Die explorative Analyse der gewonnenen Daten soll mittels einer k-medoids-Clusteranalyse durchgeführt werden.
+Da die Variablen, die in das Cluster einfließen sollen, aus fünf kontinuierlichen Diskrepanzscores (Kategorien der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Nachfragen und Sentiment) bestehen, liegen gemischte Skalenniveaus vor.
+Die Manhattan-Distanz und Euklidische-Distanz, die in der Literatur sehr prominent sind, benötigen metrische oder binäre Daten.
+Für das Clustering wird daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert (Gower 1971).
+Die Idee der Gower-Distanz ist, dass für alle Variablen eine eigene Distanz berechnet wird, die immer zwischen 0 und 1 liegt.
+Diese berechneten Einzel-Distanzen werden am Ende in einer Gesamtdistanz pro Personenpaar verrechnet, bei der 0 bedeutet, dass die Personen identisch sind, und 1 bedeutet, dass sie möglichst unterschiedlich sind.
+Von den kontinuierlichen Variablen $A_i$ wird die absolute Differenz genommen, während $S_{\text{Diskrepanz}}$ und $K_{\text{Diskrepanz}}$ zuerst als geordnete Faktoren codiert werden, damit ihre Richtung (Unter- vs. Überschätzung) erhalten bleibt und nicht wie bei einer rein nominalen Codierung verloren geht.
+Anschließend werden die ordinalen Maßzahlen in Ränge übersetzt.
+Da die inhaltliche Domäne mit fünf Variablen gegenüber Sentiment und Kritik mit je einer Variable bei Gleichgewichtung aller einzelnen Variablen überproportional stark in die Distanz eingeht, werden die 5 aufgabenspezifischen Diskrepanzmaße mit $\frac{1}{5} = 0{,}2$ gewichtet.
 
-Die Anzahl der k-Partitionen wird mittels der Silhouette-Methode von e (1987) festgelegt und nicht wie bei einer k-means-Clusterung mit dem Elbow-Kriterium. Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe. Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei 1 heißt, dass die Person sehr gut in das Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist. Nun rechnet man den Durchschnitt für alle Personen aus, der anzeigt, wie eng gruppiert alle Personen in dem Cluster sind. Ein Cluster mit einer durchschnittlichen Silhouette von 0,5 wird als ausreichend für unsere Zwecke betrachtet, 0,7 als stark. Dieser Prozess wird für $k = 2$ bis $k = 6$ wiederholt. Die Anzahl $k$, für die die maximale durchschnittliche Silhouette berechnet wird, wird verwendet.
+Der Algorithmus, der für die Clusteranalyse verwendet wird, ist der "Partitioning around Medoids"-Algorithmus, kurz PAM (Kaufman und Rousseeuw 1990).
+Dieser funktioniert wie folgt: Wie der k-means-Algorithmus unterteilt er den Datensatz in eine Anzahl von k-Partitionen.
+Dabei werden aber statt des arithmetischen Mittels oder des Medians tatsächliche Beobachtungseinheiten als Clusterzentrum gewählt.
+Dies erlaubt auch, dass beliebige Distanzmaße verwendet werden können und man nicht wie bei k-means auf die euklidischen Distanzmaße beschränkt ist, die metrische oder binäre Daten verwenden.
+Da PAM Personen als Zentrum der k-Partitionen erlaubt, kann man die Cluster-Zentren intuitiver interpretieren: So kann man diese Person, die im Zentrum steht, als eine Art Idealtyp des Clusters interpretieren, dem die anderen Personen ähneln.
+Dies macht den Algorithmus zu einer attraktiven Wahl für unser exploratives Vorhaben.
+Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall drei Beobachtungen ausgewählt (dies wird durch einen Seed "404" replizierbar gehalten).
+Danach werden alle Personen dem Medoid (Zentrum) zugeordnet, an dem sie am nächsten liegen, und die Summe aller Distanzen von den Personen zu ihrem Medoid berechnet.
+Schließlich werden die Beobachtungen, die Medoid sind, mit Beobachtungen, die nicht Medoid sind, ausgetauscht.
+Dieser Prozess wiederholt sich, bis keine Verbesserung mehr möglich ist.
 
-Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden. Dazu werden die einzelnen Cluster auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen untersucht, also beispielsweise Studiengang, soziale Erwünschtheit und Erfahrung mit künstlicher Intelligenz. Erst wird ein deskriptiver graphischer Überblick gegeben und im Anschluss werden die einzelnen Werte zwischen den Gruppen statistisch verglichen. Dafür wird für die soziale Erwünschtheit, die in eine Skala umgewandelt wird, eine ANOVA durchgeführt. Für die ordinalskalierten Variablen, also Erfahrung mit künstlicher Intelligenz, Nutzungshäufigkeit und Informationsnutzung, wird Kruskal-Wallis berechnet, da dort keine Annahme über die Abstände der Ausprägungen getroffen werden muss, weil alle Beobachtungen in Ränge eingeteilt werden. Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt.
+Die Anzahl der k-Partitionen wird mittels der Silhouette-Methode von e (1987) festgelegt und nicht wie bei einer k-means-Clusterung mit dem Elbow-Kriterium.
+Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe.
+Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei 1 heißt, dass die Person sehr gut in das Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
+Nun rechnet man den Durchschnitt für alle Personen aus, der anzeigt, wie eng gruppiert alle Personen in dem Cluster sind.
+Ein Cluster mit einer durchschnittlichen Silhouette von 0,5 wird als ausreichend für unsere Zwecke betrachtet, 0,7 als stark.
+Dieser Prozess wird für $k = 2$ bis $k = 6$ wiederholt.
+Die Anzahl $k$, für die die maximale durchschnittliche Silhouette berechnet wird, wird verwendet.
 
+Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden.
+Dazu werden die einzelnen Cluster auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen untersucht, also beispielsweise Studiengang, soziale Erwünschtheit und Erfahrung mit künstlicher Intelligenz.
+Erst wird ein deskriptiver graphischer Überblick gegeben und im Anschluss werden die einzelnen Werte zwischen den Gruppen statistisch verglichen.
+Dafür wird für die soziale Erwünschtheit, die in eine Skala umgewandelt wird, eine ANOVA durchgeführt.
+Für die ordinalskalierten Variablen, also Erfahrung mit künstlicher Intelligenz, Nutzungshäufigkeit und Informationsnutzung, wird Kruskal-Wallis berechnet, da dort keine Annahme über die Abstände der Ausprägungen getroffen werden muss, weil alle Beobachtungen in Ränge eingeteilt werden.
+Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt.
 
 ## Beschreibung der Stichprobe
+
 <!-- Sind damit so deskreptive Statistiken gemeint? -->
 
-Nach der Datenaufbereitung wird der Forschungsfrage erst deskriptiv genähert, um einen Überblick darüber zu bekommen, wie stark die Unterschiede zwischen beobachtetem und selbstangaben Verhalten sind. Dzu wird unter anderen das arithmetische Mittel über alle Aufgaben berechnen, um zu beobachten, ob sich eine Person eher überschätzt oder unterschätzt. Es besteht das Risiko, dass sich die Werte einer Person gegenseitig neutralisieren. Soweit die mittlere absolute Abweichung (MAD), um zu sehen, wie viel im Mittel eine Person von ihrer Selbstauskunft  abweicht. Die limitation hierbei ist da man keine Schlüsse über die Effektrichtung ziehen kann. Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.
+Nach der Datenaufbereitung wird der Forschungsfrage erst deskriptiv genähert, um einen Überblick darüber zu bekommen, wie stark die Unterschiede zwischen beobachtetem und selbstangaben Verhalten sind.
+Dzu wird unter anderen das arithmetische Mittel über alle Aufgaben berechnen, um zu beobachten, ob sich eine Person eher überschätzt oder unterschätzt.
+Es besteht das Risiko, dass sich die Werte einer Person gegenseitig neutralisieren.
+Soweit die mittlere absolute Abweichung (MAD), um zu sehen, wie viel im Mittel eine Person von ihrer Selbstauskunft abweicht.
+Die limitation hierbei ist da man keine Schlüsse über die Effektrichtung ziehen kann.
+Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.
 
--Deskrepziva Stichprobe
-<<<INSERT GRAPHS>>>
--Deskreptiva Zusammenhang
-<<<
+-Deskrepziva Stichprobe \<\<<INSERT GRAPHS>\>\> -Deskreptiva Zusammenhang \<\<\<
 
 \newpage
 
 # Ergebnisse
 
-
 \newpage
 
 # Dikussion
-
 
 \newpage
 
@@ -292,6 +471,7 @@ Die Analysedaten und -Materialien sind auf dem Open Science Framework OSF (<http
 :::
 
 \newpage
+
 Anhag wird wahrscheunlich einfac auf Github geteilt
 
 # Anhang {.unnumbered}
