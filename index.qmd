@@ -79,12 +79,12 @@ Studierende nutzen generative KI unter anderem zur Informationssuche, zum Verst�
 Gleichzeitig ist die Nutzung solcher Systeme im Hochschulkontext weiterhin mit normativen Fragen verbunden, etwa hinsichtlich wissenschaftlicher Integrität, Eigenständigkeit und der Rolle von KI beim Lernen.
 Dadurch entsteht ein Spannungsfeld zwischen einer zunehmend verbreiteten Nutzung und einer möglicherweise zurückhaltenden Kommunikation darüber.
 
-Die bisherige Forschung zur Nutzung generativer KI stützt sich jedoch fast ausschließlich auf Selbstauskünfte [vgl. @garrel2025; @balabdaoui2024].
+Die bisherige Forschung zur Nutzung generativer KI stützt sich jedoch fast ausschließlich auf Selbstauskünfte [bspw. @garrel2025; @balabdaoui2024].
 Diese liefern wichtige Informationen darüber, wie Nutzende ihre eigene KI-Nutzung wahrnehmen und bewerten, unterliegen jedoch bekannten Einschränkungen hinsichtlich Erinnerungsgenauigkeit, Interpretation des eigenen Verhaltens und sozial erwünschter Antworttendenzen.
 Gerade bei einem gesellschaftlich kontrovers diskutierten Thema wie der Nutzung generativer KI stellt sich daher die Frage, ob Befragungsdaten die tatsächliche Nutzung angemessen abbilden oder systematische Verzerrungen enthalten.
 
 Digitale Logdaten eröffnen eine Möglichkeit, diese Diskrepanz zwischen berichteter und tatsächlicher Nutzung empirisch zu untersuchen.
-Während solche Daten in Bereichen wie der Internet-, Smartphone- oder Social-Media-Forschung bereits genutzt werden, um die Validität von Selbstauskünften zu überprüfen [beispw. @kmetty2025; @ohme2024; @vandriel2022], wurden vergleichbare Ansätze für generative KI bislang kaum angewandt.
+Während solche Daten in Bereichen wie der Internet-, Smartphone- oder Social-Media-Forschung bereits genutzt werden, um die Validität von Selbstauskünften zu überprüfen [bspw. @kmetty2025; @ohme2024; @vandriel2022], wurden vergleichbare Ansätze für generative KI bislang kaum angewandt.
 Die vorliegende Studie greift diese Forschungslücke auf, indem sie Selbstauskünfte von Studierenden zur Nutzung generativer KI mit tatsächlich geführten Chatverläufen vergleicht.
 
 Daraus ergibt sich die folgende Forschungsfrage die in dieser Arbeit untersucht werden soll:
