@@ -5,27 +5,18 @@ bibliography: manuscript/references.bib
 csl: manuscript/apa.csl
 
 format:
-  html:
-    toc: true
-    fig-format: svg
-    number-sections: true
-    code-fold: true
-    code-tools: true
-    format-links: true
-
   pdf:
-    colorlinks: true
-    linkcolor: black
     toc: false
     fig-format: pdf
     number-sections: true
     pdf-engine: xelatex
+    link-citations: true
     include-before-body:
       - manuscript/title.tex
     include-in-header:
       text: |
         \usepackage{fontspec}
-    
+
         \setmainfont[
           Path=manuscript/fonts/,
           UprightFont=EBGaramond-Regular.ttf,
@@ -33,7 +24,7 @@ format:
           ItalicFont=EBGaramond-Italic.ttf,
           BoldItalicFont=EBGaramond-BoldItalic.ttf
         ]{EB Garamond}
-    
+
         \setsansfont[
           Path=manuscript/fonts/,
           UprightFont=EBGaramond-Regular.ttf,
@@ -41,7 +32,7 @@ format:
           ItalicFont=EBGaramond-Italic.ttf,
           BoldItalicFont=EBGaramond-BoldItalic.ttf
         ]{EB Garamond}
-    
+
         \usepackage{setspace}
         \usepackage{placeins}
         \doublespacing
@@ -271,7 +262,38 @@ Trotz dieser Einschränkungen stellt die Kombination aus Selbstauskunft und Chat
 ## Erstellung des Fragebogens
 
 Der Fragebogen wurde so entwickelt, dass er die die studienbezogene Nutzung von ChatGPT standardisiert erfasst und diese Angaben anschließend auch mit den aus den Chatverläufen gewonnenen Informationen vergleichen zu können.
-Daher orientieren sich die zentralen Konstrukte an den Analysekategorien der Chatlogdaten.
+Daher orientieren sich die drei zentralen Konstrukte an den Analysekategorien der Chatlogdaten.
+
+Zunächst wurde von den Respondenten nach den Studieninformationen und nach der Datenschutzhinweisen eine informierte Einwilligung erbeten.
+Dort konnten sie angeben, dass sie die Studieninformationen gelesen haben und mit der Teilnahme an der Studie einverstanden sind, der Erhebung und Verarbeitung ihrer Daten zustimmen und dass sie die Datenschutzerklärung gelesen haben und mit der Verarbeitung ihrer Daten einverstanden und mindestens 18 Jahre alt sind.
+Sowohl Studieninformation als auch Datenschutzerklärung sind modifizierte Versionen von @wuttke2026.
+
+Im zweiten Block wurden Fragen gestellt, die zu einem Screenout führen, um sicherzustellen, dass die Teilnehmenden nicht übermäßig lange Zeit für den Fragebogen aufbringen, obwohl sie nicht zur Zielgruppe gehören.
+Die Fragen zum Screenout betrafen den Studierendenstatus, die Nutzungshäufigkeit von ChatGPT [vgl. @köhler2024] im Rahmen des Studiums und die allgemeine Nutzung von verschiedenen KI-Tools [vgl. @falk2025].
+Personen die angegeben haben, dass sie nicht an einer Hochschule immatrikuliert sind, nie ChatGPT für Studienzwecke nutzen oder ChatGPT generell nicht nutzen wurden ausgescreent.
+
+In einem dritten Block wurde die allgemeine Nutzung von generativen KI-Chatbots erfragt.
+Dazu gehören zum einen die Vertrautheit und die Kompetenz im Umgang mit generativer KI angelehnt an @shin2022.
+
+Im Hauptteil der Studie wurden dann die drei zentralen Konzepte erfragt, die sich auch aus den Chatlogs ermitteln lassen.
+Zum einen wurden Respondenten gefragt, wie ihre typische Interaktion mit ChatGPT aussieht, also wie freundlich bis unfreundlich sie Ihren eigenen Umgang einschätzen.
+Als zweites zentrales Konzept wurden Respondenten nach dem kritischen Prüfen der Antworten von ChatGPT gefragt.
+Hier sollten sie zustimmen bzw.
+ablehenen, dass sie die Antworten von ChatGPT direkt im Chat kritisch prüfen.
+Als letztes zentrales Konzept wurden Respondenten gebeten ihr typisches Nutzungsverhalten auf die fünf Aufgabenbereiche zu verteilen, indem sie insgesamt zehn Punkte vergeben.
+Die Aufgabenbereiche sind: (1) Zusammenfassen von Texten, (2) Erklären von Inhalten, (3) Übersetzen von Texten, (4) Generieren von Ideen und (5) Programmieren.
+
+Im fünften Block wurde nach dem freiwilligen Uploads von ihren letzten fünf studienbezogenen Chatlogs gefragt.
+Dafür mussten Respondenten erneut eine informierte Einwilligung abgeben.
+Für das Hochladen sollten Respondenten zunächst versuchen einen Prompt direkt in den jeweiligen Chat als Nachricht zu schreiben, um von ChatGPT den gesamten Chatverlauf als JSON-Syntax in einer Antwortnachricht zu erhalten.
+Funktionierte das nicht, wurden sie auf eine weitere Seite geführt, auf der sie die Gelegenheit bekommen haben verbleibenden Chatverläufe als HTML-Datei hochzuladen.
+
+Im sechsten Teil wurde gefragt, welche technischen Probleme aufgetreten sind.
+Als nächstes sollten die Respondenten jeweils angeben, ob sie zustimmen bzw.
+ablehenen, dass ihre Angaben ihre Nutzung widerspiegeln, sich ihre Nutzung stark nach Aufgabe unterscheidet und ihre hochgeladenen Chatlogs ihre Nutzung gut widerspiegeln.
+
+Nach den Angaben zu den zentralen Konzepten wurden die soziodemographischen Variablen abgefragt, die für die Analyse relevant sind.
+Dazu gehören das Alter, das Geschlecht nach @ZA10100, das Studienfach, der angestrebte Studienabschluss und die soziale Erwünschtheit nach @kemper2014.
 
 <!-- TODO: Hier noch Operationalisierung beschreiben -->
 
@@ -311,12 +333,12 @@ Darüber hinaus zeigten sich keine weiteren Verständlichkeits- oder Bedienprobl
 Die Feldzeit begann am 09.
 Juli 2026.
 <!-- TODO: Hier noch Ende der Feldphase ergänzen --> Teilnehmende wurden über den Verteiler der Studierenden im Masterprojekt und im Kanal des Masters Computational Social Science mit weiteren Studierenden zur Teilnahme eingeladen, welche insgesamt 27 Studierende umfasst.
-Um eine hinreichend großes Sample zu erreichen wurden weitere Teilnehmende im privaten Umfeld rekruitert.
+Um eine hinreichend großes Sample zu erreichen wurden weitere Teilnehmende im privaten Umfeld und über den Instagram-Kanal der Soziologiefachschaft rekruitert.
 Die Teilnahme war freiwillig und anonym.
 
 Zu Beginn der Feldphase wurde erkennbar, dass die Texteingaben im Survey über ein internes Limit verfügen, was nicht direkt in SoSci Survey erkennbar war.
-Durch dieses Limit wurden Eingaben, die im Survey abgeschickt wurden anschließend aus dem Datensatz entfernt.
-Die Respondenten bekamen daraufhin den Hinweis, welcher Fehler aufgetreten war und dazu angehalten, sich per Mail an uns zu wenden.
+Durch dieses Limit wurden Texteingaben, die im Survey abgeschickt wurden anschließend aus dem Datensatz entfernt.
+Die Respondenten bekamen daraufhin den Hinweis, welcher Fehler aufgetreten war und dazu angehalten, sich per Mail an die anhabende Person des SoSci Survey Projekts zu wenden.
 Es kann davon ausgegangen werden, dass diese Fehleranzeige zu einer Irritation geführt hat.
 Später erhielten wir von SoSci Survey die gelöschten Eingaben per Mail zugesandt, wodurch Fälle manuell vervollständigt werden konnten und so keine Daten verlorgen gingen.
 <!-- TODO: Hier noch die Anzahl solcher Fälle ergänzen -->
@@ -325,11 +347,34 @@ Später erhielten wir von SoSci Survey die gelöschten Eingaben per Mail zugesan
 
 ## Datenauswertung
 
--LLM-Evaluation + zero shot klassifikation theorie (der Große Teil davon im Appendix) -statisitsch Vorangehensweiße und rechtfertigung
-
 ##Textklassifikation mit LMMs
 
-##Opperationalisierung (ca 4000 zeichen)
+Um die Daten für die statistische Analyse vorzubereiten müssen zwei Dinge passieren, zuertst müssen die Datenspenden aufbereitet und klassifiziert werden und im zweiten Schritt müssen die so gewonnen Daten vergleichbar mit den Selbstauskünften aus dem Survey gemacht werden.
+
+Da die Daten entweder als Json oder HTML gespendet wurden, müssen ersten Schrtit, diese beiden Dateiformate seperat aufbereit werden und ausscließlich auf User-Nachrichten gefilter werden da wir uns hier nur auf das Verhalten der Nutzednen fokusieren und nicht auf das Verhalten des Chat-Bots.
+Diese Daten werden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Setiment, kritischen Nachfragen und Aufgabenbereich klasiefieziert.
+LLMs haben den großen Vorteil gegenüber traditionellen Textklassifikationen mittels Maschinen Learning das diese deutlich leichter zu implementieren sind und keine aufwendigen Traningsprozesse bedarfen (Wang et al. 2023).
+Es kann auch sein das LLMs bei komplexeren Aufgaben zusätzliches Traning in Form von Fine-Tuning -dem vorab Tranieren des LLMs an einen zusätzliichen Datensatz der auf die Zielaufgabe zu geschnitten ist- oder Few-Shots -also des integrieren einiger emxemplarischer Fälle in den prompt dem man an die LLM übergibt- brauchen können, da sie für allgemeine Aufgaben konzeppiert sind und nicht spezifisch für die Textklassifizierung von z.
+B.
+kritischen Nachfragen.
+LLMs zeigen bei Klassifikationsaufgaben insbesonder der Klassifikation von Sentiment recht gute Ergebnisse die mit "Natural language Processing" (NLP)-Modellen mithalten können (Wang et al. 2023, Anglin und Ventura 2025) und sogar mit den Annotatione von "Crowd-Workers" (Gilardi et al. 2023).
+Um die Performance von GPT auf unseren Datensatz zu testen wurde eine Datensatz mit insgesamt 30 Chats annotierd und mit versschieden GPT-Modellen, verschiedenen Prompts sowie verschiednenr Strategien (alle Klassifikationsaufgaben in einen oder in seperaten Prompts abfragen).
+Es wurden ausschließlich Zero-Shot Klassifikationen ausgeführt.
+Das Modell welches hier am besten Performt hat war da zu den Zeitpunkt aktuelle Frontier Modell, GPT-5.5 mit einr Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ (Für die Detalierte evaluatonen siehe im Appendix die Modell-Evaluation).
+
+<!-- TODO: @Theo Ordner und Plot fehlen auf Github. ![Zero-Shot Textklassifikation von GPT-5.5 (combined Strategie)](plots/performance_gpt55_combined.png)-->
+
+Diese Ergebnisse zeigen das GPT-5.5 in der Lage ist diese Klassifkationen auszuführen.
+Diese Zero-Shot-Leistungskennzahlen dienen daher als Schätzung der zu erwartenden Modellperformance für die Daten die wir im Survey erheben werden.
+Diese Annahme basiert darauf, dass beide Datensätze hinsichtlich Domäne (Chatverläufe von Studierenden), Aufgabenkontext (wofür GPT eingesetztwurde), Labelschema und struktureller Ähnlichkeit der Chats (terative Prompt-Verfeinerung, Frage-Antwort-Strukturen) vergleichbar sind.
+Dennoch können Unterschiede in der Datenverteilung dazu führen, dass die tatsächliche Performance auf dem zweiten Datensatz von den gemessenen Kennzahlen abweicht.
+Dies könnte insbesondere ein Problem bei der Klassifizierung von Inhalten sein, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine Homogenität der Inhalte zu erwarten ist.
+GPT-5.5 war in Inhaltsklassifikationen in allen Runden sehr akkurat, was darauf hindeuten könnte, dass dieses Problem nicht von zu großer Bedeutung ist.
+Um das Problem der Übertragbarkeit zu adressieren, wurde eine Stichprobe von 15–20 % des Survey-Datensatzes gezogen, um die von GPT-5.5 vergebenen Labels zu überprüfen.
+Die Übreprüfung der Stichprobe, kam zu den Schluss das ...
+??? AUSFÜHREN
+
+-LLM-Evaluation + zero shot klassifikation theorie (der Große Teil davon im Appendix) -statisitsch Vorangehensweiße und rechtfertigung ##Opperationalisierung (ca 4000 zeichen)
 
 -Wahrscheinlich kürzen oder einfach komplett in den Appendix?
 
@@ -432,6 +477,11 @@ Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt.
 
 ## Beschreibung der Stichprobe
 
+```{=html}
+<!-- TODO: soziodemographische Verteilung, ggf. Angaben zur
+Verteilung von für die Studie zentralen Merkmalen -->
+```
+
 <!-- Sind damit so deskreptive Statistiken gemeint? -->
 
 Nach der Datenaufbereitung wird der Forschungsfrage erst deskriptiv genähert, um einen Überblick darüber zu bekommen, wie stark die Unterschiede zwischen beobachtetem und selbstangaben Verhalten sind.
@@ -449,7 +499,7 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.
 
 \newpage
 
-# Dikussion
+# Diskussion
 
 \newpage
 
@@ -472,16 +522,14 @@ Die Analysedaten und -Materialien sind auf dem Open Science Framework OSF (<http
 
 \newpage
 
-Anhag wird wahrscheunlich einfac auf Github geteilt
-
 # Anhang {.unnumbered}
 
 | Genutztes Tool | Verwendungszweck | Sektion der Arbeit | Prompt |
-|----------------|------------------|--------------------|--------|
-|                |                  |                    |        |
-|                |                  |                    |        |
-|                |                  |                    |        |
-|                |                  |                    |        |
-|                |                  |                    |        |
+|------------------|------------------|------------------|------------------|
+| DeepL | Übersetzung von Items | [Questionnaire OSF](https://osf.io/pqdhb) | \- |
+| Research Rabbit | Literaturübersicht | Literaturverzeichnis | \- |
+|  |  |  |  |
+|  |  |  |  |
+|  |  |  |  |
 
 : Kennzeichnung von verwendeten KI-Tools
