@@ -68,7 +68,36 @@ editor:
 
 # Einleitung
 
-\newpage
+Digitale Technologien hinterlassen für viele Bereiche des menschlichen Verhaltens detaillierte Spuren.
+Jede Suche, jeder Klick und jede Interaktion mit digitalen Anwendungen erzeugt Daten, die potenziell einen unmittelbaren Einblick in tatsächliche Nutzungsmuster ermöglichen.
+Gleichzeitig basiert ein großer Teil der sozialwissenschaftlichen Forschung weiterhin auf einer indirekten Datenquelle: der Selbstauskunft von Personen über ihr eigenes Verhalten.
+Damit stellt sich eine grundlegende methodische Frage: Wie genau stimmen die Angaben von Menschen über ihre digitale Nutzung tatsächlich mit ihrem beobachtbaren Verhalten überein?
+
+Diese Frage gewinnt besondere Bedeutung für die Nutzung generativer KI-Systeme.
+Seit der breiten Verfügbarkeit von generativen KI-Chatbots wie ChatGPT werden diese Anwendungen zunehmend in alltägliche und akademische Arbeitsprozesse integriert.
+Studierende nutzen generative KI unter anderem zur Informationssuche, zum Verständnis komplexer Inhalte oder zur Unterstützung beim wissenschaftlichen Schreiben [@garrel2025].
+Gleichzeitig ist die Nutzung solcher Systeme im Hochschulkontext weiterhin mit normativen Fragen verbunden, etwa hinsichtlich wissenschaftlicher Integrität, Eigenständigkeit und der Rolle von KI beim Lernen.
+Dadurch entsteht ein Spannungsfeld zwischen einer zunehmend verbreiteten Nutzung und einer möglicherweise zurückhaltenden Kommunikation darüber.
+
+Die bisherige Forschung zur Nutzung generativer KI stützt sich jedoch fast ausschließlich auf Selbstauskünfte [bspw. @garrel2025; @balabdaoui2024].
+Diese liefern wichtige Informationen darüber, wie Nutzende ihre eigene KI-Nutzung wahrnehmen und bewerten, unterliegen jedoch bekannten Einschränkungen hinsichtlich Erinnerungsgenauigkeit, Interpretation des eigenen Verhaltens und sozial erwünschter Antworttendenzen.
+Gerade bei einem gesellschaftlich kontrovers diskutierten Thema wie der Nutzung generativer KI stellt sich daher die Frage, ob Befragungsdaten die tatsächliche Nutzung angemessen abbilden oder systematische Verzerrungen enthalten.
+
+Digitale Logdaten eröffnen eine Möglichkeit, diese Diskrepanz zwischen berichteter und tatsächlicher Nutzung empirisch zu untersuchen.
+Während solche Daten in Bereichen wie der Internet-, Smartphone- oder Social-Media-Forschung bereits genutzt werden, um die Validität von Selbstauskünften zu überprüfen [bspw. @kmetty2025; @ohme2024; @vandriel2022], wurden vergleichbare Ansätze für generative KI bislang kaum angewandt.
+Die vorliegende Studie greift diese Forschungslücke auf, indem sie Selbstauskünfte von Studierenden zur Nutzung generativer KI mit tatsächlich geführten Chatverläufen vergleicht.
+
+Daraus ergibt sich die folgende Forschungsfrage die in dieser Arbeit untersucht werden soll:
+
+*Inwiefern unterscheiden sich Selbstauskünfte Studierender zur studienbezogenen Informationsnutzung mit generativen KI-Chatbots von ihrem in gespendeten Chatlogs beobachtbaren Nutzungsverhalten?*
+
+Zur Beantwortung dieser explorativen Forschungsfrage werden im Rahmen einer Online-Umfrage freiwillig bereitgestellte studienbezogene Chatverläufe analysiert und mit Selbstauskünften abgeglichen.
+Mithilfe einer LLM-basierten Klassifikation werden dabei insbesondere Unterschiede zwischen berichteten und beobachtbaren Nutzungsmustern untersucht.
+
+<!-- Gegebenenfalls die Struktur anpassen/umformulieren -->
+
+Im Folgenden wird der vorhandene Forschungsstand dargelegt bevor unsere einzelnen Forschungsfragen daraus abgeleitet und präsentiert werden.
+Daraufhin wird in Abschnitt 4 unsere Untersuchungsmethode vorgestellt bevor die daraus resultierenden Ergebnisse aufgezeigt und in der abschließenden Diskussion interpretiert werden.
 
 # Unterschiede zwischen angegebenem und tatsächlichem Nutzungsverhalten von KI-Chatbots
 
@@ -223,6 +252,18 @@ An dieser Forschungslücke setzt die vorliegende Studie an, indem sie Selbstausk
 \newpage
 
 # Forschungsfragen
+
+F1: Inwiefern unterscheiden sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von der in gespendeten Chatlogs beobachteten Nutzung?
+
+F2: Bei welchen Dimensionen der Informationsnutzung zeigen sich besonders häufig Übereinstimmungen beziehungsweise Diskrepanzen zwischen Surveyangaben und Chatlogdaten?
+
+F3: Welche Arten studienbezogener Informationsnutzung lassen sich in den Chatlogs identifizieren?
+Inwiefern stimmen diese mit den Survey angegebenen Nutzungsarten überein?
+
+F4: Inwiefern geben Studierende an, KI-Antworten kritisch zu prüfen?
+Inwiefern stimmen diese Angaben mit den im Surveyangaben überein?
+
+F5: Wie gut eignen sich die LLM-basierte Klassifikation, um Dimensionen der Informationsnutzung in Chatlogs systematisch zu erfassen und mit Surveyangaben zu vergleichen?
 
 \newpage
 
