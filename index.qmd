@@ -330,20 +330,20 @@ Erfasst wurden Alter, Geschlecht nach @ZA10100, Studienfach, angestrebter Studie
 
 Die zentralen Konstrukte wurden so operationalisiert, dass sie sowohl durch Selbstauskünfte im Survey als auch durch die LLM-basierte Klassifikation der Chatlogdaten erfasst werden konnten. Die Kategorien wurden deshalb so gewählt, dass sie einerseits von den Teilnehmenden zuverlässig berichtet und andererseits aus den Chatverläufen extrahiert werden konnten. Dadurch wurde eine direkte Vergleichbarkeit beider Datenquellen auf Personenebene ermöglicht. @tbl-operationalisierung gibt einen Überblick über die Operationalisierung.
 
-| Konstrukt | Skala | Erhebung |
+| Konstrukt | Skalenniveau | Erhebung |
 |-----------------|-------------|------------------------------------------|
-| Interaktionsstil | ordinal, fünf-stufig | Selbsteinschtzung des Kommunkationsstils gegenüber ChatGPT |
-| Kritisches Prüfen | Likert, vier-stufig | Zustimmung zur Aussage über das Hinterfragen von Antworten in ChatGPT |
+| Interaktionsstil | ordinal | Selbsteinschtzung des Kommunkationsstils gegenüber ChatGPT |
+| Kritisches Prüfen | Likert | Zustimmung zur Aussage über das Hinterfragen von Antworten in ChatGPT |
 | Informationsnutzung | quasi-metrisch | Verteilung von genau 10 Punkten auf fünf Nutzungsarten |
 
 : Operationalisierung der zentralen Konstrukte {#tbl-operationalisierung}
 
 Der *Interaktionsstil* wurde über die Selbsteinschätzung des eigenen Kommunikationsverhaltens gegenüber ChatGPT erhoben.
-Die Teilnehmenden bewerteten, wie freundlich beziehungsweise unfreundlich sie typischerweise mit dem Chatbot kommunizieren.
+Die Teilnehmenden bewerteten auf einer fünfstufigen Skala, wie freundlich beziehungsweise unfreundlich sie typischerweise mit dem Chatbot kommunizierten Die Mittelkategorie bildete einen neutralen Kommunikationsstil ab.
 Diese Angaben konnten anschließend den durch das LLM klassifizierten sprachlichen Merkmalen der Chatverläufe gegenübergestellt werden.
 
 Das *kritische Prüfen* wurde über Aussagen zur unmittelbaren Bewertung und Überprüfung von ChatGPT-Antworten erfasst.
-Die Teilnehmenden gaben auf einer Zustimmungsskala an, in welchem Ausmaß sie die Antworten während der Nutzung kritisch hinterfragen.
+Die Teilnehmenden gaben auf einer vierstufigen Zustimmungsskala an, in welchem Ausmaß sie die Antworten während der Nutzung kritisch hinterfragten. Für dieses Konstrukt wurde keine Mittelkategorie erlaubt, weil eine teilweise kritische Prüfung nicht durch die Chatlogdaten klassifiziert werden konnte.
 Die Formulierung des Items wurde so gewählt, dass dieselbe Dimension anschließend anhand der Chatlogdaten über das Auftreten kritischer Nachfragen und Überprüfungen identifiziert werden konnte.
 
 Die studienbezogene *Informationsnutzung* wurde über fünf Aufgabenbereiche operationalisiert: *Zusammenfassen*, *Erklären*, *Übersetzen*, *Ideengenerierung* und *Programmieren*.
@@ -351,10 +351,7 @@ Die Teilnehmenden verteilten insgesamt zehn Punkte auf diese fünf Kategorien, s
 Diese Form der Operationalisierung wurde gewählt, weil dieselben Kategorien anschließend auch in den Chatlogdaten identifiziert werden konnten.
 Dadurch war ein direkter Vergleich zwischen Selbstbericht und beobachtetem Verhalten möglich.
 
-Da der Schwerpunkt der Studie auf dem Vergleich zweier Datenquellen und nicht auf der Messung latenter Konstrukte liegt, wurden überwiegend Einzelitems eingesetzt.
-Lediglich die Skala zur sozialen Erwünschtheit wurde als Index gebildet. Hierfür wurden invertierte Items rekodiert und anschließend gemeinsam mit den übrigen Items zu einem Mittelwertindex zusammengefasst. Der resultierende Mittelwertindex bildet die individuelle Tendenz zu sozial erwünschtem Antwortverhalten ab.
 
-Zusätzlich wurden die vergebenen Punkte für jede Nutzungsart als relative Anteile der gesamten Punktverteilung berechnet. Dadurch konnte die subjektive Gewichtung der einzelnen Nutzungsarten zwischen den Teilnehmenden verglichen und den aus den Chatlogdaten gewonnenen Anteilen gegenübergestellt werden.
 
 <!-- TODO: Hier noch Datenmodifikation beschreiben -->
 
@@ -399,11 +396,22 @@ Die betroffenen Teilnehmenden wurden automatisch über Sosci Survey informiert u
 Diese Daten wurden nachträglich in den Datensatz integriert.
 Sämtliche E-Mails mit Chatverläufen wurden nach Abschluss der Datenerhebung gelöscht, sodass die Anonymität der Teilnehmenden gewahrt blieb.
 
+## Datenaufbereitung
+
+Um die Daten für die statistische Analyse vorzubereiten, wurden zunächst die Rohdaten aus SoSci Survey exportiert und in RStudio eingelesen. Anschließend wurden sämtliche Antwortkodierungen einheitlich rekodiert.
+
+Da der Schwerpunkt der Studie auf dem Vergleich zweier Datenquellen und nicht auf der Messung latenter Konstrukte liegt, wurden überwiegend Einzelitems eingesetzt.
+Lediglich die Skala zur sozialen Erwünschtheit wurde als Index gebildet. Hierfür wurden invertierte Items rekodiert und anschließend gemeinsam mit den übrigen Items zu einem Mittelwertindex zusammengefasst. Der resultierende Mittelwertindex bildet die individuelle Tendenz zu sozial erwünschtem Antwortverhalten ab.
+
+Zusätzlich wurden die vergebenen Punkte für jede Nutzungsart als relative Anteile der gesamten Punktverteilung berechnet. Dadurch konnte die subjektive Gewichtung der einzelnen Nutzungsarten zwischen den Teilnehmenden verglichen und den aus den Chatlogdaten gewonnenen Anteilen gegenübergestellt werden.
+
+Fälle, bei denen zentrale Konstrukte gefehlt haben, wurden von der Analyse ausgeschlossen.
+
+<!-- TODO: hier nch die technische Aufbereitung zu JSON/HTML Aufbereitung -->
+
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
 
-## Datenauswertung
-
-##Textklassifikation mit LMMs
+## Textklassifikation mit LLMs
 
 Um die Daten für die statistische Analyse vorzubereiten müssen zwei Dinge passieren, zuertst müssen die Datenspenden aufbereitet und klassifiziert werden und im zweiten Schritt müssen die so gewonnen Daten vergleichbar mit den Selbstauskünften aus dem Survey gemacht werden.
 
@@ -582,6 +590,8 @@ Wir geben an, dass kein Interessenkonflikt vorliegt.
 Für diese Forschungsarbeit wurden neue Daten erhoben.
 Die Rohdaten sind privat und können nicht veröffentlicht werden, da sie personenbezogene Daten enthalten könnten.
 Die Analysedaten und -Materialien sind auf dem Open Science Framework OSF (<https://osf.io/pqdhb>) und auf GitHub (<https://github.com/lpkiemes/Masterprojekt-Chatbots>) unter CC0 1.0-Lizenzen hinterlegt.
+
+# Abweichungen von der Preregistration {.unnumbered .unlisted}
 
 \newpage
 
