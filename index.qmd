@@ -244,16 +244,14 @@ Die bisherige Forschung liefert somit ein umfassendes Bild über die Verbreitung
 Diese Erkenntnisse beruhen jedoch nahezu ausschließlich auf Selbstauskünften der Studierenden.
 Ob die berichteten Nutzungsarten sowie Angaben zur kritischen Prüfung KI-generierter Inhalte tatsächlich mit dem beobachtbaren Nutzungsverhalten übereinstimmen, bleibt bislang weitgehend ungeklärt.
 
-## Forschungslücke {#sec-forschungslücke}
+## Forschungslücke und Forschungsfragen {#sec-forschungslücke}
 
 Obwohl inzwischen umfangreiche Erkenntnisse zur Verbreitung generativer KI sowie zu den berichteten Nutzungsweisen im Studium vorliegen, fehlen bislang Studien, die Selbstauskünfte mit tatsächlichen KI-Interaktionen vergleichen.
 Während sich digitale Verhaltensdaten in der Forschung zu Internet- und Social-Media-Nutzung bereits als wertvolle Ergänzung von Surveydaten etabliert haben [@ohme2024; @parry2021], wurde dieser Ansatz auf generative KI bislang kaum übertragen.
 Insbesondere ist bislang weitgehend ungeklärt, inwiefern Studierende ihre tatsächliche Nutzung, ihre Nutzungsarten oder die kritische Prüfung von KI-generierten Antworten zutreffend berichten.
 An dieser Forschungslücke setzt die vorliegende Studie an, indem sie Selbstauskünfte aus einer Onlinebefragung mit tatsächlich geführten Chatverläufen generativer KI-Systeme vergleicht und diese mithilfe einer LLM-basierten Klassifikation systematisch auswertet.
 
-\newpage
-
-# Forschungsfragen {#sec-forschungsfragen}
+Daraus ergeben sich folgende Forschungsfragen, die im Rahmen der Studie untersucht werden:
 
 F1: Inwiefern unterscheiden sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von der in gespendeten Chatlogs beobachteten Nutzung?
 
@@ -278,8 +276,7 @@ Da weder ein kausaler Zusammenhang untersucht noch Hypothesen getestet werden, f
 Der Fokus liegt auf der Beschreibung von Diskrepanzen zwischen beiden Datenquellen innerhalb derselben Person.
 Die Vergleichseinheit ist somit nicht der Unterschied zwischen Personen, sondern die Abweichung zwischen Selbstbericht und beobachtetem Verhalten einer Person.
 
-Surveyangaben können durch verschiedene Biases beeinflusst werden.
-Diese können bewusst oder unbewusst erfolgen.
+Surveyangaben können durch verschiedene Biases beeinflusst werden. Diese können bewusst oder unbewusst erfolgen.
 Zum einen kann es in der Messsituation zu Erinnerungsfehlern kommen.
 Für Respondenten kann es schwierig sein, das eigene Verhalten in der Vergangenheit einzuschätzen.
 Zum anderen kann der Effekt der sozialen Erwünschtheit dazu führen, dass Angaben in der Messsituation angepasst werden, um soziale Erwartungen zu erfüllen.
@@ -287,18 +284,9 @@ Negativ angesehene Verhaltensweisen können untertrieben und positiv angesehene 
 Zuletzt kann es zudem vorkommen, dass Personen eine verzerrte Einschätzung der eigenen Person haben, die sie im Fragebogen so angeben wollen.
 
 Im Gegensatz zu den Selbstauskünften dokumentieren Chatlogdaten das tatsächlich aufgezeichnete Interaktionsverhalten zwischen den Teilnehmenden und ChatGPT.
-Dadurch entfallen Erinnerungsfehler sowie Verzerrungen, die durch soziale Erwünschtheit oder subjektive Selbsteinschätzungen entstehen können.
+Dadurch entfallen Erinnerungsfehler sowie Verzerrungen, die durch soziale Erwünschtheit und verzerrte Selbsteinschätzungen entstehen können.
 Gerade weil diese Verzerrungen möglich sind, eignen sich Selbstauskünfte allein nur eingeschränkt zur Beurteilung des tatsächlichen Nutzungsverhaltens.
 Der Abgleich mit den Chatlogdaten ermöglicht es daher, mögliche Diskrepanzen systematisch sichtbar zu machen.
-
-Trotz der Vorteile der Chatlogdaten gibt es auch Limitationen.
-Zum einen können wir keine Zufallsstichprobe gewährleisten, da die Chatlogspende freiwillig ist und Respondenten innerhalb von Lehrveranstaltungen und im privaten Umfeld rekrutiert wurden.
-Zum anderen können wir nicht garantieren, dass die Chatlogs vollständig sind.
-Es kann sein, dass Respondenten nur einen Teil ihrer Chats spenden oder nur jene, die sie beispielsweise in ein besseres Licht rücken.
-Trotz einer Zusicherung von Anonymität kann es passieren, dass beispielsweise keine Chats hochgeladen werden, die man als wissenschaftliche schlechte Praxis betiteln könnte.
-So könnte es vorkommen, dass genau die Chats nicht hochgeladen werden, die im Studienkontext von Lehrpersonen untersagt wurden.
-
-Trotz dieser Einschränkungen stellt die Kombination aus Selbstauskunft und Chatlogdaten den geeignetsten Ansatz dar, um individuelle Diskrepanzen zwischen berichtetem und dokumentiertem Nutzungsverhalten sichtbar zu machen.
 
 <!-- TODO: Hier noch LLM-Auswertung beschreiben -->
 
@@ -311,7 +299,7 @@ Bei dieser Plattform können die Daten auf Servern in Deutschland gespeichert we
 Der Fragebogen wurde so entwickelt, dass er die die studienbezogene Nutzung von ChatGPT standardisiert erfasst und diese Angaben anschließend auch mit den aus den Chatverläufen gewonnenen Informationen vergleichen zu können.
 Daher orientieren sich die drei zentralen Konstrukte an den Analysekategorien der Chatlogdaten.
 
-Zunächst wurde von den Respondenten nach den Studieninformationen und nach den Datenschutzhinweisen eine informierte Einwilligung erbeten.
+Zunächst wurde von den Respondenten eine informierte Einwilligung erbeten.
 Dort konnten sie angeben, dass sie die sowohl Studieninformationen und Datenschutzinformationen gelesen haben, mit der Studie und der Erhebung und Verarbeitung ihrer Daten einverstanden sind und dass sie mindestens 18 Jahre alt sind.
 Sowohl Studieninformation als auch Datenschutzerklärung sind modifizierte Versionen von @wuttke2026.
 
@@ -322,30 +310,27 @@ Personen die angegeben haben, dass sie nicht an einer Hochschule immatrikuliert 
 In einem dritten Block wurde die allgemeine Nutzung von generativen KI-Chatbots erfragt.
 Dazu gehören zum einen die Vertrautheit und die Kompetenz im Umgang mit generativer KI angelehnt an @shin2022.
 
-Im Hauptteil der Studie wurden dann die drei zentralen Konzepte erfragt, die sich auch aus den Chatlogs ermitteln lassen.
-Zum einen wurden Respondenten gefragt, wie ihre typische Interaktion mit ChatGPT aussieht, also wie freundlich bis unfreundlich sie Ihren eigenen Umgang einschätzen.
+Im Hauptteil der Studie wurden drei zentralen Konzepte erfragt, die sich auch aus den Chatlogs ermitteln lassen.
+Zum einen wurden Respondenten gefragt, wie ihre typische Interaktion mit ChatGPT aussieht, sprich wie freundlich bis unfreundlich sie Ihren eigenen Umgang einschätzen.
 Als zweites zentrales Konzept wurden Respondenten nach dem kritischen Prüfen der Antworten von ChatGPT gefragt.
 Hier sollten sie zustimmen bzw.
 ablehenen, dass sie die Antworten von ChatGPT direkt im Chat kritisch prüfen.
-Als letztes zentrales Konzept wurden Respondenten gebeten, ihr typisches Nutzungsverhalten auf die fünf Aufgabenbereiche zu verteilen, indem sie insgesamt zehn Punkte vergeben.
+Als letztes zentrales Konzept wurden Respondenten gebeten, ihr typisches Nutzungsverhalten auf fünf Aufgabenbereiche zu verteilen, indem sie insgesamt zehn Punkte vergeben.
 Die Aufgabenbereiche sind: (1) Zusammenfassen von Texten, (2) Erklären von Inhalten, (3) Übersetzen von Texten, (4) Generieren von Ideen und (5) Programmieren.
 
-Im fünften Block wurde nach dem freiwilligen Uploads von ihren letzten fünf studienbezogenen Chatlogs gefragt.
+Im fünften Block wurde nach einem freiwilligen Upload der fünf letzten studienbezogenen Chatlogs gefragt.
 Dafür mussten Respondenten erneut eine informierte Einwilligung abgeben.
-Für das Hochladen sollten Respondenten zunächst versuchen, einen Prompt direkt in den jeweiligen Chat als Nachricht zu schreiben, um von ChatGPT den gesamten Chatverlauf als JSON-Syntax in einer Antwortnachricht zu erhalten.
-Da ChatGPT die JSON-Ausgabe nicht immer korrekt erstellt, wurde den Respondenten die Möglichkeit gegeben, die Chatlogs alternativ als HTML-Datei hochzuladen.
+Für das Hochladen sollten Respondenten zunächst einen Prompt direkt in den jeweiligen Chat als Nachricht zu schreiben, um von ChatGPT den gesamten Chatverlauf als JSON-Syntax in einer Antwortnachricht zu erhalten. ChatGPT gibt jedoch nicht zuverlässig den Chatverlauf als JSON aus. Deshalb wurde den Respondenten die Möglichkeit gegeben, die Chatlogs alternativ als HTML-Datei hochzuladen.
 
 Im sechsten Teil wurde gefragt, welche technischen Probleme aufgetreten sind.
-Als nächstes sollten die Respondenten jeweils angeben, ob sie zustimmen bzw.
-ablehenen, dass ihre Angaben ihre Nutzung widerspiegeln, sich ihre Nutzung stark nach Aufgabe unterscheidet und ihre hochgeladenen Chatlogs ihre Nutzung gut widerspiegeln.
+Als nächstes sollten die Respondenten jeweils angeben, inwiefern sie zustimmen, dass ihre Angaben ihre echte Nutzung widerspiegeln, sich ihre Nutzung stark nach Aufgabe unterscheidet und ihre hochgeladenen Chatlogs ihre Nutzung gut widerspiegeln.
 
-Nach den Angaben zu den zentralen Konzepten wurden die soziodemographischen Variablen abgefragt, die für die Analyse relevant sind.
-Dazu gehören das Alter, das Geschlecht nach @ZA10100, das Studienfach, der angestrebte Studienabschluss und die soziale Erwünschtheit nach @kemper2014.
+Nach den Angaben zu den zentralen Konzepten wurden soziodemographischen Variablen abgefragt, die für die Analyse relevant sind. Dies umfasst Variablen, die für Respondenten üblicherweise wenig Konzentration erfordern und deshalb am Ende des Fragebogens platziert wurden.
+Zu den soziodemografischen Variablen gehören Alter, Geschlecht nach @ZA10100, Studienfach, der angestrebte Studienabschluss und soziale Erwünschtheit nach @kemper2014.
 
 <!-- TODO: Hier noch Operationalisierung beschreiben -->
 
-Da das Ziel der Studie der Vergleich zweier Datenquellen ist, werden keine klassischen Skalen gebildet.
-Stattdessen wurde für die zentralen Konstrukte (Sentiment, kritisches Prüfen und Informationsnutzung) Diskrepanzmaße zwischen den Surveyangaben und den aus den Chatlog extrahierten Informationen berechnet, die die Grundlage für die Analyse bilden.
+Da das Ziel der Studie der Vergleich zweier Datenquellen ist, werden kaum klassischen Skalen gebildet. Jediglich die Itembatterie zur sozialen Erwünschtheit wird als Index gebildet. Dafür werden Items, die in die gleiche Richtung gehen, gemittelt und Items, die in die entgegengesetzte Richtung gehen, invertiert und anschließend gemittelt.
 
 <!-- TODO: Hier noch Datenmodifikation beschreiben -->
 
@@ -385,12 +370,12 @@ Da zwischen dem E-Mail-Verteiler und dem Whatsapp-Kanal nur insgesamt 27 Studier
 Die Teilnahme war freiwillig und anonym.
 
 Zu Beginn der Feldphase wurde erkennbar, dass die Texteingaben im Fraebogen über ein internes Limit verfügen, was nicht direkt in SoSci Survey erkennbar war.
-Durch dieses Limit wurden Texteingaben, die im Survey abgeschickt wurden anschließend aus dem Datensatz entfernt.
+Durch dieses Limit wurden zu lange Texteingaben, die im Survey abgeschickt wurden anschließend aus dem Datensatz entfernt.
 Die Respondenten bekamen daraufhin den Hinweis, welcher Fehler aufgetreten war und dazu angehalten, sich per Mail an die anhabende Person des SoSci Survey Projekts zu wenden und die gelöschten Eingaben so zu senden.
 Es kann davon ausgegangen werden, dass diese Fehleranzeige zu einer Irritation geführt hat.
 Später erhielten wir von SoSci Survey oder von den Respondenten selbst die gelöschten Eingaben per Mail zugesandt, wodurch Fälle manuell vervollständigt werden konnten und so keine Daten verlorgen gingen.
-Da diese Fälle erst nach Beginn der Haupterhebung aufgetreten sind, sind diese Mails nicht von der Datenschutzerklärung abgedeckt.
-Die erhaltenen E-Mails wurden nach der Datenerhebung gelöscht und Respondenten wurden per E-Mail dazu aufgefordert, die jeweilige E-Mail zu löschen.
+Da diese Fälle erst nach Beginn der Haupterhebung aufgetreten sind und deshalb nicht antizipiert werden konnten, sind diese Mails nicht von der Datenschutzerklärung abgedeckt.
+Alle E-Mails, die Chatverläufe enthalten, wurden nach der Datenerhebung gelöscht. Respondenten, die ihre Chatverläufe per E-Mail geschickt hatten, wurden dazu aufgefordert, die jeweilige E-Mail zu löschen.
 <!-- TODO: Hier noch die Anzahl solcher Fälle ergänzen -->
 
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
@@ -551,6 +536,20 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.
 
 # Diskussion
 
+## Fazit
+
+## Limitationen
+
+Trotz der Vorteile der Chatlogdaten gibt es auch Limitationen.
+Zum einen können wir keine Zufallsstichprobe gewährleisten, da die Chatlogspende freiwillig ist und Respondenten innerhalb von Lehrveranstaltungen und im privaten Umfeld rekrutiert wurden.
+Zum anderen können wir nicht garantieren, dass die Chatlogs vollständig sind.
+Es kann sein, dass Respondenten nur einen Teil ihrer Chats spenden oder nur jene, die sie beispielsweise in ein besseres Licht rücken.
+Trotz einer Zusicherung von Anonymität kann es passieren, dass beispielsweise keine Chats hochgeladen werden, die man als wissenschaftliche schlechte Praxis betiteln könnte.
+So könnte es vorkommen, dass genau die Chats nicht hochgeladen werden, die im Studienkontext von Lehrpersonen untersagt wurden.
+
+Trotz dieser Einschränkungen stellt die Kombination aus Selbstauskunft und Chatlogdaten den geeignetsten Ansatz dar, um individuelle Diskrepanzen zwischen berichtetem und dokumentiertem Nutzungsverhalten sichtbar zu machen.
+
+
 \newpage
 
 # Interessenkonflikt {.unnumbered .unlisted}
@@ -578,7 +577,7 @@ Die Analysedaten und -Materialien sind auf dem Open Science Framework OSF (<http
 |------------------|------------------|------------------|------------------|
 | DeepL | Übersetzung von Items | [Questionnaire OSF](https://osf.io/pqdhb) | \- |
 | Research Rabbit | Literaturübersicht | Literaturverzeichnis | \- |
-|  |  |  |  |
+| ChatGPT | Grammatikkorrektur | Gesamte Arbeit  |  Korrigiere meinen Text auf Grammatik- und Rechtschreibfehler: [Text] |
 |  |  |  |  |
 |  |  |  |  |
 
