@@ -39,9 +39,12 @@ Nachfragen).
  ┌───────────────────────  Data_pipeline.ipynb  ───────────────────────┐
  │ 1. Download Survey-CSV + hochgeladene HTML-Chatlogs                 │
  │ 2. Survey bereinigen  ->  survey_clean.csv                          │
- │ 3. Chats parsen (JSON aus CSV + HTML-Uploads) -> chats_long.csv     │                  ┌───────────────────────┐
+ │    + gelöschte Angaben aus Mails/ergänzung*.txt rekonstruieren      │
+ │ 3. Chats parsen (JSON aus CSV + HTML-Uploads), Fallausschluss       │
+ │    (>= 5 tatsächlich extrahierte Chats)  ->  chats_long.csv         │                  ┌───────────────────────┐
  │ 4. Chats klassifizieren (validierter Prompt aus Phase A,            │ ---------------> | Zweite LLM-Evautazion |
- │    modules/classify_chats.py)  ->  chats_labeled.csv                │                  └───────────────────────┘
+ │    modules/classify_chats.py, mit Ergebnis-Cache)                   │                  └───────────────────────┘
+ │    ->  chats_labeled.csv                                            │
  │ 5. Auf Personenebene aggregieren + mit Survey mergen                │
  │    -> perp_dataset.csv                                              │
  └────────────────────────────────┬────────────────────────────────────┘
@@ -70,13 +73,16 @@ Nachfragen).
 | `Python_code/Data_pipeline.ipynb` | Phase B: Download, Parsing, Klassifikation, Aggregation |
 | `Python_code/modules/json_parser_theo.py` | Parser für JSON-Chat-Exporte (mit Reparatur defekter JSONs) |
 | `Python_code/modules/paser_chatti_html.py` | Parser für ChatGPT-HTML-Exporte |
-| `Python_code/modules/classify_chats.py` | LLM-Klassifikation der Chats (LangChain + OpenAI) |
+| `Python_code/modules/classify_chats.py` | LLM-Klassifikation der Chats (LangChain + OpenAI, mit Ergebnis-Cache) |
+| `Python_code/modules/mail_parser.py` | Parser für SoSci-Benachrichtigungsmails (rekonstruiert Angaben, die SoSci wegen > 64 KB gelöscht hat) |
 | `Python_code/data_prep.R` | Phase B: Datenaufbereitung / Operationalisierung |
 | `Python_code/data_analasys.R` | Phase B: Statistische Analyse (Deskriptiv + Clusteranalyse) |
 | `Python_code/Inactive/` | Ältere/inaktive Notebook-Versionen (nicht Teil des Workflows) |
 | `API_KEYS/` | API-Schlüssel (nicht versioniert!) — siehe Abschnitt 3 |
 | `data/raw/json/` | Die 30 selbst gesammelten Chats für den Goldstandard (Phase A) |
 | `data/raw/data_sosci/` | Roh-Download: `daten.csv`, `chatlog_mapping.csv`, `uploads/<id>/*.html` |
+| `data/raw/data_sosci/Mail/` | SoSci-Benachrichtigungsmails (`*.eml`) mit gelöschten Angaben (> 64 KB) |
+| `data/raw/data_sosci/other/` | Händische Ergänzungen (`ergänzung*.txt`) — nachgereichte Chats ohne CASE-ID, per Uhrzeit/Missing rekonstruiert |
 | `data/processed/control/` | Codierbögen der drei Coder + Goldstandard |
 | `data/processed/llm_evaluation/` | Ergebnisse der LLM-Evaluation |
 | `data/processed/` | Alle aufbereiteten Datensätze (siehe Abschnitt 8) |
@@ -191,19 +197,34 @@ Zuordnungstabelle wird geschrieben: `chatlog_mapping.csv`
 Downloads liegt ein `sleep(0.2)`, um den Server zu schonen; Fehler bei einer
 Datei brechen den Lauf nicht ab, sondern werden nur gemeldet.
 
-### 6.2 Survey bereinigen + Chats parsen (Zelle 2)
+### 6.2 Survey bereinigen + Chats parsen + Fallausschluss (Zelle 2)
 
 - **Survey:** Zeit- und Metavariablen (`TIME…`, `MAILSENT`, `LASTPAGE`, …)
   werden entfernt → `data/processed/survey_clean.csv`.
+- **Gelöschte Angaben rekonstruieren:** Wenn ein Interview mehr als 64 KB
+  erhebt, löscht SoSci die überzähligen Angaben und verschickt sie per Mail.
+  `mail_parser.apply_mail_values()` liest die `.eml`-Dateien aus
+  `data/raw/data_sosci/Mail/` und schreibt die Werte per CASE-Nummer in die
+  Rohdaten zurück. Zusätzlich werden händisch nachgereichte Chats aus
+  `other/ergänzung*.txt` per CASE-Nummer eingespielt.
 - **Chats aus der CSV (JSON-Direkteingabe):** Die Teilnehmenden konnten Chats
   auch als JSON-Text in Freitextfelder einfügen (`CH02s`, `CH06s`–`CH09s`).
   Diese werden mit `json_parser_theo.extract_messages()` geparst.
 - **Chats aus den HTML-Uploads:** über das Mapping mit
-  `paser_chatti_html.extract()` geparst.
+  `paser_chatti_html.extract()` geparst. Es werden nur Dateien verarbeitet,
+  deren Upload-Indikator in der Survey-CSV gesetzt ist (`CH03`/`CH10`–`CH13`
+  == 2) und deren zugehöriger Fall in der CSV existiert.
+- **Fallausschluss:** Gültig ist ein Fall erst, wenn **mindestens 5 Chats
+  tatsächlich Nachrichten liefern** (JSON und HTML zählen zusammen) — nicht
+  schon, wenn die Felder ausgefüllt bzw. Dateien hochgeladen sind. Jede
+  Quelle, die keine Nachrichten liefert (z. B. eine als HTML gespeicherte
+  ChatGPT-Seite ohne gerenderten Chat-Inhalt, s. u.), erzeugt eine Warnung.
+  Ausgeschlossene Fälle werden mit ihrer Chat-Anzahl aufgelistet.
 - Beide Quellen werden zusammengeführt (`quelle` = `json_csv` / `html_upload`),
   jede Person×Frage-Kombination bekommt eine `chat_id`, jede Nachricht eine
   `turn`-Nummer → `data/processed/chats_long.csv`
-  (long-Format: 1 Zeile = 1 Nachricht).
+  (long-Format: 1 Zeile = 1 Nachricht). Als Kontrolle wird die Anzahl
+  eindeutiger Chats gegen `Anzahl gültiger Fälle × 5` geprüft.
 
 **Hinweise zu den Parsern:**
 
@@ -216,9 +237,15 @@ Datei brechen den Lauf nicht ab, sondern werden nur gemeldet.
   (`<section data-testid="conversation-turn-N">`, älter `<article …>`,
   Fallback über `data-message-author-role`) und rekonstruiert
   Assistenten-Antworten als Markdown (Codeblöcke, Listen, Tabellen, …).
-  **Bekannte Einschränkung:** Beim Speichern der Seite nicht gerenderte
+  **Bekannte Einschränkungen:** Beim Speichern der Seite nicht gerenderte
   (lazy-geladene) Turns sind im HTML leer und werden mit einer Warnung
   übersprungen („Überspringe Turn … nicht gerendert beim Export").
+  Im Extremfall enthält die gespeicherte Datei **gar keinen** Chat-Inhalt,
+  sondern nur die leere ChatGPT-App-Hülle (~500 KB, Titel „ChatGPT") —
+  das passiert, wenn Teilnehmende die Seite per „Speichern unter" sichern,
+  bevor der Chat clientseitig gerendert wurde. Solche Dateien sind nicht
+  rekonstruierbar; die Pipeline meldet sie als Warnung und der Chat zählt
+  nicht als gültig.
 
 ### 6.3 LLM-Klassifikation (Zelle 3)
 
@@ -234,7 +261,20 @@ Datei brechen den Lauf nicht ab, sondern werden nur gemeldet.
 
 Antworten werden zeilenweise geparst (`TASK:` / `SENTIMENT:` / `CRITICAL:`);
 nicht zuzuordnende Antworten erhalten das Label `unknown`.
-Ergebnis: `data/processed/chats_labeled.csv` (1 Zeile = 1 Chat).
+Ergebnis: `data/processed/chats_labeled.csv` (1 Zeile = 1 Chat). Zum Prüfen
+der Labels enthält jede Zeile zusätzlich `chat_text` (der an das Modell
+geschickte Text) und `raw_response` (die unveränderte Modellantwort).
+
+**Ergebnis-Cache:** Über den Parameter `cache_path` (im Notebook:
+`data/processed/llm_evaluation/classify_cache.json`) wird jedes Ergebnis
+direkt nach der Prediction persistiert (atomares Schreiben — bei Abbruch
+geht nichts verloren). Bei einem erneuten Lauf werden vorhandene Einträge
+aus dem Cache verwendet statt die API anzufragen. Der Cache-Key ist ein
+Hash aus **Modellname + Chat-Text**, dadurch bleiben Treffer auch gültig,
+wenn `chats_long.csv` neu aufgebaut wird und sich die `chat_id`s
+verschieben; ein Modellwechsel invalidiert den Cache automatisch.
+Fehlgeschlagene Klassifikationen (`unknown`) werden nicht gecacht und
+beim nächsten Lauf erneut versucht.
 
 ### 6.4 Aggregation auf Personenebene (Zellen 4–5)
 
@@ -342,8 +382,9 @@ formatiert und beschriftet in **`tabs/tabellen_report.md`**.
 | `data/raw/data_sosci/daten.csv` | Data_pipeline (Z.1) | Roh-Survey (SoSci-Export, Tab-getrennt) |
 | `data/raw/data_sosci/chatlog_mapping.csv` | Data_pipeline (Z.1) | Zuordnung Person ↔ Upload-Datei |
 | `data/processed/survey_clean.csv` | Data_pipeline (Z.2) | Survey ohne Meta-/Zeitvariablen |
-| `data/processed/chats_long.csv` | Data_pipeline (Z.2) | Alle Chat-Nachrichten, long-Format |
-| `data/processed/chats_labeled.csv` | Data_pipeline (Z.3) | 1 Zeile pro Chat mit task/sentiment/critical |
+| `data/processed/chats_long.csv` | Data_pipeline (Z.2) | Chat-Nachrichten der gültigen Fälle, long-Format |
+| `data/processed/chats_labeled.csv` | Data_pipeline (Z.3) | 1 Zeile pro Chat mit task/sentiment/critical + chat_text/raw_response |
+| `data/processed/llm_evaluation/classify_cache.json` | Data_pipeline (Z.3) | Cache der LLM-Klassifikationen (Key: Modell + Chat-Text) |
 | `data/processed/perp_dataset.csv` | Data_pipeline (Z.6) | Personendatensatz: Survey + Chat-Counts |
 | `data/processed/analysis_dataset.rds/.csv` | data_prep.R | Finaler Analysedatensatz |
 | `plots/00…16_*.png` | data_analasys.R | Alle Grafiken |
