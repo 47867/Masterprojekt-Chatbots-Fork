@@ -232,14 +232,25 @@ gower_dist <- daisy(cluster_df, metric = "gower", weights = gower_weights)
 #optimum muss nicht automatisch das beste sein
 #villeicht geringeres k wählen wenn dafür keine kleinen cluster entstehen
 
-sil_avg <- sapply(2:10, function(k) {
+k_range <- 2:10
+sil_avg <- sapply(k_range, function(k) {
   pm <- pam(gower_dist, k = k, diss = TRUE)
   pm$silinfo$avg.width
 })
-names(sil_avg) <- 2:10
-k_opt <- as.integer(names(which.max(sil_avg)))
+min_size <- sapply(k_range, function(k) {
+  pm <- pam(gower_dist, k = k, diss = TRUE)
+  min(table(pm$clustering))
+})
+names(sil_avg) <- names(min_size) <- k_range
 
-sil_df <- data.frame(k = 2:10, silhouette = sil_avg)
+# k-Wahl: beste Silhouette unter den Loesungen ohne Mini-Cluster (n >= 3),
+# damit die Cluster interpretierbar bleiben und die Gruppenvergleiche
+# (Welch-ANOVA etc.) genug Beobachtungen pro Gruppe haben
+MIN_CLUSTER_N <- 3
+k_zulaessig <- k_range[min_size >= MIN_CLUSTER_N]
+k_opt <- k_zulaessig[which.max(sil_avg[as.character(k_zulaessig)])]
+
+sil_df <- data.frame(k = k_range, silhouette = sil_avg, min_size = min_size)
 p_sil <- ggplot(sil_df, aes(x = k, y = silhouette)) +
   geom_hline(yintercept = c(0.5, 0.7), linetype = "dotted", colour = INK_MUTED) +
   geom_line(colour = AXISLINE, linewidth = 0.7) +
@@ -247,10 +258,10 @@ p_sil <- ggplot(sil_df, aes(x = k, y = silhouette)) +
   geom_point(data = sil_df[sil_df$k == k_opt, ], size = 5, colour = DIV_HIGH) +
   geom_text(data = sil_df[sil_df$k == k_opt, ],
             aes(label = paste0("k = ", k)), vjust = -1.2, size = 3.5, colour = INK_2) +
-  scale_x_continuous(breaks = 2:10) +
+  scale_x_continuous(breaks = k_range) +
   labs(title = "Durchschnittliche Silhouette je Clusterzahl",
-       subtitle = paste0("Gewähltes k = ", k_opt,
-                         " (rot markiert) · gepunktete Linien: Richtwerte 0.5 / 0.7"),
+       subtitle = paste0("Gewähltes k = ", k_opt, " (rot markiert): beste Silhouette ohne Cluster < ",
+                         MIN_CLUSTER_N, " Personen · gepunktete Linien: Richtwerte 0.5 / 0.7"),
        x = "Anzahl Cluster (k)", y = "Durchschnittliche Silhouettenweite")
 ggsave("plots/06_silhouette_k.png", p_sil, width = 7, height = 4.5, dpi = 150, bg = "white")
 
@@ -329,6 +340,59 @@ p_krit_cl <- ggplot(data, aes(x = cluster, fill = K_Diskrepanz_plot)) +
        x = "Cluster", y = "Anteil der Personen")
 ggsave("plots/11_kritik_cluster.png", p_krit_cl, width = 7, height = 4.5, dpi = 150, bg = "white")
 
+## 2i) Cluster-Zentren (Medoide) im direkten Vergleich
+# PAM-Zentren sind echte Personen: je Cluster das Diskrepanzprofil des Medoids,
+# Sentiment-/Kritik-Diskrepanz des Medoids steht in der Legende
+med <- data[pam_fit$id.med, ]
+med_lab <- paste0("Cluster ", levels(data$cluster), " (ID ", med$id, ")\n",
+                  "Sentiment: ", med$S_Diskrepanz_plot,
+                  " · Kritik: ", med$K_Diskrepanz_plot)
+med_long <- data.frame(
+  cluster = factor(rep(levels(data$cluster), times = length(D_cols)),
+                   levels = levels(data$cluster)),
+  task    = factor(rep(TASK_LABELS[D_cols], each = nrow(med)),
+                   levels = TASK_LABELS[D_cols]),
+  D       = unlist(med[, D_cols])
+)
+p_med <- ggplot(med_long, aes(x = task, y = D, colour = cluster)) +
+  geom_hline(yintercept = 0, linetype = "dashed", colour = INK_MUTED) +
+  geom_point(size = 3.5, alpha = 0.9,
+             position = position_jitter(width = 0.12, height = 0, seed = SEED)) +
+  scale_colour_manual(values = cluster_cols, labels = med_lab, name = NULL) +
+  labs(title = "Cluster-Zentren im Vergleich (Medoide)",
+       subtitle = "Diskrepanzprofil der repräsentativsten Person je Cluster · 0 = korrekte Selbsteinschätzung",
+       x = NULL, y = "Diskrepanz (SA − BE)") +
+  theme(axis.text.x = element_text(angle = 15, hjust = 1),
+        legend.key.height = grid::unit(2.2, "lines"))
+ggsave("plots/09b_medoid_profil.png", p_med, width = 9, height = 5, dpi = 150, bg = "white")
+
+## 2j) Cluster-Zentren im Vergleich: Kontextvariablen
+# Werte der Medoide auf den Kontrollvariablen, je Variable auf den
+# Skalenbereich [0,1] reskaliert, damit alles in ein Panel passt
+ctx_vars   <- c("social_desir_mean","ai_experience","freq",
+                "info_literacy_where","info_literacy_how")
+ctx_labels <- c("Soziale\nErwünschtheit","KI-Erfahrung","Nutzungs-\nhäufigkeit",
+                "Info-Literacy\n(wo suchen)","Info-Literacy\n(wie formulieren)")
+ctx_range  <- list(social_desir_mean = c(1, 5), ai_experience = c(1, 5),
+                   freq = c(2, 6), info_literacy_where = c(1, 5),
+                   info_literacy_how = c(1, 5))
+med_ctx <- do.call(rbind, lapply(seq_along(ctx_vars), function(i) {
+  v <- ctx_vars[i]; r <- ctx_range[[v]]
+  data.frame(variable = factor(ctx_labels[i], levels = ctx_labels),
+             cluster  = factor(levels(data$cluster), levels = levels(data$cluster)),
+             wert01   = (med[[v]] - r[1]) / (r[2] - r[1]))
+}))
+p_medctx <- ggplot(med_ctx, aes(x = variable, y = wert01, colour = cluster)) +
+  geom_point(size = 3.5, alpha = 0.9,
+             position = position_jitter(width = 0.12, height = 0, seed = SEED)) +
+  scale_colour_manual(values = cluster_cols, labels = med_lab, name = NULL) +
+  scale_y_continuous(limits = c(0, 1), labels = percent) +
+  labs(title = "Cluster-Zentren im Vergleich: Kontextvariablen",
+       subtitle = "Werte der Medoide, je Variable auf den Skalenbereich [0 %, 100 %] reskaliert",
+       x = NULL, y = "Wert (Anteil am Skalenbereich)") +
+  theme(legend.key.height = grid::unit(2.2, "lines"))
+ggsave("plots/09c_medoid_kontext.png", p_medctx, width = 9, height = 5, dpi = 150, bg = "white")
+
 # =====================================================================
 # 3) CLUSTERVERGLEICH: Kontextvariablen (nicht im Clustering verwendet)
 # =====================================================================
@@ -336,7 +400,9 @@ ggsave("plots/11_kritik_cluster.png", p_krit_cl, width = 7, height = 4.5, dpi = 
 ## Hilfsfunktion: p-Wert dezent formatieren
 fmt_p <- function(p) ifelse(p < 0.001, "< 0.001", sprintf("%.3f", p))
 
-## 3a) Soziale Erwuenschtheit (metrisch-nah) -> ANOVA + Boxplot -------
+## 3a) Soziale Erwuenschtheit (metrisch-nah) -> Welch-ANOVA + Boxplot -------
+# Voraussetzung: jeder Cluster braucht n >= 2 und Varianz > 0
+# (durch MIN_CLUSTER_N = 3 bei der k-Wahl abgesichert)
 aov_sd <- oneway.test(social_desir_mean ~ cluster, data = data, var.equal = FALSE)
 p_sd <- ggplot(data, aes(x = cluster, y = social_desir_mean, fill = cluster)) +
   geom_boxplot(alpha = 0.55, colour = INK_2, width = 0.55,
@@ -344,7 +410,6 @@ p_sd <- ggplot(data, aes(x = cluster, y = social_desir_mean, fill = cluster)) +
   geom_jitter(width = 0.12, size = 1.6, alpha = 0.6, colour = INK) +
   scale_fill_manual(values = cluster_cols, guide = "none") +
   labs(title = "Soziale Erwünschtheit je Cluster",
-       subtitle = paste0("Welch-ANOVA: p = ", fmt_p(aov_sd$p.value)),
        x = "Cluster", y = "Soziale Erwünschtheit (Mittelwert, 1–5)")
 ggsave("plots/12_context_socialdesir.png", p_sd, width = 7, height = 4.5, dpi = 150, bg = "white")
 
@@ -368,6 +433,9 @@ ord_scales <- list(
                                   "stimme\neher zu","stimme voll\nund ganz zu"))
 )
 
+ord_plots <- list()   # fuer die Uebersichtsgrafik in 3d
+ord_pvals <- c()
+
 for (i in seq_along(ord_vars)) {
   v  <- ord_vars[i]
   kw <- kruskal.test(data[[v]] ~ data$cluster)
@@ -380,9 +448,10 @@ for (i in seq_along(ord_vars)) {
     scale_y_continuous(breaks = sc$breaks, labels = sc$labels,
                        limits = range(sc$breaks) + c(-0.35, 0.35)) +
     labs(title = paste(ord_labels[i], "je Cluster"),
-         subtitle = paste0("Kruskal-Wallis-Test: p = ", fmt_p(kw$p.value)),
          x = "Cluster", y = NULL)
   ggsave(sprintf("plots/13_context_%s.png", v), p_ord, width = 7, height = 4.5, dpi = 150, bg = "white")
+  ord_plots[[v]] <- p_ord
+  ord_pvals[v]   <- kw$p.value
 }
 
 ## 3c) Nominale Variablen -> Chi-Quadrat + gestapelte Balken
@@ -390,6 +459,8 @@ for (i in seq_along(ord_vars)) {
 nom_vars   <- c("gender_f","field_f","degree_f")
 nom_files  <- c("gender","field","degree")
 nom_labels <- c("Geschlecht","Fächergruppe","Abschluss")
+
+nom_plots <- list()   # fuer die Uebersichtsgrafik in 3d
 
 for (i in seq_along(nom_vars)) {
   v <- nom_vars[i]
@@ -411,12 +482,75 @@ for (i in seq_along(nom_vars)) {
     scale_fill_manual(values = PAL_CAT[seq_len(n_lev)], name = nom_labels[i]) +
     scale_y_continuous(labels = percent) +
     labs(title = paste(nom_labels[i], "je Cluster"),
-         subtitle = paste0("Chi-Quadrat-Test (simulierter p-Wert): p = ", fmt_p(chi$p.value)),
          x = "Cluster", y = "Anteil der Personen")
   ggsave(sprintf("plots/14_context_%s.png", nom_files[i]), p_nom, width = 7.5, height = 4.5, dpi = 150, bg = "white")
+  nom_plots[[nom_files[i]]] <- p_nom
 }
 
-cat("Clustervergleich: Grafiken erstellt (soz. Erwuenschtheit, 4 ordinale, 3 nominale)\n")
+## 3d) Uebersichtsgrafiken: Cluster im Vergleich auf allen Kontextvariablen
+
+### Profil-Plot: Cluster-Mittelwerte aller metrisch/ordinalen Kontextvariablen,
+### auf [0,1] reskaliert (Minimum/Maximum der jeweiligen Skala), damit alle
+### Variablen in einem Panel vergleichbar sind
+profil_vars <- c("social_desir_mean", ord_vars)
+profil_labels <- c("Soziale Erwünschtheit", ord_labels)
+profil_range <- list(social_desir_mean = c(1, 5), ai_experience = c(1, 5),
+                     freq = c(2, 6), info_literacy_where = c(1, 5),
+                     info_literacy_how = c(1, 5))
+profil_df <- do.call(rbind, lapply(seq_along(profil_vars), function(i) {
+  v  <- profil_vars[i]
+  m  <- tapply(data[[v]], data$cluster, mean)
+  r  <- profil_range[[v]]
+  data.frame(variable = profil_labels[i],
+             cluster  = factor(names(m), levels = levels(data$cluster)),
+             wert01   = (m - r[1]) / (r[2] - r[1]))
+}))
+profil_df$var_lab <- factor(profil_df$variable,
+                            levels = rev(unique(profil_df$variable)))
+
+# Punkte pro Variable leicht vertikal versetzen, damit aehnliche
+# Cluster-Mittelwerte nicht uebereinander liegen
+profil_df$y_base <- as.numeric(profil_df$var_lab)
+offsets <- seq(0.17, -0.17, length.out = nlevels(profil_df$cluster))
+profil_df$y_pos  <- profil_df$y_base + offsets[as.numeric(profil_df$cluster)]
+
+# grauer Spannweiten-Balken: min bis max der Cluster-Mittelwerte je Variable
+spann_df <- do.call(rbind, lapply(split(profil_df, profil_df$var_lab), function(d)
+  data.frame(y_base = d$y_base[1], von = min(d$wert01), bis = max(d$wert01))))
+
+p_profil <- ggplot(profil_df) +
+  geom_segment(data = spann_df, aes(x = von, xend = bis, y = y_base, yend = y_base),
+               colour = GRID, linewidth = 2.5, lineend = "round") +
+  geom_point(aes(x = wert01, y = y_pos, colour = cluster), size = 3.5) +
+  scale_colour_manual(values = cluster_cols, name = "Cluster") +
+  scale_x_continuous(limits = c(0, 1), labels = percent,
+                     expand = expansion(mult = c(0.02, 0.02))) +
+  scale_y_continuous(breaks = seq_len(nlevels(profil_df$var_lab)),
+                     labels = levels(profil_df$var_lab)) +
+  labs(title = "Kontextvariablen-Profil der Cluster",
+       subtitle = "Cluster-Mittelwerte, je Variable auf den Skalenbereich [0 %, 100 %] reskaliert",
+       x = "Mittelwert (Anteil am Skalenbereich)", y = NULL) +
+  theme(panel.grid.major.y = element_blank())
+ggsave("plots/17_kontext_profil.png", p_profil, width = 8.5, height = 5.5, dpi = 150, bg = "white")
+
+### Panel 1: Boxplots (soziale Erwuenschtheit + 4 ordinale) in einer Grafik
+p_kontext_ord <- (p_sd | ord_plots[["ai_experience"]] | ord_plots[["freq"]]) /
+  (ord_plots[["info_literacy_where"]] | ord_plots[["info_literacy_how"]] | plot_spacer()) +
+  plot_annotation(
+    title = "Kontextvariablen je Cluster - Überblick",
+    theme = theme(plot.title = element_text(size = 15, face = "bold", colour = INK)))
+ggsave("plots/18_kontext_uebersicht_ordinal.png", p_kontext_ord,
+       width = 16, height = 9, dpi = 150, bg = "white")
+
+### Panel 2: nominale Variablen (gestapelte Anteile) in einer Grafik
+p_kontext_nom <- (nom_plots[["gender"]] | nom_plots[["field"]] | nom_plots[["degree"]]) +
+  plot_annotation(
+    title = "Soziodemografie je Cluster - Überblick",
+    theme = theme(plot.title = element_text(size = 15, face = "bold", colour = INK)))
+ggsave("plots/19_kontext_uebersicht_nominal.png", p_kontext_nom,
+       width = 16, height = 5, dpi = 150, bg = "white")
+
+cat("Clustervergleich: Grafiken erstellt (soz. Erwuenschtheit, 4 ordinale, 3 nominale, 3 Uebersichten)\n")
 
 # =====================================================================
 # 4) ROBUSTHEITSCHECKS
@@ -545,6 +679,19 @@ save_tab(data.frame(Cluster = levels(data$cluster),
                     Groesse = as.integer(table(data$cluster)),
                     Medoid_Person_ID = data$id[pam_fit$id.med]), "T08b_cluster_groessen.csv",
          "T08b – Clustergrößen und Medoide")
+med_tab <- data.frame(Cluster = levels(data$cluster), Person_ID = med$id,
+                      round(med[, D_cols], 3),
+                      Sentiment = as.character(med$S_Diskrepanz_plot),
+                      Kritik    = as.character(med$K_Diskrepanz_plot))
+names(med_tab)[3:7] <- unname(TASK_LABELS[D_cols])
+save_tab(med_tab, "T09b_medoid_profile.csv",
+         "T09b – Cluster-Zentren (Medoide): Diskrepanzprofile")
+med_ctx_tab <- data.frame(Cluster = levels(data$cluster), Person_ID = med$id,
+                          round(med[, ctx_vars], 2))
+names(med_ctx_tab)[3:7] <- c("Soz. Erwünschtheit","KI-Erfahrung","Nutzungshäufigkeit",
+                             "Info-Literacy (wo)","Info-Literacy (wie)")
+save_tab(med_ctx_tab, "T09c_medoid_kontext.csv",
+         "T09c – Cluster-Zentren (Medoide): Kontextvariablen (Originalskalen)")
 save_tab(cbind(Cluster = rownames(table(data$cluster, data$S_Diskrepanz_plot)),
                as.data.frame.matrix(table(data$cluster, data$S_Diskrepanz_plot))),
          "T10_sentiment_je_cluster.csv", "T10 – Sentiment-Diskrepanz je Cluster")
