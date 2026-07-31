@@ -59,7 +59,6 @@ editor:
 
 # Abstract {.unnumbered .unlisted}
 
-
 \clearpage
 
 \tableofcontents
@@ -78,18 +77,13 @@ editor:
 
 # Einleitung
 
-
-
 \newpage
 
 # Unterschiede zwischen angegebenem und tatsächlichem Nutzungsverhalten von KI-Chatbots
 
-
 \newpage
 
 # Forschungsfragen
-
-
 
 \newpage
 
@@ -181,106 +175,151 @@ Später erhielten wir von SoSci Survey die gelöschten Eingaben per Mail zugesan
 
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
 
-## Datenauswertung 
-
-
+## Datenauswertung
 
 ##Textklassifikation mit LMMs
 
-Um die Daten für die statistische Analyse vorzubereiten müssen zwei Dinge passieren, zuertst müssen die Datenspenden aufbereitet und klassifiziert werden und im zweiten Schritt müssen die so gewonnen Daten vergleichbar mit den Selbstauskünften aus dem Survey gemacht werden.
-
-Da die Daten entweder als Json oder HTML gespendet wurden, müssen ersten Schrtit, diese beiden Dateiformate seperat aufbereit werden und ausscließlich auf User-Nachrichten gefilter werden da wir uns hier nur auf das Verhalten der Nutzednen fokusieren und nicht auf das Verhalten des Chat-Bots. Diese Daten werden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Setiment, kritischen Nachfragen und Aufgabenbereich klasiefieziert. LLMs haben den großen Vorteil gegenüber traditionellen Textklassifikationen mittels Maschinen Learning das diese deutlich leichter zu implementieren sind und keine aufwendigen Traningsprozesse bedarfen (Wang et al. 2023). Es kann auch sein das LLMs bei komplexeren Aufgaben zusätzliches Traning in Form von Fine-Tuning -dem vorab Tranieren des LLMs an einen zusätzliichen Datensatz der auf die Zielaufgabe zu geschnitten ist- oder Few-Shots -also des integrieren einiger emxemplarischer Fälle in den prompt dem man an die LLM übergibt-  brauchen können, da sie für allgemeine Aufgaben konzeppiert sind und nicht spezifisch für die Textklassifizierung von z. B. kritischen Nachfragen. LLMs zeigen bei Klassifikationsaufgaben insbesonder der Klassifikation von Sentiment recht gute Ergebnisse die  mit "Natural language Processing" (NLP)-Modellen mithalten können (Wang et al. 2023, Anglin und Ventura 2025) und sogar mit den Annotatione von "Crowd-Workers" (Gilardi et al. 2023). Um die Performance von GPT auf unseren Datensatz zu testen wurde eine Datensatz mit insgesamt 30 Chats annotierd und mit versschieden GPT-Modellen, verschiedenen Prompts sowie verschiednenr Strategien (alle Klassifikationsaufgaben in einen oder in seperaten Prompts abfragen). Es wurden ausschließlich Zero-Shot Klassifikationen ausgeführt. Das Modell welches hier am besten Performt hat war da zu den Zeitpunkt aktuelle Frontier Modell, GPT-5.5 mit einr Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ (Für die Detalierte evaluatonen siehe im Appendix die Modell-Evaluation). 
+Um die Daten für die statistische Analyse vorzubereiten, müssen zwei Dinge passieren: Zuerst müssen die Datenspenden aufbereitet und klassifiziert werden, und im zweiten Schritt müssen die so gewonnenen Daten vergleichbar mit den Selbstauskünften aus dem Survey gemacht werden.
+Da die Daten entweder als JSON oder HTML gespendet wurden, müssen im ersten Schritt diese beiden Dateiformate separat aufbereitet und ausschließlich auf User-Nachrichten gefiltert werden, da wir uns hier nur auf das Verhalten der Nutzenden fokussieren und nicht auf das Verhalten des Chatbots.
+Diese Daten werden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Sentiment, kritischen Nachfragen und Aufgabenbereich klassifiziert.
+LLMs haben gegenüber traditionellen Textklassifikationen mittels Machine Learning den großen Vorteil, dass sie deutlich leichter zu implementieren sind und keine aufwendigen Trainingsprozesse erfordern (Wang et al. 2023).
+Es kann auch sein, dass LLMs bei komplexeren Aufgaben zusätzliches Training in Form von Fine-Tuning – dem vorherigen Trainieren des LLMs an einem zusätzlichen Datensatz, der auf die Zielaufgabe zugeschnitten ist – oder Few-Shots – also dem Integrieren einiger exemplarischer Fälle in den Prompt, den man an das LLM übergibt – benötigen, da sie für allgemeine Aufgaben konzipiert sind und nicht spezifisch für die Textklassifizierung von z.
+B.
+kritischen Nachfragen.
+LLMs zeigen bei Klassifikationsaufgaben, insbesondere der Klassifikation von Sentiment, recht gute Ergebnisse, die mit „Natural Language Processing"-Modellen (NLP) mithalten können (Wang et al. 2023; Anglin und Ventura 2025) und sogar mit den Annotationen von „Crowd-Workern" (Gilardi et al. 2023).
+Um die Performance von GPT auf unserem Datensatz zu testen, wurde ein Datensatz mit insgesamt 30 Chats annotiert und mit verschiedenen GPT-Modellen, verschiedenen Prompts sowie verschiedenen Strategien (alle Klassifikationsaufgaben in einem oder in separaten Prompts abfragen) getestet.
+Es wurden ausschließlich Zero-Shot-Klassifikationen ausgeführt.
+Das Modell, welches hier am besten performt hat, war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5 mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ (für die detaillierten Evaluationen siehe im Appendix die Modell-Evaluation).
 
 ![Zero-Shot Textklassifikation von GPT-5.5 (combined Strategie)](plots/performance_gpt55_combined.png)
 
-Diese Ergebnisse zeigen das GPT-5.5 in der Lage ist diese Klassifkationen auszuführen. Diese Zero-Shot-Leistungskennzahlen dienen daher als Schätzung der zu erwartenden Modellperformance für die Daten die wir im Survey erheben werden. Diese Annahme basiert darauf, dass beide Datensätze hinsichtlich Domäne (Chatverläufe von Studierenden), Aufgabenkontext (wofür GPT eingesetztwurde), Labelschema und struktureller Ähnlichkeit der Chats (terative Prompt-Verfeinerung, Frage-Antwort-Strukturen) vergleichbar sind. Dennoch können Unterschiede in der Datenverteilung dazu führen, dass die tatsächliche Performance auf dem zweiten Datensatz von den gemessenen Kennzahlen abweicht. Dies könnte insbesondere ein Problem bei der Klassifizierung von Inhalten sein, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine Homogenität der Inhalte zu erwarten ist. GPT-5.5 war in Inhaltsklassifikationen in allen Runden sehr akkurat, was darauf hindeuten könnte, dass dieses Problem nicht von zu großer Bedeutung ist. Um das Problem der Übertragbarkeit zu adressieren, wurde eine Stichprobe von 15–20 % des Survey-Datensatzes gezogen, um die von GPT-5.5 vergebenen Labels zu überprüfen. Die Übreprüfung der Stichprobe, kam zu den Schluss das ... ??? AUSFÜHREN
+Diese Ergebnisse zeigen, dass GPT-5.5 in der Lage ist, diese Klassifikationen auszuführen.
+Diese Zero-Shot-Leistungskennzahlen dienen daher als Schätzung der zu erwartenden Modellperformance für die Daten, die wir im Survey erheben werden.
+Diese Annahme basiert darauf, dass beide Datensätze hinsichtlich Domäne (Chatverläufe von Studierenden), Aufgabenkontext (wofür GPT eingesetzt wurde), Labelschema und struktureller Ähnlichkeit der Chats (iterative Prompt-Verfeinerung, Frage-Antwort-Strukturen) vergleichbar sind.
+Dennoch können Unterschiede in der Datenverteilung dazu führen, dass die tatsächliche Performance auf dem zweiten Datensatz von den gemessenen Kennzahlen abweicht.
+Dies könnte insbesondere bei der Klassifizierung von Inhalten ein Problem sein, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine Homogenität der Inhalte zu erwarten ist.
+GPT-5.5 war bei Inhaltsklassifikationen in allen Runden sehr akkurat, was darauf hindeuten könnte, dass dieses Problem nicht von zu großer Bedeutung ist.
+Um das Problem der Übertragbarkeit zu adressieren, wurde eine Stichprobe von 15 % des Survey-Datensatzes gezogen, um die von GPT-5.5 vergebenen Labels zu überprüfen.
+Die Übreprüfung der Labels, kam zu den Schluss das ...
+??? AUSFÜHREN
 
+Ziel der Studie ist es zum einen, Unterschiede zwischen surveybasierten Selbstauskünften und dem tatsächlich beobachteten Verhalten in den Chatlogs zu ermitteln, und zum anderen zu untersuchen, ob sich aus diesen Abweichungsmustern Gruppen mit unterschiedlichen Merkmalen identifizieren lassen.
+Hierfür müssen die Ergebnisse der Selbstauskunft und der gewonnenen Daten aus den Chats vergleichbar miteinander werden.
+Die Survey-Daten liegen auf Personenebene vor, während die Ergebnisse der quantitativen Textanalyse auf Chat-Ebene erhoben wurden.
+Da die Datenspende auf Chat-Ebene erfolgt (jede Person stellt mehrere Chats bereit), ist zunächst eine Transformation in ein Wide-Format auf Personenebene erforderlich.
+Im Anschluss werden die Chat-basierten Ergebnisse pro Person aggregiert, um sie auf ein Skalenniveau zu überführen, das mit den Selbstauskunftsdaten vergleichbar ist.
+Zur Vereinheitlichung der Messniveaus werden die Survey-Variablen zu Sentiment und kritischem Nachfragen kategorial reduziert.
+Die Ausprägungen „sehr (un)freundlich“ und „(un)freundlich“ werden jeweils zusammengefasst.
+Analog werden die Antwortkategorien „stimme eher (nicht) zu“ und „stimme (nicht) zu“ aggregiert.
+Für die Chat-Daten erfolgt eine entsprechende Operationalisierung durch Aggregation über alle Chats einer Person.
+Dabei wird für die Variablen Sentiment und kritisches Nachfragen jeweils der Modus berechnet, um eine personenbezogene Ausprägung zu erhalten.
+Bei Sentiment kann es vorkommen, dass kein eindeutiger Wert berechnet werden kann, wenn die Verteilung exakt bimodal ist.
+Wenn kein eindeutiger Wert berechnet werden kann, wird stattdessen „Neutral“ als konservativer Wert verwendet.
+In einem späteren Robustheitscheck werden diese Beobachtungen ausgeschlossen, um die Ergebnisse zu überprüfen.
+Um die Selbstauskunft mit dem beobachteten Verhalten vergleichbar zu machen, werden beide Seiten auf denselben Wertebereich \[0,1\] normiert.
+Auf Seiten der Selbstauskunft geben die Befragten im Fragebogen an, wie sie ihre Nutzung auf die fünf Aufgabenbereiche verteilen, indem sie insgesamt zehn Punkte vergeben.
+Der Anteil eines Aufgabenbereichs ergibt sich, indem die für diesen Bereich vergebene Punktzahl durch die maximal mögliche Gesamtpunktzahl von zehn geteilt wird.
+Analog dazu werden die Klassifikationen der einzelnen Chats auf denselben Wertebereich \[0,1\] überführt: Für jeden Aufgabenbereich wird der Anteil an den insgesamt gespendeten Chats einer Person berechnet, also die Anzahl der einem Bereich zugeordneten Chats geteilt durch die Gesamtzahl ihrer gültigen Chats.
+Durch die quantitative Textklassifikation können somit insgesamt sieben Variablen operationalisiert werden (fünf Aufgabenbereiche, Sentiment und kritisches Nachfragen), die strukturell äquivalent zu den sieben im Survey erhobenen Variablen sind.
+Auf diese Weise wird eine direkte Vergleichbarkeit zwischen Selbstauskunft und Verhaltensdaten ermöglicht.
+Diese durch die Anpassung gewonnene Vergleichbarkeit wird verwendet, um zu beobachten, wie das tatsächliche Verhalten von der Selbstauskunft divergiert.
+Dazu werden folgende Variablen erstellt.
+Die Daten durch den Chat sind der Grundwert, mit dem die Selbstauskünfte verglichen werden.
+Bei Sentiment “1” heißt es also, dass die Person freundlicher ist als sie angegeben hat, “0”, dass die Selbstauskunft zutrifft, und “-1” , dass die Person unfreundlicher ist als sie angegeben hat.
 
+$(i) Sentiment (S):$
 
- 
--LLM-Evaluation + zero shot klassifikation theorie (der Große Teil davon im Appendix)
--statisitsch Vorangehensweiße und rechtfertigung
-##Opperationalisierung (ca  4000 zeichen) 
-
--Wahrscheinlich kürzen oder einfach komplett in den Appendix?
-
-Ziel der Studie ist es zum einen, Unterschiede zwischen surveybasierten Selbstauskünften und dem tatsächlich beobachteten Verhalten in den Chatlogs zu ermitteln, und zum anderen zu untersuchen, ob sich aus diesen Abweichungsmustern Gruppen mit unterschiedlichen Merkmalen identifizieren lassen. Hierfür müssen die Ergebnisse der Selbstauskunft und der gewonnenen Daten aus den Chats vergleichbar miteinander werden. 
-Die Survey-Daten liegen auf Personenebene vor, während die Ergebnisse der quantitativen Textanalyse auf Chat-Ebene erhoben wurden. Da die Datenspende auf Chat-Ebene erfolgt (jede Person stellt mehrere Chats bereit), ist zunächst eine Transformation in ein Wide-Format auf Personenebene erforderlich. Im Anschluss werden die Chat-basierten Ergebnisse pro Person aggregiert, um sie auf ein Skalenniveau zu überführen, das mit den Selbstauskunftsdaten vergleichbar ist. Zur Vereinheitlichung der Messniveaus werden die Survey-Variablen zu Sentiment und kritischem Nachfragen kategorial reduziert. Die Ausprägungen „sehr (un)freundlich“ und „(un)freundlich“ werden jeweils zusammengefasst. Analog werden die Antwortkategorien „stimme eher (nicht) zu“ und „stimme (nicht) zu“ aggregiert. Für die Chat-Daten erfolgt eine entsprechende Operationalisierung durch Aggregation über alle Chats einer Person. Dabei wird für die Variablen Sentiment und kritisches Nachfragen jeweils der Modus berechnet, um eine personenbezogene Ausprägung zu erhalten. Bei Sentiment kann es vorkommen, dass kein eindeutiger Wert berechnet werden kann, wenn die Verteilung exakt bimodal ist. Wenn kein eindeutiger Wert berechnet werden kann, wird stattdessen „Neutral“ als konservativer Wert verwendet. In einem späteren Robustheitscheck werden diese Beobachtungen ausgeschlossen, um die Ergebnisse zu überprüfen. Um die Selbstauskunft mit dem beobachteten Verhalten vergleichbar zu machen, werden beide Seiten auf denselben Wertebereich [0,1] normiert. Auf Seiten der Selbstauskunft geben die Befragten im Fragebogen an, wie sie ihre Nutzung auf die fünf Aufgabenbereiche verteilen, indem sie insgesamt zehn Punkte vergeben. Der Anteil eines Aufgabenbereichs ergibt sich, indem die für diesen Bereich vergebene Punktzahl durch die maximal mögliche Gesamtpunktzahl von zehn geteilt wird. Analog dazu werden die Klassifikationen der einzelnen Chats auf denselben Wertebereich [0,1] überführt: Für jeden Aufgabenbereich wird der Anteil an den insgesamt gespendeten Chats einer Person berechnet, also die Anzahl der einem Bereich zugeordneten Chats geteilt durch die Gesamtzahl ihrer gültigen Chats.
-Durch die quantitative Textklassifikation können somit insgesamt sieben Variablen operationalisiert werden (fünf Aufgabenbereiche, Sentiment und kritisches Nachfragen), die strukturell äquivalent zu den sieben im Survey erhobenen Variablen sind. Auf diese Weise wird eine direkte Vergleichbarkeit zwischen Selbstauskunft und Verhaltensdaten ermöglicht.
-Diese durch die Anpassung gewonnene Vergleichbarkeit wird verwendet, um zu beobachten, wie das tatsächliche Verhalten von der Selbstauskunft divergiert. Dazu werden folgende Variablen erstellt. Die Daten durch den Chat sind der Grundwert, mit dem die Selbstauskünfte verglichen werden. Bei Sentiment “1” heißt es also, dass die Person freundlicher ist als sie angegeben hat, “0”, dass die Selbstauskunft zutrifft, und “-1” , dass die Person unfreundlicher ist als sie angegeben hat.
-
-$(i) Sentiment (S):$ 
-
-$$
-S_{\text{Diskrepanz}} =
+$$S_{\text{Diskrepanz}} =
 \begin{cases}
 -1, & \text{unfreundlicher} \\
 0, & \text{korrekt} \\
 1, & \text{freundlicher}
-\end{cases}
-$$
+\end{cases}$$
 
-Bei kritischen Nachfragen bedeutet “-1”, dass die Person denkt nachzufragen, aber es nicht tut, “0”, dass die Selbstauskunft korrekt ist und “1”, dass die Person denkt, dass sie nicht nachfragt, aber es tut. 
+Bei kritischen Nachfragen bedeutet “-1”, dass die Person denkt nachzufragen, aber es nicht tut, “0”, dass die Selbstauskunft korrekt ist und “1”, dass die Person denkt, dass sie nicht nachfragt, aber es tut.
 
 $(ii) Für Kritisches nachfragen (K):$
 
-$$
-K_{\text{Diskrepanz}} =
+$$K_{\text{Diskrepanz}} =
 \begin{cases}
 -1, & \text{unkritischer als angegeben} \\
 0, & \text{korrekt} \\
 1, & \text{kritischer als angegeben}
-\end{cases}
-$$
+\end{cases}$$
 
-Bei den fünf Aufgaben der Informationsnutzung bedeutet ein positiver Wert für eine Aufgabe “i”, dass die Selbstauskunft der Person um den Anteil nach oben abweicht. Ein negativer Wert, analog dazu, dass die Person nach unten abweicht. 
- “SA” ist die Selbstauskunft und “BE” ist das beobachtete Verhalten.
- 
+Bei den fünf Aufgaben der Informationsnutzung bedeutet ein positiver Wert für eine Aufgabe “i”, dass die Selbstauskunft der Person um den Anteil nach oben abweicht.
+Ein negativer Wert, analog dazu, dass die Person nach unten abweicht.
+“SA” ist die Selbstauskunft und “BE” ist das beobachtete Verhalten.
+
 <!-- $(iii) Aufgaben (A)$ -->
 
-$$
-D_i = SA_i - BE_i, \qquad A_{i,\text{Diskrepanz}} \in [-1, 1]
-$$
+$$D_i = SA_i - BE_i, \qquad A_{i,\text{Diskrepanz}} \in [-1, 1]$$
 
-$$
-A_{i,\text{Diskrepanz}} =
+$$A_{i,\text{Diskrepanz}} =
 \begin{cases}
 \text{Unterschätzung}, & -1 \leq D_i < 0 \\
 \text{Übereinstimmung}, & D_i = 0 \\
 \text{Überschätzung}, & 0 < D_i \leq 1
-\end{cases}
-$$
-
+\end{cases}$$
 
 ## Statistische Analyse (ca 5000 zeichen)
-Die explorative Analyse der gewonnenen Daten soll mittels einer k-medoids-Clusteranalyse durchgeführt werden. Da die Variablen, die in das Cluster einfließen sollen, aus fünf kontinuierlichen Diskrepanzscores (Kategorien der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Nachfragen und Sentiment) bestehen, liegen gemischte Skalenniveaus vor. Die Manhattan-Distanz und Euklidische-Distanz, die in der Literatur sehr prominent sind, benötigen metrische oder binäre Daten. Für das Clustering wird daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert (Gower 1971). Die Idee der Gower-Distanz ist, dass für alle Variablen eine eigene Distanz berechnet wird, die immer zwischen 0 und 1 liegt. Diese berechneten Einzel-Distanzen werden am Ende in einer Gesamtdistanz pro Personenpaar verrechnet, bei der 0 bedeutet, dass die Personen identisch sind, und 1 bedeutet, dass sie möglichst unterschiedlich sind. Von den kontinuierlichen Variablen $A_i$ wird die absolute Differenz genommen, während $S_{\text{Diskrepanz}}$ und $K_{\text{Diskrepanz}}$ zuerst als geordnete Faktoren codiert werden, damit ihre Richtung (Unter- vs. Überschätzung) erhalten bleibt und nicht wie bei einer rein nominalen Codierung verloren geht. Anschließend werden die ordinalen Maßzahlen in Ränge übersetzt. Da die inhaltliche Domäne mit fünf Variablen gegenüber Sentiment und Kritik mit je einer Variable bei Gleichgewichtung aller einzelnen Variablen überproportional stark in die Distanz eingeht, werden die 5 aufgabenspezifischen Diskrepanzmaße mit $\frac{1}{5} = 0{,}2$ gewichtet.
 
-Der Algorithmus, der für die Clusteranalyse verwendet wird, ist der "Partitioning around Medoids"-Algorithmus, kurz PAM (Kaufman und Rousseeuw 1990). Dieser funktioniert wie folgt: Wie der k-means-Algorithmus unterteilt er den Datensatz in eine Anzahl von k-Partitionen. Dabei werden aber statt des arithmetischen Mittels oder des Medians tatsächliche Beobachtungseinheiten als Clusterzentrum gewählt. Dies erlaubt auch, dass beliebige Distanzmaße verwendet werden können und man nicht wie bei k-means auf die euklidischen Distanzmaße beschränkt ist, die metrische oder binäre Daten verwenden. Da PAM Personen als Zentrum der k-Partitionen erlaubt, kann man die Cluster-Zentren intuitiver interpretieren: So kann man diese Person, die im Zentrum steht, als eine Art Idealtyp des Clusters interpretieren, dem die anderen Personen ähneln. Dies macht den Algorithmus zu einer attraktiven Wahl für unser exploratives Vorhaben. Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall drei Beobachtungen ausgewählt (dies wird durch einen Seed "404" replizierbar gehalten). Danach werden alle Personen dem Medoid (Zentrum) zugeordnet, an dem sie am nächsten liegen, und die Summe aller Distanzen von den Personen zu ihrem Medoid berechnet. Schließlich werden die Beobachtungen, die Medoid sind, mit Beobachtungen, die nicht Medoid sind, ausgetauscht. Dieser Prozess wiederholt sich, bis keine Verbesserung mehr möglich ist.
+Die explorative Analyse der gewonnenen Daten soll mittels einer k-medoids-Clusteranalyse durchgeführt werden.
+Da die Variablen, die in das Cluster einfließen sollen, aus fünf kontinuierlichen Diskrepanzscores (Kategorien der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Nachfragen und Sentiment) bestehen, liegen gemischte Skalenniveaus vor.
+Die Manhattan-Distanz und Euklidische-Distanz, die in der Literatur sehr prominent sind, benötigen metrische oder binäre Daten.
+Für das Clustering wird daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert (Gower 1971).
+Die Idee der Gower-Distanz ist, dass für alle Variablen eine eigene Distanz berechnet wird, die immer zwischen 0 und 1 liegt.
+Diese berechneten Einzel-Distanzen werden am Ende in einer Gesamtdistanz pro Personenpaar verrechnet, bei der 0 bedeutet, dass die Personen identisch sind, und 1 bedeutet, dass sie möglichst unterschiedlich sind.
+Von den kontinuierlichen Variablen $A_i$ wird die absolute Differenz genommen, während $S_{\text{Diskrepanz}}$ und $K_{\text{Diskrepanz}}$ zuerst als geordnete Faktoren codiert werden, damit ihre Richtung (Unter- vs. Überschätzung) erhalten bleibt und nicht wie bei einer rein nominalen Codierung verloren geht.
+Anschließend werden die ordinalen Maßzahlen in Ränge übersetzt.
+Da die inhaltliche Domäne mit fünf Variablen gegenüber Sentiment und Kritik mit je einer Variable bei Gleichgewichtung aller einzelnen Variablen überproportional stark in die Distanz eingeht, werden die 5 aufgabenspezifischen Diskrepanzmaße mit $\frac{1}{5} = 0{,}2$ gewichtet.
 
-Die Anzahl der k-Partitionen wird mittels der Silhouette-Methode von e (1987) festgelegt und nicht wie bei einer k-means-Clusterung mit dem Elbow-Kriterium. Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe. Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei 1 heißt, dass die Person sehr gut in das Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist. Nun rechnet man den Durchschnitt für alle Personen aus, der anzeigt, wie eng gruppiert alle Personen in dem Cluster sind. Ein Cluster mit einer durchschnittlichen Silhouette von 0,5 wird als ausreichend für unsere Zwecke betrachtet, 0,7 als stark. Dieser Prozess wird für $k = 2$ bis $k = 6$ wiederholt. Die Anzahl $k$, für die die maximale durchschnittliche Silhouette berechnet wird, wird verwendet.
+Der Algorithmus, der für die Clusteranalyse verwendet wird, ist der "Partitioning around Medoids"-Algorithmus, kurz PAM (Kaufman und Rousseeuw 1990).
+Dieser funktioniert wie folgt: Wie der k-means-Algorithmus unterteilt er den Datensatz in eine Anzahl von k-Partitionen.
+Dabei werden aber statt des arithmetischen Mittels oder des Medians tatsächliche Beobachtungseinheiten als Clusterzentrum gewählt.
+Dies erlaubt auch, dass beliebige Distanzmaße verwendet werden können und man nicht wie bei k-means auf die euklidischen Distanzmaße beschränkt ist, die metrische oder binäre Daten verwenden.
+Da PAM Personen als Zentrum der k-Partitionen erlaubt, kann man die Cluster-Zentren intuitiver interpretieren: So kann man diese Person, die im Zentrum steht, als eine Art Idealtyp des Clusters interpretieren, dem die anderen Personen ähneln.
+Dies macht den Algorithmus zu einer attraktiven Wahl für unser exploratives Vorhaben.
+Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall drei Beobachtungen ausgewählt (dies wird durch einen Seed "404" replizierbar gehalten).
+Danach werden alle Personen dem Medoid (Zentrum) zugeordnet, an dem sie am nächsten liegen, und die Summe aller Distanzen von den Personen zu ihrem Medoid berechnet.
+Schließlich werden die Beobachtungen, die Medoid sind, mit Beobachtungen, die nicht Medoid sind, ausgetauscht.
+Dieser Prozess wiederholt sich, bis keine Verbesserung mehr möglich ist.
 
-Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden. Dazu werden die einzelnen Cluster auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen untersucht, also beispielsweise Studiengang, soziale Erwünschtheit und Erfahrung mit künstlicher Intelligenz. Erst wird ein deskriptiver graphischer Überblick gegeben und im Anschluss werden die einzelnen Werte zwischen den Gruppen statistisch verglichen. Dafür wird für die soziale Erwünschtheit, die in eine Skala umgewandelt wird, eine ANOVA durchgeführt. Für die ordinalskalierten Variablen, also Erfahrung mit künstlicher Intelligenz, Nutzungshäufigkeit und Informationsnutzung, wird Kruskal-Wallis berechnet, da dort keine Annahme über die Abstände der Ausprägungen getroffen werden muss, weil alle Beobachtungen in Ränge eingeteilt werden. Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt.
+Die Anzahl der k-Partitionen wird mittels der Silhouette-Methode von Rousseeuw (1987) festgelegt und nicht wie bei einer k-means-Clusterung mit dem Elbow-Kriterium.
+Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe.
+Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei 1 heißt, dass die Person sehr gut in das Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
+Nun rechnet man den Durchschnitt für alle Personen aus, der anzeigt, wie eng gruppiert alle Personen in dem Cluster sind.
+Ein Cluster mit einer durchschnittlichen Silhouette von 0,5 wird als ausreichend für unsere Zwecke betrachtet, 0,7 als stark.
+Dieser Prozess wird für $k = 2$ bis $k = 6$ wiederholt.
+Die Anzahl $k$, für die die maximale durchschnittliche Silhouette berechnet wird, wird verwendet.
 
+Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden.
+Dazu werden die einzelnen Cluster auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen untersucht, also beispielsweise Studiengang, soziale Erwünschtheit und Erfahrung mit künstlicher Intelligenz.
+Erst wird ein deskriptiver graphischer Überblick gegeben und im Anschluss werden die einzelnen Werte zwischen den Gruppen statistisch verglichen.
+Dafür wird für die soziale Erwünschtheit, die in eine Skala umgewandelt wird, eine ANOVA durchgeführt.
+Für die ordinalskalierten Variablen, also Erfahrung mit künstlicher Intelligenz, Nutzungshäufigkeit und Informationsnutzung, wird Kruskal-Wallis berechnet, da dort keine Annahme über die Abstände der Ausprägungen getroffen werden muss, weil alle Beobachtungen in Ränge eingeteilt werden.
+Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt.
 
 ## Beschreibung der Stichprobe
+
 <!-- Sind damit so deskreptive Statistiken gemeint? -->
 
-Nach der Datenaufbereitung wird der Forschungsfrage erst deskriptiv genähert, um einen Überblick darüber zu bekommen, wie stark die Unterschiede zwischen beobachtetem und selbstangaben Verhalten sind. Dzu wird unter anderen das arithmetische Mittel über alle Aufgaben berechnen, um zu beobachten, ob sich eine Person eher überschätzt oder unterschätzt. Es besteht das Risiko, dass sich die Werte einer Person gegenseitig neutralisieren. Soweit die mittlere absolute Abweichung (MAD), um zu sehen, wie viel im Mittel eine Person von ihrer Selbstauskunft  abweicht. Die limitation hierbei ist da man keine Schlüsse über die Effektrichtung ziehen kann. Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können. 
+Nach der Datenaufbereitung wird der Forschungsfrage erst deskriptiv genähert, um einen Überblick darüber zu bekommen, wie stark die Unterschiede zwischen beobachtetem und selbstangaben Verhalten sind.
+Dzu wird unter anderen das arithmetische Mittel über alle Aufgaben berechnen, um zu beobachten, ob sich eine Person eher überschätzt oder unterschätzt.
+Es besteht das Risiko, dass sich die Werte einer Person gegenseitig neutralisieren.
+Soweit die mittlere absolute Abweichung (MAD), um zu sehen, wie viel im Mittel eine Person von ihrer Selbstauskunft abweicht.
+Die limitation hierbei ist da man keine Schlüsse über die Effektrichtung ziehen kann.
+Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.
 
--Deskrepziva Stichprobe
-<<<INSERT GRAPHS>>>
--Deskreptiva Zusammenhang
-<<<
+-Deskrepziva Stichprobe \<\<<INSERT GRAPHS>\>\> -Deskreptiva Zusammenhang \<\<\<
 
 \newpage
 
 # Ergebnisse
 
-
 \newpage
 
 # Dikussion
-
 
 \newpage
 
@@ -294,8 +333,7 @@ Für diese Forschungsarbeit wurden neue Daten erhoben.
 Die Rohdaten sind privat und können nicht veröffentlicht werden, da sie personenbezogene Daten enthalten könnten.
 Die Analysedaten und -Materialien sind auf dem Open Science Framework OSF (<https://osf.io/pqdhb>) und auf GitHub (<https://github.com/lpkiemes/Masterprojekt-Chatbots>) unter CC0 1.0-Lizenzen hinterlegt.
 
-\newpage 
-
+\newpage
 
 # Literaturverzeichnis {.unnumbered}
 
@@ -303,16 +341,17 @@ Die Analysedaten und -Materialien sind auf dem Open Science Framework OSF (<http
 :::
 
 \newpage
+
 Anhag wird wahrscheunlich einfac auf Github geteilt
 
 # Anhang {.unnumbered}
 
 | Genutztes Tool | Verwendungszweck | Sektion der Arbeit | Prompt |
-|----------------|------------------|--------------------|--------|
-|                |                  |                    |        |
-|                |                  |                    |        |
-|                |                  |                    |        |
-|                |                  |                    |        |
-|                |                  |                    |        |
+|----|----|----|----|
+| Claude Sonnet | Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json? |
+| Claude Sonnet | Rechtschreibkorrektur | Methode (Datenauswertung), Er gebnissteil | Korregiere diesen Absatz auf Rechtschreibung und Grammatik: ... |
+| Claude Sonnet | Konzepte Erklären | Statistische analyse | hat die silluheten methode die tendez bei höheren k besser zu werden? |
+|  |  |  |  |
+|  |  |  |  |
 
 : Kennzeichnung von verwendeten KI-Tools

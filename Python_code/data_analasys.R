@@ -134,7 +134,7 @@ combined <- (p1 | p2) / (p3 | p4) +
 
 ggsave("plots/00_stichprobe.png", combined, width = 11, height = 8, dpi = 150, bg = "white")
 
-#descriptives der diskrepanzmaße
+#descriptives der diskrepan zmaße
 
 ## 1a) Mittlere Diskrepanz + MAD pro Persom
 D_cols <- c("D_info","D_schreiben","D_praktisch","D_technisch","D_lernen")
