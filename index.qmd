@@ -560,7 +560,6 @@ $$A_{i,\text{Diskrepanz}} =
 \text{Überschätzung}, & 0 < D_i \leq 1
 \end{cases}$$
 
-## Datenaufbereitung
 
 Um die Daten für die statistische Analyse vorzubereiten, wurden zunächst sämtliche Antwortkodierungen einheitlich rekodiert.
 
@@ -610,11 +609,12 @@ Dieser Prozess wird für $k = 2$ bis $k = 6$ wiederholt.
 Die Anzahl $k$, für die die maximale durchschnittliche Silhouette berechnet wird, wird verwendet.
 
 Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden.
-Dazu werden die einzelnen Cluster auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen untersucht, also beispielsweise Studiengang, soziale Erwünschtheit und Erfahrung mit künstlicher Intelligenz.
+Dazu werden die einzelnen Cluster auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen deskreptiv untersucht, also beispielsweise Studiengang, soziale Erwünschtheit und Erfahrung mit künstlicher Intelligenz.
+<!--
 Erst wird ein deskriptiver graphischer Überblick gegeben und im Anschluss werden die einzelnen Werte zwischen den Gruppen statistisch verglichen.
 Dafür wird für die soziale Erwünschtheit, die in eine Skala umgewandelt wird, eine ANOVA durchgeführt.
 Für die ordinalskalierten Variablen, also Erfahrung mit künstlicher Intelligenz, Nutzungshäufigkeit und Informationsnutzung, wird Kruskal-Wallis berechnet, da dort keine Annahme über die Abstände der Ausprägungen getroffen werden muss, weil alle Beobachtungen in Ränge eingeteilt werden.
-Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt.
+Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt. -->
 
 ## Beschreibung der Stichprobe {#sec-stichprobe}
 
