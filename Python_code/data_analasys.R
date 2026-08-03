@@ -673,19 +673,31 @@ save_tab(as.data.frame(table(Kritik_Diskrepanz    = data$K_Diskrepanz_plot)),
          "T05_kritik_diskrepanz.csv", "T05 – Kritik-Diskrepanz (Häufigkeiten)")
 
 ###Clustering (zu Grafiken 06-11)
-save_tab(data.frame(k = 2:10, Durchschnittliche_Silhouette = round(sil_avg,3)),
+# min_size dokumentiert, warum k mit besserer Silhouette verworfen wurde
+# (Mini-Cluster unterhalb MIN_CLUSTER_N)
+save_tab(data.frame(k = 2:10, `Ø Silhouette` = round(sil_avg,3),
+                    `kleinstes Cluster (n)` = as.integer(min_size),
+                    check.names = FALSE),
          "T06_silhouette_k.csv", "T06 – Durchschnittliche Silhouette je Clusterzahl k")
-save_tab(data.frame(Person_ID = data$id, Cluster = data$cluster,
-                    Silhouette = round(sil_obj[,3],3)), "T07_silhouette_person.csv",
+save_tab(data.frame(`Person-ID` = data$id, Cluster = data$cluster,
+                    Silhouette = round(sil_obj[,3],3), check.names = FALSE),
+         "T07_silhouette_person.csv",
          "T07 – Silhouettenwerte pro Person")
+# Aufgaben als Zeilen, Cluster als Spalten: die Aufgabenlabels sind lang, als
+# Spaltenkoepfe waere die Tabelle im PDF zu breit
 prof_tab <- aggregate(cbind(D_info,D_schreiben,D_praktisch,D_technisch,D_lernen) ~ cluster,
                       data = data, FUN = function(x) round(mean(x),3))
-names(prof_tab) <- c("Cluster", unname(TASK_LABELS[D_cols]))
-save_tab(prof_tab, "T08_cluster_profile.csv",
+prof_tab_t <- data.frame(Aufgabe = unname(TASK_LABELS[D_cols]),
+                         check.names = FALSE)
+for (r in seq_len(nrow(prof_tab)))
+  prof_tab_t[[paste("Cluster", prof_tab$cluster[r])]] <-
+    unlist(prof_tab[r, D_cols], use.names = FALSE)
+save_tab(prof_tab_t, "T08_cluster_profile.csv",
          "T08 – Cluster-Profile: mittlere Diskrepanz je Aufgabe")
 save_tab(data.frame(Cluster = levels(data$cluster),
-                    Groesse = as.integer(table(data$cluster)),
-                    Medoid_Person_ID = data$id[pam_fit$id.med]), "T08b_cluster_groessen.csv",
+                    `Größe (n)` = as.integer(table(data$cluster)),
+                    `Medoid (Person-ID)` = data$id[pam_fit$id.med],
+                    check.names = FALSE), "T08b_cluster_groessen.csv",
          "T08b – Clustergrößen und Medoide")
 med_tab <- data.frame(Cluster = levels(data$cluster), Person_ID = med$id,
                       round(med[, D_cols], 3),
@@ -711,28 +723,60 @@ save_tab(cbind(Cluster = rownames(table(data$cluster, data$K_Diskrepanz_plot)),
 sd_summary <- aggregate(social_desir_mean ~ cluster, data = data,
                         FUN = function(x) round(c(M = mean(x), SD = sd(x), n = length(x)),2))
 sd_out <- data.frame(Cluster = sd_summary$cluster, sd_summary$social_desir_mean)
-sd_out$Welch_p <- round(aov_sd$p.value, 4)
+names(sd_out) <- c("Cluster", "M", "SD", "n")
+sd_out$`p (Welch)` <- round(aov_sd$p.value, 4)
 save_tab(sd_out, "T12_socialdesir_cluster.csv",
          "T12 – Soziale Erwünschtheit je Cluster (Welch-ANOVA)")
 
 ord_res <- do.call(rbind, lapply(seq_along(ord_vars), function(i) {
   v  <- ord_vars[i]
   kw <- kruskal.test(data[[v]] ~ data$cluster)
-  data.frame(Variable = ord_labels[i], Chi2 = round(unname(kw$statistic),3),
-             df = unname(kw$parameter), p_Kruskal_Wallis = round(kw$p.value,4))
+  data.frame(Variable = ord_labels[i], `Chi²` = round(unname(kw$statistic),3),
+             df = unname(kw$parameter), `p (Kruskal-Wallis)` = round(kw$p.value,4),
+             check.names = FALSE)
 }))
 save_tab(ord_res, "T13_ordinale_kruskal.csv",
          "T13 – Ordinale Kontextvariablen: Kruskal-Wallis-Tests")
 
 nom_res <- do.call(rbind, lapply(seq_along(nom_vars), function(i) {
   v   <- nom_vars[i]
-  chi <- suppressWarnings(chisq.test(table(data$cluster, data[[v]]),
+  # droplevels: unbesetzte Faktorstufen ergeben erwartete Haeufigkeiten von 0
+  # und damit ein NaN als Teststatistik
+  chi <- suppressWarnings(chisq.test(table(data$cluster, droplevels(data[[v]])),
                                      simulate.p.value = TRUE, B = 2000))
-  data.frame(Variable = nom_labels[i], Chi2 = round(unname(chi$statistic),3),
-             p_simuliert = round(chi$p.value,4))
+  data.frame(Variable = nom_labels[i], `Chi²` = round(unname(chi$statistic),3),
+             `p (simuliert)` = round(chi$p.value,4), check.names = FALSE)
 }))
 save_tab(nom_res, "T14_nominale_chi2.csv",
          "T14 – Nominale Kontextvariablen: Chi-Quadrat-Tests")
+
+# Numerische Werte zur Profil-Grafik (17_kontext_profil): Cluster-Mittelwerte
+# auf der Originalskala, plus Spannweite in Prozentpunkten des Skalenbereichs
+kontext_prof_tab <- do.call(rbind, lapply(seq_along(profil_vars), function(i) {
+  v <- profil_vars[i]; r <- profil_range[[v]]
+  m <- tapply(data[[v]], data$cluster, mean)
+  out <- data.frame(Variable = profil_labels[i],
+                    Skala    = paste0(r[1], "–", r[2]),
+                    check.names = FALSE)
+  for (cl in levels(data$cluster)) out[[paste("Cluster", cl)]] <- round(m[[cl]], 2)
+  out$`Spannweite (PP)` <- round(100 * (max(m) - min(m)) / (r[2] - r[1]), 1)
+  out
+}))
+save_tab(kontext_prof_tab, "T17_kontext_profil.csv",
+         "T17 – Kontextvariablen-Profil der Cluster (Mittelwerte, Originalskalen)")
+
+# Numerische Werte zu den Soziodemografie-Grafiken (14_/19_): Kreuztabellen.
+# Kategorien als Zeilen, Cluster als Spalten - sonst wird v. a. die
+# Faechergruppe mit 11 Auspraegungen im PDF zu breit. droplevels(), damit
+# unbesetzte Kategorien die Tabelle nicht mit Nullzeilen aufblaehen.
+for (i in seq_along(nom_vars)) {
+  tb  <- t(table(data$cluster, droplevels(data[[nom_vars[i]]])))
+  out <- as.data.frame.matrix(tb)
+  names(out) <- paste("Cluster", names(out))
+  save_tab(data.frame(Kategorie = rownames(tb), out, check.names = FALSE),
+           sprintf("T19%s_%s_je_cluster.csv", letters[i], nom_files[i]),
+           sprintf("T19%s – %s je Cluster (Häufigkeiten)", letters[i], nom_labels[i]))
+}
 
 ### Robustheit (zu Grafiken 15-16)##
 
@@ -740,11 +784,19 @@ save_tab(data.frame(
   Check = c("1: ohne Tie-Sentiment","2: ohne Gewichtung","3: Average-Linkage"),
   Beschreibung = c(paste(sum(tie_sent),"Fälle ausgeschlossen"),
                    paste("k =", k_r2), paste("k =", k_opt)),
-  Durchschnittliche_Silhouette = c(round(pam_r1$silinfo$avg.width,3), round(max(sil_r2),3), NA)),
+  `Ø Silhouette` = c(round(pam_r1$silinfo$avg.width,3), round(max(sil_r2),3), NA),
+  check.names = FALSE),
   "T15_robustheit_uebersicht.csv", "T15 – Robustheitschecks: Übersicht")
-save_tab(as.data.frame(table(PAM = data$cluster, Ungewichtet = pam_r2$clustering)),
+# Kreuztabellen breit speichern (Zeilen = PAM-Cluster), damit sie im Anhang
+# ohne weiteres Umformen lesbar sind
+kreuz_breit <- function(tb, spalten_praefix) {
+  out <- as.data.frame.matrix(tb)
+  names(out) <- paste(spalten_praefix, names(out))
+  data.frame(`PAM-Cluster` = rownames(tb), out, check.names = FALSE)
+}
+save_tab(kreuz_breit(table(data$cluster, pam_r2$clustering), "Ungewichtet"),
          "T15b_pam_vs_ungewichtet.csv", "T15b – PAM (gewichtet) vs. PAM (ungewichtet)")
-save_tab(as.data.frame(table(PAM = data$cluster, Hierarchisch = hc_cl)),
+save_tab(kreuz_breit(table(data$cluster, hc_cl), "Hierarchisch"),
          "T16_pam_vs_hierarchisch.csv", "T16 – PAM vs. hierarchisches Clustering")
 
 ### Markdown-Report mit allen Tabellen schreiben ----
