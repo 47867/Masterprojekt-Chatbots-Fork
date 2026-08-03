@@ -57,6 +57,25 @@ editor:
     wrap: sentence
 ---
 
+```{r}
+#| label: setup
+#| include: false
+# Lädt Daten, Design-System und alle ggplot-Objekte (p_sent, p_krit, ...)
+# aus dem Analyseskript. Danach können die Objekte in den Abbildungs-Chunks
+# einfach per Namen aufgerufen werden.
+source(here::here("Python_code/data_analasys.R"))
+#Titlee, subtitle etc deaktivieren
+theme_set(
+  theme_minimal() +
+    theme(
+      plot.title    = element_blank(),
+      plot.subtitle = element_blank(),
+      plot.caption  = element_blank(),
+      plot.tag      = element_blank()
+    )
+)
+```
+
 # Abstract {.unnumbered .unlisted}
 
 \clearpage
@@ -317,6 +336,119 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.
 
 # Ergebnisse
 
+## Ergebnisse der Clusteranalyse
+
+Der PAM-Algorithmus identifiziert Vier-Cluster.
+Diese Erfüllte die Bedingung das jedes Cluster eine Mindestgröße von drei Personen hat. Diese Bedingung wurde gewählt, da bei einem cluster von eins zum Beispiel Clustern der Clustermittelwert faktisch dem Wert einzelner Beobachtungen entspricht und somit keine belastbare Grundlage für die Beschreibung eines Typs bietet.
+Zudem sichert sie ab, dass für die anschließenden Gruppenvergleiche eine mindest Anzahl an Beobachtungen jeder Gruppe vorliegen. Die Größe der einzelnen Cluster beträgt: Cluster eins = 6, Cluster zwei = 6, Cluster drei = 4 und Cluster vier = 5. 
+Der duchschnitlliche Silhouettenweite lag bei 0,46 (TAB ap XX.).Nach der Klassifikation von Kaufman und Rousseeuw (1990) liegt dieser Wert unterhalb der Schwelle von 0,51 für eine „vernünftige" Clusterstruktur und ist damit als schwach aber erkennbar einzuordnen. Die Fünf-Cluster Lösung wäre über diese schwellenwert gelegen aber, beinhaltet Cluster die sehr klein sind mit nur 2 oder ab k=6 oder k =7 was das tatsächliche optimum ist, sogar einpersonen Cluster (App. AXXX???).
+
+Für jedes der vier Cluster wir eine reale beobachtung als Metroid (Cluster Zentrum) gewählt.
+Die zweidimensonale MDS-Projektion der Grower Distanz zeigt die Ergebnisse des clusterings (@fig-silhouette_pms).
+Die vier Cluster liegen räumlich weitgehend getrennt voneinander, wobei die Cluster in unterschiedlichen Bereichen des Merkmalsraums positioniert sind.
+Zu beachten ist, dass die MDS-Darstellung die tatsächlichen Distanzen im höherdimensionalen Raum lediglich annähert; die abgebildeten Abstände sind daher als Orientierung, nicht als exakte Abbildung der Gower-Distanzen zu interpretieren.
+Erkennbar sind zudem einzelne Beobachtungen, die deutlich abseits ihres jeweiligen Clusterzentrums liegen.
+Die zwei beobachtungen unten im rechten Eck der Projektion wäre in der k = 5 das zusätzliche Cluster.
+Die personenbezogenen Silhouettenwerte (Abbildung A3 App ???) bestätigen dies: Zwei Personen weisen negative Werte auf und wären damit ihrem jeweils nächstgelegenen Nachbarcluster näher als ihrem zugewiesenen Cluster.
+Diese Fälle sind bei der Interpretation der Clusterprofile als unsichere Zuordnungen zu berücksichtigen.
+
+```{r}
+#| label: fig-silhouette_pms
+#| fig-cap: |
+#|   MDS-Projektion der Gower-Distanz.\
+#|   Umkreiste Punkte = Cluster-Zentren
+#| fig-height: 4
+#| fig-width: 6
+
+p_mds
+                                             
+```
+
+Die inhaltliche Charakterisierung der vier Cluster erfolgt über die mittlere Diskrepanz zwischen Selbstauskunft und beobachtetem Verhalten je Aufgabenbereich (@fig-heatmap).
+Ein positiver Wert bedeutet, dass die Person ihre Nutzung in diesem Bereich höher einschätzt, als es die Chatlogs abbilden; ein negativer Wert bedeutet das Gegenteil.
+Werte um null stehen für eine zutreffende Selbsteinschätzung.
+
+Die Abweichungen verteilen sich ungleichmäßig über die Aufgabenbereiche.
+Bei Schreiben/Textarbeit und Lernen/Prüfungsvorbereitung bleiben sie über alle Cluster hinweg gering (Beträge ≤ 0,08), während sich die substanziellen Diskrepanzen auf Informationssuche sowie praktische und technische Unterstützung konzentrieren.
+Die Cluster unterscheiden sich dabei weniger im Ausmaß als in der Richtung dieser Abweichungen.
+<!--  -->
+<!-- Werte in anzahl ihrer tatsächlichen ausprägungen interpretieren -->
+Am deutlichsten kontrastieren Cluster zwei und drei.
+Cluster zwei unterschätzt die Informationssuche (−0,22) und überschätzt die praktische (+0,10) sowie schreibbezogene Nutzung (+0,08), Cluster drei zeigt das gegenteilige Muster (Informationssuche +0,15, praktische Unterstützung −0,20).
+Cluster vier weicht fast ausschließlich bei der praktischen (+0,16) und technischen Unterstützung (−0,16) ab.
+Cluster eins bleibt über alle Bereiche hinweg innerhalb geringer Abweichungen (Beträge ≤ 0,13) und weist damit die höchste Übereinstimmung zwischen Selbstauskunft und Verhalten auf.
+
+```{r}
+#| label: fig-heatmap
+#| fig-cap: |
+#|   Cluster-Profile: mittlere Diskrepanz je Aufgabe.\
+#|   Rot = Überschätzung (SA > BE) · Blau = Unterschätzung (SA < BE).
+#| fig-height: 4
+#| fig-width: 6
+
+p_heat
+                                             
+```
+
+Ergänzend zu den aufgabenbezogenen Diskrepanzen zeigen die kategorialen Diskrepanzvariablen ein deutlich trennschärferes Bild.
+Bei der Sentiment-Diskrepanz unterscheiden sich die Cluster nahezu vollständig voneinander.
+(@fig-sent). In Cluster eins sind ausnahmslos alle Personen im beobachteten Verhalten unfreundlicher, als sie angegeben haben, in Cluster vier durchgängig freundlicher.
+Cluster zwei und drei schätzen ihren umgangston (nahezu) korrekt ein.
+
+```{r}
+#| label: fig-sent
+#| fig-cap: "Sentiment-Diskrepanz je Cluster"
+#| fig-height: 4
+#| fig-width: 6
+
+p_sent_cl
+                                             
+```
+
+Bei der Kritik-Diskrepanz konzentriert sich die Abweichung stärker auf einzelne Cluster (@fig-krit).
+Cluster zwei hebt sich deutlich ab.Sämtliche Personen dieses Clusters geben an, die KI-Antworten kritisch zu hinterfragen, tun dies in den Chatlogs jedoch nicht (falsches Positiv).
+Cluster drei zeigt als einziges Cluster den umgekehrten Fehlertyp, ein Viertel der Personen fragt kritischer nach, als es die Selbstauskunft nahelegt.
+In den Clustern eins und vier stimmt die Selbstauskunft mehrheitlich mit dem beobachteten Verhalten überein, bei jeweils einem kleineren Anteil falsch-positiver Einschätzungen.
+
+```{r}
+#| label: fig-krit
+#| fig-cap: "Kritik-Diskrepanz je Cluster"
+#| fig-height: 4
+#| fig-width: 6
+
+p_krit_cl
+```
+
+Zusammenfassend lassen sich die vier Cluster wie folgt charakterisieren: In Cluster eins trifft die Selbsteinschätzung der Aufgabennutzung weitgehend zu, der eigene Umgangston wird jedoch durchgängig freundlicher dargestellt, als er tatsächlich ist. Cluster zwei unterschätzt die Informationssuche, überschätzt die praktische Nutzung und schreibt sich zudem durchgängig eine kritische Prüfung zu, die im beobachteten Verhalten nicht stattfindet. Cluster drei zeigt das gegenteilige inhaltliche Muster, eine Überschätzung der Informationssuche bei gleichzeitiger Unterschätzung der praktischen Unterstützung, schätzt Umgangston und kritisches Nachfragen dagegen zutreffend bis untertreibend ein. Cluster vier schließlich weicht inhaltlich fast ausschließlich bei praktischer und technischer Unterstützung ab und stellt sich im Umgangston durchgängig unfreundlicher dar, als es die Chatlogs zeigen
+
+<!-- Hinzufügen analyse von metroids ??? -->
+
+
+## Vergleich mit kontext Variablen
+
+Um die Cluster inhaltlich zu untersuchen, wurden diese nach Unterschieden bezüglich soziodemografischer Merkmale, sozialer Erwünschtheit, KI-Erfahrung, Nutzungshäufigkeit und Informationskompetenz verglichen, also anhand von Variablen, die nicht in die Clusterbildung eingeflossen sind.
+
+@fig-profile fasst die Cluster-Mittelwerte aller metrischen und ordinalen Kontextvariablen zusammen, wobei jede Variable auf ihren jeweiligen Skalenbereich reskaliert wurde, um sie vergleichbar darzustellen. Die grauen Balken zeigen die Spannweite zwischen dem niedrigsten und höchsten Clustermittelwert und machen damit sichtbar, welche Variablen überhaupt zwischen den Clustern differenzieren.
+
+Am deutlichsten unterscheiden sich die Cluster bei der sozialen Erwünschtheit und der Nutzungshäufigkeit. In beiden Fällen bildet Cluster drei einen Pol, allerdings in entgegengesetzter Richtung. Bei der sozialen Erwünschtheit liegt Cluster drei mit knapp vierzig Prozent des Skalenbereichs deutlich unter den anderen drei Clustern, die sich zwischen sechzig und dreiundsiebzig Prozent bewegen. Bei der Nutzungshäufigkeit dagegen liegt Cluster drei mit rund fünfundsiebzig Prozent an der Spitze, während Cluster zwei mit knapp vierzig Prozent das untere Ende bildet. Cluster drei nutzt ChatGPT also am häufigsten und zeigt zugleich die geringste Neigung zu sozial erwünschtem Antwortverhalten. Das passt zu dem Befund, dass die Mitglieder dieses Clusters ihren Umgangston vollständig zutreffend einschätzen und teilweise sogar kritischer nachfragen als angegeben.
+
+Bei den übrigen drei Variablen fallen die Unterschiede zwischen den Clustern klein aus. KI-Erfahrung und beide Informationskompetenz-Items liegen bei allen vier Clustern im oberen Skalenbereich zwischen etwa siebzig und neunzig Prozent, wobei Cluster drei auch hier jeweils die höchsten Werte erreicht.
+
+```{r}
+#| label: fig-profile
+#| fig-cap: |
+#|   Kontextvariablen-Profil der Cluster.\
+#|   Cluster-Mittelwerte, je Variable auf den Skalenbereich [0 %, 100 %] reskaliert.
+#| fig-height: 4
+#| fig-width: 6
+
+p_profil
+```
+Die soziodemografischen Merkmale läst sich  folgendes beobachten (App. Abb, ???). Bei der Fächergruppe fällt auf, dass Cluster drei vollständig aus Studierenden der Sozialwissenschaften besteht, während sich die übrigen Cluster jeweils aus drei bis vier verschiedenen Fächergruppen zusammensetzen. Ein ähnlich homogenes Bild zeigt sich bei Cluster zwei, das ausschließlich männliche Teilnehmer umfasst, wohingegen die anderen Cluster gemischt sind und Frauenanteile zwischen fünfzig und fünfundsiebzig Prozent aufweisen. Beim angestrebten Abschluss dominiert in allen Clustern der Master, in Cluster drei sogar ausschließlich. 
+
+
+
+
 \newpage
 
 # Dikussion
@@ -347,7 +479,7 @@ Anhag wird wahrscheunlich einfac auf Github geteilt
 # Anhang {.unnumbered}
 
 | Genutztes Tool | Verwendungszweck | Sektion der Arbeit | Prompt |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | Claude Sonnet | Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json? |
 | Claude Sonnet | Rechtschreibkorrektur | Methode (Datenauswertung), Er gebnissteil | Korregiere diesen Absatz auf Rechtschreibung und Grammatik: ... |
 | Claude Sonnet | Konzepte Erklären | Statistische analyse | hat die silluheten methode die tendez bei höheren k besser zu werden? |

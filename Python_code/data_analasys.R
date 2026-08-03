@@ -1,7 +1,10 @@
 ##########################################
 ### Datenanalyse Skript###################
 ##########################################
-base_path   <- "/home/theo/PycharmProjects/Masterprojekt-Chatbots"
+# Projektwurzel wird über die .Rproj-Datei gefunden - funktioniert im interaktiven
+# Skript wie auch beim Quarto-Render von index.qmd
+if (!requireNamespace("here", quietly = TRUE)) install.packages("here")
+base_path   <- here::here()
 data_path   <- file.path(base_path, "data/processed/analysis_dataset.rds")
 plot_dir    <- file.path(base_path, "plots")
 setwd(base_path)
@@ -17,6 +20,11 @@ pakete <- c("cluster", "ggplot2", "patchwork", "labelled", "scales", "knitr")
 
 for (p in pakete) {
   if (!requireNamespace(p, quietly = TRUE)) {
+    # Beim Quarto-Render (nicht interaktiv) nicht stillschweigend installieren:
+    # der Download bricht sonst mitten im Rendern ab
+    if (!interactive()) {
+      stop(sprintf("Paket '%s' fehlt in der Projekt-Library. In RStudio ausfuehren: renv::install('%s'); renv::snapshot()", p, p))
+    }
     install.packages(p)
   }
   library(p, character.only = TRUE)

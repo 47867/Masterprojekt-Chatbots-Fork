@@ -77,17 +77,17 @@ Nachfragen).
 | `Python_code/modules/mail_parser.py` | Parser für SoSci-Benachrichtigungsmails (rekonstruiert Angaben, die SoSci wegen > 64 KB gelöscht hat) |
 | `Python_code/data_prep.R` | Phase B: Datenaufbereitung / Operationalisierung |
 | `Python_code/data_analasys.R` | Phase B: Statistische Analyse (Deskriptiv + Clusteranalyse) |
-| `Python_code/Inactive/` | Ältere/inaktive Notebook-Versionen (nicht Teil des Workflows) |
-| `API_KEYS/` | API-Schlüssel (nicht versioniert!) — siehe Abschnitt 3 |
-| `data/raw/json/` | Die 30 selbst gesammelten Chats für den Goldstandard (Phase A) |
-| `data/raw/data_sosci/` | Roh-Download: `daten.csv`, `chatlog_mapping.csv`, `uploads/<id>/*.html` |
-| `data/raw/data_sosci/Mail/` | SoSci-Benachrichtigungsmails (`*.eml`) mit gelöschten Angaben (> 64 KB) |
-| `data/raw/data_sosci/other/` | Händische Ergänzungen (`ergänzung*.txt`) — nachgereichte Chats ohne CASE-ID, per Uhrzeit/Missing rekonstruiert |
-| `data/processed/control/` | Codierbögen der drei Coder + Goldstandard |
-| `data/processed/llm_evaluation/` | Ergebnisse der LLM-Evaluation |
-| `data/processed/` | Alle aufbereiteten Datensätze (siehe Abschnitt 8) |
-| `plots/` | Alle Grafiken aus `data_analasys.R` |
-| `tabs/` | Alle Tabellen (CSV) + `tabellen_report.md` (formatiert) |
+| `Python_code/Inactive` | Ältere/inaktive Notebook-Versionen (nicht Teil des Workflows) |
+| `API_KEYS` | API-Schlüssel (nicht versioniert!) — siehe Abschnitt 3 |
+| `data/raw/json` | Die 30 selbst gesammelten Chats für den Goldstandard (Phase A) |
+| `data/raw/data_sosci` | Roh-Download: `daten.csv`, `chatlog_mapping.csv`, `uploads/<id>/*.html` |
+| `data/raw/data_sosci/Mail` | SoSci-Benachrichtigungsmails (`*.eml`) mit gelöschten Angaben (> 64 KB) |
+| `data/raw/data_sosci/other` | Händische Ergänzungen (`ergänzung*.txt`) — nachgereichte Chats ohne CASE-ID, per Uhrzeit/Missing rekonstruiert |
+| `data/processed/control` | Codierbögen der drei Coder + Goldstandard |
+| `data/processed/llm_evaluation` | Ergebnisse der LLM-Evaluation |
+| `data/processed` | Alle aufbereiteten Datensätze (siehe Abschnitt 8) |
+| `plots` | Alle Grafiken aus `data_analasys.R` |
+| `tabs` | Alle Tabellen (CSV) + `tabellen_report.md` (formatiert) |
 
 ---
 
@@ -101,7 +101,7 @@ optional `torch`/`transformers` (nur für lokale Modelle in der Evaluation).
 **R** (≥ 4.x): `cluster`, `ggplot2`, `patchwork`, `labelled`, `scales`, `knitr`
 (werden von `data_analasys.R` bei Bedarf automatisch installiert).
 
-**API-Schlüssel** in `API_KEYS/` (je eine Textdatei, nur der Schlüssel/die URL):
+**API-Schlüssel** in `API_KEYS` (je eine Textdatei, nur der Schlüssel/die URL):
 
 | Datei | Zweck |
 |---|---|
@@ -109,7 +109,7 @@ optional `torch`/`transformers` (nur für lokale Modelle in der Evaluation).
 | `sosci_per_header.txt` | `Authorization`-Header der SoSci-REST-API (personengebunden, für die Datei-Uploads) |
 | `openai_key.txt` | OpenAI-API-Key für die Chat-Klassifikation und die Evaluation |
 
-**Wichtig:** Die Notebooks setzen als Arbeitsverzeichnis `Python_code/` voraus
+**Wichtig:** Die Notebooks setzen als Arbeitsverzeichnis `Python_code` voraus
 (`repo = Path(".").resolve().parent`). Beim Ausführen außerhalb von
 PyCharm/Jupyter zusätzlich `PYTHONPATH` auf die Repo-Wurzel setzen, damit
 `from Python_code.modules import ...` funktioniert.
@@ -118,11 +118,11 @@ PyCharm/Jupyter zusätzlich `PYTHONPATH` auf die Repo-Wurzel setzen, damit
 
 ## PHASE A — Klassifikator-Validierung
 
-## 4. Schritt 1 — `Gold_standard.ipynb` (Goldstandard + Intercoder-Reliabilität)
+## 4. Schritt 1 — `Python_code/Gold_standard.ipynb` (Goldstandard + Intercoder-Reliabilität)
 
 Bevor der LLM-Klassifikator auf die echten Erhebungsdaten losgelassen wird,
 wird er an einem manuell codierten Goldstandard validiert. Grundlage sind
-**30 selbst gesammelte Chats** in `data/raw/json/`:
+**30 selbst gesammelte Chats** in `data/raw/json`:
 
 1. Alle JSONs einlesen (`load_chats_from_folder`) → 30 Chats, 289 Nachrichten.
 2. Nur User-Nachrichten behalten (`df_user`), Chat-Reihenfolge mit festem Seed
@@ -146,7 +146,7 @@ Codierung im Goldstandard: `task` 1–5 (Reihenfolge wie in Abschnitt 6.3),
 
 ---
 
-## 5. Schritt 2 — `llm_pipeline_openai_gold.ipynb` (LLM-Evaluation)
+## 5. Schritt 2 — `Python_code/llm_pipeline_openai_gold.ipynb` (LLM-Evaluation)
 
 Vergleicht **zwei Prompt-Strategien** über (konfigurierbare) Modelle am
 Goldstandard, um Prompt und Modell für die Haupt-Pipeline (Phase B)
@@ -169,7 +169,7 @@ Chat-für-Chat-Vergleich. Ergebnisse:
 `eval_results_detail.csv` (pro Chat).
 
 **Ergebnis der Phase A:** Der **kombinierte** Prompt mit `gpt-5.5` wird
-übernommen — er läuft wortgleich in `modules/classify_chats.py` produktiv
+übernommen — er läuft wortgleich in `Python_code/modules/classify_chats.py` produktiv
 (Abschnitt 6.3). Die hier gemessene Güte gilt damit für genau den
 Klassifikator der Haupterhebung.
 
@@ -177,7 +177,7 @@ Klassifikator der Haupterhebung.
 
 ## PHASE B — Haupterhebung und Analyse
 
-## 6. Schritt 3 — `Data_pipeline.ipynb` (Haupt-Pipeline)
+## 6. Schritt 3 — `Python_code/Data_pipeline.ipynb` (Haupt-Pipeline)
 
 ### 6.1 Download über die SoSci-APIs (Zelle 1)
 
@@ -204,7 +204,7 @@ Datei brechen den Lauf nicht ab, sondern werden nur gemeldet.
 - **Gelöschte Angaben rekonstruieren:** Wenn ein Interview mehr als 64 KB
   erhebt, löscht SoSci die überzähligen Angaben und verschickt sie per Mail.
   `mail_parser.apply_mail_values()` liest die `.eml`-Dateien aus
-  `data/raw/data_sosci/Mail/` und schreibt die Werte per CASE-Nummer in die
+  `data/raw/data_sosci/Mail` und schreibt die Werte per CASE-Nummer in die
   Rohdaten zurück. Zusätzlich werden händisch nachgereichte Chats aus
   `other/ergänzung*.txt` per CASE-Nummer eingespielt.
 - **Chats aus der CSV (JSON-Direkteingabe):** Die Teilnehmenden konnten Chats
@@ -249,7 +249,7 @@ Datei brechen den Lauf nicht ab, sondern werden nur gemeldet.
 
 ### 6.3 LLM-Klassifikation (Zelle 3)
 
-`modules/classify_chats.py` klassifiziert jeden Chat (nur die
+`Python_code/modules/classify_chats.py` klassifiziert jeden Chat (nur die
 **User-Nachrichten**) mit dem in Phase A validierten **kombinierten Prompt**
 über GPT (Standard: `gpt-5.5`, `temperature=0`) nach drei Kriterien:
 
@@ -336,8 +336,8 @@ Schritte:
 
 ### 7.2 `data_analasys.R` (Analyse, Grafiken, Tabellen)
 
-Das Skript lädt `analysis_dataset.rds` und erzeugt alle Grafiken (`plots/`)
-und Tabellen (`tabs/`).
+Das Skript lädt `analysis_dataset.rds` und erzeugt alle Grafiken (`plots`)
+und Tabellen (`tabs`).
 
 **Design-System (am Skriptanfang):** Eine feste, farbfehlsichtigkeits-geprüfte
 Palette (`PAL_CAT`, 8 Slots — Reihenfolge nie ändern), divergierende Skala
