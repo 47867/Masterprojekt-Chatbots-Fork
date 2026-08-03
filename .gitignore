@@ -72,3 +72,7 @@ data/raw/
 private-authors.tex
 
 **/*.quarto_ipynb
+
+# Data
+all_raw_full.csv
+excluded_raw_full.csv
