@@ -1,5 +1,5 @@
 project:
-  type: manuscript
+  type: default
   render:
     - "*.qmd"
     - "!Python_code/"
