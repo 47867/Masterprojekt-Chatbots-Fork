@@ -707,7 +707,7 @@ sample_table
 ```
 \FloatBarrier
 
-Insgesamt wurden `r nrow(df_sample)` Fragebögen begonnen. Anschließend wurden Teilnehmende ausgeshlossen, die der Teilnahme nicht zugestimmt oder den Fragebogen abgebrochen hatten. Zusätzlich wurden Teilnehmende entfernt, die nicht alle fünf Chatverläufe hochgeladen hatten, da es sonst keine hinreichend große Datenmenge für die spätere Analyse gegeben hätte. Nach Anwendung aller Ein- und Ausschlusskriterien verblieben `r sum(df_sample$final_sample == 1, na.rm = TRUE)` Personen in der finalen Analysestichprobe. Dies entspricht `r formatC(100 * sum(df_sample$final_sample == 1, na.rm = TRUE) / nrow(df_sample), format = "f", digits = global_digits, decimal.mark = ",")` % der begonnenen Fragebögen (siehe @tbl-stichprobe).
+Insgesamt wurden `r nrow(df_sample)` Fragebögen begonnen. Anschließend wurden Teilnehmende ausgeschlossen, die der Teilnahme nicht zugestimmt oder den Fragebogen abgebrochen hatten. Zusätzlich wurden Teilnehmende entfernt, die nicht alle fünf Chatverläufe hochgeladen hatten, da es sonst keine hinreichend große Datenmenge für die spätere Analyse gegeben hätte. Nach Anwendung aller Ein- und Ausschlusskriterien verblieben `r sum(df_sample$final_sample == 1, na.rm = TRUE)` Personen in der finalen Analysestichprobe. Dies entspricht `r formatC(100 * sum(df_sample$final_sample == 1, na.rm = TRUE) / nrow(df_sample), format = "f", digits = global_digits, decimal.mark = ",")` % der begonnenen Fragebögen (siehe @tbl-stichprobe).
 
 \FloatBarrier
 
