@@ -67,9 +67,16 @@ library(gt)
 global_digits <- 2
 ```
 
-
-
 # Abstract {.unnumbered .unlisted}
+
+Ziel dieser Arbeit ist es, zu untersuchen, inwiefern sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von ihrem in gespendeten Chatverläufen beobachtbaren Nutzungsverhalten unterscheiden.
+Die bisherige Forschung zur Verbreitung und Nutzung generativer Sprachmodelle im Studium stützt sich fast ausschließlich auf Befragungsdaten, obwohl solche Selbstauskünfte anfällig für Erinnerungsfehler und sozial erwünschtes Antwortverhalten sein können.
+Daraus ergibt sich die Forschungsfrage, ob und in welchen Dimensionen sich berichtete und tatsächliche Nutzung unterscheiden, welche Nutzungsarten sich in den Chatverläufen identifizieren lassen und wie gut sich eine Klassifikation durch ein großes Sprachmodell zur systematischen Erfassung dieser Nutzungsmuster eignet.
+Zur Beantwortung wurden in einer Online-Befragung Selbstauskünfte 21 Studierender zu Interaktionsstil, kritischem Prüfen von Chatbot-Antworten und studienbezogener Informationsnutzung erhoben und mit freiwillig gespendeten, mittels eines großen Sprachmodells klassifizierten Chatverläufen abgeglichen.
+Eine explorative Clusteranalyse ordnet die Stichprobe vier Clustern mit unterschiedlichen Diskrepanzmustern zu.
+Während Angaben zu Schreib- und Lernaufgaben weitgehend zutreffend berichtet werden, zeigen sich deutliche Abweichungen bei Informationssuche sowie praktischer und technischer Unterstützung, beim Umgangston und insbesondere beim kritischen Prüfen von Antworten.
+Diese Befunde legen nahe, dass Selbstauskünfte zur KI-Nutzung konstrukt- und gruppenspezifisch verzerrt sind und nicht gleichmäßig korrigiert werden können.
+Für künftige Forschung wird empfohlen, Selbstauskünfte systematisch durch Verhaltensdaten zu ergänzen und größere, breiter zusammengesetzte Stichproben sowie weitere KI-Anwendungen einzubeziehen.
 
 \clearpage
 
@@ -353,12 +360,12 @@ Dadurch wurde eine direkte Vergleichbarkeit beider Datenquellen auf Personeneben
 @tbl-operationalisierung gibt einen Überblick über die Operationalisierung.
 
 | Konstrukt | Erhebung |
-|------------------|---------------------------------------------------|
+|-------------------|----------------------------------------------------|
 | Interaktionsstil | Selbsteinschtzung des Kommunkationsstils gegenüber ChatGPT |
 | Kritisches Prüfen | Zustimmung zur Aussage über das Hinterfragen von Antworten in ChatGPT |
 | Informationsnutzung | Verteilung von genau zehn Punkten auf fünf Nutzungsarten |
 
-: Operationalisierung der zentralen Konstrukte {#tbl-operationalisierung}
+: Operationalisierung der zentralen Konstrukte
 
 Der *Interaktionsstil* wurde über die Selbsteinschätzung des eigenen Kommunikationsverhaltens gegenüber ChatGPT erhoben.
 Die Teilnehmenden bewerteten auf einer fünfstufigen ordinalen Skala („sehr unfreundlich“ bis „sehr freundlich“), wie freundlich beziehungsweise unfreundlich sie typischerweise mit dem Chatbot kommunizierten.
@@ -418,8 +425,6 @@ Dadurch wurden einzelne Chatverläufe beim Absenden gekürzt.
 Die betroffenen Teilnehmenden wurden automatisch über Sosci Survey informiert und konnten die vollständigen Chatverläufe per E-Mail nachreichen.
 Diese Daten wurden nachträglich in den Datensatz integriert.
 Sämtliche E-Mails mit Chatverläufen wurden nach Abschluss der Datenerhebung gelöscht, sodass die Anonymität der Teilnehmenden gewahrt blieb.
-
-
 
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
 
@@ -573,8 +578,6 @@ Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt.
 
 ## Beschreibung der Stichprobe {#sec-stichprobe}
 
-
-
 \FloatBarrier
 
 ```{r sample descriptive}
@@ -705,12 +708,16 @@ sample_table <- df_sample_reasons %>%
 
 sample_table
 ```
-\FloatBarrier
-
-Insgesamt wurden `r nrow(df_sample)` Fragebögen begonnen. Anschließend wurden Teilnehmende ausgeshlossen, die der Teilnahme nicht zugestimmt oder den Fragebogen abgebrochen hatten. Zusätzlich wurden Teilnehmende entfernt, die nicht alle fünf Chatverläufe hochgeladen hatten, da es sonst keine hinreichend große Datenmenge für die spätere Analyse gegeben hätte. Nach Anwendung aller Ein- und Ausschlusskriterien verblieben `r sum(df_sample$final_sample == 1, na.rm = TRUE)` Personen in der finalen Analysestichprobe. Dies entspricht `r formatC(100 * sum(df_sample$final_sample == 1, na.rm = TRUE) / nrow(df_sample), format = "f", digits = global_digits, decimal.mark = ",")` % der begonnenen Fragebögen (siehe @tbl-stichprobe).
 
 \FloatBarrier
 
+Insgesamt wurden `r nrow(df_sample)` Fragebögen begonnen.
+Anschließend wurden Teilnehmende ausgeshlossen, die der Teilnahme nicht zugestimmt oder den Fragebogen abgebrochen hatten.
+Zusätzlich wurden Teilnehmende entfernt, die nicht alle fünf Chatverläufe hochgeladen hatten, da es sonst keine hinreichend große Datenmenge für die spätere Analyse gegeben hätte.
+Nach Anwendung aller Ein- und Ausschlusskriterien verblieben `r sum(df_sample$final_sample == 1, na.rm = TRUE)` Personen in der finalen Analysestichprobe.
+Dies entspricht `r formatC(100 * sum(df_sample$final_sample == 1, na.rm = TRUE) / nrow(df_sample), format = "f", digits = global_digits, decimal.mark = ",")` % der begonnenen Fragebögen (siehe @tbl-stichprobe).
+
+\FloatBarrier
 
 ```{r}
 #| label: tbl-stichprobe
@@ -866,8 +873,6 @@ sample_differences <- sample_comparison |>
 sample_differences
 ```
 
-
-
 ```{r}
 #| label: tbl-stichprobenvergleich
 #| tbl-cap: "Vergleich der Analysestichprobe mit den ausgeschlossenen Fällen"
@@ -911,10 +916,6 @@ sample_comparison |>
   )
 ```
 
-
-
-
-
 ```{=html}
 <!-- TODO: soziodemographische Verteilung, ggf. Angaben zur
 Verteilung von für die Studie zentralen Merkmalen -->
@@ -939,7 +940,31 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.
 
 # Diskussion
 
-## Fazit
+Ausgangspunkt dieser Arbeit war die Beobachtung, dass die bisherige Forschung zur Nutzung generativer KI-Chatbots im Studium nahezu ausschließlich auf Selbstauskünften beruht, obwohl aus anderen Feldern wie etwa der Internet-, Smartphone- und Social-Media-Forschung bekannt ist, dass Selbstauskünfte und tatsächliches Verhalten oft nur moderat übereinstimmen [@scharkow2016; @parry2021].
+Da die Nutzung von ChatGPT, beziehungsweise im von generativen KI-Chatbots im Allgemeinen, im Hochschulkontext normativ aufgeladen ist, lag unser Erkenntnisinteresse darin, zu überprüfen ob Effekte wie Social-Desirability die Validität von Selbstauskünften zur KI-Nutzung zusätzlich beeinträchtigen könnten [@ling2026].
+Die vorliegende Studie ist diesem Verdacht nachgegangen, indem sie Selbstauskünfte aus einer Onlinebefragung mit tatsächlich gespendeten ChatGPT-Chatverläufen von 21 Studierenden verglichen und die Chatlogs mittels einer LLM-basierten Klassifikation ausgewertet hat.
+Die zentralen Befunde lassen sich wie folgt zusammenfassen: Der PAM-Algorithmus identifiziert eine Vier-Cluster-Lösung (n = 6, 6, 4, 5) mit einer durchschnittlichen Silhouettenweite von 0,46 – nach @kaufman1990 schwache, aber erkennbare Clusterstruktur, die sich in drei Robustheitschecks (Ausschluss uneindeutiger Sentiment-Fälle, Clustering ohne Aufgabengewichtung, hierarchisches Clustering) als stabil erweist.
+Die vier Cluster unterscheiden sich weniger im Ausmaß als in der Richtung ihrer Diskrepanzen: Bei Schreiben/Textarbeit und Lernen/Prüfungsvorbereitung bleiben die Abweichungen über alle Cluster hinweg gering (≤ 0,08 bzw. ≤ 0,13), während sich substanzielle Diskrepanzen bei Informationssuche sowie praktischer/technischer Unterstützung konzentrieren.
+Am deutlichsten kontrastieren Cluster zwei (Unterschätzung der Informationssuche, −0,22) und Cluster drei (Überschätzung, +0,15).
+Die Sentiment-Diskrepanz erwies sich als das trennschärfste Merkmal: Cluster eins tritt in den Logs durchgängig unfreundlicher, Cluster vier durchgängig freundlicher auf als jeweils selbst eingeschätzt wurde.
+Bei der Kritik-Diskrepanz sticht Cluster zwei hervor, dessen sämtliche Mitglieder sich kritisches Nachfragen zuschreiben, das in den Chatlogs nicht stattfindet – bei gleichzeitig überdurchschnittlicher sozialer Erwünschtheit (M = 3,78).
+Cluster drei bildet den Gegenpol: geringste soziale Erwünschtheit, höchste Nutzungshäufigkeit und als einziges Cluster der umgekehrte Fehlertyp beim kritischen Nachfragen.
+Bei den Kontextvariablen erreichte keiner der Gruppenvergleiche statistische Signifikanz.
+Einordnung der Befunde Die gefundenen Diskrepanzen zwischen Selbstauskunft und Chatlog-Verhalten fügen sich in ein Bild ein, das aus der Forschung zu Internet- und Social-Media-Nutzung bereits bekannt ist: Auch dort korrelieren selbstberichtete und geloggte Nutzung nur moderat, wobei Abweichungen systematischen statt zufälligen Mustern folgen [@ernala2020; @parry2021; @scharkow2016; @vandenabeele2013].
+Dass sich dieses Muster trotz einer kleinen Stichprobe von nur 21 Studierenden auf den Bereich generativer KI übertragen lässt, unterstützt die von @ling2026 formulierte Vermutung, dass Selbstauskünfte zur KI-Nutzung mit Vorsicht zu interpretieren sind.
+Allerdings mit einer wichtigen Nuance, die zu betonen ist: In der vorliegenden Stichprobe war die Selbstauskunft nicht durchgängig verzerrt, sondern vor allem bei bestimmten Konstrukten (kritisches Nachfragen, Sentiment) und bestimmten Personengruppen.
+Dies spricht weniger für einen generellen, gleichmäßig wirkenden Social-Desirability-Effekt als für das mehrstufige Antwortmodell von @tourangeau2000, in dem Erinnerungs-, Urteils- und Mapping-Prozesse je nach Konstrukt unterschiedlich fehleranfällig sind.
+Dass gerade das kritische Nachfragen, ein Verhalten mit potenziell normativer Aufladung im Sinne wissenschaftlicher Integrität [@kasneci2023], in Cluster zwei die deutlichste Selbstüberschätzung zeigt (alle sechs Personen geben kritisches Prüfen an, ohne dass es in den Logs stattfindet), passt zur These sozial erwünschten Antwortverhaltens [@nederhof1985; @larson2019].
+Zusätzlich weist dieses Cluster zugleich die höchste soziale Erwünschtheit (M = 3,78) sowie die niedrigste Nutzungshäufigkeit, KI-Erfahrung und Informationskompetenz aller Gruppen auf.
+Die vergleichsweise akkurate Einschätzung bei Schreib- und Lernaufgaben legt dagegen nahe, dass wenig stigmatisierte Nutzungsformen kaum verzerrt berichtet werden.
+Besonders aufschlussreich ist der Kontrast zu Cluster drei: Die Gruppe mit der höchsten Nutzungsfrequenz und dem größten Erfahrungsgrad zeigte zugleich die geringste soziale Erwünschtheit und schätzte ihren Umgangston korrekt ein; beim kritischen Nachfragen trat hier sogar der umgekehrte Fehlertyp auf: eine Person gab an, seltener kritisch nachzufragen, als es die Logs zeigten.
+Dieser Befund deutet darauf hin, dass Nutzungsintensität und Vertrautheit mit dem eigenen Verhalten systematisch mit der Auskunftsgenauigkeit zusammenhängen könnten, auch wenn die geringe Zellbesetzung (n = 4) hier nur vorsichtige Interpretationen erlaubt.
+Dies steht im Einklang mit den Befunden von @vandenabeele2013, die für intensive Smartphone-Nutzer:innen eine andere Fehlerrichtung fanden als für Gelegenheitsnutzer:innen.
+Bemerkenswert ist zudem, dass Cluster drei das mit Abstand homogenste ist (ausschließlich Sozialwissenschaft, ausschließlich Master) – ein Hinweis darauf, dass fachkulturelle Nähe zum Thema (etwa methodische Vertrautheit mit Befragungen oder ein reflektierterer Umgang mit KI im eigenen Fach) die Genauigkeit von Selbstauskünften mitbestimmen könnte, was allerdings bei den formalen Gruppenvergleichen keine statistische Signifikanz erreichte.
+Für Forschung und Praxis ergeben sich aus diesen Befunden zwei Konsequenzen.
+Erstens bestätigt die Studie exemplarisch, dass Selbstauskünfte allein kein verlässliches Bild der KI-Nutzung im Hochschulkontext liefern und, wie in der Internet- und Mediennutzungsforschung längst etabliert [@ohme2024; @nielsen2015], durch Verhaltensdaten ergänzt werden sollten, insbesondere bei normativ sensiblen Dimensionen wie dem kritischen Prüfen von KI-Ausgaben.
+Zweitens zeigt die explorative Clusterlösung, dass Fehleinschätzungen nicht gleichverteilt, sondern gruppenspezifisch und richtungsabhängig auftreten.
+Dies kann als ein Hinweis darauf, dass pauschale Korrekturfaktoren für Social-Desirability-Bias in Survey-Studien zu kurz greifen dürften und heterogenere Antwortmuster mitgedacht werden müssen, verstanden werden.
 
 ## Limitationen
 
@@ -950,7 +975,22 @@ Es kann sein, dass Respondenten nur einen Teil ihrer Chats spenden oder nur jene
 Trotz einer Zusicherung von Anonymität kann es passieren, dass beispielsweise keine Chats hochgeladen werden, die man als wissenschaftliche schlechte Praxis betiteln könnte.
 So könnte es vorkommen, dass genau die Chats nicht hochgeladen werden, die im Studienkontext von Lehrpersonen untersagt wurden.
 
+Hinzu kommt, dass die Stichprobengröße von n = 21 zwar eine explorative Clusteranalyse erlaubt, die Gruppenvergleiche mit den Kontextvariablen jedoch statistisch unterpowert macht.
+Keiner der berichteten deskriptiven Unterschiede erreichte statistische Signifikanz, sodass sie als Tendenzen und nicht als gesicherte Gruppenunterschiede zu lesen sind.
+Auch die durchschnittliche Silhouettenweite von 0,46 liegt unterhalb der Schwelle für eine "vernünftige" Clusterstruktur, was für eine vorsichtige, eher typologisierende als kategorial-trennscharfe Interpretation der vier Gruppen spricht.
+Die LLM-basierte Klassifikation der Chatlogs ist trotz zufriedenstellender Zero-Shot-Performance (Accuracy 0,87–0,90, F1-Macro 0,67–0,81) zudem keine fehlerfreie Messung; verbleibende Fehlklassifikationen könnten die beobachteten Diskrepanzen zwischen Selbstauskunft und Verhalten sowohl über- als auch unterschätzen.
+Schließlich bezieht sich die Studie ausschließlich auf ChatGPT und auf Studierende eines eng umrissenen Umfelds, weshalb die Befunde nicht ohne Weiteres auf andere KI-Anwendungen oder Studierendenpopulationen übertragen werden können.
+
 Trotz dieser Einschränkungen stellt die Kombination aus Selbstauskunft und Chatlogdaten den geeignetsten Ansatz dar, um individuelle Diskrepanzen zwischen berichtetem und dokumentiertem Nutzungsverhalten sichtbar zu machen.
+
+## Ausblick
+
+Die vorliegende Studie versteht sich als explorativer erster Schritt und wirft mehr Fragen auf, als sie abschließend beantworten kann.
+Künftige Studien sollten erstens größere und nach Möglichkeit probabilistisch gezogene Stichproben anstreben, um die hier gefundenen Clustermuster, insbesondere den auffälligen Kontrast zwischen dem eher unerfahrenen, sozial erwünscht antwortenden Cluster zwei und dem erfahrenen, akkurat berichtenden Cluster drei, konfirmatorisch zu testen.
+Zweitens wäre eine Ausweitung auf mehrere KI-Anwendungen und Plattformen sinnvoll, um zu prüfen, ob sich die beobachteten Diskrepanzmuster über verschiedene Tools hinweg replizieren lassen.
+Drittens könnten längsschnittliche Designs klären, ob sich Diskrepanzen zwischen Selbstauskunft und Verhalten mit wachsender Vertrautheit im Umgang mit generativer KI verändern, wie es der Befund zu Cluster drei nahelegt.
+Methodisch bietet sich außerdem eine systematischere Validierung der LLM-Klassifikation an, etwa durch Fine-Tuning oder Few-Shot-Verfahren sowie umfangreichere Human-Coding-Vergleiche.
+Nicht zuletzt könnten qualitative Anschlussstudien wie etwa kognitive Interviews im Sinne des Response-Prozess-Modells von @tourangeau2000 klären, an welcher Stelle des Antwortprozesses (Erinnerung, Urteilsbildung, Mapping auf Antwortkategorien) die beobachteten Fehleinschätzungen tatsächlich entstehen, und damit über die hier mögliche Beschreibung von Diskrepanzen hinaus zu deren Erklärung beitragen.
 
 \newpage
 
