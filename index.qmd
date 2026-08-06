@@ -115,13 +115,18 @@ theme_set(
 #|
 library(here)
 library(readr)
-library(tidyverse)
+# Einzelne tidyverse-Pakete statt des Meta-Pakets: nur diese stehen in renv.lock
 library(dplyr)
 library(tidyr)
+library(ggplot2)
+library(stringr)
+library(purrr)
+library(forcats)
 library(gt)
 ```
 
-```{r setup}
+```{r globals}
+#| include: false
 global_digits <- 2
 ```
 
