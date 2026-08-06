@@ -4,10 +4,11 @@ title-block-style: none
 bibliography: manuscript/references.bib
 csl: manuscript/apa.csl
 number-sections: true
-
 format:
   pdf:
     toc: false
+    # unterdrueckt die "Quelle: Artikel-Notizbuch"-Zeile unter jeder Tabelle
+    notebook-links: false
     fig-format: pdf
     number-sections: true
     pdf-engine: xelatex
@@ -17,7 +18,7 @@ format:
     include-in-header:
       text: |
         \newcommand{\ChatGPT}{\mbox{ChatGPT}}
-      
+
         \usepackage{fontspec}
 
         \setmainfont[
@@ -40,6 +41,22 @@ format:
         \usepackage{placeins}
         \doublespacing
 
+        % Anhang: die Custom-Floats tbla/figb wandern sonst als LaTeX-Floats
+        % ans Kapitelende, wodurch Ueberschriften und Inhalte auseinanderlaufen.
+        % "H" verankert sie exakt an ihrer Position im Text.
+        % Innen kleinere Schrift und einfacher Zeilenabstand, damit breite
+        % Tabellen in den Satzspiegel passen.
+        % AtBeginDocument, weil das float-Paket und \newfloat erst nach diesem
+        % Header geladen bzw. definiert werden.
+        \usepackage{etoolbox}
+        \AtBeginDocument{%
+          \floatplacement{tbla}{H}%
+          \floatplacement{figb}{H}%
+          \AtBeginEnvironment{tbla}{\footnotesize\setstretch{1}}%
+          \AtBeginEnvironment{figb}{\setstretch{1}}%
+          \AtBeginEnvironment{table}{\setstretch{1}}%
+        }
+
 execute:
   echo: false
   warning: false
@@ -49,21 +66,67 @@ execute:
 editor:
   markdown:
     wrap: sentence
+
+crossref:
+  custom:
+    - kind: float
+      key: tbla
+      reference-prefix: "Tabelle A"
+      caption-prefix: "Tabelle A"
+      latex-env: tbla
+    - kind: float
+      key: figb
+      reference-prefix: "Abbildung B"
+      caption-prefix: "Abbildung B"
+      latex-env: figb
 ---
+
+```{r}
+#| label: setup
+#| include: false
+# Lädt Daten, Design-System und alle ggplot-Objekte (p_sent, p_krit, ...)
+# aus dem Analyseskript. Danach können die Objekte in den Abbildungs-Chunks
+# einfach per Namen aufgerufen werden.
+source(here::here("Python_code/data_analasys.R"))
+
+# Anhangstabellen werden aus den CSVs gelesen, die data_analasys.R beim Sourcen
+# oben frisch nach tabs/ schreibt - so bleibt Anhang und Analyse synchron.
+anhang_tab <- function(datei, ordner = "tabs", ...) {
+  df <- read.csv(here::here(ordner, datei), check.names = FALSE,
+                 encoding = "UTF-8")
+  knitr::kable(df, format = "pipe", row.names = FALSE, ...)
+}
+
+#Titlee, subtitle etc deaktivieren
+theme_set(
+  theme_minimal() +
+    theme(
+      plot.title    = element_blank(),
+      plot.subtitle = element_blank(),
+      plot.caption  = element_blank(),
+      plot.tag      = element_blank()
+    )
+)
+```
 
 ```{r packages}
 #| warning: true
 #| include: false
-#| 
+#|
 library(here)
 library(readr)
-library(tidyverse)
+# Einzelne tidyverse-Pakete statt des Meta-Pakets: nur diese stehen in renv.lock
 library(dplyr)
 library(tidyr)
+library(ggplot2)
+library(stringr)
+library(purrr)
+library(forcats)
 library(gt)
 ```
 
-```{r setup}
+```{r globals}
+#| include: false
 global_digits <- 2
 ```
 
@@ -426,22 +489,26 @@ Die betroffenen Teilnehmenden wurden automatisch über Sosci Survey informiert u
 Diese Daten wurden nachträglich in den Datensatz integriert.
 Sämtliche E-Mails mit Chatverläufen wurden nach Abschluss der Datenerhebung gelöscht, sodass die Anonymität der Teilnehmenden gewahrt blieb.
 
+
+
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
 
-## Textklassifikation mit LLMs
 
-Um die Daten für die statistische Analyse vorzubereiten müssen zwei Dinge passieren, zuertst müssen die Datenspenden aufbereitet und klassifiziert werden und im zweiten Schritt müssen die so gewonnen Daten vergleichbar mit den Selbstauskünften aus dem Survey gemacht werden.
+## Textklassifikation mit LMMs
 
-Da die Daten entweder als Json oder HTML gespendet wurden, müssen ersten Schrtit, diese beiden Dateiformate seperat aufbereit werden und ausscließlich auf User-Nachrichten gefilter werden da wir uns hier nur auf das Verhalten der Nutzednen fokusieren und nicht auf das Verhalten des Chat-Bots.
-Diese Daten werden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Setiment, kritischen Nachfragen und Aufgabenbereich klasiefieziert.
-LLMs haben den großen Vorteil gegenüber traditionellen Textklassifikationen mittels Maschinen Learning das diese deutlich leichter zu implementieren sind und keine aufwendigen Traningsprozesse bedarfen (Wang et al. 2023).
-Es kann auch sein das LLMs bei komplexeren Aufgaben zusätzliches Traning in Form von Fine-Tuning -dem vorab Tranieren des LLMs an einen zusätzliichen Datensatz der auf die Zielaufgabe zu geschnitten ist- oder Few-Shots -also des integrieren einiger emxemplarischer Fälle in den prompt dem man an die LLM übergibt- brauchen können, da sie für allgemeine Aufgaben konzeppiert sind und nicht spezifisch für die Textklassifizierung von z.
-B.
-kritischen Nachfragen.
-LLMs zeigen bei Klassifikationsaufgaben insbesonder der Klassifikation von Sentiment recht gute Ergebnisse die mit "Natural language Processing" (NLP)-Modellen mithalten können (Wang et al. 2023, Anglin und Ventura 2025) und sogar mit den Annotatione von "Crowd-Workers" (Gilardi et al. 2023).
-Um die Performance von GPT auf unseren Datensatz zu testen wurde eine Datensatz mit insgesamt 30 Chats annotierd und mit versschieden GPT-Modellen, verschiedenen Prompts sowie verschiednenr Strategien (alle Klassifikationsaufgaben in einen oder in seperaten Prompts abfragen).
-Es wurden ausschließlich Zero-Shot Klassifikationen ausgeführt.
-Das Modell welches hier am besten Performt hat war da zu den Zeitpunkt aktuelle Frontier Modell, GPT-5.5 mit einr Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ (Für die Detalierte evaluatonen siehe im Appendix die Modell-Evaluation).
+Um die Daten für die statistische Analyse vorzubereiten, müssen zwei Dinge passieren: Zuerst müssen die Datenspenden aufbereitet und klassifiziert werden, und im zweiten Schritt müssen die so gewonnenen Daten vergleichbar mit den Selbstauskünften aus dem Survey gemacht werden.
+Da die Daten entweder als JSON oder HTML gespendet wurden, müssen im ersten Schritt diese beiden Dateiformate separat aufbereitet und ausschließlich auf User-Nachrichten gefiltert werden, da wir uns hier nur auf das Verhalten der Nutzenden fokussieren und nicht auf das Verhalten des Chatbots.
+Diese Daten werden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Sentiment, kritischen Nachfragen und Aufgabenbereich klassifiziert.
+LLMs haben gegenüber traditionellen Textklassifikationen mittels Machine Learning den großen Vorteil, dass sie deutlich leichter zu implementieren sind und keine aufwendigen Trainingsprozesse erfordern (Wang et al. 2023).
+Es kann auch sein, dass LLMs bei komplexeren Aufgaben zusätzliches Training in Form von Fine-Tuning – dem vorherigen Trainieren des LLMs an einem zusätzlichen Datensatz, der auf die Zielaufgabe zugeschnitten ist – oder Few-Shots – also dem Integrieren einiger exemplarischer Fälle in den Prompt, den man an das LLM übergibt – benötigen, da sie für allgemeine Aufgaben konzipiert sind und nicht spezifisch für die Textklassifizierung von z. B.kritischen Nachfragen.
+LLMs zeigen bei Klassifikationsaufgaben, insbesondere der Klassifikation von Sentiment, recht gute Ergebnisse, die mit „Natural Language Processing"-Modellen (NLP) mithalten können (Wang et al. 2023; Anglin und Ventura 2025) und sogar mit den Annotationen von „Crowd-Workern" (Gilardi et al. 2023).
+Um die Performance von GPT auf unserem Datensatz zu testen, wurde ein Datensatz mit insgesamt 30 Chats annotiert und mit verschiedenen GPT-Modellen, verschiedenen Prompts sowie verschiedenen Strategien (alle Klassifikationsaufgaben in einem oder in separaten Prompts abfragen) getestet.
+Es wurden ausschließlich Zero-Shot-Klassifikationen ausgeführt.
+Das Modell, welches hier am besten performt hat, war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5 mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ (für die detaillierten Evaluationen siehe im Appendix die Modell-Evaluation).
+<!--??? anpasen welcher appendix / online materlialien  -->
+
+
+![Zero-Shot Textklassifikation von GPT-5.5 (combined Strategie)](plots/performance_gpt55_combined.png)
 
 <!-- TODO: @Theo Ordner und Plot fehlen auf Github. ![Zero-Shot Textklassifikation von GPT-5.5 (combined Strategie)](plots/performance_gpt55_combined.png)-->
 
@@ -449,15 +516,13 @@ Diese Ergebnisse zeigen das GPT-5.5 in der Lage ist diese Klassifkationen auszuf
 Diese Zero-Shot-Leistungskennzahlen dienen daher als Schätzung der zu erwartenden Modellperformance für die Daten die wir im Survey erheben werden.
 Diese Annahme basiert darauf, dass beide Datensätze hinsichtlich Domäne (Chatverläufe von Studierenden), Aufgabenkontext (wofür GPT eingesetztwurde), Labelschema und struktureller Ähnlichkeit der Chats (terative Prompt-Verfeinerung, Frage-Antwort-Strukturen) vergleichbar sind.
 Dennoch können Unterschiede in der Datenverteilung dazu führen, dass die tatsächliche Performance auf dem zweiten Datensatz von den gemessenen Kennzahlen abweicht.
-Dies könnte insbesondere ein Problem bei der Klassifizierung von Inhalten sein, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine Homogenität der Inhalte zu erwarten ist.
-GPT-5.5 war in Inhaltsklassifikationen in allen Runden sehr akkurat, was darauf hindeuten könnte, dass dieses Problem nicht von zu großer Bedeutung ist.
-Um das Problem der Übertragbarkeit zu adressieren, wurde eine Stichprobe von 15–20 % des Survey-Datensatzes gezogen, um die von GPT-5.5 vergebenen Labels zu überprüfen.
-Die Übreprüfung der Stichprobe, kam zu den Schluss das ...
-??? AUSFÜHREN
+Dies könnte insbesondere ein Problem bei der Klassifizierung von Inhalten sein, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine Homogenität der Inhalte zu erwarten ist. GPT-5.5 war in Inhaltsklassifikationen in allen Runden sehr akkurat, was darauf hindeuten könnte, dass dieses Problem nicht von zu großer Bedeutung ist.
 
--LLM-Evaluation + zero shot klassifikation theorie (der Große Teil davon im Appendix) -statisitsch Vorangehensweiße und rechtfertigung ##Opperationalisierung (ca 4000 zeichen)
+Um das Problem der Übertragbarkeit zu adressieren, wurde eine Stichprobe von 30 % des Survey-Datensatzes gezogen, um die von GPT-5.5 vergebenen Labels zu überprüfen. Diiese wurden von zwei der Autor:innen anottiert, die Intercoder-Realibilität beturg für Sentiment 90.6 % und für die beiden Anderen klassifikationen 100%. Hier wurde sich in einer nachgehenden Disskusion auf ein Goldstandar für ale Fälle geeinigt. Dieser Datensatz wurde verwendet um die Metricen für GPT-5.5 auszurechen es hatte bei der Erkennung des Aufgabentyps eine Accuracy von 100%, bei kritischen Nachfragen eine Accuracy von 93.8% mit einen Macro-F1 von 88.1% und für die schlechteste Perfomance mit eine Accuracy von 84.4% mit einen Macro-F1 von 0.604 (@tbla-llm-metriken). Der Schlechte Macro-F1 von Sentiment wird insbesondere dadurch erklärt das GPT-5.5 einen bias hatte chats als unfreundlich zu klassifizieren wenn sie eigentlich neutral wären, vier missklassifikation nahm dieser Art vor (@figb-konfusssion). Diese Klassifikationsunsicherheit wird in der nachgelagerten Clusteranalyse nicht mehr sichtbar, weil die Labels dort als feststehende Merkmalsausprägungen behandelt werden und die Distanzberechnung nicht zwischen einer sicheren und einer fehlerhaften Zuordnung unterscheiden kann. Dies kann in der späteren Clusterlösung problematisch sein, wenn beim Sentiment Fälle fälschlicherweise als unfreundlicher bewertet werden, und muss bei der Interpretation der Ergebnisse berücksichtigt werden.
 
--Wahrscheinlich kürzen oder einfach komplett in den Appendix?
+
+## Opperationalisierung
+
 
 Ziel der Studie ist es zum einen, Unterschiede zwischen surveybasierten Selbstauskünften und dem tatsächlich beobachteten Verhalten in den Chatlogs zu ermitteln, und zum anderen zu untersuchen, ob sich aus diesen Abweichungsmustern Gruppen mit unterschiedlichen Merkmalen identifizieren lassen.
 Hierfür müssen die Ergebnisse der Selbstauskunft und der gewonnenen Daten aus den Chats vergleichbar miteinander werden.
@@ -518,7 +583,6 @@ $$A_{i,\text{Diskrepanz}} =
 \text{Überschätzung}, & 0 < D_i \leq 1
 \end{cases}$$
 
-## Datenaufbereitung
 
 Um die Daten für die statistische Analyse vorzubereiten, wurden zunächst sämtliche Antwortkodierungen einheitlich rekodiert.
 
@@ -568,11 +632,12 @@ Dieser Prozess wird für $k = 2$ bis $k = 6$ wiederholt.
 Die Anzahl $k$, für die die maximale durchschnittliche Silhouette berechnet wird, wird verwendet.
 
 Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden.
-Dazu werden die einzelnen Cluster auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen untersucht, also beispielsweise Studiengang, soziale Erwünschtheit und Erfahrung mit künstlicher Intelligenz.
+Dazu werden die einzelnen Cluster auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen deskreptiv untersucht, also beispielsweise Studiengang, soziale Erwünschtheit und Erfahrung mit künstlicher Intelligenz.
+<!--
 Erst wird ein deskriptiver graphischer Überblick gegeben und im Anschluss werden die einzelnen Werte zwischen den Gruppen statistisch verglichen.
 Dafür wird für die soziale Erwünschtheit, die in eine Skala umgewandelt wird, eine ANOVA durchgeführt.
 Für die ordinalskalierten Variablen, also Erfahrung mit künstlicher Intelligenz, Nutzungshäufigkeit und Informationsnutzung, wird Kruskal-Wallis berechnet, da dort keine Annahme über die Abstände der Ausprägungen getroffen werden muss, weil alle Beobachtungen in Ränge eingeteilt werden.
-Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt.
+Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt. -->
 
 \FloatBarrier
 
@@ -677,7 +742,7 @@ df_sample_reasons <- df_sample %>%
       TRUE ~
         "Sonstiger Ausschlussgrund"
     ),
-    
+
     Ausschlussgrund = factor(
       Ausschlussgrund,
       levels = reason_levels
@@ -729,39 +794,39 @@ Dies entspricht `r formatC(100 * sum(df_sample$final_sample == 1, na.rm = TRUE) 
 sample_table %>%
   select(Ausschlussgrund, N, Prozent) %>%
   gt() %>%
-  
+
   cols_label(
     Ausschlussgrund = "",
     N = "N",
     Prozent = "%"
   ) %>%
-  
+
   fmt_integer(
     columns = N
   ) %>%
-  
+
   fmt_number(
     columns = Prozent,
     decimals = global_digits,
     dec_mark = ","
   ) %>%
-  
+
   cols_align(
     align = "left",
     columns = Ausschlussgrund
   ) %>%
-  
+
   cols_align(
     align = "right",
     columns = c(N, Prozent)
   ) %>%
-  
+
   cols_width(
     Ausschlussgrund ~ pct(72),
     N ~ pct(13),
     Prozent ~ pct(15)
   ) %>%
-  
+
   tab_style(
     style = cell_text(weight = "bold"),
     locations = cells_body(
@@ -770,7 +835,7 @@ sample_table %>%
       )
     )
   ) %>%
-  
+
   tab_style(
     style = cell_borders(
       sides = "top",
@@ -781,7 +846,7 @@ sample_table %>%
       rows = Ausschlussgrund == "Finale Analysestichprobe"
     )
   ) %>%
-  
+
   tab_source_note(
     source_note = md(
       paste0(
@@ -790,21 +855,21 @@ sample_table %>%
       )
     )
   ) %>%
-  
+
   tab_options(
     column_labels.font.weight = "normal",
     column_labels.border.top.width = px(1),
     column_labels.border.top.color = "black",
     column_labels.border.bottom.width = px(1),
     column_labels.border.bottom.color = "black",
-    
+
     table.border.top.style = "none",
     table.border.bottom.width = px(1),
     table.border.bottom.color = "black",
-    
+
     source_notes.font.size = px(9),
     source_notes.padding = px(5),
-    
+
     table.width = pct(100)
   )
 ```
@@ -837,7 +902,7 @@ sample_comparison <- df_sample_reasons |>
     master_percent = mean(DE05 == 2, na.rm = TRUE) * 100,
 
     social_science_percent = mean(DE06 == 3, na.rm = TRUE) * 100,
-    
+
     .groups = "drop"
   )
 
@@ -864,7 +929,7 @@ sample_differences <- sample_comparison |>
     master_difference =
       master_percent[sample_group == "Analysestichprobe"] -
       master_percent[sample_group == "Ausgeschlossene Fälle"],
-    
+
     field_social_difference =
       social_science_percent[sample_group == "Analysestichprobe"] -
       social_science_percent[sample_group == "Ausgeschlossene Fälle"]
@@ -936,6 +1001,155 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.
 
 # Ergebnisse
 
+## Ergebnisse der Clusteranalyse
+
+Der PAM-Algorithmus identifiziert Vier-Cluster.
+Diese Erfüllte die Bedingung das jedes Cluster eine Mindestgröße von drei Personen hat.
+Diese Bedingung wurde gewählt, da bei einem cluster von eins zum Beispiel Clustern der Clustermittelwert faktisch dem Wert einzelner Beobachtungen entspricht und somit keine belastbare Grundlage für die Beschreibung eines Typs bietet.
+Zudem sichert sie ab, dass für die anschließenden Gruppenvergleiche eine mindest Anzahl an Beobachtungen jeder Gruppe vorliegen.
+Die Größe der einzelnen Cluster beträgt: Cluster eins = 6, Cluster zwei = 6, Cluster drei = 4 und Cluster vier = 5.
+Der duchschnitlliche Silhouettenweite lag bei 0,46 (@tbla-silhouette-k).Nach der Klassifikation von Kaufman und Rousseeuw (1990) liegt dieser Wert unterhalb der Schwelle von 0,51 für eine „vernünftige" Clusterstruktur und ist damit als schwach aber erkennbar einzuordnen. Die Fünf-Cluster Lösung wäre über diese schwellenwert gelegen aber, beinhaltet Cluster die sehr klein sind mit nur 2 oder ab k=6 oder k =7 was das tatsächliche optimum ist, sogar einpersonen Cluster (@tbla-silhouette-k, @figb-silhouette-k).
+
+Für jedes der vier Cluster wir eine reale beobachtung als Metroid (Cluster Zentrum) gewählt.
+Die zweidimensonale MDS-Projektion der Grower Distanz zeigt die Ergebnisse des clusterings (@fig-silhouette_pms).
+Die vier Cluster liegen räumlich weitgehend getrennt voneinander, wobei die Cluster in unterschiedlichen Bereichen des Merkmalsraums positioniert sind.
+Zu beachten ist, dass die MDS-Darstellung die tatsächlichen Distanzen im höherdimensionalen Raum lediglich annähert; die abgebildeten Abstände sind daher als Orientierung, nicht als exakte Abbildung der Gower-Distanzen zu interpretieren.
+Erkennbar sind zudem einzelne Beobachtungen, die deutlich abseits ihres jeweiligen Clusterzentrums liegen.
+Die zwei beobachtungen unten im rechten Eck der Projektion wäre in der k = 5 das zusätzliche Cluster.
+Die personenbezogenen Silhouettenwerte (@figb-silhouette-person, numerische Werte in @tbla-silhouette-person) bestätigen dies: Zwei Personen weisen negative Werte auf und wären damit ihrem jeweils nächstgelegenen Nachbarcluster näher als ihrem zugewiesenen Cluster.
+Diese Fälle sind bei der Interpretation der Clusterprofile als unsichere Zuordnungen zu berücksichtigen.
+
+```{r}
+#| label: fig-silhouette_pms
+#| fig-cap: |
+#|   MDS-Projektion der Gower-Distanz (Numerische Werte: @tbla-cluster-groessen).\
+#|   Umkreiste Punkte = Cluster-Zentren
+#| fig-height: 4
+#| fig-width: 6
+
+p_mds
+
+```
+
+Die Stabilität der Vier-Cluster-Lösung wurde mit drei Robustheitschecks geprüft.
+Erstens wurden die drei Personen ausgeschlossen, deren Sentiment-Modus nicht eindeutig bestimmbar war und die deshalb konservativ als „neutral" codiert wurden. Die Clusterbildung der verbleibenden 18 Personen ist mit der Hauptlösung identisch (Adjusted Rand Index = 1,00); die konservative Codierung der uneindeutigen Fälle bestimmt die Gruppenzugehörigkeit also nicht (@tbla-robustheit).\
+Zweitens wurde die Clusterung ohne die Gewichtung der fünf aufgabenbezogenen Diskrepanzmaße wiederholt. Auch hier ergibt die Silhouette-Methode k = 4, und 18 der 21 Personen werden derselben Gruppe zugeordnet. Die Abweichungen betreffen ausschließlich die Cluster eins und drei. Zwei Personen aus Cluster drei und eine aus Cluster eins wechseln die Zuordnung, während die Cluster zwei und vier unverändert bleiben (@tbla-pam-ungewichtet). Die durchschnittliche Silhouettenweite sinkt allerdings deutlich auf 0,26 (@tbla-robustheit). Ohne Gewichtung dominieren die fünf Aufgabenvariablen die Distanzberechnung gegenüber Sentiment und kritischem Nachfragen, wodurch die Cluster inhaltlich weniger trennscharf werden. Das bestätigt die Gewichtung als Voraussetzung dafür, dass alle drei Konstrukte gleichgewichtig in die Lösung eingehen.\
+Drittens wurde ein hierarchisches Clustering mit Average Linkage auf derselben Gower-Distanzmatrix gerechnet und auf vier Gruppen geschnitten. Die Zuordnung stimmt bis auf eine einzige Person mit der PAM-Lösung überein (20 von 21) (@figb-agreement). Die abweichende Person wechselt von Cluster eins zu Cluster zwei, im Dendrogramm liegt sie am Rand ihres Astes (@figb-dendrogramm). Insgesamt hängt die Lösung damit nicht am gewählten Algorithmus.
+
+Die inhaltliche Charakterisierung der vier Cluster erfolgt über die mittlere Diskrepanz zwischen Selbstauskunft und beobachtetem Verhalten je Aufgabenbereich (@fig-heatmap).
+Ein positiver Wert bedeutet, dass die Person ihre Nutzung in diesem Bereich höher einschätzt, als es die Chatlogs abbilden; ein negativer Wert bedeutet das Gegenteil.
+Werte um null stehen für eine zutreffende Selbsteinschätzung.
+
+Die Abweichungen verteilen sich ungleichmäßig über die Aufgabenbereiche.
+Bei Schreiben/Textarbeit und Lernen/Prüfungsvorbereitung bleiben sie über alle Cluster hinweg gering (Beträge ≤ 0,08), während sich die substanziellen Diskrepanzen auf Informationssuche sowie praktische und technische Unterstützung konzentrieren.
+Die Cluster unterscheiden sich dabei weniger im Ausmaß als in der Richtung dieser Abweichungen.
+Am deutlichsten kontrastieren Cluster zwei und drei.
+Cluster zwei unterschätzt die Informationssuche (−0,22) und überschätzt die praktische (+0,10) sowie schreibbezogene Nutzung (+0,08), Cluster drei zeigt das gegenteilige Muster (Informationssuche +0,15, praktische Unterstützung −0,20).
+Cluster vier weicht fast ausschließlich bei der praktischen (+0,16) und technischen Unterstützung (−0,16) ab.
+Cluster eins bleibt über alle Bereiche hinweg innerhalb geringer Abweichungen (Beträge ≤ 0,13) und weist damit die höchste Übereinstimmung zwischen Selbstauskunft und Verhalten auf.
+
+```{r}
+#| label: fig-heatmap
+#| fig-cap: |
+#|   Cluster-Profile: mittlere Diskrepanz je Aufgabe (Numerische Werte: @tbla-cluster-profile).\
+#|   Rot = Überschätzung (SA > BE) · Blau = Unterschätzung (SA < BE).
+#| fig-height: 4
+#| fig-width: 6
+
+p_heat
+
+```
+
+Ergänzend zu den aufgabenbezogenen Diskrepanzen zeigen die kategorialen Diskrepanzvariablen ein deutlich trennschärferes Bild.
+Bei der Sentiment-Diskrepanz unterscheiden sich die Cluster nahezu vollständig voneinander.
+(@fig-sent).
+In Cluster eins sind ausnahmslos alle Personen im beobachteten Verhalten unfreundlicher, als sie angegeben haben, in Cluster vier durchgängig freundlicher.
+Cluster zwei und drei schätzen ihren umgangston (nahezu) korrekt ein.
+
+```{r}
+#| label: fig-sent
+#| fig-cap: "Sentiment-Diskrepanz je Cluster (Numerische Werte: @tbla-sentiment-cluster)"
+#| fig-height: 4
+#| fig-width: 6
+
+p_sent_cl
+
+```
+
+Bei der Kritik-Diskrepanz konzentriert sich die Abweichung stärker auf einzelne Cluster (@fig-krit).
+Cluster zwei hebt sich deutlich ab.Sämtliche Personen dieses Clusters geben an, die KI-Antworten kritisch zu hinterfragen, tun dies in den Chatlogs jedoch nicht (falsches Positiv).
+Cluster drei zeigt als einziges Cluster den umgekehrten Fehlertyp, ein Viertel der Personen fragt kritischer nach, als es die Selbstauskunft nahelegt.
+In den Clustern eins und vier stimmt die Selbstauskunft mehrheitlich mit dem beobachteten Verhalten überein, bei jeweils einem kleineren Anteil falsch-positiver Einschätzungen.
+
+```{r}
+#| label: fig-krit
+#| fig-cap: "Kritik-Diskrepanz je Cluster (Numerische Werte: @tbla-kritik-cluster)"
+#| fig-height: 4
+#| fig-width: 6
+
+p_krit_cl
+```
+
+```{=html}
+<!--
+Zusammenfassend lassen sich die vier Cluster wie folgt charakterisieren: In Cluster eins trifft die Selbsteinschätzung der Aufgabennutzung weitgehend zu, der eigene Umgangston wird jedoch durchgängig freundlicher dargestellt, als er tatsächlich ist. Cluster zwei unterschätzt die Informationssuche, überschätzt die praktische Nutzung und schreibt sich zudem durchgängig eine kritische Prüfung zu, die im beobachteten Verhalten nicht stattfindet. Cluster drei zeigt das gegenteilige inhaltliche Muster, eine Überschätzung der Informationssuche bei gleichzeitiger Unterschätzung der praktischen Unterstützung, schätzt Umgangston und kritisches Nachfragen dagegen zutreffend bis untertreibend ein. Cluster vier schließlich weicht inhaltlich fast ausschließlich bei praktischer und technischer Unterstützung ab und stellt sich im Umgangston durchgängig unfreundlicher dar, als es die Chatlogs zeigen
+
+-->
+```
+
+<!-- Hinzufügen analyse von metroids ??? -->
+
+## Vergleich mit kontext Variablen
+
+Um die Cluster inhaltlich zu untersuchen, wurden diese nach Unterschieden bezüglich soziodemografischer Merkmale, sozialer Erwünschtheit, KI-Erfahrung, Nutzungshäufigkeit und Informationskompetenz verglichen, also anhand von Variablen, die nicht in die Clusterbildung eingeflossen sind.
+Die zugehörigen Gruppenvergleiche finden sich in @tbla-socialdesir (Welch-ANOVA), @tbla-ordinal-kruskal (Kruskal-Wallis) und @tbla-nominal-chi2 (Chi-Quadrat).
+
+@fig-profile fasst die Cluster-Mittelwerte aller metrischen und ordinalen Kontextvariablen zusammen, wobei jede Variable auf ihren jeweiligen Skalenbereich reskaliert wurde, um sie vergleichbar darzustellen.
+Die grauen Balken zeigen die Spannweite zwischen dem niedrigsten und höchsten Clustermittelwert und machen damit sichtbar, welche Variablen überhaupt zwischen den Clustern differenzieren.
+
+Am deutlichsten unterscheiden sich die Cluster bei der sozialen Erwünschtheit und der Nutzungshäufigkeit.
+In beiden Fällen bildet Cluster drei einen Pol, allerdings in entgegengesetzter Richtung.
+Bei der sozialen Erwünschtheit liegt Cluster drei mit knapp vierzig Prozent des Skalenbereichs deutlich unter den anderen drei Clustern, die sich zwischen sechzig und dreiundsiebzig Prozent bewegen.
+Bei der Nutzungshäufigkeit dagegen liegt Cluster drei mit rund fünfundsiebzig Prozent an der Spitze, während Cluster zwei mit knapp vierzig Prozent das untere Ende bildet.
+Cluster drei nutzt ChatGPT also am häufigsten und zeigt zugleich die geringste Neigung zu sozial erwünschtem Antwortverhalten.
+Das passt zu dem Befund, dass die Mitglieder dieses Clusters ihren Umgangston vollständig zutreffend einschätzen und teilweise sogar kritischer nachfragen als angegeben.
+
+Bei den übrigen drei Variablen fallen die Unterschiede zwischen den Clustern klein aus.
+KI-Erfahrung und beide Informationskompetenz-Items liegen bei allen vier Clustern im oberen Skalenbereich zwischen etwa siebzig und neunzig Prozent, wobei Cluster drei auch hier jeweils die höchsten Werte erreicht.
+
+```{r}
+#| label: fig-profile
+#| fig-cap: |
+#|   Kontextvariablen-Profil der Cluster (Numerische Werte: @tbla-kontext-profil).\
+#|   Cluster-Mittelwerte, je Variable auf den Skalenbereich [0 %, 100 %] reskaliert.
+#| fig-height: 4
+#| fig-width: 6
+
+p_profil
+```
+
+Die soziodemografischen Merkmale läst sich folgendes beobachten (@figb-soziodemografie).
+Bei der Fächergruppe fällt auf, dass Cluster drei vollständig aus Studierenden der Sozialwissenschaften besteht, während sich die übrigen Cluster jeweils aus drei bis vier verschiedenen Fächergruppen zusammensetzen.
+Ein ähnlich homogenes Bild zeigt sich bei Cluster zwei, das ausschließlich männliche Teilnehmer umfasst, wohingegen die anderen Cluster gemischt sind.
+Beim angestrebten Abschluss dominiert in allen Clustern der Master, in Cluster drei sogar ausschließlich.
+
+Zusammenfassend lassen sich die vier Cluster wie folgt charakterisieren.
+Cluster eins (n = 6) schätzt seine Aufgabennutzung durchgehend zutreffend ein, keine Abweichung überschreitet 0,13 (@fig-heatmap), und auch das eigene kritische Nachfragen wird von fünf der sechs Personen korrekt eingeordnet (@fig-krit).
+Die einzige systematische Fehleinschätzung betrifft den Umgangston: ausnahmslos alle Personen treten in den Chatlogs unfreundlicher auf, als sie angegeben haben (@fig-sent).
+Bei den Kontextvariablen sticht dieses Cluster in keiner Dimension hervor, soziale Erwünschtheit, KI-Erfahrung, Nutzungshäufigkeit und Informationskompetenz liegen jeweils im Mittelfeld (@fig-profile), und auch soziodemografisch ist es mit ausgeglichenem Geschlechterverhältnis und vier Fächergruppen das heterogenste (@figb-soziodemografie).
+Cluster zwei (n = 6) ist das einzige rein männliche Cluster (@figb-soziodemografie) und weist zugleich die geringste Nutzungshäufigkeit (3,5 auf der Skala von 2 bis 6) sowie die niedrigste KI-Erfahrung und Informationskompetenz aller Gruppen auf (@fig-profile).
+Inhaltlich unterschätzt es die Informationssuche am deutlichsten (−0,22) und überschätzt die praktische Nutzung (+0,10, @fig-heatmap).
+Charakteristisch ist jedoch das kritische Nachfragen, sämtliche sechs Personen schreiben sich eine kritische Prüfung der KI-Antworten zu, die in den Chatlogs nicht stattfindet (@fig-krit).
+Diese durchgängige Selbstüberschätzung geht mit einer überdurchschnittlichen Neigung zu sozial erwünschtem Antwortverhalten einher (M = 3,78).
+Cluster drei (n = 4) bildet dazu in mehrfacher Hinsicht den Gegenpol: Es zeigt mit Abstand die geringste soziale Erwünschtheit, zugleich die höchste Nutzungshäufigkeit, die meiste KI-Erfahrung und die höchsten Werte in beiden Informationskompetenz-Items (@fig-profile).
+Passend dazu schätzen alle vier Personen ihren Umgangston korrekt ein, und beim kritischen Nachfragen findet sich als einzigem Cluster der umgekehrte Fehlertyp — eine Person fragt kritischer nach, als sie angibt (@fig-krit).
+Inhaltlich überschätzt das Cluster die Informationssuche (+0,15) und unterschätzt die praktische Unterstützung (−0,20, @fig-heatmap).
+Es ist zudem das homogenste Cluster: alle vier Personen studieren Sozialwissenschaften und streben einen Master an (@figb-soziodemografie).
+Cluster vier (n = 5) weicht inhaltlich fast ausschließlich bei der praktischen (+0,16) und der technischen Unterstützung (−0,16) ab (@fig-heatmap) und beurteilt das kritische Nachfragen mehrheitlich zutreffend.
+Beim Umgangston zeigt es das Spiegelbild von Cluster eins: alle fünf Personen treten in den Chatlogs freundlicher auf, als sie sich selbst beschrieben haben (@fig-sent).
+Zugleich weist dieses Cluster die höchste soziale Erwünschtheit auf (M = 3,90, @fig-profile).
+Sämtliche hier beschriebenen Unterschiede in den Kontextvariablen sind bei Gruppengrößen von vier bis sechs Personen deskriptiver Natur, keiner der Gruppenvergleiche erreicht statistische Signifikanz (@tbla-socialdesir, @tbla-ordinal-kruskal, @tbla-nominal-chi2).
+
 \newpage
 
 # Diskussion
@@ -966,6 +1180,10 @@ Erstens bestätigt die Studie exemplarisch, dass Selbstauskünfte allein kein ve
 Zweitens zeigt die explorative Clusterlösung, dass Fehleinschätzungen nicht gleichverteilt, sondern gruppenspezifisch und richtungsabhängig auftreten.
 Dies kann als ein Hinweis darauf, dass pauschale Korrekturfaktoren für Social-Desirability-Bias in Survey-Studien zu kurz greifen dürften und heterogenere Antwortmuster mitgedacht werden müssen, verstanden werden.
 
+```{=html}
+<!-- Werte in anzahl ihrer tatsächlichen ausprägungen interpretieren
+ist halt irgendwie fehleranfällig ne -> vielleicht noch totale abweichung für so allgemeine feleinschätzungen das plaktivere maß-->
+```
 ## Limitationen
 
 Trotz der Vorteile der Chatlogdaten gibt es auch Limitationen.
@@ -1011,6 +1229,7 @@ In folgenden Punkten wurde von der Preregistration abgewichen:
 
 \newpage
 
+
 # Literaturverzeichnis {.unnumbered}
 
 ::: {#refs}
@@ -1018,10 +1237,235 @@ In folgenden Punkten wurde von der Preregistration abgewichen:
 
 \newpage
 
+Müssen noch einen erweiterten anhang für die daten sowie code sowie llm-paper machen
+
 # Anhang {.unnumbered}
+
+## Tabellen (A) {.unnumbered}
+
+
+::: {#tbla-llm-metriken}
+```{r}
+anhang_tab("T20_llm_metriken.csv")
+```
+
+Gütemaße der Zero-Shot-Textklassifikation gegen den Goldstandard (n = 32 Chats)
+:::
+
+
+::: {#tbla-silhouette-k}
+```{r}
+anhang_tab("T06_silhouette_k.csv")
+```
+
+Durchschnittliche Silhouettenweite und kleinste Clustergröße je Clusterzahl k
+:::
+
+::: {#tbla-silhouette-person}
+```{r}
+anhang_tab("T07_silhouette_person.csv")
+```
+
+Silhouettenwerte pro Person
+:::
+
+::: {#tbla-cluster-profile}
+```{r}
+anhang_tab("T08_cluster_profile.csv")
+```
+
+Cluster-Profile: mittlere Diskrepanz je Aufgabe
+:::
+
+::: {#tbla-cluster-groessen}
+```{r}
+anhang_tab("T08b_cluster_groessen.csv")
+```
+
+Clustergrößen und Medoide (Cluster-Zentren)
+:::
+
+::: {#tbla-sentiment-cluster}
+```{r}
+anhang_tab("T10_sentiment_je_cluster.csv")
+```
+
+Sentiment-Diskrepanz je Cluster
+:::
+
+::: {#tbla-kritik-cluster}
+```{r}
+anhang_tab("T11_kritik_je_cluster.csv")
+```
+
+Kritik-Diskrepanz je Cluster
+:::
+
+### Vergleich mit Kontextvariablen {.unnumbered}
+
+::: {#tbla-kontext-profil}
+```{r}
+anhang_tab("T17_kontext_profil.csv")
+```
+
+Kontextvariablen-Profil der Cluster: Mittelwerte auf den Originalskalen
+:::
+
+::: {#tbla-socialdesir}
+```{r}
+anhang_tab("T12_socialdesir_cluster.csv")
+```
+
+Soziale Erwünschtheit je Cluster (Welch-ANOVA)
+:::
+
+::: {#tbla-ordinal-kruskal}
+```{r}
+anhang_tab("T13_ordinale_kruskal.csv")
+```
+
+Ordinale Kontextvariablen: Kruskal-Wallis-Tests
+:::
+
+::: {#tbla-nominal-chi2}
+```{r}
+anhang_tab("T14_nominale_chi2.csv")
+```
+
+Nominale Kontextvariablen: Chi-Quadrat-Tests (simulierte p-Werte)
+:::
+
+::: {#tbla-gender-cluster}
+```{r}
+anhang_tab("T19a_gender_je_cluster.csv")
+```
+
+Geschlecht je Cluster (Häufigkeiten)
+:::
+
+::: {#tbla-field-cluster}
+```{r}
+anhang_tab("T19b_field_je_cluster.csv")
+```
+
+Fächergruppe je Cluster (Häufigkeiten)
+:::
+
+::: {#tbla-degree-cluster}
+```{r}
+anhang_tab("T19c_degree_je_cluster.csv")
+```
+
+Angestrebter Abschluss je Cluster (Häufigkeiten)
+:::
+
+### Robustheitschecks {.unnumbered}
+
+::: {#tbla-robustheit}
+```{r}
+anhang_tab("T15_robustheit_uebersicht.csv")
+```
+
+Robustheitschecks: Übersicht
+:::
+
+::: {#tbla-pam-ungewichtet}
+```{r}
+anhang_tab("T15b_pam_vs_ungewichtet.csv")
+```
+
+PAM (gewichtet) vs. PAM (ungewichtet): Kreuztabelle der Clusterzuordnungen
+:::
+
+::: {#tbla-pam-hierarchisch}
+```{r}
+anhang_tab("T16_pam_vs_hierarchisch.csv")
+```
+
+PAM vs. hierarchisches Clustering (Average Linkage): Kreuztabelle der Clusterzuordnungen
+:::
+
+\clearpage
+
+## Graphen (B) {.unnumbered}
+
+:::{#figb-konfusssion}
+![](plots/20_llm_confusion_heatmaps.png)
+
+
+Konfusionsmatrizen der Zero-Shot-Textklassifikation für die drei Zielvariablen
+
+
+:::
+
+::: {#figb-silhouette-k}
+```{r}
+#| fig-height: 3.6
+#| fig-width: 6
+p_sil
+```
+
+Durchschnittliche Silhouettenweite je Clusterzahl k.
+Gewähltes k = 4 (rot markiert): beste Silhouette ohne Cluster mit weniger als drei Personen; gepunktete Linien: Richtwerte 0,5 und 0,7 (Numerische Werte: @tbla-silhouette-k)
+:::
+
+::: {#figb-silhouette-person}
+```{r}
+#| fig-height: 4.5
+#| fig-width: 6
+p_silperson
+```
+
+Silhouettenwerte pro Person, nach Cluster sortiert.
+Werte nahe 1 = klar zugeordnet, Werte unter 0 = eher zum Nachbarcluster passend (Numerische Werte: @tbla-silhouette-person)
+:::
+
+::: {#figb-soziodemografie}
+```{r}
+#| fig-height: 3.2
+#| fig-width: 9
+# Panel-Titel wieder aktivieren (das Setup blendet plot.title global aus),
+# sonst waeren die drei Teilgrafiken nicht unterscheidbar. Der patchwork-
+# Gesamttitel wird entfernt, weil er sonst die Unterschrift doppelt.
+(p_kontext_nom & theme(plot.title = element_text(face = "bold", size = 9))) +
+  plot_annotation(title = NULL)
+```
+
+Soziodemografie je Cluster: Anteile der Personen je Kategorie (Numerische Werte: @tbla-gender-cluster, @tbla-field-cluster, @tbla-degree-cluster)
+:::
+
+::: {#figb-dendrogramm}
+```{r}
+#| fig-height: 4.5
+#| fig-width: 7
+par(mar = c(2, 4, 1, 1), col.axis = INK_2, col.lab = INK_2, cex = 0.75)
+plot(hc, labels = paste("ID", data$id), main = "",
+     xlab = "", sub = "", ylab = "Distanz", cex = 0.7, frame.plot = FALSE)
+rect.hclust(hc, k = k_opt, border = PAL_CAT[seq_len(k_opt)])
+```
+
+Hierarchisches Clustering der Gower-Distanzen (Average Linkage); farbige Rahmen markieren die Vier-Cluster-Lösung
+:::
+
+::: {#figb-agreement}
+```{r}
+#| fig-height: 3.6
+#| fig-width: 5.5
+p_agree
+```
+
+Übereinstimmung PAM vs. Average-Linkage: Anzahl Personen je Kombination der Clusterzuordnungen (Numerische Werte: @tbla-pam-hierarchisch)
+:::
+
+\clearpage
+
+## Kennzeichnung von verwendeten KI-Tools {.unnumbered}
 
 | Genutztes Tool | Verwendungszweck | Sektion der Arbeit | Prompt |
 |------------------|------------------|------------------|------------------|
+| Claude Sonnet | Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json?|
+| Claude Sonnet | Rechtschreibkorrektur | Methode (Datenauswertung), Er gebnissteil | Korregiere diesen Absatz auf Rechtschreibung und Grammatik: ... |
+| Claude Sonnet | Konzepte Erklären | Statistische analyse | hat die silluheten methode die tendez bei höheren k besser zu werden? |
 | DeepL | Übersetzung von Items | [Questionnaire OSF](https://osf.io/pqdhb) | \- |
 | Research Rabbit | Literaturübersicht | Literaturverzeichnis | \- |
 | ChatGPT | Grammatikkorrektur | Gesamte Arbeit | Korrigiere meinen Text auf Grammatik- und Rechtschreibfehler: \[Text\] |

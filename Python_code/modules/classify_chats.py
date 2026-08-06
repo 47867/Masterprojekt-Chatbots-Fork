@@ -9,10 +9,14 @@ mit GPT-5.5 über einen kombinierten Prompt nach drei Kriterien:
 Eingabe : df_chats (long, eine Zeile pro Nachricht) mit Spalten
           chat_id, teilnehmer_id, frage_code, turn, role, content
 Ausgabe : df_labeled (eine Zeile pro Chat) mit Spalten
-          chat_id, teilnehmer_id, frage_code, task, sentiment, critical
+          chat_id, teilnehmer_id, frage_code, task, sentiment, critical,
+          chat_text (an das Modell geschickter Text, zum Prüfen der Labels),
+          raw_response (unveränderte Modellantwort)
 """
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 import time
 from pathlib import Path
@@ -146,6 +150,32 @@ def build_chat_text(group: pd.DataFrame) -> str:
 
 
 # ============================================================
+# Cache: Ergebnisse pro Chat persistieren, damit ein erneuter
+# Lauf keine bereits klassifizierten Chats nochmal anfragt.
+# Key = Hash aus Modellname + Chat-Text (robust gegen neue
+# chat_ids, wenn der Datensatz neu aufgebaut wird).
+# ============================================================
+def _cache_key(model: str, text: str) -> str:
+    return hashlib.sha256(f"{model}\n{text}".encode("utf-8")).hexdigest()
+
+
+def _load_cache(cache_path: Path) -> dict:
+    if cache_path.exists():
+        try:
+            return json.loads(cache_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError) as e:
+            print(f"WARNUNG: Cache {cache_path} nicht lesbar ({e}) - starte mit leerem Cache")
+    return {}
+
+
+def _save_cache(cache: dict, cache_path: Path) -> None:
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = cache_path.with_suffix(cache_path.suffix + ".tmp")
+    tmp.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+    tmp.replace(cache_path)   # atomar: kein kaputter Cache bei Abbruch mitten im Schreiben
+
+
+# ============================================================
 # Hauptfunktion
 # ============================================================
 def classify_chats(
@@ -153,6 +183,7 @@ def classify_chats(
     model: str = "gpt-5.5",
     temperature: float = 0.0,
     api_key_path: Optional[Path] = None,
+    cache_path: Optional[Path] = None,
     verbose: bool = True,
 ) -> pd.DataFrame:
 
@@ -167,6 +198,15 @@ def classify_chats(
     llm = ChatOpenAI(model=model, temperature=temperature)
     chain = prompt_combined | llm | StrOutputParser()
 
+    # Cache laden
+    cache: dict = {}
+    if cache_path is not None:
+        cache_path = Path(cache_path)
+        cache = _load_cache(cache_path)
+        if verbose and cache:
+            print(f"Cache geladen: {len(cache)} Einträge aus {cache_path}")
+    n_hits = 0
+
     # Meta pro Chat (chat_id -> teilnehmer_id, frage_code)
     meta = (df_chats.groupby("chat_id")
                     .agg(teilnehmer_id=("teilnehmer_id", "first"),
@@ -180,8 +220,16 @@ def classify_chats(
         group = df_chats[df_chats["chat_id"] == cid]
         text  = build_chat_text(group)
 
+        raw = ""
+        key = _cache_key(model, text)
         if not text.strip():
             parsed = {"task": "unknown", "sentiment": "unknown", "critical": "unknown"}
+        elif key in cache:
+            # Ergebnis aus dem Cache (kein API-Call)
+            entry  = cache[key]
+            raw    = entry.get("raw_response", "")
+            parsed = {k: entry.get(k, "unknown") for k in ("task", "sentiment", "critical")}
+            n_hits += 1
         else:
             try:
                 raw    = chain.invoke({"text": text})
@@ -190,6 +238,15 @@ def classify_chats(
                 if verbose:
                     print(f"    Fehler bei chat_id {cid}: {e}")
                 parsed = {"task": "unknown", "sentiment": "unknown", "critical": "unknown"}
+            # nur erfolgreiche Klassifikationen cachen; nach jeder Prediction
+            # speichern, damit bei Abbruch nichts verloren geht
+            if cache_path is not None and parsed["task"] != "unknown":
+                cache[key] = {**parsed, "raw_response": raw,
+                              "teilnehmer_id": str(df_chats.loc[df_chats["chat_id"] == cid,
+                                                                "teilnehmer_id"].iloc[0]),
+                              "frage_code": str(df_chats.loc[df_chats["chat_id"] == cid,
+                                                             "frage_code"].iloc[0])}
+                _save_cache(cache, cache_path)
 
         m = meta[meta["chat_id"] == cid].iloc[0]
         rows.append({
@@ -199,6 +256,8 @@ def classify_chats(
             "task":          parsed["task"],
             "sentiment":     parsed["sentiment"],
             "critical":      parsed["critical"],
+            "chat_text":     text,
+            "raw_response":  raw,
         })
 
         if verbose and n % 10 == 0:
@@ -206,5 +265,6 @@ def classify_chats(
 
     df_labeled = pd.DataFrame(rows)
     if verbose:
-        print(f"Fertig: {len(df_labeled)} Chats klassifiziert.")
+        info = f", davon {n_hits} aus dem Cache" if cache_path is not None else ""
+        print(f"Fertig: {len(df_labeled)} Chats klassifiziert{info}.")
     return df_labeled

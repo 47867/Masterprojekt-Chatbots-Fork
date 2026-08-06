@@ -1,0 +1,4 @@
+Dimension,n,Accuracy,Macro F1,Weighted F1,Cohen's Kappa
+Aufgaben,32,1.0,1.0,1.0,1.0
+Sentiment,32,0.844,0.607,0.899,0.658
+Kritisches Nachfragen,32,0.938,0.881,0.932,0.765
