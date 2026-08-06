@@ -54,7 +54,15 @@ data <- data.frame(
 
 #Daten laden
 
-#data <- read.csv("/home/theo/PycharmProjects/Masterprojekt-Chatbots/data/processed/perp_dataset.csv")
+data <- read.csv("/home/theo/PycharmProjects/Masterprojekt-Chatbots/data/processed/perp_dataset.csv")
+
+# info_use_1-5 ist eine 10-Punkte-Verteilungsaufgabe: leeres Feld = 0 vergebene
+# Punkte, kein echtes Missing -> NA auf 0 rekodieren
+info_use_cols <- paste0("info_use_", 1:5)
+data[info_use_cols][is.na(data[info_use_cols])] <- 0
+
+# Absicherung: pro Person muessen genau 10 Punkte vergeben sein
+stopifnot(all(rowSums(data[info_use_cols]) == 10))
 
 
 # Konsistenzcheck: Rohcounts muessen sich zu n_chats_valid summieren
@@ -136,12 +144,12 @@ data[, c("id","n_chats_valid","Modus_Sentiment_Label","Modus_Kritik_Label")]
 
 ####Aufgaben/Inhalt######
 
-#SAi Reskalieren
-data$SA_info      <- (data$info_use_1 - 1) / 4
-data$SA_schreiben <- (data$info_use_2 - 1) / 4
-data$SA_praktisch <- (data$info_use_3 - 1) / 4
-data$SA_technisch <- (data$info_use_4 - 1) / 4
-data$SA_lernen    <- (data$info_use_5 - 1) / 4
+#SAi Reskalieren: 10-Punkte-Verteilung -> Anteil [0,1]
+data$SA_info      <- data$info_use_1 / 10
+data$SA_schreiben <- data$info_use_2 / 10
+data$SA_praktisch <- data$info_use_3 / 10
+data$SA_technisch <- data$info_use_4 / 10
+data$SA_lernen    <- data$info_use_5 / 10
 
 #D_i = SA_i - BE_i, je Inhaltskategorie ----
 data$D_info      <- data$SA_info      - data$BE_info
@@ -346,8 +354,9 @@ data <- setzen_falls_vorhanden(data, "freq",
                                c("seltener als 1x/Monat"=2,"1-3x/Monat"=3,"1x/Woche bis mehrmals/Woche"=4,
                                  "täglich/fast täglich"=5,"mehrmals täglich"=6))
 
-for (v in c("info_literacy_where","info_literacy_how","info_use_1","info_use_2",
-            "info_use_3","info_use_4","info_use_5","self_assess_1","self_assess_2","self_assess_3"))
+# info_use_1-5 sind Punktwerte (0-10), keine Zustimmungsskala -> keine Wertelabels
+for (v in c("info_literacy_where","info_literacy_how",
+            "self_assess_1","self_assess_2","self_assess_3"))
   data <- setzen_falls_vorhanden(data, v, zustimmung_5)
 
 data <- setzen_falls_vorhanden(data, "inter_style",

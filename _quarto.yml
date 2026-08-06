@@ -22,3 +22,15 @@ execute:
 
 editor: visual
 
+crossref:
+  custom:
+    - kind: float
+      key: tbla
+      reference-prefix: "Tabelle A"
+      caption-prefix: "Tabelle A"
+      latex-env: tbla
+    - kind: float
+      key: figb
+      reference-prefix: "Abbildung B"
+      caption-prefix: "Abbildung B"
+      latex-env: figb
