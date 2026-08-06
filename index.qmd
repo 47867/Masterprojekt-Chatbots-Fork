@@ -464,7 +464,6 @@ Sämtliche E-Mails mit Chatverläufen wurden nach Abschluss der Datenerhebung ge
 
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
 
-## Datenauswertung
 
 ## Textklassifikation mit LMMs
 
@@ -472,16 +471,13 @@ Um die Daten für die statistische Analyse vorzubereiten, müssen zwei Dinge pas
 Da die Daten entweder als JSON oder HTML gespendet wurden, müssen im ersten Schritt diese beiden Dateiformate separat aufbereitet und ausschließlich auf User-Nachrichten gefiltert werden, da wir uns hier nur auf das Verhalten der Nutzenden fokussieren und nicht auf das Verhalten des Chatbots.
 Diese Daten werden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Sentiment, kritischen Nachfragen und Aufgabenbereich klassifiziert.
 LLMs haben gegenüber traditionellen Textklassifikationen mittels Machine Learning den großen Vorteil, dass sie deutlich leichter zu implementieren sind und keine aufwendigen Trainingsprozesse erfordern (Wang et al. 2023).
-Es kann auch sein, dass LLMs bei komplexeren Aufgaben zusätzliches Training in Form von Fine-Tuning – dem vorherigen Trainieren des LLMs an einem zusätzlichen Datensatz, der auf die Zielaufgabe zugeschnitten ist – oder Few-Shots – also dem Integrieren einiger exemplarischer Fälle in den Prompt, den man an das LLM übergibt – benötigen, da sie für allgemeine Aufgaben konzipiert sind und nicht spezifisch für die Textklassifizierung von z.
-B.
-kritischen Nachfragen.
+Es kann auch sein, dass LLMs bei komplexeren Aufgaben zusätzliches Training in Form von Fine-Tuning – dem vorherigen Trainieren des LLMs an einem zusätzlichen Datensatz, der auf die Zielaufgabe zugeschnitten ist – oder Few-Shots – also dem Integrieren einiger exemplarischer Fälle in den Prompt, den man an das LLM übergibt – benötigen, da sie für allgemeine Aufgaben konzipiert sind und nicht spezifisch für die Textklassifizierung von z. B.kritischen Nachfragen.
 LLMs zeigen bei Klassifikationsaufgaben, insbesondere der Klassifikation von Sentiment, recht gute Ergebnisse, die mit „Natural Language Processing"-Modellen (NLP) mithalten können (Wang et al. 2023; Anglin und Ventura 2025) und sogar mit den Annotationen von „Crowd-Workern" (Gilardi et al. 2023).
 Um die Performance von GPT auf unserem Datensatz zu testen, wurde ein Datensatz mit insgesamt 30 Chats annotiert und mit verschiedenen GPT-Modellen, verschiedenen Prompts sowie verschiedenen Strategien (alle Klassifikationsaufgaben in einem oder in separaten Prompts abfragen) getestet.
 Es wurden ausschließlich Zero-Shot-Klassifikationen ausgeführt.
 Das Modell, welches hier am besten performt hat, war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5 mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ (für die detaillierten Evaluationen siehe im Appendix die Modell-Evaluation).
 <!--??? anpasen welcher appendix / online materlialien  -->
 
-<!--??? desing vom graphen anpassen  -->
 
 ![Zero-Shot Textklassifikation von GPT-5.5 (combined Strategie)](plots/performance_gpt55_combined.png)
 
@@ -491,15 +487,13 @@ Diese Ergebnisse zeigen das GPT-5.5 in der Lage ist diese Klassifkationen auszuf
 Diese Zero-Shot-Leistungskennzahlen dienen daher als Schätzung der zu erwartenden Modellperformance für die Daten die wir im Survey erheben werden.
 Diese Annahme basiert darauf, dass beide Datensätze hinsichtlich Domäne (Chatverläufe von Studierenden), Aufgabenkontext (wofür GPT eingesetztwurde), Labelschema und struktureller Ähnlichkeit der Chats (terative Prompt-Verfeinerung, Frage-Antwort-Strukturen) vergleichbar sind.
 Dennoch können Unterschiede in der Datenverteilung dazu führen, dass die tatsächliche Performance auf dem zweiten Datensatz von den gemessenen Kennzahlen abweicht.
-Dies könnte insbesondere ein Problem bei der Klassifizierung von Inhalten sein, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine Homogenität der Inhalte zu erwarten ist.
-GPT-5.5 war in Inhaltsklassifikationen in allen Runden sehr akkurat, was darauf hindeuten könnte, dass dieses Problem nicht von zu großer Bedeutung ist.
-Um das Problem der Übertragbarkeit zu adressieren, wurde eine Stichprobe von 15–20 % des Survey-Datensatzes gezogen, um die von GPT-5.5 vergebenen Labels zu überprüfen.
-Die Übreprüfung der Stichprobe, kam zu den Schluss das ...
-??? AUSFÜHREN
+Dies könnte insbesondere ein Problem bei der Klassifizierung von Inhalten sein, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine Homogenität der Inhalte zu erwarten ist. GPT-5.5 war in Inhaltsklassifikationen in allen Runden sehr akkurat, was darauf hindeuten könnte, dass dieses Problem nicht von zu großer Bedeutung ist.
 
--LLM-Evaluation + zero shot klassifikation theorie (der Große Teil davon im Appendix) -statisitsch Vorangehensweiße und rechtfertigung ##Opperationalisierung (ca 4000 zeichen)
+Um das Problem der Übertragbarkeit zu adressieren, wurde eine Stichprobe von 30 % des Survey-Datensatzes gezogen, um die von GPT-5.5 vergebenen Labels zu überprüfen. Diiese wurden von zwei der Autor:innen anottiert, die Intercoder-Realibilität beturg für Sentiment 90.6 % und für die beiden Anderen klassifikationen 100%. Hier wurde sich in einer nachgehenden Disskusion auf ein Goldstandar für ale Fälle geeinigt. Dieser Datensatz wurde verwendet um die Metricen für GPT-5.5 auszurechen es hatte bei der Erkennung des Aufgabentyps eine Accuracy von 100%, bei kritischen Nachfragen eine Accuracy von 93.8% mit einen Macro-F1 von 88.1% und für die schlechteste Perfomance mit eine Accuracy von 84.4% mit einen Macro-F1 von 0.604 (@tbla-llm-metriken). Der Schlechte Macro-F1 von Sentiment wird insbesondere dadurch erklärt das GPT-5.5 einen bias hatte chats als unfreundlich zu klassifizieren wenn sie eigentlich neutral wären, vier missklassifikation nahm dieser Art vor (@figb-konfusssion). Diese Klassifikationsunsicherheit wird in der nachgelagerten Clusteranalyse nicht mehr sichtbar, weil die Labels dort als feststehende Merkmalsausprägungen behandelt werden und die Distanzberechnung nicht zwischen einer sicheren und einer fehlerhaften Zuordnung unterscheiden kann. Dies kann in der späteren Clusterlösung problematisch sein, wenn beim Sentiment Fälle fälschlicherweise als unfreundlicher bewertet werden, und muss bei der Interpretation der Ergebnisse berücksichtigt werden. 
 
--Wahrscheinlich kürzen oder einfach komplett in den Appendix?
+
+## Opperationalisierung
+
 
 Ziel der Studie ist es zum einen, Unterschiede zwischen surveybasierten Selbstauskünften und dem tatsächlich beobachteten Verhalten in den Chatlogs zu ermitteln, und zum anderen zu untersuchen, ob sich aus diesen Abweichungsmustern Gruppen mit unterschiedlichen Merkmalen identifizieren lassen.
 Hierfür müssen die Ergebnisse der Selbstauskunft und der gewonnenen Daten aus den Chats vergleichbar miteinander werden.
@@ -680,8 +674,7 @@ Werte um null stehen für eine zutreffende Selbsteinschätzung.
 Die Abweichungen verteilen sich ungleichmäßig über die Aufgabenbereiche.
 Bei Schreiben/Textarbeit und Lernen/Prüfungsvorbereitung bleiben sie über alle Cluster hinweg gering (Beträge ≤ 0,08), während sich die substanziellen Diskrepanzen auf Informationssuche sowie praktische und technische Unterstützung konzentrieren.
 Die Cluster unterscheiden sich dabei weniger im Ausmaß als in der Richtung dieser Abweichungen.
-<!--  --> <!-- Werte in anzahl ihrer tatsächlichen ausprägungen interpretieren
-ist halt irgendwie fehleranfällig ne -> vielleicht noch totale abweichung für so allgemeine feleinschätzungen das plaktivere maß--> Am deutlichsten kontrastieren Cluster zwei und drei.
+Am deutlichsten kontrastieren Cluster zwei und drei.
 Cluster zwei unterschätzt die Informationssuche (−0,22) und überschätzt die praktische (+0,10) sowie schreibbezogene Nutzung (+0,08), Cluster drei zeigt das gegenteilige Muster (Informationssuche +0,15, praktische Unterstützung −0,20).
 Cluster vier weicht fast ausschließlich bei der praktischen (+0,16) und technischen Unterstützung (−0,16) ab.
 Cluster eins bleibt über alle Bereiche hinweg innerhalb geringer Abweichungen (Beträge ≤ 0,13) und weist damit die höchste Übereinstimmung zwischen Selbstauskunft und Verhalten auf.
@@ -836,13 +829,21 @@ In folgenden Punkten wurde von der Preregistration abgewichen:
 
 \newpage
 
-Anhag wird wahrscheunlich einfac auf Github geteilt
+Müssen noch einen erweiterten anhang für die daten sowie code sowie llm-paper machen
 
 # Anhang {.unnumbered}
 
 ## Tabellen (A) {.unnumbered}
 
-### Clusteranalyse {.unnumbered}
+
+::: {#tbla-llm-metriken}
+```{r}
+anhang_tab("T20_llm_metriken.csv")
+```
+
+Gütemaße der Zero-Shot-Textklassifikation gegen den Goldstandard (n = 32 Chats)
+:::
+
 
 ::: {#tbla-silhouette-k}
 ```{r}
@@ -980,7 +981,14 @@ PAM vs. hierarchisches Clustering (Average Linkage): Kreuztabelle der Clusterzuo
 
 ## Graphen (B) {.unnumbered}
 
-Die Grafiken werden aus den ggplot-Objekten des Analyseskripts gesetzt; Titel und Untertitel der Objekte sind ausgeblendet, da diese Information in der Abbildungsunterschrift steht.
+:::{#figb-konfusssion}
+![](plots/20_llm_confusion_heatmaps.png)
+
+
+Konfusionsmatrizen der Zero-Shot-Textklassifikation für die drei Zielvariablen
+
+
+:::
 
 ::: {#figb-silhouette-k}
 ```{r}
@@ -1047,7 +1055,7 @@ p_agree
 
 | Genutztes Tool | Verwendungszweck | Sektion der Arbeit | Prompt |
 |------------------|------------------|------------------|------------------|
-| Claude Sonnet | Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json? |
+| Claude Sonnet | Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json?|
 | Claude Sonnet | Rechtschreibkorrektur | Methode (Datenauswertung), Er gebnissteil | Korregiere diesen Absatz auf Rechtschreibung und Grammatik: ... |
 | Claude Sonnet | Konzepte Erklären | Statistische analyse | hat die silluheten methode die tendez bei höheren k besser zu werden? |
 | DeepL | Übersetzung von Items | [Questionnaire OSF](https://osf.io/pqdhb) | \- |
