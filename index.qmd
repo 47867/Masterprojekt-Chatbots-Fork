@@ -423,7 +423,7 @@ Dadurch wurde eine direkte Vergleichbarkeit beider Datenquellen auf Personeneben
 @tbl-operationalisierung gibt einen Überblick über die Operationalisierung.
 
 | Konstrukt | Erhebung |
-|-------------------|----------------------------------------------------|
+|----------------------|--------------------------------------------------|
 | Interaktionsstil | Selbsteinschtzung des Kommunkationsstils gegenüber ChatGPT |
 | Kritisches Prüfen | Zustimmung zur Aussage über das Hinterfragen von Antworten in ChatGPT |
 | Informationsnutzung | Verteilung von genau zehn Punkten auf fünf Nutzungsarten |
@@ -489,24 +489,20 @@ Die betroffenen Teilnehmenden wurden automatisch über Sosci Survey informiert u
 Diese Daten wurden nachträglich in den Datensatz integriert.
 Sämtliche E-Mails mit Chatverläufen wurden nach Abschluss der Datenerhebung gelöscht, sodass die Anonymität der Teilnehmenden gewahrt blieb.
 
-
-
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
-
 
 ## Textklassifikation mit LMMs
 
 Um die Daten für die statistische Analyse vorzubereiten, müssen zwei Dinge passieren: Zuerst müssen die Datenspenden aufbereitet und klassifiziert werden, und im zweiten Schritt müssen die so gewonnenen Daten vergleichbar mit den Selbstauskünften aus dem Survey gemacht werden.
 Da die Daten entweder als JSON oder HTML gespendet wurden, müssen im ersten Schritt diese beiden Dateiformate separat aufbereitet und ausschließlich auf User-Nachrichten gefiltert werden, da wir uns hier nur auf das Verhalten der Nutzenden fokussieren und nicht auf das Verhalten des Chatbots.
 Diese Daten werden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Sentiment, kritischen Nachfragen und Aufgabenbereich klassifiziert.
-LLMs haben gegenüber traditionellen Textklassifikationen mittels Machine Learning den großen Vorteil, dass sie deutlich leichter zu implementieren sind und keine aufwendigen Trainingsprozesse erfordern (Wang et al. 2023).
-Es kann auch sein, dass LLMs bei komplexeren Aufgaben zusätzliches Training in Form von Fine-Tuning – dem vorherigen Trainieren des LLMs an einem zusätzlichen Datensatz, der auf die Zielaufgabe zugeschnitten ist – oder Few-Shots – also dem Integrieren einiger exemplarischer Fälle in den Prompt, den man an das LLM übergibt – benötigen, da sie für allgemeine Aufgaben konzipiert sind und nicht spezifisch für die Textklassifizierung von z. B.kritischen Nachfragen.
-LLMs zeigen bei Klassifikationsaufgaben, insbesondere der Klassifikation von Sentiment, recht gute Ergebnisse, die mit „Natural Language Processing"-Modellen (NLP) mithalten können (Wang et al. 2023; Anglin und Ventura 2025) und sogar mit den Annotationen von „Crowd-Workern" (Gilardi et al. 2023).
+LLMs haben gegenüber traditionellen Textklassifikationen mittels Machine Learning den großen Vorteil, dass sie deutlich leichter zu implementieren sind und keine aufwendigen Trainingsprozesse erfordern [@wang2023].
+Es kann auch sein, dass LLMs bei komplexeren Aufgaben zusätzliches Training in Form von Fine-Tuning – dem vorherigen Trainieren des LLMs an einem zusätzlichen Datensatz, der auf die Zielaufgabe zugeschnitten ist – oder Few-Shots – also dem Integrieren einiger exemplarischer Fälle in den Prompt, den man an das LLM übergibt – benötigen, da sie für allgemeine Aufgaben konzipiert sind und nicht spezifisch für die Textklassifizierung von z.
+B.kritischen Nachfragen.
+LLMs zeigen bei Klassifikationsaufgaben, insbesondere der Klassifikation von Sentiment, recht gute Ergebnisse, die mit „Natural Language Processing"-Modellen (NLP) mithalten können [@wang2023; @anglin2025] und sogar mit den Annotationen von „Crowd-Workern" [@gilardi2023].
 Um die Performance von GPT auf unserem Datensatz zu testen, wurde ein Datensatz mit insgesamt 30 Chats annotiert und mit verschiedenen GPT-Modellen, verschiedenen Prompts sowie verschiedenen Strategien (alle Klassifikationsaufgaben in einem oder in separaten Prompts abfragen) getestet.
 Es wurden ausschließlich Zero-Shot-Klassifikationen ausgeführt.
-Das Modell, welches hier am besten performt hat, war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5 mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ (für die detaillierten Evaluationen siehe im Appendix die Modell-Evaluation).
-<!--??? anpasen welcher appendix / online materlialien  -->
-
+Das Modell, welches hier am besten performt hat, war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5 mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$. Die detaillierten Evaluationen ist hier [Online-Anhang](#sec-online-anhang) verfügbar.
 
 ![Zero-Shot Textklassifikation von GPT-5.5 (combined Strategie)](plots/performance_gpt55_combined.png)
 
@@ -516,13 +512,18 @@ Diese Ergebnisse zeigen das GPT-5.5 in der Lage ist diese Klassifkationen auszuf
 Diese Zero-Shot-Leistungskennzahlen dienen daher als Schätzung der zu erwartenden Modellperformance für die Daten die wir im Survey erheben werden.
 Diese Annahme basiert darauf, dass beide Datensätze hinsichtlich Domäne (Chatverläufe von Studierenden), Aufgabenkontext (wofür GPT eingesetztwurde), Labelschema und struktureller Ähnlichkeit der Chats (terative Prompt-Verfeinerung, Frage-Antwort-Strukturen) vergleichbar sind.
 Dennoch können Unterschiede in der Datenverteilung dazu führen, dass die tatsächliche Performance auf dem zweiten Datensatz von den gemessenen Kennzahlen abweicht.
-Dies könnte insbesondere ein Problem bei der Klassifizierung von Inhalten sein, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine Homogenität der Inhalte zu erwarten ist. GPT-5.5 war in Inhaltsklassifikationen in allen Runden sehr akkurat, was darauf hindeuten könnte, dass dieses Problem nicht von zu großer Bedeutung ist.
+Dies könnte insbesondere ein Problem bei der Klassifizierung von Inhalten sein, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine Homogenität der Inhalte zu erwarten ist.
+GPT-5.5 war in Inhaltsklassifikationen in allen Runden sehr akkurat, was darauf hindeuten könnte, dass dieses Problem nicht von zu großer Bedeutung ist.
 
-Um das Problem der Übertragbarkeit zu adressieren, wurde eine Stichprobe von 30 % des Survey-Datensatzes gezogen, um die von GPT-5.5 vergebenen Labels zu überprüfen. Diiese wurden von zwei der Autor:innen anottiert, die Intercoder-Realibilität beturg für Sentiment 90.6 % und für die beiden Anderen klassifikationen 100%. Hier wurde sich in einer nachgehenden Disskusion auf ein Goldstandar für ale Fälle geeinigt. Dieser Datensatz wurde verwendet um die Metricen für GPT-5.5 auszurechen es hatte bei der Erkennung des Aufgabentyps eine Accuracy von 100%, bei kritischen Nachfragen eine Accuracy von 93.8% mit einen Macro-F1 von 88.1% und für die schlechteste Perfomance mit eine Accuracy von 84.4% mit einen Macro-F1 von 0.604 (@tbla-llm-metriken). Der Schlechte Macro-F1 von Sentiment wird insbesondere dadurch erklärt das GPT-5.5 einen bias hatte chats als unfreundlich zu klassifizieren wenn sie eigentlich neutral wären, vier missklassifikation nahm dieser Art vor (@figb-konfusssion). Diese Klassifikationsunsicherheit wird in der nachgelagerten Clusteranalyse nicht mehr sichtbar, weil die Labels dort als feststehende Merkmalsausprägungen behandelt werden und die Distanzberechnung nicht zwischen einer sicheren und einer fehlerhaften Zuordnung unterscheiden kann. Dies kann in der späteren Clusterlösung problematisch sein, wenn beim Sentiment Fälle fälschlicherweise als unfreundlicher bewertet werden, und muss bei der Interpretation der Ergebnisse berücksichtigt werden.
-
+Um das Problem der Übertragbarkeit zu adressieren, wurde eine Stichprobe von 30 % des Survey-Datensatzes gezogen, um die von GPT-5.5 vergebenen Labels zu überprüfen.
+Diiese wurden von zwei der Autor:innen anottiert, die Intercoder-Realibilität beturg für Sentiment 90.6 % und für die beiden Anderen klassifikationen 100%.
+Hier wurde sich in einer nachgehenden Disskusion auf ein Goldstandar für ale Fälle geeinigt.
+Dieser Datensatz wurde verwendet um die Metricen für GPT-5.5 auszurechen es hatte bei der Erkennung des Aufgabentyps eine Accuracy von 100%, bei kritischen Nachfragen eine Accuracy von 93.8% mit einen Macro-F1 von 88.1% und für die schlechteste Perfomance mit eine Accuracy von 84.4% mit einen Macro-F1 von 0.604 (@tbla-llm-metriken).
+Der Schlechte Macro-F1 von Sentiment wird insbesondere dadurch erklärt das GPT-5.5 einen bias hatte chats als unfreundlich zu klassifizieren wenn sie eigentlich neutral wären, vier missklassifikation nahm dieser Art vor (@figb-konfusssion).
+Diese Klassifikationsunsicherheit wird in der nachgelagerten Clusteranalyse nicht mehr sichtbar, weil die Labels dort als feststehende Merkmalsausprägungen behandelt werden und die Distanzberechnung nicht zwischen einer sicheren und einer fehlerhaften Zuordnung unterscheiden kann.
+Dies kann in der späteren Clusterlösung problematisch sein, wenn beim Sentiment Fälle fälschlicherweise als unfreundlicher bewertet werden, und muss bei der Interpretation der Ergebnisse berücksichtigt werden.
 
 ## Opperationalisierung
-
 
 Ziel der Studie ist es zum einen, Unterschiede zwischen surveybasierten Selbstauskünften und dem tatsächlich beobachteten Verhalten in den Chatlogs zu ermitteln, und zum anderen zu untersuchen, ob sich aus diesen Abweichungsmustern Gruppen mit unterschiedlichen Merkmalen identifizieren lassen.
 Hierfür müssen die Ergebnisse der Selbstauskunft und der gewonnenen Daten aus den Chats vergleichbar miteinander werden.
@@ -583,7 +584,6 @@ $$A_{i,\text{Diskrepanz}} =
 \text{Überschätzung}, & 0 < D_i \leq 1
 \end{cases}$$
 
-
 Um die Daten für die statistische Analyse vorzubereiten, wurden zunächst sämtliche Antwortkodierungen einheitlich rekodiert.
 
 Da der Schwerpunkt der Studie auf dem Vergleich zweier Datenquellen und nicht auf der Messung latenter Konstrukte liegt, wurden überwiegend Einzelitems eingesetzt.
@@ -605,14 +605,14 @@ Fälle, bei denen zentrale Konstrukte gefehlt haben, wurden von der Analyse ausg
 Die explorative Analyse der gewonnenen Daten soll mittels einer k-medoids-Clusteranalyse durchgeführt werden.
 Da die Variablen, die in das Cluster einfließen sollen, aus fünf kontinuierlichen Diskrepanzscores (Kategorien der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Nachfragen und Sentiment) bestehen, liegen gemischte Skalenniveaus vor.
 Die Manhattan-Distanz und Euklidische-Distanz, die in der Literatur sehr prominent sind, benötigen metrische oder binäre Daten.
-Für das Clustering wird daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert (Gower 1971).
+Für das Clustering wird daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert [@gower1971].
 Die Idee der Gower-Distanz ist, dass für alle Variablen eine eigene Distanz berechnet wird, die immer zwischen 0 und 1 liegt.
 Diese berechneten Einzel-Distanzen werden am Ende in einer Gesamtdistanz pro Personenpaar verrechnet, bei der 0 bedeutet, dass die Personen identisch sind, und 1 bedeutet, dass sie möglichst unterschiedlich sind.
 Von den kontinuierlichen Variablen $A_i$ wird die absolute Differenz genommen, während $S_{\text{Diskrepanz}}$ und $K_{\text{Diskrepanz}}$ zuerst als geordnete Faktoren codiert werden, damit ihre Richtung (Unter- vs. Überschätzung) erhalten bleibt und nicht wie bei einer rein nominalen Codierung verloren geht.
 Anschließend werden die ordinalen Maßzahlen in Ränge übersetzt.
 Da die inhaltliche Domäne mit fünf Variablen gegenüber Sentiment und Kritik mit je einer Variable bei Gleichgewichtung aller einzelnen Variablen überproportional stark in die Distanz eingeht, werden die 5 aufgabenspezifischen Diskrepanzmaße mit $\frac{1}{5} = 0{,}2$ gewichtet.
 
-Der Algorithmus, der für die Clusteranalyse verwendet wird, ist der "Partitioning around Medoids"-Algorithmus, kurz PAM (Kaufman und Rousseeuw 1990).
+Der Algorithmus, der für die Clusteranalyse verwendet wird, ist der "Partitioning around Medoids"-Algorithmus, kurz PAM [@kaufman1990a].
 Dieser funktioniert wie folgt: Wie der k-means-Algorithmus unterteilt er den Datensatz in eine Anzahl von k-Partitionen.
 Dabei werden aber statt des arithmetischen Mittels oder des Medians tatsächliche Beobachtungseinheiten als Clusterzentrum gewählt.
 Dies erlaubt auch, dass beliebige Distanzmaße verwendet werden können und man nicht wie bei k-means auf die euklidischen Distanzmaße beschränkt ist, die metrische oder binäre Daten verwenden.
@@ -623,7 +623,7 @@ Danach werden alle Personen dem Medoid (Zentrum) zugeordnet, an dem sie am näch
 Schließlich werden die Beobachtungen, die Medoid sind, mit Beobachtungen, die nicht Medoid sind, ausgetauscht.
 Dieser Prozess wiederholt sich, bis keine Verbesserung mehr möglich ist.
 
-Die Anzahl der k-Partitionen wird mittels der Silhouette-Methode von e (1987) festgelegt und nicht wie bei einer k-means-Clusterung mit dem Elbow-Kriterium.
+Die Anzahl der k-Partitionen wird mittels der Silhouette-Methode von @rousseeuw1987 festgelegt und nicht wie bei einer k-means-Clusterung mit dem Elbow-Kriterium.
 Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe.
 Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei 1 heißt, dass die Person sehr gut in das Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
 Nun rechnet man den Durchschnitt für alle Personen aus, der anzeigt, wie eng gruppiert alle Personen in dem Cluster sind.
@@ -1008,7 +1008,7 @@ Diese Erfüllte die Bedingung das jedes Cluster eine Mindestgröße von drei Per
 Diese Bedingung wurde gewählt, da bei einem cluster von eins zum Beispiel Clustern der Clustermittelwert faktisch dem Wert einzelner Beobachtungen entspricht und somit keine belastbare Grundlage für die Beschreibung eines Typs bietet.
 Zudem sichert sie ab, dass für die anschließenden Gruppenvergleiche eine mindest Anzahl an Beobachtungen jeder Gruppe vorliegen.
 Die Größe der einzelnen Cluster beträgt: Cluster eins = 6, Cluster zwei = 6, Cluster drei = 4 und Cluster vier = 5.
-Der duchschnitlliche Silhouettenweite lag bei 0,46 (@tbla-silhouette-k).Nach der Klassifikation von Kaufman und Rousseeuw (1990) liegt dieser Wert unterhalb der Schwelle von 0,51 für eine „vernünftige" Clusterstruktur und ist damit als schwach aber erkennbar einzuordnen. Die Fünf-Cluster Lösung wäre über diese schwellenwert gelegen aber, beinhaltet Cluster die sehr klein sind mit nur 2 oder ab k=6 oder k =7 was das tatsächliche optimum ist, sogar einpersonen Cluster (@tbla-silhouette-k, @figb-silhouette-k).
+Der duchschnitlliche Silhouettenweite lag bei 0,46 (@tbla-silhouette-k).Nach der Klassifikation von @kaufman1990a liegt dieser Wert unterhalb der Schwelle von 0,51 für eine „vernünftige" Clusterstruktur und ist damit als schwach aber erkennbar einzuordnen. Die Fünf-Cluster Lösung wäre über diese schwellenwert gelegen aber, beinhaltet Cluster die sehr klein sind mit nur 2 oder ab k=6 oder k =7 was das tatsächliche optimum ist, sogar einpersonen Cluster (@tbla-silhouette-k, @figb-silhouette-k).
 
 Für jedes der vier Cluster wir eine reale beobachtung als Metroid (Cluster Zentrum) gewählt.
 Die zweidimensonale MDS-Projektion der Grower Distanz zeigt die Ergebnisse des clusterings (@fig-silhouette_pms).
@@ -1097,8 +1097,6 @@ Zusammenfassend lassen sich die vier Cluster wie folgt charakterisieren: In Clus
 -->
 ```
 
-<!-- Hinzufügen analyse von metroids ??? -->
-
 ## Vergleich mit kontext Variablen
 
 Um die Cluster inhaltlich zu untersuchen, wurden diese nach Unterschieden bezüglich soziodemografischer Merkmale, sozialer Erwünschtheit, KI-Erfahrung, Nutzungshäufigkeit und Informationskompetenz verglichen, also anhand von Variablen, die nicht in die Clusterbildung eingeflossen sind.
@@ -1184,6 +1182,7 @@ Dies kann als ein Hinweis darauf, dass pauschale Korrekturfaktoren für Social-D
 <!-- Werte in anzahl ihrer tatsächlichen ausprägungen interpretieren
 ist halt irgendwie fehleranfällig ne -> vielleicht noch totale abweichung für so allgemeine feleinschätzungen das plaktivere maß-->
 ```
+
 ## Limitationen
 
 Trotz der Vorteile der Chatlogdaten gibt es auch Limitationen.
@@ -1229,7 +1228,6 @@ In folgenden Punkten wurde von der Preregistration abgewichen:
 
 \newpage
 
-
 # Literaturverzeichnis {.unnumbered}
 
 ::: {#refs}
@@ -1243,7 +1241,6 @@ Müssen noch einen erweiterten anhang für die daten sowie code sowie llm-paper 
 
 ## Tabellen (A) {.unnumbered}
 
-
 ::: {#tbla-llm-metriken}
 ```{r}
 anhang_tab("T20_llm_metriken.csv")
@@ -1251,7 +1248,6 @@ anhang_tab("T20_llm_metriken.csv")
 
 Gütemaße der Zero-Shot-Textklassifikation gegen den Goldstandard (n = 32 Chats)
 :::
-
 
 ::: {#tbla-silhouette-k}
 ```{r}
@@ -1300,8 +1296,6 @@ anhang_tab("T11_kritik_je_cluster.csv")
 
 Kritik-Diskrepanz je Cluster
 :::
-
-### Vergleich mit Kontextvariablen {.unnumbered}
 
 ::: {#tbla-kontext-profil}
 ```{r}
@@ -1389,13 +1383,10 @@ PAM vs. hierarchisches Clustering (Average Linkage): Kreuztabelle der Clusterzuo
 
 ## Graphen (B) {.unnumbered}
 
-:::{#figb-konfusssion}
+::: {#figb-konfusssion}
 ![](plots/20_llm_confusion_heatmaps.png)
 
-
 Konfusionsmatrizen der Zero-Shot-Textklassifikation für die drei Zielvariablen
-
-
 :::
 
 ::: {#figb-silhouette-k}
@@ -1459,11 +1450,22 @@ p_agree
 
 \clearpage
 
+
+## Online-Anhang {#sec-online-anhang .unnumbered}
+Die in der Analyse verwendeten Daten finden Sie unter
+[GitHub: data/processed](https://github.com/lpkiemes/Masterprojekt-Chatbots/tree/main/data/processed).
+
+Der gesamte Code für dieses Projekt ist unter
+[GitHub: Masterprojekt-Chatbots](https://github.com/lpkiemes/Masterprojekt-Chatbots)
+abrufbar.
+
+Die Modell-Evaluation inklusive der verwendeten Prompts ist
+[hier dokumentiert](https://github.com/lpkiemes/Masterprojekt-Chatbots/blob/main/Schreibearbeit/Evalluation__LLM_Perfomance.pdf).
 ## Kennzeichnung von verwendeten KI-Tools {.unnumbered}
 
 | Genutztes Tool | Verwendungszweck | Sektion der Arbeit | Prompt |
 |------------------|------------------|------------------|------------------|
-| Claude Sonnet | Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json?|
+| Claude Sonnet | Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json? |
 | Claude Sonnet | Rechtschreibkorrektur | Methode (Datenauswertung), Er gebnissteil | Korregiere diesen Absatz auf Rechtschreibung und Grammatik: ... |
 | Claude Sonnet | Konzepte Erklären | Statistische analyse | hat die silluheten methode die tendez bei höheren k besser zu werden? |
 | DeepL | Übersetzung von Items | [Questionnaire OSF](https://osf.io/pqdhb) | \- |
