@@ -401,6 +401,7 @@ data <- data[data$n_chats_valid == 5, ]
 cat("n vorher:", n_vorher, "-> n nachher:", nrow(data))
 
 write.csv(
+  data,
   here::here(
     "data",
     "processed",
@@ -410,6 +411,7 @@ write.csv(
 )
 
 saveRDS(
+  data,
   here::here(
     "data",
     "processed",
