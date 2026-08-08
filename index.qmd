@@ -1641,9 +1641,9 @@ Die Modell-Evaluation inklusive der verwendeten Prompts ist
 
 | Genutztes Tool | Verwendungszweck | Sektion der Arbeit | Prompt |
 |------------------|------------------|------------------|------------------|
-| Claude Sonnet | Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json? |
-| Claude Sonnet | Rechtschreibkorrektur | Methode (Datenauswertung), Er gebnissteil | Korregiere diesen Absatz auf Rechtschreibung und Grammatik: ... |
-| Claude Sonnet | Konzepte Erklären | Statistische analyse | hat die silluheten methode die tendez bei höheren k besser zu werden? |
+| Claude (Opus 4.8) und Github Copilot)| Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json? |
+| Claude (Opus 4.8)  | Rechtschreibkorrektur | Methode (Datenauswertung), Ergebnissteil | Korregiere diesen Absatz auf Rechtschreibung und Grammatik: ... |
+| Claude (Opus 4.8) | Konzepte Erklären | Statistische analyse | hat die silluheten methode die Tendenz bei höheren k besser zu werden? |
 | DeepL | Übersetzung von Items | [Questionnaire OSF](https://osf.io/pqdhb) | \- |
 | Research Rabbit | Literaturübersicht | Literaturverzeichnis | \- |
 | ChatGPT | Grammatikkorrektur | Gesamte Arbeit | Korrigiere meinen Text auf Grammatik- und Rechtschreibfehler: \[Text\] |
