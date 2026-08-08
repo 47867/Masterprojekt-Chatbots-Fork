@@ -423,13 +423,26 @@ Die Kategorien wurden deshalb so gewählt, dass sie einerseits von den Teilnehme
 Dadurch wurde eine direkte Vergleichbarkeit beider Datenquellen auf Personenebene ermöglicht.
 @tbl-operationalisierung gibt einen Überblick über die Operationalisierung.
 
-| Konstrukt | Erhebung |
-|----------------------|--------------------------------------------------|
-| Interaktionsstil | Selbsteinschtzung des Kommunkationsstils gegenüber ChatGPT |
-| Kritisches Prüfen | Zustimmung zur Aussage über das Hinterfragen von Antworten in ChatGPT |
-| Informationsnutzung | Verteilung von genau zehn Punkten auf fünf Nutzungsarten |
+```{r}
+#| label: tbl-operationalisierung
+#| tbl-cap: "Operationalisierung der zentralen Konstrukte"
+#| echo: false
 
-: Operationalisierung der zentralen Konstrukte
+tibble::tribble(
+  ~Konstrukt, ~Erhebung,
+  "Interaktionsstil",
+  "Selbsteinschätzung des Kommunikationsstils gegenüber ChatGPT",
+  
+  "Kritisches Prüfen",
+  "Zustimmung zu einer Aussage über das kritische Prüfen von ChatGPT-Antworten",
+  
+  "Informationsnutzung",
+  "Verteilung von genau zehn Punkten auf fünf Nutzungsbereiche"
+) |>
+  knitr::kable(
+    align = c("l", "l")
+  )
+```
 
 Der *Interaktionsstil* wurde über die Selbsteinschätzung des eigenen Kommunikationsverhaltens gegenüber ChatGPT erhoben.
 Die Teilnehmenden bewerteten auf einer fünfstufigen ordinalen Skala („sehr unfreundlich“ bis „sehr freundlich“), wie freundlich beziehungsweise unfreundlich sie typischerweise mit dem Chatbot kommunizierten.
@@ -1400,7 +1413,8 @@ Die Analysedaten und -Materialien sind auf dem Open Science Framework OSF (<http
 Das Vorhaben wurde auf dem Open Science Framework OSF (<https://osf.io/pqdhb>) vorregistriert.
 In folgenden Punkten wurde von der Preregistration abgewichen:
 
-Die präregistrierte Forschungsfrage (F5: Wie gut eignet sich die LLM-basierte Klassifikation, um Dimensionen der Informationsnutzung in Chatlogs systematisch zu erfassen und mit Surveyangaben zu vergleichen?) wurde im Methodenteil abgehandelt und deshalb nicht als eigene Forschungsfrage mehr aufgenommen. Stattdessen lautet die Forschungsfrage nun so: *Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?* und fokussiert sich stärker auf die ebenfalls präregistrierte Clusteranalyse.
+Die ursprünglich präregistrierte Forschungsfrage F5 („Wie gut eignet sich die LLM-basierte Klassifikation, um Dimensionen der Informationsnutzung in Chatlogs systematisch zu erfassen und mit Surveyangaben zu vergleichen?“) wird nicht mehr als eigenständige inhaltliche Forschungsfrage geführt. Da sie die Güte des eingesetzten Messverfahrens betrifft, wird sie im Methodenteil im Rahmen der Validierung der LLM-basierten Klassifikation behandelt. An ihre Stelle tritt die Forschungsfrage: *Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?* Die Umformulierung erfolgte nach Einsicht in erste Analyseergebnisse. Die zugrunde liegende Clusteranalyse war bereits Bestandteil der Präregistrierung; nachträglich verändert wurde somit die inhaltliche Einordnung dieser Analyse als eigenständige Forschungsfrage. Die Ergebnisse zu F5 werden daher ausdrücklich explorativ und nicht als konfirmatorische Befunde interpretiert.
+
 
 \newpage
 
