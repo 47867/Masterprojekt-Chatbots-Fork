@@ -2,7 +2,7 @@
 ##### Datenaufbereitung und Opperationalisierung#####
 #####################################################
 
-#mfaje dateset 
+#mfaje dateset
 
 data <- data.frame(
   id                       = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30),
@@ -54,7 +54,13 @@ data <- data.frame(
 
 #Daten laden
 
-data <- read.csv("/home/theo/PycharmProjects/Masterprojekt-Chatbots/data/processed/perp_dataset.csv")
+data <- read.csv(
+  here::here(
+    "data",
+    "processed",
+    "perp_dataset.csv"
+    )
+  )
 
 # info_use_1-5 ist eine 10-Punkte-Verteilungsaufgabe: leeres Feld = 0 vergebene
 # Punkte, kein echtes Missing -> NA auf 0 rekodieren
@@ -122,7 +128,7 @@ data$Modus_Sentiment_Label <- factor(data$Modus_Sentiment, levels = c(-1,0,1),
 get_modus_kritik <- function(ja, nein) {
   if (ja > nein)  return(1)
   if (nein > ja)  return(0)
-  return(NA)   
+  return(NA)
 }
 
 data$Modus_Kritik <- mapply(get_modus_kritik, data$obs_kritisch_ja_n, data$obs_kritisch_nein_n)
@@ -178,8 +184,8 @@ data$S_Diskrepanz_Label <- factor(data$S_Diskrepanz, levels = c(-1, 0, 1),
 # SA: crit_visible_chat (1-4) dichotomisieren (1-2 -> Nein, 3-4 -> Ja)
 data$SA_krit_code <- ifelse(data$crit_visible_chat >= 3, 1, 0)
 
-# -1 = falsches positiv (SA=Ja, BE=Nein), 
-# 0 = korrekt, 
+# -1 = falsches positiv (SA=Ja, BE=Nein),
+# 0 = korrekt,
 # 1 = falsches negativ (SA=Nein, BE=Ja)
 
 data$K_Diskrepanz <- data$Modus_Kritik - data$SA_krit_code
@@ -193,7 +199,7 @@ data[, c("id", "D_info","D_schreiben","D_praktisch","D_technisch","D_lernen",
 #soziale Erwünschtheit#
 #######################
 
-# Negativ kodierte Items umpolen 
+# Negativ kodierte Items umpolen
 data$sd_4_rec <- 6 - data$sd_4
 data$sd_5_rec <- 6 - data$sd_5
 data$sd_6_rec <- 6 - data$sd_6
@@ -222,59 +228,59 @@ var_labels_list <- list(
   age    = "Alter in Jahren",
   degree = "Angestrebter Studienabschluss",
   field  = "Fächergruppe des Studienfachs",
-  
+
   sd_1 = "Soz. Erwünschtheit: sachlich im Streit (PQ+)",
   sd_2 = "Soz. Erwünschtheit: freundlich trotz Stress (PQ+)",
   sd_3 = "Soz. Erwünschtheit: aufmerksames Zuhören (PQ+)",
   sd_4 = "Soz. Erwünschtheit: jemanden ausgenutzt (PQ-)",
   sd_5 = "Soz. Erwünschtheit: Müll weggeworfen (PQ-)",
   sd_6 = "Soz. Erwünschtheit: Hilfe nur mit Gegenleistung (PQ-)",
-  
+
   sd_4_rec = "Soz. Erwünschtheit: jemanden ausgenutzt, umgepolt",
   sd_5_rec ="Soz. Erwünschtheit: Müll weggeworfen, umgepolt",
   sd_6_rec = "Soz. Erwünschtheit: Hilfe nur mit Gegenleistung, umgepolt",
   social_desir_sum = "Soziale Erwünschtheit: Summenscore (6 Items, Range 6-30)",
   social_desir_mean ="Soziale Erwünschtheit: Mittelwert (6 Items, Range 1-5)",
-  
+
   ai_experience = "Vertrautheit mit generativen KI-Chatbots",
   uses_gemini   = "Nutzung Google Gemini",
   uses_copilot  = "Nutzung Microsoft/Bing Copilot",
   uses_deepseek = "Nutzung DeepSeek",
   uses_claude   = "Nutzung Claude",
-  
+
   freq = "Nutzungshäufigkeit von ChatGPT im Studium",
-  
+
   info_literacy_where = "Weiß, wo/wie relevante Infos mit KI zu finden sind",
   info_literacy_how   = "Weiß, wie Eingaben zu formulieren sind",
-  
+
   info_use_1 = "SA Nutzungszweck: Informationssuche und Verständnis",
   info_use_2 = "SA Nutzungszweck: Schreiben und Textarbeit",
   info_use_3 = "SA Nutzungszweck: Praktische Unterstützung/Strukturierung",
   info_use_4 = "SA Nutzungszweck: Technische/analytische Unterstützung",
   info_use_5 = "SA Nutzungszweck: Lernen und Prüfungsvorbereitung",
-  
+
   inter_style       = "SA: typischer Interaktionsstil",
   crit_visible_chat = "SA: fordert Hinweise zur kritischen Prüfung ein",
-  
+
   n_chats_valid = "Anzahl gültiger gespendeter Chats",
-  
+
   obs_info_n      = "Rohcount: Chats = Informationssuche",
   obs_schreiben_n = "Rohcount: Chats = Schreiben/Textarbeit",
   obs_praktisch_n = "Rohcount: Chats = Praktische Unterstützung",
   obs_technisch_n = "Rohcount: Chats = Technische Unterstützung",
   obs_lernen_n    = "Rohcount: Chats = Lernen/Prüfungsvorbereitung",
-  
+
   obs_sent_freundlich_n   = "Rohcount: Chats mit Sentiment freundlich",
   obs_sent_neutral_n      = "Rohcount: Chats mit Sentiment neutral",
   obs_sent_unfreundlich_n = "Rohcount: Chats mit Sentiment unfreundlich",
-  
+
   obs_kritisch_ja_n   = "Rohcount: Chats mit kritischem Nachfragen = Ja",
   obs_kritisch_nein_n = "Rohcount: Chats mit kritischem Nachfragen = Nein",
-  
+
   self_assess_1 = "SE: Angaben spiegeln tatsächl. Nutzung gut wider",
   self_assess_2 = "SE: Nutzung unterscheidet sich stark je Aufgabe",
   self_assess_3 = "SE: Chatlogs spiegeln typische Nutzung gut wider",
-  
+
   BE_info = "Beobachteter Anteil: Informationssuche",
   BE_schreiben = "Beobachteter Anteil: Schreiben/Textarbeit",
   BE_praktisch = "Beobachteter Anteil: Praktische Unterstützung",
@@ -284,32 +290,32 @@ var_labels_list <- list(
   BE_sent_neutral = "Beobachteter Anteil: Sentiment neutral",
   BE_sent_unfreundlich = "Beobachteter Anteil: Sentiment unfreundlich",
   BE_kritisch = "Beobachteter Anteil: kritisches Nachfragen = Ja",
-  
+
   Modus_Sentiment       = "Modus-Sentiment über alle Chats",
   Modus_Sentiment_Label = "Modus-Sentiment über alle Chats (Faktor, geordnet)",
   Modus_Kritik          = "Modus kritisches Nachfragen über alle Chats",
   Modus_Kritik_Label    = "Modus kritisches Nachfragen über alle Chats (Faktor)",
-  
+
   SA_info      = "SA reskaliert [0,1]: Informationssuche",
   SA_schreiben = "SA reskaliert [0,1]: Schreiben/Textarbeit",
   SA_praktisch = "SA reskaliert [0,1]: Praktische Unterstützung",
   SA_technisch = "SA reskaliert [0,1]: Technische Unterstützung",
   SA_lernen    = "SA reskaliert [0,1]: Lernen/Prüfungsvorbereitung",
-  
+
   D_info      = "Diskrepanz (SA-BE): Informationssuche",
   D_schreiben = "Diskrepanz (SA-BE): Schreiben/Textarbeit",
   D_praktisch = "Diskrepanz (SA-BE): Praktische Unterstützung",
   D_technisch = "Diskrepanz (SA-BE): Technische Unterstützung",
   D_lernen    = "Diskrepanz (SA-BE): Lernen/Prüfungsvorbereitung",
-  
+
   SA_sent_code = "SA-Sentiment, 3-kategorial kodiert (-1/0/1)",
   S_Diskrepanz = "Diskrepanz Sentiment (kategorial)",
   S_Diskrepanz_Label = "Diskrepanz Sentiment: Richtung der Abweichung",
-  
+
   SA_krit_code = "SA kritisches Nachfragen, dichotomisiert (0=Nein,1=Ja)",
   K_Diskrepanz = "Diskrepanz kritisches Nachfragen (kategorial)",
   K_Diskrepanz_Label = "Diskrepanz kritisches Nachfragen: Fehlertyp"
-  
+
 )
 
 # Nur Labels fuer tatsaechlich vorhandene Spalten setzen
@@ -386,7 +392,7 @@ val_label(data$SA_krit_code, 1) <- "Ja"
 #Sampling########
 #################
 
-###Fälle ausschließen die keine 5 gültgen Chats haben 
+###Fälle ausschließen die keine 5 gültgen Chats haben
 n_vorher <- nrow(data)
 ausgeschlossen <- data[data$n_chats_valid < 5, "id"]
 
@@ -394,7 +400,19 @@ data <- data[data$n_chats_valid == 5, ]
 
 cat("n vorher:", n_vorher, "-> n nachher:", nrow(data))
 
-write.csv(data, "/home/theo/PycharmProjects/Masterprojekt-Chatbots/data/processed/analysis_dataset.csv", row.names = FALSE)
-saveRDS(data, "/home/theo/PycharmProjects/Masterprojekt-Chatbots/data/processed/analysis_dataset.rds")
+write.csv(
+  here::here(
+    "data",
+    "processed",
+    "analysis_dataset.csv"
+  ),
+  row.names = FALSE
+)
 
-
+saveRDS(
+  here::here(
+    "data",
+    "processed",
+    "analysis_dataset.rds"
+  )
+)
