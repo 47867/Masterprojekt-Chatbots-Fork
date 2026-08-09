@@ -87,8 +87,8 @@ crossref:
 # Lädt Daten, Design-System und alle ggplot-Objekte (p_sent, p_krit, ...)
 # aus dem Analyseskript. Danach können die Objekte in den Abbildungs-Chunks
 # einfach per Namen aufgerufen werden.
-source(here::here("Python_code/data_prep.R"))
-source(here::here("Python_code/data_analasys.R"))
+source(here::here("R_code", "data_prep.R"))
+source(here::here("R_code", "data_analasys.R"))
 
 # Anhangstabellen werden aus den CSVs gelesen, die data_analasys.R beim Sourcen
 # oben frisch nach tabs/ schreibt - so bleibt Anhang und Analyse synchron.
