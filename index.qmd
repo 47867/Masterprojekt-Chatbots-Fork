@@ -357,9 +357,9 @@ F3: Welche Arten studienbezogener Informationsnutzung lassen sich in den Chatlog
 Inwiefern stimmen diese mit den Survey angegebenen Nutzungsarten überein?
 
 F4: Inwiefern geben Studierende an, KI-Antworten kritisch zu prüfen?
-Inwiefern stimmen diese Angaben mit den im Surveyangaben überein?
+Inwiefern stimmen diese Angaben mit den Chatlogs überein?
 
-F5: Wie berichten Studierende, mit ChatGPT zu sprechen? Inwiefern stimmen diese Angaben mit den Surveyanagaben überein?
+F5: Wie berichten Studierende, mit ChatGPT zu sprechen? Inwiefern stimmen diese Angaben mit den beobachteten Chats überein?
 
 F6: Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?
 
@@ -1202,40 +1202,47 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.-->
 
 # Ergebnisse
 
-## Diskrepanzen zwischen Selbstauskunft und beobachteter Nutzung
+## Arten der Informationsnutzung
+
+In den gespendeten Chatlogs konnten alle fünf untersuchten Nutzungsarten identifiziert werden. Technische und analytische Unterstützung trat mit 
+
+## Dimensionsspezifische Übereinstimmungen
+
+```{r}
+#| label: fig-plot_task_differences
+#| fig-cap: "Diskrepanzen der Informationsnutzung."
+#| fig-width: 7.5
+#| fig-height: 4.8
+#| out-width: "100%"
+#| fig-align: center
+#| 
+plot_task_differences
+```
+
+Die Übereinstimmung zwischen Selbstauskunft und beobachteter Nutzung unterschied sich deutlich zwischen den Personen. Die mittlere Total-Variation-Distanz betrug `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % (SD = `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte). Somit hätten im Durchschnitt rund 40 % der angegebenen Nutzungsanteile zwischen den fünf Aufgabenbereichen umverteilt werden müssen, damit Selbstauskunft und beobachtete Nutzung vollständig übereinstimmen. Der Median lag bei `r formatC(100 * median(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Die Werte reichten von `r formatC(100 * min(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % bis `r formatC(100 * max(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Dies weist auf Unterschiede im Ausmaß der personenbezogenen Diskrepanzen hin.
 
 
 Explorativ wurde untersucht, ob das Gesamtausmaß der Diskrepanz mit ausgewählten personenbezogenen Merkmalen zusammenhing. Für die AI-Erfahrung zeigte sich ein schwacher bis moderater positiver Zusammenhang mit der Diskrepanz ($ρ=$ `r association_summary |> filter(variable == "AI-Erfahrung") |> select(rho) |> pull() |> round(digits = global_digits)`, $p=$ `r association_summary |> filter(variable == "AI-Erfahrung") |> select(p_value) |> pull() |> round(digits = global_digits)`). Personen mit größerer AI-Erfahrung wiesen somit deskriptiv eher größere Abweichungen zwischen Selbstauskunft und beobachteter Nutzung auf. Der Zusammenhang war jedoch statistisch unsicher. 
 Für das Alter bestand praktisch kein Zusammenhang ($ρ=$ `r association_summary |> filter(variable == "Alter") |> select(rho) |> pull() |> round(digits = global_digits)`, $p=$ `r association_summary |> filter(variable == "Alter") |> select(p_value) |> pull() |> round(digits = global_digits)`). 
 Auch der Zusammenhang mit sozialer Erwünschtheit fiel schwach aus ($ρ=$ `r association_summary |> filter(variable == "Soziale Erwünschtheit") |> select(rho) |> pull() |> round(digits = global_digits)`, $p=$ `r association_summary |> filter(variable == "Soziale Erwünschtheit") |> select(p_value) |> pull() |> round(digits = global_digits)`).
 
-Deutlichere deskriptive Unterschiede zeigten sich nach Geschlecht. Bei den männlichen Teilnehmern betrug die durchschnittliche Total-Variation-Distanz `r gender_summary |> filter(gender_label == "Männlich") |> select(mean_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % (Median=`r gender_summary |> filter(gender_label == "Männlich") |> select(median_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")`%), bei den weiblichen Teilnehmerinnen gender_summary |> filter(gender_label == "Weiblich") |> select(mean_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",") % (Median=`r gender_summary |> filter(gender_label == "Weiblich") |> select(median_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")`%). Die durchschnittliche Diskrepanz lag damit bei den Männern um `r gender_summary |> filter(gender_label == "Männlich") |> select(sd_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` Prozentpunkte höher. Der Unterschied erreichte im Wilcoxon-Rangsummentest jedoch nicht das konventionelle Signifikanzniveau von 5 % ($W=$ `r gender_test$statistic`, $p=$ `r formatC(gender_test$p.value, digits = global_digits, format = "f", decimal.mark = ",")`).
+Deutlichere deskriptive Unterschiede zeigten sich nach Geschlecht. Bei den männlichen Teilnehmern betrug die durchschnittliche Total-Variation-Distanz `r gender_summary |> filter(gender_label == "Männlich") |> select(mean_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % (Median=`r gender_summary |> filter(gender_label == "Männlich") |> select(median_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")`%), bei den weiblichen Teilnehmerinnen `r gender_summary |> filter(gender_label == "Weiblich") |> select(mean_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % (Median=`r gender_summary |> filter(gender_label == "Weiblich") |> select(median_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")`%). Die durchschnittliche Diskrepanz lag damit bei den Männern um `r gender_summary |> filter(gender_label == "Männlich") |> select(sd_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` Prozentpunkte höher. Der Unterschied erreichte im Wilcoxon-Rangsummentest jedoch nicht das konventionelle Signifikanzniveau von 5 % ($W=$ `r gender_test$statistic`, $p=$ `r formatC(gender_test$p.value, digits = global_digits, format = "f", decimal.mark = ",")`).
 
 Insgesamt liefern die Ergebnisse keine belastbaren Hinweise darauf, dass Alter, AI-Erfahrung oder soziale Erwünschtheit systematisch mit dem Ausmaß der Diskrepanz zusammenhängen. Der Geschlechterunterschied stellt ein auffälliges deskriptives Muster dar, das aufgrund der kleinen Stichprobe und der explorativen Analyse jedoch nicht verallgemeinert werden kann.
 
-## Diskrepanz bei Informationsnutzung
+## Kritisches Prüfen
 
-Die Übereinstimmung zwischen Selbstauskunft und beobachteter Nutzung unterschied sich deutlich zwischen den Personen. Die mittlere Total-Variation-Distanz betrug `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % (SD = `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte). Somit hätten im Durchschnitt rund 40 % der angegebenen Nutzungsanteile zwischen den fünf Aufgabenbereichen umverteilt werden müssen, damit Selbstauskunft und beobachtete Nutzung vollständig übereinstimmen. Der Median lag bei `r formatC(100 * median(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Die Werte reichten von `r formatC(100 * min(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % bis `r formatC(100 * max(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Dies weist auf Unterschiede im Ausmaß der personenbezogenen Diskrepanzen hin.
+Knapp die Hälfte der Teilnehmenden gab an, ChatGPT-Antworten im Chat kritisch zu prüfen (`r critical_cross_table |> filter(self_report == "Nein", observed == "Nein") |> select(percent) |> pull() |> formatC(digits = global_digits, decimal.mark = ",", format = "f")` %). Ein überwiegend sichtbares Prüfverhalten zeigt sich in den gespendeten Chatlogs dagegen nur bei `r df_analysis |> count(       Modus_Kritik, Modus_Kritik_Label) |> mutate(percent = n /21 * 100) |> filter(Modus_Kritik_Label == "Ja") |> select(percent) |> pull() |> formatC(format = "f", decimal.mark = ",", digits = global_digits)` % der Personen. Survey- und Chatlogangaben stimmten bei `r critical_summary |> filter(discrepancy == "Übereinstimmung") |> select(Prozent) |> pull() |> formatC(digits = global_digits, decimal.mark = ",", format = "f")` % überein. Die häufigste Abweichung bestand darin, dass kritisches Prüfen im Survey angegeben wurde, ohne dass es in der Mehrheit der gespendeten Chatlogs sichtbar war (`r critical_summary |> filter(discrepancy == "Nur in Selbstauskunft") |> select(Prozent) |> pull() |> formatC(digits = global_digits, decimal.mark = ",", format = "f")` %). Eine relative Ausnahme bestand darin, dass Teilnehmende ihr kritisches Prüfen unterschätzten, obwohl dies in den Chatlogs sichtbar wurde (`r critical_summary |> filter(discrepancy == "Nur in Chatlogs") |> select(Prozent) |> pull() |> formatC(digits = global_digits, decimal.mark = ",", format = "f")` %).
+In Hinblick auf F4 deuten die Ergebisse der kritischen Prüfung darauf hin, dass die Selbsteinschätzung der Teilnehmenden tendenziell korrekt ausfiel, bei Abweichungen aber insgesamt optimistischer angegeben wurde als das tatsächliche Verhalten in den Chatlogs.
 
-## Diskrepanz bei kritischem Nachfragen
+## Interaktionsstil
 
-## Diskrepanz bei Sentiment
-
-
-
+Vergleicht man die Angaben zur Art der Interaktion mit den beobachteten Interaktionsstilen in den Chatlogs, werden einige Abweichungen ersichtlich. Der selbstberichtete und der in den Chatlogs beobachtete Interaktionsstil stimmten bei `r sentiment_summary |> filter(discrepancy == "korrekt") |> select(Prozent) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % der Personen überein. Bei `r sentiment_summary |> filter(discrepancy == "unfreundlicher") |> select(Prozent) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % fiel der beobachtete Interaktionsstil unfreundlicher und bei `r sentiment_summary |> filter(discrepancy == "freundlicher") |> select(Prozent) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % freundlicher aus als selbst angegeben. Anders als beim kritischen Prüfen zeigte sich somit keine eindeutig vorherrschende Richtung der Abweichung. Im Hinblick auf F5 kann damit festgehalten werden, dass sich weniger als die Hälfte der Teilnehmenden richtig einschätzt. Die restlichen Teilnehmenden unterschätzen und überschätzen sich fast gleichermaßen. 
 
 
+## Personenbezogene Diskrepanzmuster
 
-```{r}
-#| label: fig-plot_task_differences
-#| fig-cap: "Diskrepanzen der Informationsnutzung."
-#| fig-width: 7.5
-#| fig-height: 5
-#| out-width: "100%"
-#| fig-align: center
-#| 
-plot_task_differences
-```
+
 
 
 ## Ergebnisse der Clusteranalyse

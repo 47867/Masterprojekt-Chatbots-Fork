@@ -248,7 +248,7 @@ task_long_plot <- task_long |>
     task = forcats::fct_reorder(
       task,
       difference,
-      .fun = median,
+      .fun = mean,
       .na_rm = TRUE,
       .desc = TRUE
     )
@@ -306,7 +306,7 @@ plot_task_differences <- ggplot(
     x = "Selbstauskunft minus beobachteter Anteil",
     y = NULL,
     title = "Individuelle Differenzen zwischen Selbstauskunft und beobachtetem Anteil",
-    subtitle = "Arithmetisches Mittel als Raute, Boxplot zeigt Median und Quartile, Violinplot zeigt Dichteverteilung",
+    subtitle = "Arithmetisches Mittel als Raute, Boxplot zeigt Median und Quartile, Violinplot zeigt Dichte",
     caption = paste(
       "Eigene Erhebung\n N =",
       n_distinct(task_long_plot$id)
@@ -320,7 +320,7 @@ plot_task_differences <- ggplot(
       lineheight = 0.95
     ),
     axis.subtitle.x = element_text(
-      size = 7,
+      size = 5,
       margin = margin(t = 4)
     ),
     axis.title.x = element_text(
@@ -435,6 +435,11 @@ critical_cross_table <- critical_results |>
     self_report,
     observed,
     fill = list(n = 0)
+  )
+
+critical_cross_table <- critical_cross_table |>
+  mutate(
+    percent = n / 21 * 100
   )
 
 critical_cross_table
