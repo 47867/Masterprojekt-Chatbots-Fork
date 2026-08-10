@@ -132,6 +132,30 @@ task_long <- task_long |>
   )
 
 
+
+## Nutzungsarten Chatlogs und Survey
+
+aggregate_comparison <- task_long |>
+  group_by(task) |>
+  summarise(
+    Survey = mean(
+      self_report,
+      na.rm = TRUE
+    ),
+
+    Chatlogs = mean(
+      observed,
+      na.rm = TRUE
+    ),
+
+    Differenz = Survey - Chatlogs,
+
+    .groups = "drop"
+  ) |>
+  arrange(Differenz)
+
+aggregate_comparison
+
 ## Vergleichstabelle erzeugen
 
 task_summary <- task_long |>
@@ -332,7 +356,7 @@ plot_task_differences <- ggplot(
     x = "Selbstauskunft minus beobachteter Anteil",
     y = NULL,
     title = "Individuelle Differenzen zwischen Selbstauskunft und beobachtetem Anteil",
-    subtitle = "Arithmetisches Mittel als Raute, Boxplot zeigt Median und Quartile, Violinplot zeigt Dichte",
+    subtitle = "Mittelwert als Raute, Boxplot zeigt Median und Quartile, Violinplot zeigt Dichte",
     caption = paste(
       "Eigene Erhebung\n N =",
       n_distinct(task_long_plot$id)
@@ -646,7 +670,7 @@ plot_gender_discrepancy <- ggplot(
   ) +
   labs(
     title = "Gesamtausmaß der Diskrepanz nach Geschlecht",
-    subtitle = "Arithmetisches Mittel als Raute, Boxplot zeigt Median und Quartile",
+    subtitle = "Mittelwert als Raute, Boxplot zeigt Median und Quartile",
     caption = paste(
       "Eigene Erhebung\n N =",
       n_distinct(df_discrepancy$id)
