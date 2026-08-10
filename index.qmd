@@ -1225,8 +1225,7 @@ Bei *`r aggregate_comparison[[2, "task"]]`* war der Surveyanteil um `r formatC(a
 Die aggregierten Unterschiede waren somit – abgesehen von technischer Unterstützung und Schreiben – gering.
 Die Verteilung der Nutzungsarten ist in @tbl-nutzungsarten dargestellt.
 
-Hinsichtlich F3 (@sec-forschungsfragen) lässt sich festhalten, dasss sich alle Nutzungsarten in den Chatlogs finden lassen.
-Die Teilnehmenden unterschätzen in der Selbsteinschätzung tendenziell die Nutzung von technischen Hilfsmitteln und das Schreiben von Texten, während sie die Nutzung von Informationen überschätzen.
+
 
 ```{r}
 #| label: tbl-nutzungsarten
@@ -1251,8 +1250,14 @@ aggregate_comparison |>
   ) |>
   gt::cols_label(
     Differenz = "Survey − Chatlogs"
+  ) |>
+  gt::cols_align(
+    align = "left",
+    columns = Nutzungsart
   )
 ```
+Hinsichtlich F3 (@sec-forschungsfragen) lässt sich festhalten, dasss sich alle Nutzungsarten in den Chatlogs finden lassen.
+Die Teilnehmenden unterschätzen in der Selbsteinschätzung tendenziell die Nutzung von technischen Hilfsmitteln und das Schreiben von Texten, während sie die Nutzung von Informationen überschätzen.
 
 ## Dimensionsspezifische Übereinstimmungen
 
@@ -1261,6 +1266,44 @@ Die größte Übereinstimmung zeigt sich dabei bei *`r as.character(task_agreeme
 Die zweitgrößte Übereinstimmung zeigt sich bei *`r as.character(task_agreement_summary[[2, "task"]])`* mit `r formatC(task_agreement_summary[[2, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % Übereinstimmung und einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[2, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
 Die zweitgrößte Diskrepanz zeigt sich bei *`r as.character(task_agreement_summary[[3, "task"]])`* mit einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[3, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten und `r formatC(task_agreement_summary[[3, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % an Übereinstimmung.
 Die niegristen Übereinstimmungen zeigen sich bei *`r as.character(task_agreement_summary[[4, "task"]])`* und *`r as.character(task_agreement_summary[[5, "task"]])`* mit einer Übereinstimmung bei `r formatC(task_agreement_summary[[4, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % der Teilnehmenden und einer mittleren Abweichung von `r formatC(task_agreement_summary[[4, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` beziehungsweise `r formatC(task_agreement_summary[[5, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
+Die Ergebnisse sind in @tbl-nutzungsarten-abweichungen zusammengefasst.
+
+```{r}
+#| label: tbl-nutzungsarten-abweichungen
+#| tbl-cap: "Übereinstimmungen und Abweichungen bei den Nutzungsarten"
+#| echo: false
+
+task_agreement_summary |>
+  rename(
+    Nutzungsart = task,
+    '%' = exact_agreement_percent,
+    'PP' = mean_absolute_difference_pp
+  ) |>
+  dplyr::select(
+    Nutzungsart,
+    '%',
+    'PP'
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c('%', 'PP'),
+    decimals = global_digits,
+    locale = "de"
+  ) |>
+  gt::cols_label(
+    '%' = "Übereinstimmung (%)",
+    'PP' = "Abweichung (PP)"
+  ) |>
+  gt::cols_align(
+    align = "left",
+    columns = Nutzungsart
+  ) |>
+  gt::tab_source_note(
+    source_note = md(
+      "*Anmerkung:* % = Anteil der Fälle mit exakter Übereinstimmung; PP = Prozentpunkte der mittleren absoluten Abweichung."
+    )
+  )
+```
 
 Anhand @fig-plot_task_differences wird ersichtlich, dass Teilnehmende zwischen den Nutzungsarten teils erheblich abweichen.
 So überschätzen sich die Teilnehmenden tendenziell bei *`r as.character(task_agreement_summary[[3, "task"]])`* und *`r as.character(task_agreement_summary[[2, "task"]])`*, während sie sich bei *`r as.character(task_agreement_summary[[5, "task"]])`* tendenziell unterschätzen.
