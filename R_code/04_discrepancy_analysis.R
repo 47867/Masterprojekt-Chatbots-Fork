@@ -158,7 +158,33 @@ task_summary <- task_long |>
   )
 
 task_summary
+## Zusammenfassung
 
+task_agreement_summary <- task_long |>
+  group_by(task) |>
+  summarise(
+    N = sum(!is.na(difference)),
+
+    exact_agreement_n = sum(
+      dplyr::near(difference, 0),
+      na.rm = TRUE
+    ),
+
+    exact_agreement_percent = mean(
+      dplyr::near(difference, 0),
+      na.rm = TRUE
+    ) * 100,
+
+    mean_absolute_difference_pp = mean(
+      abs(difference),
+      na.rm = TRUE
+    ) * 100,
+
+    .groups = "drop"
+  ) |>
+  arrange(desc(exact_agreement_percent))
+
+task_agreement_summary
 
 ## Personenbezogenes Gesamtdiskrepanz
 
