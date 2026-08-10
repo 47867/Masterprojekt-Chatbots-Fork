@@ -3,9 +3,6 @@
 Dieses Repositorium enthält Materialien und Analyseskripte eines Masterprojekts zur studienbezogenen Nutzung generativer KI-Chatbots. 
 Untersucht wird, inwiefern sich die Selbstauskünfte Studierender von den Nutzungsmustern unterscheiden, die in freiwillig gespendeten ChatGPT-Chatlogs beobachtet werden können.
 
-Die Chatlogs werden dabei nicht als vollständiges Abbild der „tatsächlichen“ Nutzung verstanden. 
-Sie bilden einen von den Teilnehmenden ausgewählten Ausschnitt ab, der mit den Surveyangaben verglichen wird.
-
 ## Forschungsfragen
 
 Das Projekt behandelt insbesondere folgende Fragen:
@@ -46,9 +43,10 @@ Aus den Klassifikationen wurden anschließend personenbezogene Indikatoren gebil
 |---|---|
 | `index.qmd` | Hauptdokument des Projektberichts |
 | `_quarto.yml` | Quarto-Konfiguration für die PDF-Ausgabe |
-| `R_code/data_prep.R` | Aufbereitung und Verknüpfung der Analysedaten |
+| `R_code/01_data_prep.R` | Aufbereitung und Verknüpfung der Analysedaten |
+| `R_code/02_data_analasys.R` | Clusteranalyse und ergänzende Auswertungen |
+| `R_code/03_sample_modification.R` | Stichprobenkunstruktion |
 | `R_code/04_discrepancy_analysis.R` | Deskriptive Analyse der Diskrepanzen |
-| `R_code/data_analasys.R` | Clusteranalyse und ergänzende Auswertungen |
 | `Python_code/Gold_standard.ipynb` | Erstellung und Aufbereitung des Goldstandards |
 | `Python_code/llm_pipeline_openai_gold.ipynb` | Evaluation der LLM-Klassifikation |
 | `Python_code/Data_pipeline.ipynb` | Aufbereitung und Klassifikation der Chatlogs |

@@ -505,7 +505,7 @@ critical_summary <- critical_results |>
 critical_summary
 
 
-# Diskrepanzen nach Charakteristiken
+# Nutzungsarten-Diskrepanzen nach Charakteristiken
 
 df_discrepancy <- df_analysis |>
   mutate(
