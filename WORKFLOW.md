@@ -68,7 +68,7 @@ Diese Datei beschreibt den kompletten Daten- und Analyse-Workflow des Projekts. 
 | `Python_code/modules/classify_chats.py` | LLM-Klassifikation der Chats (LangChain + OpenAI, mit Ergebnis-Cache) |
 | `Python_code/modules/mail_parser.py` | Parser für SoSci-Benachrichtigungsmails (rekonstruiert Angaben, die SoSci wegen \> 64 KB gelöscht hat) |
 | `R_code/01_data_prep.R` | Phase B: Datenaufbereitung / Operationalisierung |
-| `R_code/02_data_analasys.R` | Phase B: Statistische Analyse (Deskriptiv + Clusteranalyse) |
+| `R_code/02_data_analysis.R` | Phase B: Statistische Analyse (Deskriptiv + Clusteranalyse) |
 | `R_code/03_sample_modification.R` | Stichprobenkunstruktion |
 | `R_code/04_discrepancy_analysis.R` | Deskriptive Diskrepanzanalyse |
 | `Python_code/Inactive` | Ältere/inaktive Notebook-Versionen (nicht Teil des Workflows) |

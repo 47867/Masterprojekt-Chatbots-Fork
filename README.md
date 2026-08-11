@@ -1,50 +1,46 @@
 # Selbstauskunft und beobachtete Nutzung generativer KI-Chatbots
 
-Dieses Repositorium enthält Materialien und Analyseskripte eines Masterprojekts zur studienbezogenen Nutzung generativer KI-Chatbots. 
-Untersucht wird, inwiefern sich die Selbstauskünfte Studierender von den Nutzungsmustern unterscheiden, die in freiwillig gespendeten ChatGPT-Chatlogs beobachtet werden können.
+Dieses Repositorium enthält Materialien und Analyseskripte eines Masterprojekts zur studienbezogenen Nutzung generativer KI-Chatbots. Untersucht wird, inwiefern sich die Selbstauskünfte Studierender von den Nutzungsmustern unterscheiden, die in freiwillig gespendeten ChatGPT-Chatlogs beobachtet werden können.
 
 ## Forschungsfragen
 
 Das Projekt behandelt insbesondere folgende Fragen:
 
-1. Inwiefern unterscheiden sich Selbstauskünfte und beobachtete Nutzung insgesamt?
-2. Bei welchen Dimensionen der Informationsnutzung treten besonders häufig Übereinstimmungen oder Diskrepanzen auf?
-3. Welche Arten studienbezogener Informationsnutzung lassen sich in den Chatlogs identifizieren und wie stimmen sie mit den Surveyangaben überein?
-4. Inwiefern stimmen Selbstauskünfte zum kritischen Prüfen von KI-Antworten mit dem in den Chatlogs beobachtbaren Verhalten überein?
-5. Inwiefern stimmt der berichtete Interaktionsstil mit dem in den Chatlogs beobachtbaren Stil überein?
-6. Welche typischen personenbezogenen Diskrepanzmuster lassen sich explorativ über die untersuchten Dimensionen hinweg identifizieren?
+1.  Inwiefern unterscheiden sich Selbstauskünfte und beobachtete Nutzung insgesamt?
+2.  Bei welchen Dimensionen der Informationsnutzung treten besonders häufig Übereinstimmungen oder Diskrepanzen auf?
+3.  Welche Arten studienbezogener Informationsnutzung lassen sich in den Chatlogs identifizieren und wie stimmen sie mit den Surveyangaben überein?
+4.  Inwiefern stimmen Selbstauskünfte zum kritischen Prüfen von KI-Antworten mit dem in den Chatlogs beobachtbaren Verhalten überein?
+5.  Inwiefern stimmt der berichtete Interaktionsstil mit dem in den Chatlogs beobachtbaren Stil überein?
+6.  Welche typischen personenbezogenen Diskrepanzmuster lassen sich explorativ über die untersuchten Dimensionen hinweg identifizieren?
 
 ## Datengrundlage
 
-Die finale Analysestichprobe umfasst 21 Studierende. Pro Person liegen fünf gültige, freiwillig gespendete ChatGPT-Chatlogs vor, insgesamt also 105 Chats. 
-Verglichen werden Survey- und Chatlogmerkmale in drei Bereichen:
+Die finale Analysestichprobe umfasst 21 Studierende. Pro Person liegen fünf gültige, freiwillig gespendete ChatGPT-Chatlogs vor, insgesamt also 105 Chats. Verglichen werden Survey- und Chatlogmerkmale in drei Bereichen:
 
 - Art der studienbezogenen Informationsnutzung,
 - kritisches Prüfen von KI-Antworten,
 - Interaktionsstil gegenüber ChatGPT.
 
-Die Chatlogs wurden mithilfe eines Large Language Models klassifiziert. 
-Die Güte dieser Klassifikation wurde anhand eines manuell codierten Goldstandards geprüft. 
-Aus den Klassifikationen wurden anschließend personenbezogene Indikatoren gebildet und mit den Surveyangaben verglichen.
+Die Chatlogs wurden mithilfe eines Large Language Models klassifiziert. Die Güte dieser Klassifikation wurde anhand eines manuell codierten Goldstandards geprüft. Aus den Klassifikationen wurden anschließend personenbezogene Indikatoren gebildet und mit den Surveyangaben verglichen.
 
 ## Analyseablauf
 
-1. Export und Aufbereitung der Survey- und Chatlogdaten
-2. Validierung der LLM-basierten Klassifikation anhand eines Goldstandards
-3. Klassifikation und Aggregation der fünf Chatlogs je Person
-4. Verknüpfung der Chatlogmerkmale mit den Surveyangaben
-5. Bildung der Survey-, Beobachtungs- und Diskrepanzmaße
-6. Deskriptiver Vergleich und explorative Clusteranalyse
-7. Erstellung von Tabellen, Abbildungen und Manuskript
+1.  Export und Aufbereitung der Survey- und Chatlogdaten
+2.  Validierung der LLM-basierten Klassifikation anhand eines Goldstandards
+3.  Klassifikation und Aggregation der fünf Chatlogs je Person
+4.  Verknüpfung der Chatlogmerkmale mit den Surveyangaben
+5.  Bildung der Survey-, Beobachtungs- und Diskrepanzmaße
+6.  Deskriptiver Vergleich und explorative Clusteranalyse
+7.  Erstellung von Tabellen, Abbildungen und Manuskript
 
 ## Struktur des Repositoriums
 
 | Pfad | Inhalt |
-|---|---|
+|------------------------------------|------------------------------------|
 | `index.qmd` | Hauptdokument des Projektberichts |
 | `_quarto.yml` | Quarto-Konfiguration für die PDF-Ausgabe |
 | `R_code/01_data_prep.R` | Aufbereitung und Verknüpfung der Analysedaten |
-| `R_code/02_data_analasys.R` | Clusteranalyse und ergänzende Auswertungen |
+| `R_code/02_data_analysis.R` | Clusteranalyse und ergänzende Auswertungen |
 | `R_code/03_sample_modification.R` | Stichprobenkunstruktion |
 | `R_code/04_discrepancy_analysis.R` | Deskriptive Analyse der Diskrepanzen |
 | `Python_code/Gold_standard.ipynb` | Erstellung und Aufbereitung des Goldstandards |
@@ -70,19 +66,19 @@ Der Dateiname `data_analasys.R` wird hier entsprechend dem gegenwärtigen Stand 
 
 Nach dem Klonen des Repositoriums werden zunächst die dokumentierten R-Paketversionen wiederhergestellt:
 
-```r
+``` r
 renv::restore()
 ```
 
 Vorausgesetzt, die benötigten aufbereiteten Daten liegen in `data/processed/`, kann anschließend der vollständige Bericht aus dem Projektverzeichnis gerendert werden:
 
-```bash
+``` bash
 quarto render index.qmd --to pdf
 ```
 
 Das Quarto-Dokument führt die erforderlichen R-Skripte in der vorgesehenen Reihenfolge aus. Für die schrittweise Fehlersuche können sie auch einzeln ausgeführt werden:
 
-```bash
+``` bash
 Rscript R_code/data_prep.R
 Rscript R_code/data_analasys.R
 Rscript R_code/04_discrepancy_analysis.R
@@ -110,9 +106,7 @@ Die Rohdaten enthalten freiwillig gespendete Chatverläufe und potenziell sensib
 
 ## Grenzen der Analyse
 
-Die Ergebnisse sind explorativ zu interpretieren. Die Stichprobe ist klein und nicht repräsentativ. 
-Zudem stellen die gespendeten Chats lediglich einen ausgewählten Ausschnitt der individuellen Nutzung dar. 
-Auch die LLM-basierte Klassifikation ist mit Messunsicherheit verbunden. 
+Die Ergebnisse sind explorativ zu interpretieren. Die Stichprobe ist klein und nicht repräsentativ. Zudem stellen die gespendeten Chats lediglich einen ausgewählten Ausschnitt der individuellen Nutzung dar. Auch die LLM-basierte Klassifikation ist mit Messunsicherheit verbunden.
 
 ## Weitere Materialien
 

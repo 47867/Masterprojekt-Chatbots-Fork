@@ -1018,7 +1018,7 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.-->
 
 \FloatBarrier
 
-## Arten und aggregierte Verteilung: F3
+## Nutzungsarten und aggregierte Verteilung: F3
 
 Auf Aggregatebene zeigt sich der größte Unterschied bei *`r aggregate_comparison[[1, "task"]]`*.
 Ihr durchschnittlicher Anteil betrug im Survey `r formatC(aggregate_comparison[[1, "Survey"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %, in den Chatlogs dagegen `r formatC(aggregate_comparison[[1, "Chatlogs"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %.
