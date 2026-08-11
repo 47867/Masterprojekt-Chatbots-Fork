@@ -870,6 +870,12 @@ tibble::tribble(
   )
 ```
 
+Die studienbezogene *Informationsnutzung* wurde über fünf Aufgabenbereiche operationalisiert: *Lernen und Prüfungsvorbereitung*, *Schreiben und Textarbeit*, *Praktische Unterstützung und Strukturierung*, *Informationssuche und Verständnis* und *Technische und analytische Unterstützung*.
+Die Teilnehmenden verteilten insgesamt zehn Punkte auf diese fünf Kategorien, sodass ihre typische Nutzung als relative Verteilung verschiedener Nutzungsarten erfasst wurde.
+So ergibt sich eine quasi-metrische Skala, die die subjektive Gewichtung der einzelnen Nutzungsarten zwischen den Teilnehmenden vergleichbar macht.
+Diese Form der Operationalisierung wurde gewählt, weil dieselben Kategorien anschließend auch in den Chatlogdaten identifiziert werden konnten.
+Dadurch war ein direkter Vergleich zwischen Selbstbericht und beobachtetem Verhalten möglich.
+
 Der *Interaktionsstil* wurde über die Selbsteinschätzung des eigenen Kommunikationsverhaltens gegenüber ChatGPT erhoben.
 Die Teilnehmenden bewerteten auf einer fünfstufigen ordinalen Skala („sehr unfreundlich“ bis „sehr freundlich“), wie freundlich beziehungsweise unfreundlich sie typischerweise mit dem Chatbot kommunizierten.
 Die Mittelkategorie bildete einen neutralen Kommunikationsstil ab.
@@ -880,11 +886,7 @@ Die Teilnehmenden gaben auf einer vierstufigen Likert-Skala („stimme überhaup
 Für dieses Konstrukt wurde keine Mittelkategorie erlaubt, weil eine teilweise kritische Prüfung nicht durch die Chatlogdaten klassifiziert werden konnte.
 Die Formulierung des Items wurde so gewählt, dass dieselbe Dimension anschließend anhand der Chatlogdaten über das Auftreten kritischer Nachfragen und Überprüfungen identifiziert werden konnte.
 
-Die studienbezogene *Informationsnutzung* wurde über fünf Aufgabenbereiche operationalisiert: *Lernen und Prüfungsvorbereitung*, *Schreiben und Textarbeit*, *Praktische Unterstützung und Strukturierung*, *Informationssuche und Verständnis* und *Technische und analytische Unterstützung*.
-Die Teilnehmenden verteilten insgesamt zehn Punkte auf diese fünf Kategorien, sodass ihre typische Nutzung als relative Verteilung verschiedener Nutzungsarten erfasst wurde.
-So ergibt sich eine quasi-metrische Skala, die die subjektive Gewichtung der einzelnen Nutzungsarten zwischen den Teilnehmenden vergleichbar macht.
-Diese Form der Operationalisierung wurde gewählt, weil dieselben Kategorien anschließend auch in den Chatlogdaten identifiziert werden konnten.
-Dadurch war ein direkter Vergleich zwischen Selbstbericht und beobachtetem Verhalten möglich.
+
 
 <!-- TODO: Hier noch Datenmodifikation beschreiben -->
 <!-- Ab hier kommt das von Theo, muss noch zusammengeschrieben werden -->
@@ -967,6 +969,26 @@ Fälle, bei denen zentrale Konstrukte gefehlt haben, wurden von der Analyse ausg
 <!-- TODO: hier nch die technische Aufbereitung zu JSON/HTML Aufbereitung -->
 
 ## Statistische Analyse
+
+Die statistische Analyse gliederte sich in deskriptive Vergleiche zwischen Survey- und Chatlogdaten, explorative Zusammenhangsanalysen mit personenbezogenen Merkmalen sowie eine Clusteranalyse personenbezogener Diskrepanzmuster.
+
+Forschungsfrage 1 (siehe @sec-forschungsfragen) wird durch eine gemeinsame Betrachtung der Ergebnisse zur Informationsnutzung, zum kritischen Prüfen und zum Interaktionsstil aus beiden Datenquellen beantwortet. Die drei Bereiche werden nicht zu einem gemeinsmaen Gesamtscore zusammengefasst, die ihre Diskrepanzmaße unterschiedlich skaliert sind (siehe @sec-operationalisierung).
+
+Zur Beantwortung von Forschungsfrage 2 (siehe @sec-forschungsfragen) werden für jeden der fünf Aufgabenbereiche der Informationsnutzung der mittlere Surveyanteil, der mittlere Chatloganteil und die mittlere gerichtete Differenz ermittelt. Zusätzlich werden die mittlere absolute Abweichung und der Anteil der Personen mit exakter Übereinstimmung bestimmt. Die gerichtete Differenz zeigt, ob der Surveyanteil einer Nutzungsart im Durschnitt höher oder niedriger ist als der Chatloganteil. Die mittlere absolute Abweichung beschreibt die Größe der Diskrepanz unabhängig von ihrer Richtung. Als zusammenfassendes personenbezogenes Maß wird die in @sec-operationalisierung definierte Total-Variation-Distanz deskriptiv beschrieben.
+
+Für Forschungsfrage 3 (siehe @sec-forschungsfragen) werden die absoluten Häufigkeiten udn realtiven Anteile der fünf Nutzungsarten in den 105 Chatverläufen ermittelt. Anschließend werden die über alle Personen gemittelten Survey- und Chatloganteile der fünf Nutzungsarten gegenübergestellt. 
+
+Zur Beantwortung von Forschungsfrage 4 werden die absoluten und relativen Häufigkeiten der drei in @sec-operationalisierung definierten Ergebniskategorien des kritischen Prüfens bestimmt. Zusätzlich wird der Anteil aller Personen mit einer Diskrepanz berechnet.
+
+Für Forschungsfrage 5 (siehe @sec-forschungsfragen) wird ausgewertet, bei wie vielen Personen der selbstberichtete und der beobachtete Interaktionsstil übereinstimmt. Die Ergebnisse werden als absolute und relative Häufigkeiten dargestellt.
+
+Ergänzend wird für Forschungsfrage 6 (siehe @sec-forschungsfragen) untersucht, ob die Diskrepanzen mit dem Alter, der KI-Erfahrung, der sozialen Erwünschtheit und dem Geschlecht zusammenhängen. Der Zusammenhang zwischen Informationsnutzung und den metrischen personenbezogenen Merkmalen wird anhand von Spearman-Rangkorrelationen untersucht. Geschlechterunterschiede werden aufgrund der kleinen Gruppen und der nicht vorausgesetzten Normalverteilung mit einem Wilcoxon-Rangsummentest analysiert.
+
+Für den Interaktionsstil und das kritische Prüfen wurden jeweils binäre Indikatioren verwendet. Die Zusammenhänge dieser Indikatoren mit den metrischen personenbezogenen Merkmalen werden ebenfalls anhand von Spearman-Rangkrrelationen untersucht. Ein positiver Korrelationskoeffizient bezeichnet dabei einen Zusammenhang mit häufigeren Diskrepanzen, ein negativer Koeffizient einen Zusammenhang mit häufigeren Übereinstimmungen.
+
+Zusammenhänge der beiden binären Diskrepanzindikatoren mit dem Geschlecht werden aufgrund der kleinen Gruppen mit einem exakten Fisher-Test untersucht. Berichtet werden zusätzlich die geschlechtsspezifischen Häufigkeiten und Anteile von Übereinstimmung und Diskrepanzen.
+
+Da insgesamt neun Korrelationskoeffizienten berechnet werden, werden die p-Werte mithilfe des Benjamini-Hochberg-Verfahrens korrigiert.
 
 <!-- ca 5000 Zeichen --->
 
