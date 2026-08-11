@@ -51,6 +51,9 @@ format:
         % Header geladen bzw. definiert werden.
         \usepackage{etoolbox}
         \AtBeginDocument{%
+          % Auch die normalen Abbildungen im Fliesstext bleiben an der Stelle
+          % stehen, an der sie im Dokument aufgerufen werden.
+          \floatplacement{figure}{H}%
           \floatplacement{tbla}{H}%
           \floatplacement{figb}{H}%
           \AtBeginEnvironment{tbla}{\footnotesize\setstretch{1}}%
@@ -95,10 +98,13 @@ source(here::here("R_code", "04_discrepancy_analysis.R"))
 
 # Anhangstabellen werden aus den CSVs gelesen, die data_analasys.R beim Sourcen
 # oben frisch nach tabs/ schreibt - so bleibt Anhang und Analyse synchron.
+# Zahlen stehen in den CSVs als Text mit Dezimalkomma (0,50 statt 0.50);
+# komma_align() aus 02_data_analasys.R haelt sie trotzdem rechtsbuendig.
 anhang_tab <- function(datei, ordner = "tabs", ...) {
   df <- read.csv(here::here(ordner, datei), check.names = FALSE,
                  encoding = "UTF-8")
-  knitr::kable(df, format = "pipe", row.names = FALSE, ...)
+  knitr::kable(df, format = "pipe", row.names = FALSE,
+               align = komma_align(df), ...)
 }
 
 #Titlee, subtitle etc deaktivieren
@@ -133,11 +139,15 @@ library(gt)
 #| include: false
 global_digits <- 2
 ```
+<!-- ??? kaann man beim titleblatt das "Maseterstudiengang Comp... 2 Fachsemester" über fußnoten machen das es nur einmal auf den deckblatt steht -> ähnlich wie bei deckblatt für llm evaluation -->
+
+
+
 
 # Abstract {.unnumbered .unlisted}
 
 <!-- ???statt großes sprachmodell, llm ausschreiben verwenden wir downstream auch so  -->
-
+<!-- ??? muss mann ggf- nochmal anpassen an neunen ergebnissteil  -->
 Ziel dieser Arbeit ist es, zu untersuchen, inwiefern sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von ihrem in gespendeten Chatverläufen beobachtbaren Nutzungsverhalten unterscheiden.
 Die bisherige Forschung zur Verbreitung und Nutzung generativer Sprachmodelle im Studium stützt sich fast ausschließlich auf Befragungsdaten, obwohl solche Selbstauskünfte anfällig für Erinnerungsfehler und sozial erwünschtes Antwortverhalten sein können.
 Daraus ergibt sich die Forschungsfrage, ob und in welchen Dimensionen sich berichtete und in Chatlogs beobachtete Nutzung unterscheiden, welche Nutzungsarten sich in den Chatverläufen identifizieren lassen und wie gut sich eine Klassifikation durch ein großes Sprachmodell zur systematischen Erfassung dieser Nutzungsmuster eignet.
@@ -914,6 +924,8 @@ $$S_{\text{Diskrepanz}} =
 
 Bei kritischen Nachfragen bedeutet “-1”, dass die Person denkt nachzufragen, aber es nicht tut, “0”, dass die Selbstauskunft korrekt ist und “1”, dass die Person denkt, dass sie nicht nachfragt, aber es tut.
 
+<!-- ???  im rendern klapppt das mit dem für nicht, würde ich aber eh löschen, steht bei sentiment eh ned -->
+
 $(ii) Für Kritisches nachfragen (K):$
 
 $$K_{\text{Diskrepanz}} =
@@ -937,6 +949,8 @@ $$A_{i,\text{Diskrepanz}} =
 \text{Übereinstimmung}, & D_i = 0 \\
 \text{Überschätzung}, & 0 < D_i \leq 1
 \end{cases}$$
+
+<!-- ??? viel zu zerstückelt, einfach in einem absatz  -->
 
 Um die Daten für die statistische Analyse vorzubereiten, wurden zunächst sämtliche Antwortkodierungen einheitlich rekodiert.
 
@@ -975,17 +989,13 @@ Dies macht den Algorithmus zu einer attraktiven Wahl für unser exploratives Vor
 Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall drei Beobachtungen ausgewählt (dies wird durch einen Seed "404" replizierbar gehalten).
 Danach werden alle Personen dem Medoid (Zentrum) zugeordnet, an dem sie am nächsten liegen, und die Summe aller Distanzen von den Personen zu ihrem Medoid berechnet.
 Schließlich werden die Beobachtungen, die Medoid sind, mit Beobachtungen, die nicht Medoid sind, ausgetauscht.
-Dieser Prozess wiederholt sich, bis keine Verbesserung mehr möglich ist.
-
-Die Anzahl der k-Partitionen wird mittels der Silhouette-Methode von @rousseeuw1987 festgelegt und nicht wie bei einer k-means-Clusterung mit dem Elbow-Kriterium.
+Dieser Prozess wiederholt sich, bis keine Verbesserung mehr möglich ist. Die Anzahl der k-Partitionen wird mittels der Silhouette-Methode von @rousseeuw1987 festgelegt und nicht wie bei einer k-means-Clusterung mit dem Elbow-Kriterium.
 Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe.
 Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei 1 heißt, dass die Person sehr gut in das Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
 Nun rechnet man den Durchschnitt für alle Personen aus, der anzeigt, wie eng gruppiert alle Personen in dem Cluster sind.
 Ein Cluster mit einer durchschnittlichen Silhouette von 0,5 wird als ausreichend für unsere Zwecke betrachtet, 0,7 als stark.
 Dieser Prozess wird für $k = 2$ bis $k = 6$ wiederholt.
-Die Anzahl $k$, für die die maximale durchschnittliche Silhouette berechnet wird, wird verwendet.
-
-Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden.
+Die Anzahl $k$, für die die maximale durchschnittliche Silhouette berechnet wird, wird verwendet. Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden.
 Dazu werden die einzelnen Cluster auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen deskreptiv untersucht, also beispielsweise Studiengang, soziale Erwünschtheit und Erfahrung mit künstlicher Intelligenz.
 <!--
 Erst wird ein deskriptiver graphischer Überblick gegeben und im Anschluss werden die einzelnen Werte zwischen den Gruppen statistisch verglichen.
@@ -995,13 +1005,14 @@ Für die nominalskalierten Variablen wird ein Chi-Quadrat-Test durchgeführt. --
 
 \FloatBarrier
 
-
+<!-- ???  ist das ein relikt einer vorausgegangen version oder soll das so?-->
 
 Anhand der Analysestichprobe wird im Folgenden der Forschungsfrage deskriptiv genähert, um einen Überblick darüber zu bekommen, wie stark die Unterschiede zwischen beobachteten Angaben und selbstberichtetem Verhalten sind.
 Anschließend werden diese Unterschiede in Gruppen eingeteilt, um Muster in den Abweichungen zu identifizieren.
 
 ```{=html}
 <!-- Von Laura: Ich finde das hier nicht ganz passend und würde Details in den Ergebnissen direkt beschreiben. Sonst finde ich es etwas unverständlich. 
+--Von Theo kann wege ich hänge nicht dran
 
 Dazu wird unter anderen das arithmetische Mittel über alle Aufgaben berechnen, um zu beobachten, ob sich eine Person eher überschätzt oder unterschätzt.
 Es besteht das Risiko, dass sich die Werte einer Person gegenseitig neutralisieren.
@@ -1017,6 +1028,11 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.-->
 # Ergebnisse
 
 \FloatBarrier
+<!-- ??? Wenn wir im Ergebnissteil lauter neue statistischen mehtoden verwednen die davor nicht in der Methode bereichtet wurden, sollten wir das noch in der Methode erwähnen sonst ist das einfach merkwürdig -> müssen auch noch erwähenen das wir hier dann von unserer Preregestreirung abgewichen sind -->
+
+<!-- ??? zu klein F3/F4/F5 für eigenen unterpunkt mindestnes eine hable seite (siehe powerpoint von der kümple) villeicht, alle f1 - f5 unter einen unterpunkt "Beschreibung der Stichprobe" (oder etwas passenderes) und clusteranalyse lassen wie es ist oder auch unter einen Unterunkt.  -->
+
+<!-- Allgemein weniger absätze -> text soltle nicht zu zerstückelt sein -->
 
 ## Nutzungsarten und aggregierte Verteilung: F3
 
@@ -1027,8 +1043,11 @@ Bei *`r aggregate_comparison[[5, "task"]]`* zeigt sich ein umgekehrte Muster: Im
 Bei *`r aggregate_comparison[[4, "task"]]`* lag der Surveyanteil um `r formatC(aggregate_comparison[[4, "Differenz"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte und bei *`r aggregate_comparison[[3, "task"]]`* um `r formatC(aggregate_comparison[[3, "Differenz"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte höher.
 Bei *`r aggregate_comparison[[2, "task"]]`* war der Surveyanteil um `r formatC(abs(aggregate_comparison[[2, "Differenz"]]) * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte niedriger.
 Die aggregierten Unterschiede waren somit – abgesehen von technischer Unterstützung und Schreiben – gering.
-Die Verteilung der Nutzungsarten ist in @tbl-nutzungsarten dargestellt.
+Die Verteilung de r Nutzungsarten ist in @tbl-nutzungsarten dargestellt.
+<!-- ???  Würde das nicht ausschreiben "Die Verteilung der Nutzungsarten ist in @tbl-nutzungsarten dargestellt." sondern einfach zitieren (@tbl-nutzungsarten) oder so in der Art, wenn man es direkt im Text machen will, dann ganz am Anfang- In Tabelle 4 sieht man die .... hier kann man beobachten das... 
+-->
 
+<!-- ??? müsste es hier nicht auch Prozentpunkte sien also -6,67 PP und ich habe in allen tabllen  im anhang "." statt "," verwendet villeicht wollen wir das einheitlich. Ich glaube es ist egal welche variante man verwendet. Im Text wird auch machnmal punkt (bei den p werten) bei dir und komma verwendent. Ich ändere meine tabllen jetzt mal zu komma--->
 
 
 ```{r}
@@ -1063,7 +1082,11 @@ aggregate_comparison |>
 Hinsichtlich F3 (@sec-forschungsfragen) lässt sich festhalten, dasss sich alle Nutzungsarten in den Chatlogs finden lassen.
 Die Teilnehmenden unterschätzen in der Selbsteinschätzung tendenziell die Nutzung von technischen Hilfsmitteln und das Schreiben von Texten, während sie die Nutzung von Informationen überschätzen.
 
+<!-- ??? Was hat F2 mit personenspezifischen unterschiede tub, allgemein ist mir etwas unklar was der unterschied zwischen F2 und F3 ist die lesen sich schon sehr ähnlich, also ich checke schon was der unteschied ist, aber finde die fragen etwas uneindeutig, vielleicht absolute und mittlere mehr unterscheiden in der Forschungsfrage--->
+
 ## Personenspezifische Unterschieder der Nutzungsarten: F2
+<!-- ??? Abbildung 2 hat zwei title -> einen entfernen, man sollte auch die nummerichen werte in den appendix tun --->
+
 
 Sowohl Häufigkeit als auch Ausmaß der Übereinstimmung zwischen Surveyangaben und Chatlogs unterscheiden sich deutlich zwischen den fünf Nutzungsarten.
 Die größte Übereinstimmung zeigt sich dabei bei *`r as.character(task_agreement_summary[[1, "task"]])`* mit `r formatC(task_agreement_summary[[1, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % und einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[1, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
@@ -1071,6 +1094,8 @@ Die zweitgrößte Übereinstimmung zeigt sich bei *`r as.character(task_agreemen
 Die zweitgrößte Diskrepanz zeigt sich bei *`r as.character(task_agreement_summary[[3, "task"]])`* mit einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[3, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten und `r formatC(task_agreement_summary[[3, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % an Übereinstimmung.
 Die niegristen Übereinstimmungen zeigen sich bei *`r as.character(task_agreement_summary[[4, "task"]])`* und *`r as.character(task_agreement_summary[[5, "task"]])`* mit einer Übereinstimmung bei `r formatC(task_agreement_summary[[4, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % der Teilnehmenden und einer mittleren Abweichung von `r formatC(task_agreement_summary[[4, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` beziehungsweise `r formatC(task_agreement_summary[[5, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
 Die Ergebnisse sind in @tbl-nutzungsarten-abweichungen zusammengefasst.
+
+<!--??? die reinfolge der spalten ist bei tabelle 4 und 5 unterschiedlich das sollte man nich ändern --->
 
 ```{r}
 #| label: tbl-nutzungsarten-abweichungen
@@ -1129,6 +1154,11 @@ plot_task_differences
 <!-- von Laura @ Laura: ggf entfernen
 Die Übereinstimmung zwischen Selbstauskunft und beobachteter Nutzung unterschied sich deutlich zwischen den Personen. Die mittlere Total-Variation-Distanz betrug `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % (SD = `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte). Somit hätten im Durchschnitt rund 40 % der angegebenen Nutzungsanteile zwischen den fünf Aufgabenbereichen umverteilt werden müssen, damit Selbstauskunft und beobachtete Nutzung vollständig übereinstimmen. Der Median lag bei `r formatC(100 * median(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Die Werte reichten von `r formatC(100 * min(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % bis `r formatC(100 * max(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Dies weist auf Unterschiede im Ausmaß der personenbezogenen Diskrepanzen hin. -->
 
+
+<!-- ??? Also ich wieß  nicht wo das in den Forschugnsfragen steht außer bei F6 aber dafür machen wir ja dann die Clusterannaye--->
+
+<!-- ??? wo kommen die p-werte im text her -> muss eine tablle in den appendix wo die raus zitiert werden können, aber weiße ehrlich gesagt auch nicht ob es braucht. Weil in der F2 steht ja nicht so richtig was dazu das man es nach gruppen unterscheidet--->
+
 Explorativ wurde weiter untersucht, ob die Diskrepanz der Nutzungsarten mit ausgewählten personenbezogenen Merkmalen zusammenhing.
 Für die Erfahrung mit generativer KI zeigte sich ein schwacher bis moderater positiver Zusammenhang mit der Diskrepanz ($ρ=$ `r association_summary |> filter(variable == "AI-Erfahrung") |> select(rho) |> pull() |> round(digits = global_digits)`, $p=$ `r association_summary |> filter(variable == "AI-Erfahrung") |> select(p_value) |> pull() |> round(digits = global_digits)`).
 Personen mit größerer Erfahrung mit KI wiesen somit deskriptiv eher größere Abweichungen zwischen Selbstauskunft und beobachteter Nutzung auf.
@@ -1149,6 +1179,8 @@ Der Geschlechterunterschied stellt ein auffälliges deskriptives Muster dar, das
 
 ## Kritisches Prüfen: F4
 
+<!--??? braucht tabelle im appendix aus der das zitiert werden kann. Die zahlen können nicht einfach so im text stehen ohne refrenzierunt--->
+
 Knapp die Hälfte der Teilnehmenden gab an, ChatGPT-Antworten im Chat kritisch zu prüfen (`r formatC(mean(df_analysis$SA_krit_code == 1, na.rm = TRUE) * 100, digits = global_digits, decimal.mark = ",", format = "f")` %).
 Ein überwiegend sichtbares Prüfverhalten zeigt sich in den gespendeten Chatlogs dagegen nur bei `r df_analysis |> count(       Modus_Kritik, Modus_Kritik_Label) |> mutate(percent = n /21 * 100) |> filter(Modus_Kritik_Label == "Ja") |> select(percent) |> pull() |> formatC(format = "f", decimal.mark = ",", digits = global_digits)` % der Personen.
 Survey- und Chatlogangaben stimmten bei `r critical_summary |> filter(discrepancy == "Übereinstimmung") |> select(Prozent) |> pull() |> formatC(digits = global_digits, decimal.mark = ",", format = "f")` % überein.
@@ -1158,6 +1190,7 @@ Eine relative Ausnahme bestand darin, dass Teilnehmende ihr kritisches Prüfen u
 In Hinblick auf F4 (siehe @sec-forschungsfragen) deuten die Ergebnisse der kritischen Prüfung darauf hin, dass die Selbsteinschätzung der Teilnehmenden tendenziell korrekt ausfiel, bei Abweichungen aber insgesamt optimistischer angegeben wurde als das Verhalten in den Chatlogs zeigte.
 
 ## Interaktionsstil: F5
+<!--??? braucht tabelle im appendix aus der das zitiert werden kann. Die zahlen können nicht einfach so im text stehen ohne refrenzierunt--->
 
 Vergleicht man die Angaben zur Art der Interaktion mit den beobachteten Interaktionsstilen in den Chatlogs, werden einige Abweichungen ersichtlich.
 Der selbstberichtete und der in den Chatlogs beobachtete Interaktionsstil stimmten bei `r sentiment_summary |> filter(discrepancy == "korrekt") |> select(Prozent) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % der Personen überein.
@@ -1194,19 +1227,33 @@ Diese Fälle sind bei der Interpretation der Clusterprofile als unsichere Zuordn
 #|   Umkreiste Punkte = Cluster-Zentren
 #| fig-height: 4
 #| fig-width: 6
+#| out-width: "85%"
 
 p_mds
 
 ```
 
 Die Stabilität der Vier-Cluster-Lösung wurde mit drei Robustheitschecks geprüft.
-Erstens wurden die drei Personen ausgeschlossen, deren Sentiment-Modus nicht eindeutig bestimmbar war und die deshalb konservativ als „neutral" codiert wurden. Die Clusterbildung der verbleibenden 18 Personen ist mit der Hauptlösung identisch (Adjusted Rand Index = 1,00); die konservative Codierung der uneindeutigen Fälle bestimmt die Gruppenzugehörigkeit also nicht (@tbla-robustheit).\
-Zweitens wurde die Clusterung ohne die Gewichtung der fünf aufgabenbezogenen Diskrepanzmaße wiederholt. Auch hier ergibt die Silhouette-Methode k = 4, und 18 der 21 Personen werden derselben Gruppe zugeordnet. Die Abweichungen betreffen ausschließlich die Cluster eins und drei. Zwei Personen aus Cluster drei und eine aus Cluster eins wechseln die Zuordnung, während die Cluster zwei und vier unverändert bleiben (@tbla-pam-ungewichtet). Die durchschnittliche Silhouettenweite sinkt allerdings deutlich auf 0,26 (@tbla-robustheit). Ohne Gewichtung dominieren die fünf Aufgabenvariablen die Distanzberechnung gegenüber Sentiment und kritischem Nachfragen, wodurch die Cluster inhaltlich weniger trennscharf werden. Das bestätigt die Gewichtung als Voraussetzung dafür, dass alle drei Konstrukte gleichgewichtig in die Lösung eingehen.\
+Erstens wurden die drei Personen ausgeschlossen, deren Sentiment-Modus nicht eindeutig bestimmbar war und die deshalb konservativ als „neutral" codiert wurden. Die Clusterbildung der verbleibenden 18 Personen ist mit der Hauptlösung identisch (Adjusted Rand Index = 1,00), die konservative Codierung der uneindeutigen Fälle bestimmt die Gruppenzugehörigkeit also nicht (@tbla-robustheit).
+Zweitens wurde die Clusterung ohne die Gewichtung der fünf aufgabenbezogenen Diskrepanzmaße wiederholt. Auch hier ergibt die Silhouette-Methode k = 4, und 18 der 21 Personen werden derselben Gruppe zugeordnet. Die Abweichungen betreffen ausschließlich die Cluster eins und drei. Zwei Personen aus Cluster drei und eine aus Cluster eins wechseln die Zuordnung, während die Cluster zwei und vier unverändert bleiben (@tbla-pam-ungewichtet). Die durchschnittliche Silhouettenweite sinkt allerdings deutlich auf 0,26 (@tbla-robustheit). Ohne Gewichtung dominieren die fünf Aufgabenvariablen die Distanzberechnung gegenüber Sentiment und kritischem Nachfragen, wodurch die Cluster inhaltlich weniger trennscharf werden. Das bestätigt die Gewichtung als Voraussetzung dafür, dass alle drei Konstrukte gleichgewichtig in die Lösung eingehen.
 Drittens wurde ein hierarchisches Clustering mit Average Linkage auf derselben Gower-Distanzmatrix gerechnet und auf vier Gruppen geschnitten. Die Zuordnung stimmt bis auf eine einzige Person mit der PAM-Lösung überein (20 von 21) (@figb-agreement). Die abweichende Person wechselt von Cluster eins zu Cluster zwei, im Dendrogramm liegt sie am Rand ihres Astes (@figb-dendrogramm). Insgesamt hängt die Lösung damit nicht am gewählten Algorithmus.
 
 Die inhaltliche Charakterisierung der vier Cluster erfolgt über die mittlere Diskrepanz zwischen Selbstauskunft und beobachtetem Verhalten je Aufgabenbereich (@fig-heatmap).
 Ein positiver Wert bedeutet, dass die Person ihre Nutzung in diesem Bereich höher einschätzt, als es die Chatlogs abbilden; ein negativer Wert bedeutet das Gegenteil.
 Werte um null stehen für eine zutreffende Selbsteinschätzung.
+
+```{r}
+#| label: fig-heatmap
+#| fig-cap: |
+#|   Cluster-Profile: mittlere Diskrepanz je Aufgabe (Numerische Werte: @tbla-cluster-profile).\
+#|   Rot = Überschätzung (SA > BE) · Blau = Unterschätzung (SA < BE).
+#| fig-height: 4
+#| fig-width: 6
+#| out-width: "85%"
+
+p_heat
+
+```
 
 Die Abweichungen verteilen sich ungleichmäßig über die Aufgabenbereiche.
 Bei Schreiben/Textarbeit und Lernen/Prüfungsvorbereitung bleiben sie über alle Cluster hinweg gering (Beträge ≤ 0,08), während sich die substanziellen Diskrepanzen auf Informationssuche sowie praktische und technische Unterstützung konzentrieren.
@@ -1216,17 +1263,6 @@ Cluster zwei unterschätzt die Informationssuche (−0,22) und überschätzt die
 Cluster vier weicht fast ausschließlich bei der praktischen (+0,16) und technischen Unterstützung (−0,16) ab.
 Cluster eins bleibt über alle Bereiche hinweg innerhalb geringer Abweichungen (Beträge ≤ 0,13) und weist damit die höchste Übereinstimmung zwischen Selbstauskunft und Verhalten auf.
 
-```{r}
-#| label: fig-heatmap
-#| fig-cap: |
-#|   Cluster-Profile: mittlere Diskrepanz je Aufgabe (Numerische Werte: @tbla-cluster-profile).\
-#|   Rot = Überschätzung (SA > BE) · Blau = Unterschätzung (SA < BE).
-#| fig-height: 4
-#| fig-width: 6
-
-p_heat
-
-```
 
 Ergänzend zu den aufgabenbezogenen Diskrepanzen zeigen die kategorialen Diskrepanzvariablen ein deutlich trennschärferes Bild.
 Bei der Sentiment-Diskrepanz unterscheiden sich die Cluster nahezu vollständig voneinander.
@@ -1239,6 +1275,7 @@ Cluster zwei und drei schätzen ihren umgangston (nahezu) korrekt ein.
 #| fig-cap: "Sentiment-Diskrepanz je Cluster (Numerische Werte: @tbla-sentiment-cluster)"
 #| fig-height: 4
 #| fig-width: 6
+#| out-width: "85%"
 
 p_sent_cl
 
@@ -1254,6 +1291,7 @@ In den Clustern eins und vier stimmt die Selbstauskunft mehrheitlich mit dem beo
 #| fig-cap: "Kritik-Diskrepanz je Cluster (Numerische Werte: @tbla-kritik-cluster)"
 #| fig-height: 4
 #| fig-width: 6
+#| out-width: "85%"
 
 p_krit_cl
 ```
@@ -1266,6 +1304,18 @@ Die zugehörigen Gruppenvergleiche finden sich in @tbla-socialdesir (Welch-ANOVA
 @fig-profile fasst die Cluster-Mittelwerte aller metrischen und ordinalen Kontextvariablen zusammen, wobei jede Variable auf ihren jeweiligen Skalenbereich reskaliert wurde, um sie vergleichbar darzustellen.
 Die grauen Balken zeigen die Spannweite zwischen dem niedrigsten und höchsten Clustermittelwert und machen damit sichtbar, welche Variablen überhaupt zwischen den Clustern differenzieren.
 
+```{r}
+#| label: fig-profile
+#| fig-cap: |
+#|   Kontextvariablen-Profil der Cluster (Numerische Werte: @tbla-kontext-profil).\
+#|   Cluster-Mittelwerte, je Variable auf den Skalenbereich [0 %, 100 %] reskaliert.
+#| fig-height: 4
+#| fig-width: 6
+#| out-width: "85%"
+
+p_profil
+```
+
 Am deutlichsten unterscheiden sich die Cluster bei der sozialen Erwünschtheit und der Nutzungshäufigkeit.
 In beiden Fällen bildet Cluster drei einen Pol, allerdings in entgegengesetzter Richtung.
 Bei der sozialen Erwünschtheit liegt Cluster drei mit knapp vierzig Prozent des Skalenbereichs deutlich unter den anderen drei Clustern, die sich zwischen sechzig und dreiundsiebzig Prozent bewegen.
@@ -1276,16 +1326,6 @@ Das passt zu dem Befund, dass die Mitglieder dieses Clusters ihren Umgangston vo
 Bei den übrigen drei Variablen fallen die Unterschiede zwischen den Clustern klein aus.
 KI-Erfahrung und beide Informationskompetenz-Items liegen bei allen vier Clustern im oberen Skalenbereich zwischen etwa siebzig und neunzig Prozent, wobei Cluster drei auch hier jeweils die höchsten Werte erreicht.
 
-```{r}
-#| label: fig-profile
-#| fig-cap: |
-#|   Kontextvariablen-Profil der Cluster (Numerische Werte: @tbla-kontext-profil).\
-#|   Cluster-Mittelwerte, je Variable auf den Skalenbereich [0 %, 100 %] reskaliert.
-#| fig-height: 4
-#| fig-width: 6
-
-p_profil
-```
 
 Die soziodemografischen Merkmale läst sich folgendes beobachten (@figb-soziodemografie).
 Bei der Fächergruppe fällt auf, dass Cluster drei vollständig aus Studierenden der Sozialwissenschaften besteht, während sich die übrigen Cluster jeweils aus drei bis vier verschiedenen Fächergruppen zusammensetzen.

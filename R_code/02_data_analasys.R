@@ -85,6 +85,48 @@ theme_projekt <- function(base_size = 12) {
 }
 theme_set(theme_projekt())
 
+#############################################
+# Zahlformat: Komma statt Punkt (deutsch)####
+#############################################
+# Alle Zahlen in Grafiken und Tabellen werden mit Dezimalkomma ausgegeben
+# (0,50 statt 0.50). Achsen/Legenden ueber die Label-Funktionen, Texte und
+# Tabellen ueber komma_chr()/komma_df().
+
+# Achsen- und Legendenbeschriftungen
+lbl_komma   <- scales::label_number(decimal.mark = ",", big.mark = ".")
+lbl_prozent <- scales::label_percent(decimal.mark = ",", big.mark = ".")
+
+# Punkt -> Komma in bereits formatierten Zeichenketten (z. B. aus sprintf)
+komma_chr <- function(x) gsub(".", ",", as.character(x), fixed = TRUE)
+
+# Zahl -> Zeichenkette mit Komma; drop0trailing haelt die Darstellung
+# identisch zur bisherigen (0.5 wird zu 0,5 und nicht zu 0,50)
+komma_num <- function(x) {
+  vapply(x, function(v) {
+    if (is.na(v)) return(NA_character_)
+    format(v, decimal.mark = ",", big.mark = "", trim = TRUE,
+           scientific = FALSE, drop0trailing = TRUE)
+  }, character(1), USE.NAMES = FALSE)
+}
+
+# Alle numerischen Spalten eines Data Frames auf Komma-Schreibweise umstellen
+komma_df <- function(df) {
+  num <- vapply(df, is.numeric, logical(1))
+  df[num] <- lapply(df[num], komma_num)
+  df
+}
+
+# Spalten mit Zahlen (auch bereits als Text mit Komma) rechtsbuendig ausrichten,
+# damit die Tabellen trotz Textformatierung wie zuvor gesetzt werden
+komma_align <- function(df) {
+  ifelse(vapply(df, function(col) {
+    if (is.numeric(col)) return(TRUE)
+    col <- as.character(col)
+    val <- col[!is.na(col)]
+    length(val) > 0 && all(grepl("^[-+]?[0-9]+([,.][0-9]+)?%?$", val))
+  }, logical(1)), "r", "l")
+}
+
 # Hilfsfunktion: NA-Faelle (Gleichstaende) als eigenes Level "uneindeutig"
 mit_uneindeutig <- function(x) {
   lev <- c(levels(x), "uneindeutig")
@@ -109,30 +151,31 @@ p1 <- ggplot(data, aes(x = gender_f)) +
   geom_bar(fill = BLUE, width = 0.6) +
   geom_text(stat = "count", aes(label = after_stat(count)),
             vjust = -0.4, size = 3.5, colour = INK_2) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.12))) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.12)), labels = lbl_komma) +
   labs(title = "Geschlecht", x = NULL, y = "Anzahl") +
   theme(axis.text.x = element_text(angle = 20, hjust = 1))
 
 p2 <- ggplot(data, aes(x = age)) +
   geom_histogram(binwidth = 1, fill = BLUE, colour = "white", linewidth = 0.5) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.08))) +
+  scale_x_continuous(labels = lbl_komma) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.08)), labels = lbl_komma) +
   labs(title = "Alter",
-       subtitle = paste0("M = ", round(mean(data$age),1),
-                         ", SD = ", round(sd(data$age),1)),
+       subtitle = paste0("M = ", komma_num(round(mean(data$age),1)),
+                         ", SD = ", komma_num(round(sd(data$age),1))),
        x = "Alter in Jahren", y = "Anzahl")
 
 p3 <- ggplot(data, aes(y = field_f)) +
   geom_bar(fill = BLUE, width = 0.6) +
   geom_text(stat = "count", aes(label = after_stat(count)),
             hjust = -0.4, size = 3.2, colour = INK_2) +
-  scale_x_continuous(expand = expansion(mult = c(0, 0.12))) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.12)), labels = lbl_komma) +
   labs(title = "Fächergruppe", x = "Anzahl", y = NULL)
 
 p4 <- ggplot(data, aes(x = degree_f)) +
   geom_bar(fill = BLUE, width = 0.6) +
   geom_text(stat = "count", aes(label = after_stat(count)),
             vjust = -0.4, size = 3.5, colour = INK_2) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.12))) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.12)), labels = lbl_komma) +
   labs(title = "Angestrebter Abschluss", x = NULL, y = "Anzahl") +
   theme(axis.text.x = element_text(angle = 20, hjust = 1))
 
@@ -153,7 +196,8 @@ data$D_MAD  <- rowMeans(abs(data[, D_cols]))            # Ausmass, ohne Neutrali
 p_dmean <- ggplot(data, aes(x = D_mean)) +
   geom_histogram(bins = 15, fill = BLUE, colour = "white", linewidth = 0.5) +
   geom_vline(xintercept = 0, linetype = "dashed", colour = INK_MUTED) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.08))) +
+  scale_x_continuous(labels = lbl_komma) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.08)), labels = lbl_komma) +
   labs(title = "Mittlere Diskrepanz pro Person (SA − BE)",
        subtitle = "Werte > 0: Überschätzung der eigenen Nutzung · Werte < 0: Unterschätzung",
        x = "Mittlere Diskrepanz", y = "Anzahl Personen")
@@ -161,7 +205,8 @@ ggsave("plots/01_hist_Dmean.png", p_dmean, width = 7, height = 4.5, dpi = 150, b
 
 p_mad <- ggplot(data, aes(x = D_MAD)) +
   geom_histogram(bins = 15, fill = BLUE, colour = "white", linewidth = 0.5) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.08))) +
+  scale_x_continuous(labels = lbl_komma) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.08)), labels = lbl_komma) +
   labs(title = "Mittlere absolute Diskrepanz (MAD) pro Person",
        subtitle = "Ausmaß der Fehleinschätzung, unabhängig von der Richtung",
        x = "MAD", y = "Anzahl Personen")
@@ -178,6 +223,7 @@ p_box <- ggplot(D_long, aes(x = task, y = D)) +
   geom_hline(yintercept = 0, linetype = "dashed", colour = INK_MUTED) +
   geom_boxplot(fill = BLUE, alpha = 0.55, colour = INK_2,
                width = 0.55, outlier.size = 1, linewidth = 0.4) +
+  scale_y_continuous(labels = lbl_komma) +
   labs(title = "Diskrepanz je Aufgabentyp",
        subtitle = "Selbstauskunft (SA) minus beobachteter Anteil (BE); 0 = korrekte Einschätzung",
        x = NULL, y = "Diskrepanz (SA − BE)") +
@@ -194,7 +240,8 @@ p_sent <- ggplot(data, aes(x = S_Diskrepanz_plot, fill = S_Diskrepanz_plot)) +
             vjust = -0.4, size = 3.5, colour = INK_2) +
   scale_fill_manual(values = COL_DISKREPANZ, guide = "none") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.12)),
-                     breaks = function(l) unique(floor(pretty(l)))) +
+                     breaks = function(l) unique(floor(pretty(l))),
+                     labels = lbl_komma) +
   labs(title = "Sentiment-Diskrepanz",
        subtitle = "Selbst eingeschätzter Ton im Vergleich zum beobachteten Ton der Chats",
        x = NULL, y = "Anzahl Personen")
@@ -206,7 +253,8 @@ p_krit <- ggplot(data, aes(x = K_Diskrepanz_plot, fill = K_Diskrepanz_plot)) +
             vjust = -0.4, size = 3.5, colour = INK_2) +
   scale_fill_manual(values = COL_DISKREPANZ, guide = "none") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.12)),
-                     breaks = function(l) unique(floor(pretty(l)))) +
+                     breaks = function(l) unique(floor(pretty(l))),
+                     labels = lbl_komma) +
   labs(title = "Kritik-Diskrepanz",
        subtitle = "Selbstauskunft zum kritischen Nachfragen im Vergleich zur Beobachtung",
        x = NULL, y = "Anzahl Personen")
@@ -267,9 +315,10 @@ p_sil <- ggplot(sil_df, aes(x = k, y = silhouette)) +
   geom_text(data = sil_df[sil_df$k == k_opt, ],
             aes(label = paste0("k = ", k)), vjust = -1.2, size = 3.5, colour = INK_2) +
   scale_x_continuous(breaks = k_range) +
+  scale_y_continuous(labels = lbl_komma) +
   labs(title = "Durchschnittliche Silhouette je Clusterzahl",
        subtitle = paste0("Gewähltes k = ", k_opt, " (rot markiert): beste Silhouette ohne Cluster < ",
-                         MIN_CLUSTER_N, " Personen · gepunktete Linien: Richtwerte 0.5 / 0.7"),
+                         MIN_CLUSTER_N, " Personen · gepunktete Linien: Richtwerte 0,5 / 0,7"),
        x = "Anzahl Cluster (k)", y = "Durchschnittliche Silhouettenweite")
 ggsave("plots/06_silhouette_k.png", p_sil, width = 7, height = 4.5, dpi = 150, bg = "white")
 
@@ -293,6 +342,7 @@ p_silperson <- ggplot(sil_pdf, aes(x = idx, y = sil_width, fill = cluster)) +
   geom_hline(yintercept = 0, colour = AXISLINE) +
   coord_flip() +
   scale_fill_manual(values = cluster_cols, name = "Cluster") +
+  scale_y_continuous(labels = lbl_komma) +
   labs(title = "Silhouettenwerte pro Person",
        subtitle = "Werte nahe 1 = klar zugeordnet · Werte < 0 = eher zum Nachbarcluster passend",
        x = "Person (nach Cluster sortiert)", y = "Silhouettenweite") +
@@ -308,8 +358,9 @@ prof_long <- reshape(prof, direction = "long",
 prof_long$task <- factor(TASK_LABELS[prof_long$variable], levels = TASK_LABELS[D_cols])
 p_heat <- ggplot(prof_long, aes(x = task, y = cluster, fill = value)) +
   geom_tile(colour = "white", linewidth = 1.5) +
-  geom_text(aes(label = sprintf("%+.2f", value)), size = 3.5, colour = INK) +
-  scale_fill_gradient2(low = DIV_LOW, mid = DIV_MID, high = DIV_HIGH, midpoint = 0) +
+  geom_text(aes(label = komma_chr(sprintf("%+.2f", value))), size = 3.5, colour = INK) +
+  scale_fill_gradient2(low = DIV_LOW, mid = DIV_MID, high = DIV_HIGH, midpoint = 0,
+                       labels = lbl_komma) +
   labs(title = "Cluster-Profile: mittlere Diskrepanz je Aufgabe",
        subtitle = "Rot = Überschätzung (SA > BE) · Blau = Unterschätzung (SA < BE)",
        x = NULL, y = "Cluster", fill = "Mittlere\nDiskrepanz") +
@@ -326,6 +377,8 @@ p_mds <- ggplot(mds_df, aes(Dim1, Dim2, colour = cluster)) +
   geom_point(data = mds_df[medoid_idx, ], size = 6, shape = 1, stroke = 1.2,
              colour = INK) +
   scale_colour_manual(values = cluster_cols, name = "Cluster") +
+  scale_x_continuous(labels = lbl_komma) +
+  scale_y_continuous(labels = lbl_komma) +
   labs(title = "MDS-Projektion der Gower-Distanzen",
        subtitle = "Umkreiste Punkte = Medoide (Cluster-Zentren)",
        x = "MDS-Dimension 1", y = "MDS-Dimension 2")
@@ -335,7 +388,7 @@ ggsave("plots/09_mds.png", p_mds, width = 7, height = 5, dpi = 150, bg = "white"
 p_sent_cl <- ggplot(data, aes(x = cluster, fill = S_Diskrepanz_plot)) +
   geom_bar(position = "fill", width = 0.6, colour = "white", linewidth = 0.6) +
   scale_fill_manual(values = COL_DISKREPANZ, name = "Sentiment-\nDiskrepanz") +
-  scale_y_continuous(labels = percent) +
+  scale_y_continuous(labels = lbl_prozent) +
   labs(title = "Sentiment-Diskrepanz je Cluster",
        x = "Cluster", y = "Anteil der Personen")
 ggsave("plots/10_sentiment_cluster.png", p_sent_cl, width = 7, height = 4.5, dpi = 150, bg = "white")
@@ -343,7 +396,7 @@ ggsave("plots/10_sentiment_cluster.png", p_sent_cl, width = 7, height = 4.5, dpi
 p_krit_cl <- ggplot(data, aes(x = cluster, fill = K_Diskrepanz_plot)) +
   geom_bar(position = "fill", width = 0.6, colour = "white", linewidth = 0.6) +
   scale_fill_manual(values = COL_DISKREPANZ, name = "Kritik-\nDiskrepanz") +
-  scale_y_continuous(labels = percent) +
+  scale_y_continuous(labels = lbl_prozent) +
   labs(title = "Kritik-Diskrepanz je Cluster",
        x = "Cluster", y = "Anteil der Personen")
 ggsave("plots/11_kritik_cluster.png", p_krit_cl, width = 7, height = 4.5, dpi = 150, bg = "white")
@@ -367,6 +420,7 @@ p_med <- ggplot(med_long, aes(x = task, y = D, colour = cluster)) +
   geom_point(size = 3.5, alpha = 0.9,
              position = position_jitter(width = 0.12, height = 0, seed = SEED)) +
   scale_colour_manual(values = cluster_cols, labels = med_lab, name = NULL) +
+  scale_y_continuous(labels = lbl_komma) +
   labs(title = "Cluster-Zentren im Vergleich (Medoide)",
        subtitle = "Diskrepanzprofil der repräsentativsten Person je Cluster · 0 = korrekte Selbsteinschätzung",
        x = NULL, y = "Diskrepanz (SA − BE)") +
@@ -394,7 +448,7 @@ p_medctx <- ggplot(med_ctx, aes(x = variable, y = wert01, colour = cluster)) +
   geom_point(size = 3.5, alpha = 0.9,
              position = position_jitter(width = 0.12, height = 0, seed = SEED)) +
   scale_colour_manual(values = cluster_cols, labels = med_lab, name = NULL) +
-  scale_y_continuous(limits = c(0, 1), labels = percent) +
+  scale_y_continuous(limits = c(0, 1), labels = lbl_prozent) +
   labs(title = "Cluster-Zentren im Vergleich: Kontextvariablen",
        subtitle = "Werte der Medoide, je Variable auf den Skalenbereich [0 %, 100 %] reskaliert",
        x = NULL, y = "Wert (Anteil am Skalenbereich)") +
@@ -406,7 +460,7 @@ ggsave("plots/09c_medoid_kontext.png", p_medctx, width = 9, height = 5, dpi = 15
 # =====================================================================
 
 ## Hilfsfunktion: p-Wert dezent formatieren
-fmt_p <- function(p) ifelse(p < 0.001, "< 0.001", sprintf("%.3f", p))
+fmt_p <- function(p) ifelse(p < 0.001, "< 0,001", komma_chr(sprintf("%.3f", p)))
 
 ## 3a) Soziale Erwuenschtheit (metrisch-nah) -> Welch-ANOVA + Boxplot -------
 # Voraussetzung: jeder Cluster braucht n >= 2 und Varianz > 0
@@ -417,6 +471,7 @@ p_sd <- ggplot(data, aes(x = cluster, y = social_desir_mean, fill = cluster)) +
                linewidth = 0.4, outlier.shape = NA) +
   geom_jitter(width = 0.12, size = 1.6, alpha = 0.6, colour = INK) +
   scale_fill_manual(values = cluster_cols, guide = "none") +
+  scale_y_continuous(labels = lbl_komma) +
   labs(title = "Soziale Erwünschtheit je Cluster",
        x = "Cluster", y = "Soziale Erwünschtheit (Mittelwert, 1–5)")
 ggsave("plots/12_context_socialdesir.png", p_sd, width = 7, height = 4.5, dpi = 150, bg = "white")
@@ -488,7 +543,7 @@ for (i in seq_along(nom_vars)) {
   p_nom <- ggplot(data, aes(x = cluster, fill = nom_grp)) +
     geom_bar(position = "fill", width = 0.6, colour = "white", linewidth = 0.6) +
     scale_fill_manual(values = PAL_CAT[seq_len(n_lev)], name = nom_labels[i]) +
-    scale_y_continuous(labels = percent) +
+    scale_y_continuous(labels = lbl_prozent) +
     labs(title = paste(nom_labels[i], "je Cluster"),
          x = "Cluster", y = "Anteil der Personen")
   ggsave(sprintf("plots/14_context_%s.png", nom_files[i]), p_nom, width = 7.5, height = 4.5, dpi = 150, bg = "white")
@@ -531,7 +586,7 @@ p_profil <- ggplot(profil_df) +
                colour = GRID, linewidth = 2.5, lineend = "round") +
   geom_point(aes(x = wert01, y = y_pos, colour = cluster), size = 3.5) +
   scale_colour_manual(values = cluster_cols, name = "Cluster") +
-  scale_x_continuous(limits = c(0, 1), labels = percent,
+  scale_x_continuous(limits = c(0, 1), labels = lbl_prozent,
                      expand = expansion(mult = c(0.02, 0.02))) +
   scale_y_continuous(breaks = seq_len(nlevels(profil_df$var_lab)),
                      labels = levels(profil_df$var_lab)) +
@@ -600,12 +655,16 @@ hc_cl <- cutree(hc, k = k_opt)
 tab_hc <- table(PAM = data$cluster, Hierarchisch = hc_cl)
 
 # Dendrogramm als Grafik
+# Basisgrafik: Achsenbeschriftung kommt aus format(), daher OutDec kurzzeitig
+# auf Komma stellen und danach wieder zuruecksetzen
 png("plots/15_dendrogram_average.png", width = 1100, height = 650, res = 120)
+old_outdec <- options(OutDec = ",")
 par(mar = c(3, 4, 3, 1), col.main = INK, col.axis = INK_2, col.lab = INK_2,
     family = "sans", cex.main = 1.1)
 plot(hc, labels = paste("ID", data$id), main = "Hierarchisches Clustering (Average Linkage, Gower-Distanz)",
      xlab = "", sub = "", ylab = "Distanz", cex = 0.75, frame.plot = FALSE)
 rect.hclust(hc, k = k_opt, border = PAL_CAT[seq_len(k_opt)])
+options(old_outdec)
 dev.off()
 
 # Uebereinstimmung PAM vs. hierarchisch als Kreuztabellen-Grafik
@@ -613,7 +672,7 @@ tab_df <- as.data.frame(tab_hc)
 p_agree <- ggplot(tab_df, aes(x = PAM, y = factor(Hierarchisch), fill = Freq)) +
   geom_tile(colour = "white", linewidth = 1.5) +
   geom_text(aes(label = Freq), size = 4, colour = INK) +
-  scale_fill_gradient(low = "#cde2fb", high = "#184f95") +
+  scale_fill_gradient(low = "#cde2fb", high = "#184f95", labels = lbl_komma) +
   labs(title = "Übereinstimmung: PAM vs. Average-Linkage",
        subtitle = "Anzahl Personen je Kombination der Clusterzuordnungen",
        x = "PAM-Cluster", y = "Hierarchisches Cluster", fill = "Anzahl") +
@@ -636,6 +695,9 @@ dir.create(tab_dir, showWarnings = FALSE, recursive = TRUE)
 tab_report <- list()   # sammelt (Titel, Tabelle) fuer den Markdown-Report
 
 save_tab <- function(df, name, titel = NULL) {
+  # Zahlen als Text mit Dezimalkomma; das Trennzeichen der CSV bleibt das
+  # Komma, die Werte werden von write.csv in Anfuehrungszeichen gesetzt
+  df <- komma_df(df)
   write.csv(df, file.path(tab_dir, name), row.names = FALSE)
   if (!is.null(titel)) {
     tab_report[[length(tab_report) + 1]] <<- list(titel = titel, name = name, df = df)
@@ -809,7 +871,8 @@ for (t in tab_report) {
   report_lines <- c(report_lines,
                     paste("##", t$titel),
                     "",
-                    knitr::kable(t$df, format = "pipe", row.names = FALSE),
+                    knitr::kable(t$df, format = "pipe", row.names = FALSE,
+                                 align = komma_align(t$df)),
                     "",
                     paste0("*Datei: `tabs/", t$name, "`*"),
                     "")
