@@ -139,9 +139,6 @@ library(gt)
 #| include: false
 global_digits <- 2
 ```
-<!-- ??? kaann man beim titleblatt das "Maseterstudiengang Comp... 2 Fachsemester" über fußnoten machen das es nur einmal auf den deckblatt steht -> ähnlich wie bei deckblatt für llm evaluation -->
-
-
 
 
 # Abstract {.unnumbered .unlisted}
@@ -1056,7 +1053,7 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.-->
 
 <!-- Allgemein weniger absätze -> text soltle nicht zu zerstückelt sein -->
 
-## Nutzungsarten und Kritisches Prüfen: F2 bis F4
+## Nutzungsarten: F2 und F3
 
 In @tbl-nutzungsarten sieht man die Verteilung der Nutzungsarten. Auf Aggregatebene zeigt sich dort, dass der größte Unterschied bei *`r aggregate_comparison[[1, "task"]]`*.
 Ihr durchschnittlicher Anteil betrug im Survey `r formatC(aggregate_comparison[[1, "Survey"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %, in den Chatlogs dagegen `r formatC(aggregate_comparison[[1, "Chatlogs"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %.
@@ -1177,7 +1174,7 @@ Im Hinblick auf F2 (siehe @sec-forschungsfragen) zeigt sich, dass Personen sich 
 Die Übereinstimmung zwischen Selbstauskunft und beobachteter Nutzung unterschied sich deutlich zwischen den Personen. Die mittlere Total-Variation-Distanz betrug `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % (SD = `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte). Somit hätten im Durchschnitt rund 40 % der angegebenen Nutzungsanteile zwischen den fünf Aufgabenbereichen umverteilt werden müssen, damit Selbstauskunft und beobachtete Nutzung vollständig übereinstimmen. Der Median lag bei `r formatC(100 * median(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Die Werte reichten von `r formatC(100 * min(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % bis `r formatC(100 * max(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Dies weist auf Unterschiede im Ausmaß der personenbezogenen Diskrepanzen hin. -->
 
 
-## Kritisches Prüfen: F4
+## Interaktionsstil und Kritisches Prüfen: F3 und F4
 
 <!--??? braucht tabelle im appendix aus der das zitiert werden kann. Die zahlen können nicht einfach so im text stehen ohne refrenzierunt--->
 
@@ -1201,7 +1198,7 @@ Die restlichen Teilnehmenden unterschätzen und überschätzen sich fast gleiche
 
 \FloatBarrier
 
-## Diskrepanzen und personenbezogene Merkmale: F6
+## Diskrepanzmuster: F6
 
 ### Zusammenhangsmaße
 
