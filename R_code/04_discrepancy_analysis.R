@@ -206,7 +206,7 @@ task_agreement_summary <- task_long |>
 
     .groups = "drop"
   ) |>
-  arrange(desc(exact_agreement_percent))
+  arrange(desc(exact_agreement_percent), mean_absolute_difference_pp)
 
 task_agreement_summary
 

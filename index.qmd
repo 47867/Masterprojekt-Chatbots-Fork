@@ -1056,16 +1056,16 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.-->
 
 <!-- Allgemein weniger absätze -> text soltle nicht zu zerstückelt sein -->
 
-## Nutzungsarten: F2 und F3
+## Nutzungsarten und Kritisches Prüfen: F2 bis F4
 
-Auf Aggregatebene zeigt sich der größte Unterschied bei *`r aggregate_comparison[[1, "task"]]`*.
+In @tbl-nutzungsarten sieht man die Verteilung der Nutzungsarten. Auf Aggregatebene zeigt sich dort, dass der größte Unterschied bei *`r aggregate_comparison[[1, "task"]]`*.
 Ihr durchschnittlicher Anteil betrug im Survey `r formatC(aggregate_comparison[[1, "Survey"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %, in den Chatlogs dagegen `r formatC(aggregate_comparison[[1, "Chatlogs"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %.
 Damit lag der selbstberichtete Anteil um `r formatC(abs(aggregate_comparison[[1, "Differenz"]]) * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte unter dem beobachteten Anteil.
 Bei *`r aggregate_comparison[[5, "task"]]`* zeigt sich ein umgekehrte Muster: Im Survey entfallen durchschnittlich `r formatC(aggregate_comparison[[5, "Survey"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` % auf diesen Bereich, in den Chatlogs `r formatC(aggregate_comparison[[5, "Chatlogs"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %, was einer Differenz von `r formatC(aggregate_comparison[[5, "Differenz"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkten entspricht.
 Bei *`r aggregate_comparison[[4, "task"]]`* lag der Surveyanteil um `r formatC(aggregate_comparison[[4, "Differenz"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte und bei *`r aggregate_comparison[[3, "task"]]`* um `r formatC(aggregate_comparison[[3, "Differenz"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte höher.
 Bei *`r aggregate_comparison[[2, "task"]]`* war der Surveyanteil um `r formatC(abs(aggregate_comparison[[2, "Differenz"]]) * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte niedriger.
 Die aggregierten Unterschiede waren somit – abgesehen von technischer Unterstützung und Schreiben – gering.
-Die Verteilung de r Nutzungsarten ist in @tbl-nutzungsarten dargestellt.
+
 <!-- ???  Würde das nicht ausschreiben "Die Verteilung der Nutzungsarten ist in @tbl-nutzungsarten dargestellt." sondern einfach zitieren (@tbl-nutzungsarten) oder so in der Art, wenn man es direkt im Text machen will, dann ganz am Anfang- In Tabelle 4 sieht man die .... hier kann man beobachten das... 
 -->
 
@@ -1114,6 +1114,7 @@ Die niegristen Übereinstimmungen zeigen sich bei *`r as.character(task_agreemen
 Die Ergebnisse sind in @tbl-nutzungsarten-abweichungen zusammengefasst.
 
 <!--??? die reinfolge der spalten ist bei tabelle 4 und 5 unterschiedlich das sollte man nich ändern --->
+<!-- @Theo: die Reihenfolge der Spalten ist unterschiedlich, weil die Tabellen anhand der Werte absteigend sortiert sind. -->
 
 ```{r}
 #| label: tbl-nutzungsarten-abweichungen
@@ -1188,7 +1189,6 @@ Eine relative Ausnahme bestand darin, dass Teilnehmende ihr kritisches Prüfen u
 
 In Hinblick auf F4 (siehe @sec-forschungsfragen) deuten die Ergebnisse der kritischen Prüfung darauf hin, dass die Selbsteinschätzung der Teilnehmenden tendenziell korrekt ausfiel, bei Abweichungen aber insgesamt optimistischer angegeben wurde als das Verhalten in den Chatlogs zeigte.
 
-## Interaktionsstil: F5
 <!--??? braucht tabelle im appendix aus der das zitiert werden kann. Die zahlen können nicht einfach so im text stehen ohne refrenzierunt--->
 
 Vergleicht man die Angaben zur Art der Interaktion mit den beobachteten Interaktionsstilen in den Chatlogs, werden einige Abweichungen ersichtlich.
@@ -1468,29 +1468,7 @@ Drittens könnten längsschnittliche Designs klären, ob sich Diskrepanzen zwisc
 Methodisch bietet sich außerdem eine systematischere Validierung der LLM-Klassifikation an, etwa durch Fine-Tuning oder Few-Shot-Verfahren sowie umfangreichere Human-Coding-Vergleiche.
 Nicht zuletzt könnten qualitative Anschlussstudien wie etwa kognitive Interviews im Sinne des Response-Prozess-Modells von @tourangeau2000 klären, an welcher Stelle des Antwortprozesses (Erinnerung, Urteilsbildung, Mapping auf Antwortkategorien) die beobachteten Fehleinschätzungen tatsächlich entstehen, und damit über die hier mögliche Beschreibung von Diskrepanzen hinaus zu deren Erklärung beitragen.
 
-\newpage
 
-# Interessenkonflikt {.unnumbered .unlisted}
-
-Wir geben an, dass kein Interessenkonflikt vorliegt.
-
-# Erklärung zur Datenverfügbarkeit {.unnumbered .unlisted}
-
-Für diese Forschungsarbeit wurden neue Daten erhoben.
-Die Rohdaten können nicht veröffentlicht werden, da sie personenbezogene Daten enthalten könnten.
-Die Analysedaten und -Materialien sind auf dem Open Science Framework OSF (<https://osf.io/pqdhb>) und auf [GitHub: Masterprojekt-Chatbots](https://github.com/lpkiemes/Masterprojekt-Chatbots) unter CC0 1.0-Lizenzen hinterlegt.
-Die Modell-Evaluation inklusive der verwendeten Prompts ist [hier dokumentiert](https://github.com/lpkiemes/Masterprojekt-Chatbots/blob/main/Schreibearbeit/Evalluation__LLM_Perfomance.pdf).
-
-# Abweichungen von der Preregistration {.unnumbered .unlisted}
-
-Das Vorhaben wurde auf dem Open Science Framework OSF (<https://osf.io/pqdhb>) vorregistriert.
-In folgenden Punkten wurde von der Preregistration abgewichen:
-
-Die ursprünglich präregistrierte Forschungsfrage F5 („Wie gut eignet sich die LLM-basierte Klassifikation, um Dimensionen der Informationsnutzung in Chatlogs systematisch zu erfassen und mit Surveyangaben zu vergleichen?“) wird nicht mehr als eigenständige inhaltliche Forschungsfrage geführt.
-Da sie die Güte des eingesetzten Messverfahrens betrifft, wird sie im Methodenteil im Rahmen der Validierung der LLM-basierten Klassifikation behandelt.
-An ihre Stelle tritt die Forschungsfrage: *Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?* Die Umformulierung erfolgte nach Einsicht in erste Analyseergebnisse.
-Die zugrunde liegende Clusteranalyse war bereits Bestandteil der Präregistrierung.
-Nachträglich verändert wurde somit die inhaltliche Einordnung dieser Analyse als eigenständige Forschungsfrage.
 
 \newpage
 
@@ -1617,7 +1595,7 @@ anhang_tab("T19c_degree_je_cluster.csv")
 Angestrebter Abschluss je Cluster (Häufigkeiten)
 :::
 
-### Robustheitschecks {.unnumbered}
+### Robustheitschecks {.unnumbered .unlisted}
 
 ::: {#tbla-robustheit}
 ```{r}
@@ -1726,3 +1704,27 @@ p_agree
 | ChatGPT | Grammatikkorrektur | Gesamte Arbeit | Korrigiere meinen Text auf Grammatik- und Rechtschreibfehler: \[Text\] |
 
 : Kennzeichnung von verwendeten KI-Tools
+
+\newpage
+
+## Interessenkonflikt {.unnumbered}
+
+Wir geben an, dass kein Interessenkonflikt vorliegt.
+
+## Erklärung zur Datenverfügbarkeit {.unnumbered}
+
+Für diese Forschungsarbeit wurden neue Daten erhoben.
+Die Rohdaten können nicht veröffentlicht werden, da sie personenbezogene Daten enthalten könnten.
+Die Analysedaten und -Materialien sind auf dem Open Science Framework OSF (<https://osf.io/pqdhb>) und auf [GitHub: Masterprojekt-Chatbots](https://github.com/lpkiemes/Masterprojekt-Chatbots) unter CC0 1.0-Lizenzen hinterlegt.
+Die Modell-Evaluation inklusive der verwendeten Prompts ist [hier dokumentiert](https://github.com/lpkiemes/Masterprojekt-Chatbots/blob/main/Schreibearbeit/Evalluation__LLM_Perfomance.pdf).
+
+## Abweichungen von der Preregistration {.unnumbered}
+
+Das Vorhaben wurde auf dem Open Science Framework OSF (<https://osf.io/pqdhb>) vorregistriert.
+In folgenden Punkten wurde von der Preregistration abgewichen:
+
+Die ursprünglich präregistrierte Forschungsfrage F5 („Wie gut eignet sich die LLM-basierte Klassifikation, um Dimensionen der Informationsnutzung in Chatlogs systematisch zu erfassen und mit Surveyangaben zu vergleichen?“) wird nicht mehr als eigenständige inhaltliche Forschungsfrage geführt.
+Da sie die Güte des eingesetzten Messverfahrens betrifft, wird sie im Methodenteil im Rahmen der Validierung der LLM-basierten Klassifikation behandelt.
+An ihre Stelle tritt die Forschungsfrage: *Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?* Die Umformulierung erfolgte nach Einsicht in erste Analyseergebnisse.
+Die zugrunde liegende Clusteranalyse war bereits Bestandteil der Präregistrierung.
+Nachträglich verändert wurde somit die inhaltliche Einordnung dieser Analyse als eigenständige Forschungsfrage.
