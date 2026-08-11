@@ -543,7 +543,7 @@ continuous_associations <- df_discrepancy |>
     variable = recode(
       variable,
       age = "Alter",
-      ai_experience = "AI-Erfahrung",
+      ai_experience = "KI-Erfahrung",
       social_desir_mean = "Soziale Erwünschtheit"
     )
   )
@@ -636,6 +636,14 @@ gender_summary <- df_discrepancy |>
 
 gender_summary
 
+gender_mean_difference <- gender_summary |>
+  summarise(
+    difference =
+      mean_discrepancy[gender_label == "Männlich"] -
+      mean_discrepancy[gender_label == "Weiblich"]
+  ) |>
+  pull(difference)
+
 gender_test <- wilcox.test(
   discrepancy_total ~ gender_label,
   data = df_discrepancy,
@@ -682,3 +690,315 @@ plot_gender_discrepancy <- ggplot(
   coord_flip()
 
 plot_gender_discrepancy
+
+
+# Kritisches-Prüfen-Diskrepanzen nach Charakteristiken
+
+df_characteristics <- df_analysis |>
+  mutate(
+    critical_group = factor(
+      if_else(
+        K_Diskrepanz == 0,
+        "Übereinstimmung",
+        "Diskrepanz"
+      ),
+      levels = c("Übereinstimmung", "Diskrepanz")
+    ),
+
+    interaction_group = factor(
+      if_else(
+        S_Diskrepanz == 0,
+        "Übereinstimmung",
+        "Diskrepanz"
+      ),
+      levels = c("Übereinstimmung", "Diskrepanz")
+    ),
+
+    gender_label = factor(
+      gender,
+      levels = c(1, 2),
+      labels = c("Männlich", "Weiblich")
+    )
+  )
+
+# long format
+characteristics_long <- df_characteristics |>
+  select(
+    id,
+    critical_group,
+    interaction_group,
+    ai_experience,
+    age,
+    social_desir_mean,
+    gender_label
+  ) |>
+  pivot_longer(
+    cols = c(
+      critical_group,
+      interaction_group
+    ),
+    names_to = "dimension",
+    values_to = "agreement"
+  ) |>
+  mutate(
+    dimension = recode(
+      dimension,
+      critical_group = "Kritisches Prüfen",
+      interaction_group = "Interaktionsstil"
+    )
+  )
+
+# deskriptive kennwerte
+
+characteristics_summary <- characteristics_long |>
+  pivot_longer(
+    cols = c(
+      ai_experience,
+      age,
+      social_desir_mean
+    ),
+    names_to = "characteristic",
+    values_to = "value"
+  ) |>
+  mutate(
+    characteristic = recode(
+      characteristic,
+      ai_experience = "KI-Erfahrung",
+      age = "Alter",
+      social_desir_mean = "Soziale Erwünschtheit"
+    )
+  ) |>
+  group_by(
+    dimension,
+    agreement,
+    characteristic
+  ) |>
+  summarise(
+    N = sum(!is.na(value)),
+    Mittelwert = mean(value, na.rm = TRUE),
+    SD = sd(value, na.rm = TRUE),
+    Median = median(value, na.rm = TRUE),
+    IQR = IQR(value, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+characteristics_summary
+
+## wilcoxon
+
+continuous_tests <- characteristics_long |>
+  pivot_longer(
+    cols = c(
+      ai_experience,
+      age,
+      social_desir_mean
+    ),
+    names_to = "characteristic",
+    values_to = "value"
+  ) |>
+  mutate(
+    characteristic = recode(
+      characteristic,
+      ai_experience = "KI-Erfahrung",
+      age = "Alter",
+      social_desir_mean = "Soziale Erwünschtheit"
+    )
+  ) |>
+  group_by(dimension, characteristic) |>
+  summarise(
+    p_value = wilcox.test(
+      value ~ agreement,
+      exact = FALSE
+    )$p.value,
+    .groups = "drop"
+  ) |>
+  mutate(
+    p_adjusted = p.adjust(
+      p_value,
+      method = "BH"
+    )
+  )
+
+continuous_tests
+
+# Geschlechterunterschiede
+
+gender_summary_sentiment_critical <- characteristics_long |>
+  count(
+    dimension,
+    gender_label,
+    agreement
+  ) |>
+  group_by(dimension, gender_label) |>
+  mutate(
+    percent = n / sum(n) * 100
+  ) |>
+  ungroup()
+
+gender_summary_sentiment_critical
+
+
+# Fisher test
+
+gender_tests <- characteristics_long |>
+  filter(!is.na(gender_label)) |>
+  group_by(dimension) |>
+  summarise(
+    p_value = fisher.test(
+      table(agreement, gender_label)
+    )$p.value,
+    .groups = "drop"
+  )
+
+gender_tests
+
+
+# visualisierung
+
+plot_characteristics <- characteristics_long |>
+  pivot_longer(
+    cols = c(
+      ai_experience,
+      age,
+      social_desir_mean
+    ),
+    names_to = "characteristic",
+    values_to = "value"
+  ) |>
+  mutate(
+    characteristic = recode(
+      characteristic,
+      ai_experience = "KI-Erfahrung",
+      age = "Alter",
+      social_desir_mean = "Soziale Erwünschtheit"
+    )
+  ) |>
+  ggplot(
+    aes(
+      x = agreement,
+      y = value,
+      fill = agreement
+    )
+  ) +
+  geom_boxplot(
+    width = 0.55,
+    outlier.shape = NA,
+    alpha = 0.65
+  ) +
+  geom_jitter(
+    width = 0.10,
+    alpha = 0.75
+  ) +
+  facet_grid(
+    characteristic ~ dimension,
+    scales = "free_y"
+  ) +
+  labs(
+    x = NULL,
+    y = NULL,
+    fill = NULL,
+    caption = "Daten: Eigene Erhebung; N = 21"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(
+      angle = 25,
+      hjust = 1
+    )
+  ) +
+  coord_flip()
+
+plot_characteristics
+
+## spearman corr
+
+association_summary_critical_style <- characteristics_long |>
+  mutate(
+    discrepancy = if_else(
+      agreement == "Diskrepanz",
+      1,
+      0
+    )
+  ) |>
+  pivot_longer(
+    cols = c(
+      ai_experience,
+      age,
+      social_desir_mean
+    ),
+    names_to = "characteristic",
+    values_to = "value"
+  ) |>
+  filter(
+    !is.na(value),
+    !is.na(discrepancy)
+  ) |>
+  mutate(
+    characteristic = recode(
+      characteristic,
+      ai_experience = "KI-Erfahrung",
+      age = "Alter",
+      social_desir_mean = "Soziale Erwünschtheit"
+    )
+  ) |>
+  group_by(dimension, characteristic) |>
+  summarise(
+    N = n(),
+
+    rho = cor(
+      value,
+      discrepancy,
+      method = "spearman"
+    ),
+
+    p_value = cor.test(
+      value,
+      discrepancy,
+      method = "spearman",
+      exact = FALSE
+    )$p.value,
+
+    .groups = "drop"
+  ) |>
+  mutate(
+    p_adjusted = p.adjust(
+      p_value,
+      method = "BH"
+    )
+  ) |>
+  arrange(dimension, rho)
+
+association_summary_critical_style
+
+### kombinierte tabelle
+
+association_table <- bind_rows(
+  association_summary |>
+    transmute(
+      Dimension = "Informationsnutzung",
+      Merkmal = variable,
+      N,
+      rho,
+      p_value
+    ),
+
+  association_summary_critical_style |>
+    transmute(
+      Dimension = dimension,
+      Merkmal = characteristic,
+      N,
+      rho,
+      p_value
+    )
+) |>
+  ungroup() |>
+  mutate(
+    # Auf Basis der ungerundeten Werte berechnen
+    p_adjusted = p.adjust(
+      p_value,
+      method = "BH"
+    )
+  )
+
+association_table

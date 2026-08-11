@@ -92,7 +92,7 @@ crossref:
 # aus dem Analyseskript. Danach können die Objekte in den Abbildungs-Chunks
 # einfach per Namen aufgerufen werden.
 source(here::here("R_code", "01_data_prep.R"))
-source(here::here("R_code", "02_data_analasys.R"))
+source(here::here("R_code", "02_data_analysis.R"))
 source(here::here("R_code", "03_sample_modification.R"))
 source(here::here("R_code", "04_discrepancy_analysis.R"))
 
@@ -1034,7 +1034,7 @@ Vorteil ist das kein Risiko besteht, dass Werte sich neutralisieren können.-->
 
 <!-- Allgemein weniger absätze -> text soltle nicht zu zerstückelt sein -->
 
-## Nutzungsarten und aggregierte Verteilung: F3
+## Nutzungsarten: F2 und F3
 
 Auf Aggregatebene zeigt sich der größte Unterschied bei *`r aggregate_comparison[[1, "task"]]`*.
 Ihr durchschnittlicher Anteil betrug im Survey `r formatC(aggregate_comparison[[1, "Survey"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %, in den Chatlogs dagegen `r formatC(aggregate_comparison[[1, "Chatlogs"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %.
@@ -1082,11 +1082,7 @@ aggregate_comparison |>
 Hinsichtlich F3 (@sec-forschungsfragen) lässt sich festhalten, dasss sich alle Nutzungsarten in den Chatlogs finden lassen.
 Die Teilnehmenden unterschätzen in der Selbsteinschätzung tendenziell die Nutzung von technischen Hilfsmitteln und das Schreiben von Texten, während sie die Nutzung von Informationen überschätzen.
 
-<!-- ??? Was hat F2 mit personenspezifischen unterschiede tub, allgemein ist mir etwas unklar was der unterschied zwischen F2 und F3 ist die lesen sich schon sehr ähnlich, also ich checke schon was der unteschied ist, aber finde die fragen etwas uneindeutig, vielleicht absolute und mittlere mehr unterscheiden in der Forschungsfrage--->
-
-## Personenspezifische Unterschieder der Nutzungsarten: F2
 <!-- ??? Abbildung 2 hat zwei title -> einen entfernen, man sollte auch die nummerichen werte in den appendix tun --->
-
 
 Sowohl Häufigkeit als auch Ausmaß der Übereinstimmung zwischen Surveyangaben und Chatlogs unterscheiden sich deutlich zwischen den fünf Nutzungsarten.
 Die größte Übereinstimmung zeigt sich dabei bei *`r as.character(task_agreement_summary[[1, "task"]])`* mit `r formatC(task_agreement_summary[[1, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % und einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[1, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
@@ -1149,32 +1145,13 @@ Insgesamt lässt sich jedoch festhalten, dass die Selbsteinschätzung im Mittel 
 plot_task_differences
 ```
 
+Diese Funde deuten darauf hin, dass die Selbstauskunft der Teilnehmenden in Bezug auf die Nutzung von *`r as.character(task_agreement_summary[[1, "task"]])`* und *`r as.character(task_agreement_summary[[2, "task"]])`* am häufigsten eine exakte Übereinstimmung aufweist, während die Selbstauskunft in Bezug auf *`r as.character(task_agreement_summary[[5, "task"]])`* am wenigsten zuverlässig ist.
+Im Hinblick auf F2 (siehe @sec-forschungsfragen) zeigt sich, dass Personen sich innerhalb der Nutzungsarten unterschiedlich gut selbst einschätzen können, die Werte sich jedoch überwiegend ausmitteln.
+
 \FloatBarrier
 
 <!-- von Laura @ Laura: ggf entfernen
 Die Übereinstimmung zwischen Selbstauskunft und beobachteter Nutzung unterschied sich deutlich zwischen den Personen. Die mittlere Total-Variation-Distanz betrug `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % (SD = `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte). Somit hätten im Durchschnitt rund 40 % der angegebenen Nutzungsanteile zwischen den fünf Aufgabenbereichen umverteilt werden müssen, damit Selbstauskunft und beobachtete Nutzung vollständig übereinstimmen. Der Median lag bei `r formatC(100 * median(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Die Werte reichten von `r formatC(100 * min(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % bis `r formatC(100 * max(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Dies weist auf Unterschiede im Ausmaß der personenbezogenen Diskrepanzen hin. -->
-
-
-<!-- ??? Also ich wieß  nicht wo das in den Forschugnsfragen steht außer bei F6 aber dafür machen wir ja dann die Clusterannaye--->
-
-<!-- ??? wo kommen die p-werte im text her -> muss eine tablle in den appendix wo die raus zitiert werden können, aber weiße ehrlich gesagt auch nicht ob es braucht. Weil in der F2 steht ja nicht so richtig was dazu das man es nach gruppen unterscheidet--->
-
-Explorativ wurde weiter untersucht, ob die Diskrepanz der Nutzungsarten mit ausgewählten personenbezogenen Merkmalen zusammenhing.
-Für die Erfahrung mit generativer KI zeigte sich ein schwacher bis moderater positiver Zusammenhang mit der Diskrepanz ($ρ=$ `r association_summary |> filter(variable == "AI-Erfahrung") |> select(rho) |> pull() |> round(digits = global_digits)`, $p=$ `r association_summary |> filter(variable == "AI-Erfahrung") |> select(p_value) |> pull() |> round(digits = global_digits)`).
-Personen mit größerer Erfahrung mit KI wiesen somit deskriptiv eher größere Abweichungen zwischen Selbstauskunft und beobachteter Nutzung auf.
-Der Zusammenhang war jedoch statistisch unsicher.
-Für das Alter bestand praktisch kein Zusammenhang ($ρ=$ `r association_summary |> filter(variable == "Alter") |> select(rho) |> pull() |> round(digits = global_digits)`, $p=$ `r association_summary |> filter(variable == "Alter") |> select(p_value) |> pull() |> round(digits = global_digits)`).
-Auch der Zusammenhang mit sozialer Erwünschtheit fiel schwach aus ($ρ=$ `r association_summary |> filter(variable == "Soziale Erwünschtheit") |> select(rho) |> pull() |> round(digits = global_digits)`, $p=$ `r association_summary |> filter(variable == "Soziale Erwünschtheit") |> select(p_value) |> pull() |> round(digits = global_digits)`).
-
-Deutlichere deskriptive Unterschiede zeigten sich nach Geschlecht.
-Bei den männlichen Teilnehmern betrug die durchschnittliche Total-Variation-Distanz `r gender_summary |> filter(gender_label == "Männlich") |> select(mean_discrepancy) |> mutate(mean_discrepancy = mean_discrepancy * 100) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % (Median=`r gender_summary |> filter(gender_label == "Männlich") |> select(median_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")`%), bei den weiblichen Teilnehmerinnen `r gender_summary |> filter(gender_label == "Weiblich") |> select(mean_discrepancy) |> mutate(mean_discrepancy = mean_discrepancy * 100) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % (Median=`r gender_summary |> filter(gender_label == "Weiblich") |> select(median_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")`%).
-Die durchschnittliche Diskrepanz lag damit bei den Männern um `r gender_summary |> filter(gender_label == "Männlich") |> select(sd_discrepancy) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` Prozentpunkte höher.
-Der Unterschied erreichte im Wilcoxon-Rangsummentest jedoch nicht das konventionelle Signifikanzniveau von 5 % ($W=$ `r gender_test$statistic`, $p=$ `r formatC(gender_test$p.value, digits = global_digits, format = "f", decimal.mark = ",")`).
-
-Diese Funde deuten darauf hin, dass die Selbstauskunft der Teilnehmenden in Bezug auf die Nutzung von *`r as.character(task_agreement_summary[[1, "task"]])`* und *`r as.character(task_agreement_summary[[2, "task"]])`* am häufigsten eine exakte Übereinstimmung aufweist, während die Selbstauskunft in Bezug auf *`r as.character(task_agreement_summary[[5, "task"]])`* am wenigsten zuverlässig ist.
-Im Hinblick auf F2 (siehe @sec-forschungsfragen) zeigt sich, dass Personen sich innerhalb der Nutzungsarten unterschiedlich gut selbst einschätzen können, die Werte sich jedoch überwiegend ausmitteln.
-Weiterhin liefern die Ergebnisse keine belastbaren Hinweise darauf, dass Alter, Erfahrung mit KI oder soziale Erwünschtheit systematisch mit dem Ausmaß der Diskrepanz zusammenhängen.
-Der Geschlechterunterschied stellt ein auffälliges deskriptives Muster dar, das aufgrund der kleinen Stichprobe und der explorativen Analyse jedoch nicht verallgemeinert werden kann.
 
 
 ## Kritisches Prüfen: F4
@@ -1200,9 +1177,66 @@ Anders als beim kritischen Prüfen zeigte sich somit keine eindeutig vorherrsche
 Im Hinblick auf F5 (siehe @sec-forschungsfragen) kann damit festgehalten werden, dass sich weniger als die Hälfte der Teilnehmenden richtig einschätzt.
 Die restlichen Teilnehmenden unterschätzen und überschätzen sich fast gleichermaßen.
 
-## Synthese: F1
+\FloatBarrier
 
-## Clusteranalyse: F6
+## Diskrepanzen und personenbezogene Merkmale: F6
+
+### Zusammenhangsmaße
+
+Explorativ wurde untersucht, ob die Diskrepanzen zwischen Selbstauskunft und Chatlogdaten mit dem Alter, der KI-Erfahrung und der sozialen Erwünschtheit zusammenhängen. Bei der Informationsnutzung bezeichnet ein höherer Wert eine größere Total-Variation-Distanz. Beim Interaktionsstil und beim kritischen Prüfen wurde dagegen binär zwischen Übereinstimmung und Diskrepanz unterschieden. Positive Korrelationskoeffizienten stehen somit für häufigere beziehungsweise größere Diskrepanzen, negative Koeffizienten für häufigere Übereinstimmungen. Die vollständigen Ergebnisse sind in @tbl-korrelationen-charakteristiken dargestellt.
+
+
+```{r}
+#| label: tbl-korrelationen-charakteristiken
+#| tbl-cap: "Zusammenhänge zwischen den Diskrepanzmaßen und personenbezogenen Merkmalen"
+#| echo: false
+
+association_table |>
+  select(-N) |> 
+  gt(
+    groupname_col = "Dimension",
+    rowname_col = "Merkmal"
+  ) |>
+  tab_stubhead(
+    label = "Merkmal"
+  ) |>
+  cols_label(
+    rho = "Spearmans ρ",
+    p_value = "p-Wert",
+    p_adjusted = "p (BH-korrigiert)"
+  ) |>
+  fmt_number(
+    columns = c(
+      rho,
+      p_value,
+      p_adjusted
+    ),
+    decimals = global_digits,
+    dec_mark = ","
+  ) |>
+  tab_options(
+    table.font.size = 10,
+    data_row.padding = px(3),
+    heading.title.font.size = 10
+  ) |> 
+  cols_align(
+    align = "left",
+    columns = "Merkmal"
+  )
+```
+
+Bei der Informationsnutzung zeigte sich praktisch kein Zusammenhang zwischen dem Alter und dem Ausmaß der Diskrepanz ($\rho=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Alter") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Alter") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`). Für die KI-Erfahrung ergab sich dagegen ein schwacher bis moderater positiver Zusammenhang ($\rho=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "KI-Erfahrung") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "KI-Erfahrung") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`). Personen mit größerer KI-Erfahrung wiesen damit deskriptiv eher größere Abweichungen zwischen ihrer Selbstauskunft und der beobachteten Verteilung der Nutzungsarten auf. Der Zusammenhang mit sozialer Erwünschtheit fiel nur schwach positiv aus ($\rho=$) `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Soziale Erwünschtheit") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Soziale Erwünschtheit") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
+
+Beim Interaktionsstil zeigte das Alter den betragsmäßig stärksten Zusammenhang. Ältere Teilnehmende wiesen tendenziell seltener eine Diskrepanz zwischen Selbstauskunft und Chatlogdaten auf ($\rho=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Alter") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Alter") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`). Auch eine größere KI-Erfahrung ging tendenziell mit selteneren Diskrepanzen einher, der Zusammenhang war jedoch schwach ($\rho=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "KI-Erfahrung") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "KI-Erfahrung") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`). Soziale Erwünschtheit war dagegen schwach positiv mit dem Auftreten einer Diskrepanz verbunden ($\rho=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Soziale Erwünschtheit") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Soziale Erwünschtheit") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
+
+Beim kritischen Prüfen zeigten sich ähnliche Tendenzen. Eine größere KI-Erfahrung ($\rho=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "KI-Erfahrung") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "KI-Erfahrung") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`) und ein höheres Alter ($\rho=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Alter") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Alter") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`) gingen deskriptiv mit selteneren Diskrepanzen einher. Für soziale Erwünschtheit zeigte sich wiederum ein schwacher positiver Zusammenhang ($\rho=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Soziale Erwünschtheit") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Soziale Erwünschtheit") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`). Höhere soziale Erwünschtheit war damit tendenziell mit häufigeren Diskrepanzen beim kritischen Prüfen verbunden.
+
+Auch nach Geschlecht zeigten sich gegenläufige deskriptive Muster. Beim Interaktionsstil lag bei `r gender_summary_sentiment_critical |> filter(dimension == "Interaktionsstil", gender_label == "Männlich", agreement == "Diskrepanz") |> pull(n)` von `r gender_summary_sentiment_critical |> filter(dimension == "Interaktionsstil", gender_label == "Männlich") |> summarise(N = sum(n)) |> pull(N)` Männern (`r gender_summary_sentiment_critical |> filter(dimension == "Interaktionsstil", gender_label == "Männlich", agreement == "Diskrepanz") |> pull(percent) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")` %) und bei `r gender_summary_sentiment_critical |> filter(dimension == "Interaktionsstil", gender_label == "Weiblich", agreement == "Diskrepanz") |> pull(n)` von `r gender_summary_sentiment_critical |> filter(dimension == "Interaktionsstil", gender_label == "Weiblich") |> summarise(N = sum(n)) |> pull(N)` Frauen (`r gender_summary_sentiment_critical |> filter(dimension == "Interaktionsstil", gender_label == "Weiblich", agreement == "Diskrepanz") |> pull(percent) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")` %) eine Diskrepanz vor. Beim kritischen Prüfen zeigte sich das umgekehrte Muster: Hier trat eine Diskrepanz bei `r gender_summary_sentiment_critical |> filter(dimension == "Kritisches Prüfen", gender_label == "Männlich", agreement == "Diskrepanz") |> pull(percent) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")` % der Männer und `r gender_summary_sentiment_critical |> filter(dimension == "Kritisches Prüfen", gender_label == "Weiblich", agreement == "Diskrepanz") |> pull(percent) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")` % der Frauen auf. Die Fisher-Tests ergaben weder für den Interaktionsstil ($p=$ `r gender_tests |> filter(dimension == "Interaktionsstil") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`) noch für das kritische Prüfen ($p=$ `r gender_tests |> filter(dimension == "Kritisches Prüfen") |> pull(p_value) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`) einen statistisch eindeutigen Zusammenhang mit dem Geschlecht.
+
+
+Insgesamt ergaben sich keine statistisch eindeutigen Zusammenhänge zwischen den untersuchten personenbezogenen Merkmalen und den Diskrepanzmaßen. Deskriptiv zeigten sich jedoch einige mögliche Muster. InsInsbesondere wiesen Männer eine höhere mittlere Total-Variation-Distanz der Informationsnutzung auf als Frauen. Interaktionsstil und beim kritischen Prüfen fielen die Geschlechterunterschiede kleiner aus und verliefen in entgegengesetzte Richtungen. Darüber hinaus waren ein höheres Alter und eine größere KI-Erfahrung tendenziell mit selteneren Diskrepanzen beim Interaktionsstil beziehungsweise kritischen Prüfen verbunden, während soziale Erwünschtheit tendenziell positiv mit beiden Diskrepanzindikatoren zusammenhing. Damit läss st sichhinsichltich F6 (siehe @sec-forschungsfragen) festhalten, dass die untersuchten personenbezogenen Merkmale keine statistisch eindeutigen Zusammenhänge mit den Diskrepanzen zwischen Selbstauskunft und Chatlogdaten aufwiesen. Deskriptiv lassen sich jedoch einige mögliche Muster erkennen, die in zukünftigen Studien weiter untersucht werden könnten.
+
+### Clusteranalyse
 
 Der PAM-Algorithmus identifiziert Vier-Cluster.
 Diese Erfüllte die Bedingung das jedes Cluster eine Mindestgröße von drei Personen hat.
@@ -1296,7 +1330,7 @@ In den Clustern eins und vier stimmt die Selbstauskunft mehrheitlich mit dem beo
 p_krit_cl
 ```
 
-## Vergleich mit kontext Variablen
+### Vergleich mit Kontextvariablen
 
 Um die Cluster inhaltlich zu untersuchen, wurden diese nach Unterschieden bezüglich soziodemografischer Merkmale, sozialer Erwünschtheit, KI-Erfahrung, Nutzungshäufigkeit und Informationskompetenz verglichen, also anhand von Variablen, die nicht in die Clusterbildung eingeflossen sind.
 Die zugehörigen Gruppenvergleiche finden sich in @tbla-socialdesir (Welch-ANOVA), @tbla-ordinal-kruskal (Kruskal-Wallis) und @tbla-nominal-chi2 (Chi-Quadrat).
