@@ -174,16 +174,16 @@ Für künftige Forschung wird empfohlen, Selbstauskünfte systematisch durch Ver
 
 Digitale Technologien hinterlassen für viele Bereiche des menschlichen Verhaltens detaillierte Spuren.
 Jede Suche, jeder Klick und jede Interaktion mit digitalen Anwendungen erzeugen Daten, die potenziell einen unmittelbaren Einblick in tatsächliche Nutzungsmuster ermöglichen.
-Gleichzeitig basiert ein großer Teil der sozialwissenschaftlichen Forschung weiterhin auf einer indirekten Datenquelle: der Selbstauskunft von Personen über ihr eigenes Verhalten.
+Gleichzeitig basiert ein großer Teil der sozialwissenschaftlichen Forschung weiterhin auf einer indirekten Datenquelle, nämlich der Selbstauskunft von Personen über ihr eigenes Verhalten.
 Damit stellt sich eine grundlegende methodische Frage: Wie genau stimmen die Angaben von Menschen über ihre digitale Nutzung tatsächlich mit ihrem beobachtbaren Verhalten überein?
 
 Diese Frage gewinnt besondere Bedeutung im Kontext der Nutzung von auf künstlicher Intelligenz (KI) basierenden generativen Systemen.
 Seit der breiten Verfügbarkeit von generativen KI-Chatbots wie ChatGPT werden diese Anwendungen zunehmend in alltägliche und akademische Arbeitsprozesse integriert.
 Studierende nutzen generative KI unter anderem zur Informationssuche, zum Verständnis komplexer Inhalte oder zur Unterstützung beim wissenschaftlichen Schreiben [@garrel2025].
-Gleichzeitig ist die Nutzung solcher Systeme im Hochschulkontext weiterhin mit normativen Fragen verbunden, etwa hinsichtlich wissenschaftlicher Integrität, Eigenständigkeit und der Rolle von KI beim Lernen.
+Gleichzeitig ist die Nutzung solcher Systeme im Hochschulkontext weiterhin mit normativen Fragen hinsichtlich wissenschaftlicher Integrität, Eigenständigkeit und der Rolle von KI beim Lernen verbunden.
 Dadurch entsteht ein Spannungsfeld zwischen einer zunehmend verbreiteten Nutzung und einer möglicherweise zurückhaltenden Kommunikation darüber.
 
-Die bisherige Forschung zur Nutzung generativer KI stützt sich jedoch fast ausschließlich auf Selbstauskünfte [bspw. @garrel2025; @balabdaoui2024].
+Die bisherige Forschung zur Nutzung generativer KI stützt sich aktuell fast ausschließlich auf Selbstauskünfte [bspw. @garrel2025; @balabdaoui2024].
 Diese liefern wichtige Informationen darüber, wie Nutzende ihre eigene KI-Nutzung wahrnehmen und bewerten, unterliegen jedoch bekannten Einschränkungen hinsichtlich Erinnerungsgenauigkeit, Interpretation des eigenen Verhaltens und sozial erwünschter Antworttendenzen [@diekmann2008].
 Gerade bei einem gesellschaftlich kontrovers diskutierten Thema wie der Nutzung generativer KI stellt sich daher die Frage, ob Befragungsdaten die tatsächliche Nutzung angemessen abbilden oder systematische Verzerrungen enthalten.
 
@@ -200,7 +200,7 @@ Mithilfe einer Klassifikation durch ein Large-Language-Model (LLM) werden dabei 
 
 <!-- Gegebenenfalls die Struktur anpassen/umformulieren -->
 
-Im Folgenden wird der vorhandene Forschungsstand dargelegt bevor unsere einzelnen Forschungsfragen daraus abgeleitet und präsentiert werden.
+Im Folgenden wird der vorhandene Forschungsstand dargelegt, bevor unsere einzelnen Forschungsfragen daraus abgeleitet und präsentiert werden.
 Daraufhin wird in @sec-methode unsere Untersuchungsmethode vorgestellt bevor die daraus resultierenden Ergebnisse aufgezeigt und in der abschließenden Diskussion interpretiert werden.
 
 # Unterschiede zwischen angegebenem und tatsächlichem Nutzungsverhalten von KI-Chatbots {#sec-unterschiede}
@@ -305,17 +305,17 @@ Dadurch wird es erstmals möglich, Selbstauskünfte zur KI-Nutzung unmittelbar m
 Mit der raschen Verbreitung generativer KI-Systeme ist in den vergangenen Jahren auch das wissenschaftliche Interesse an deren Nutzung deutlich gestiegen.
 Die überwiegende Mehrheit der bisherigen Studien basiert jedoch auf Selbstauskünften der Nutzenden.
 Angaben zur Häufigkeit der Nutzung, zu Einsatzbereichen oder zu Einstellungen gegenüber KI werden dabei nahezu ausschließlich mittels standardisierter Befragungen erhoben [@balabdaoui2024; @garrel2025].
-Obwohl diese Studien wertvolle Erkenntnisse über die Verbreitung generativer KI liefern, gelten grundsätzlich dieselben Einschränkungen wie für Selbstauskünfte in anderen Forschungsbereichen.
+Auch in diesem Kontext gelten für Selbstauskünfte grundsätzlich dieselben Einschränkungen wie in anderen Forschungsbereichen.
 
 Erste Arbeiten deuten darauf hin, dass diese Einschränkungen bei der Erfassung der KI-Nutzung besonders relevant sein könnten.
 Anders als bei vielen alltäglichen Verhaltensweisen ist der Einsatz generativer KI im Hochschulkontext häufig normativ aufgeladen.
-Einerseits werden KI-Chatbots zunehmend als hilfreiche Lernwerkzeuge betrachtet, andererseits bestehen weiterhin Diskussionen über wissenschaftliche Integrität, unzulässige Unterstützung bei Prüfungsleistungen sowie mögliche negative Auswirkungen auf selbstständiges Lernen und kritisches Denken [@kasneci2023].
+Besonders im Kontext wissenschaftlicher Integrität, unzulässiger Unterstützung bei Prüfungsleistungen sowie möglicher negativer Auswirkungen auf das selbstständige Lernen und kritische Denken wird der Einsatz von KI-Chatbots kontrovers diskutiert. [@kasneci2023].
 Dadurch kann die Nutzung generativer KI von Studierenden als sensibles Thema wahrgenommen werden.
 
 Vor diesem Hintergrund argumentieren @ling2026, dass insbesondere Social Desirability Bias zu einer systematischen Unterschätzung der tatsächlichen KI-Nutzung führen könnte.
 In ihrer Studie berichten lediglich etwa 60 % der befragten Studierenden, selbst generative KI zu nutzen, während rund 90 % angeben, dass ihre Kommilitoninnen und Kommilitonen entsprechende Systeme verwenden.
 Die Autor:innen interpretieren diese Diskrepanz als Hinweis darauf, dass Befragte ihre eigene Nutzung aufgrund sozialer Normen oder befürchteter negativer Bewertungen eher herunterspielen.
-Sie argumentieren daher, dass die bislang verfügbaren Schätzungen zur Verbreitung generativer KI mit Vorsicht interpretiert werden sollten und stärker durch objektive Verhaltensdaten validiert werden müssten.
+Sie argumentieren daher, dass die bislang verfügbaren Schätzungen zur Verbreitung generativer KI mit Vorsicht interpretiert und stärker durch objektive Verhaltensdaten validiert werden müssten.
 
 Bislang existieren jedoch kaum Studien, die Selbstauskünfte zur Nutzung generativer KI unmittelbar mit tatsächlichen Nutzungsdaten vergleichen.
 Während sich in der Forschung zu Internet- oder Social-Media-Nutzung digitale Verhaltensdaten bereits als wichtige Ergänzung zu Surveydaten etabliert haben (vgl. @sec-digitaldaten), stehen vergleichbare Validierungsstudien für generative KI noch weitgehend aus.
@@ -340,8 +340,7 @@ Generative KI entwickelt sich damit zunehmend von einem reinen Auskunftssystem z
 
 Gleichzeitig weist die Forschung darauf hin, dass der erfolgreiche Einsatz generativer KI nicht allein von ihrer Verfügbarkeit, sondern maßgeblich von der Art ihrer Nutzung abhängt.
 Große Sprachmodelle können überzeugend formulierte, jedoch fehlerhafte oder verzerrte Informationen erzeugen.
-Daher betonen verschiedene Autor:innen, dass Studierende Kompetenzen entwickeln müssen, um Antworten generativer KI kritisch zu hinterfragen, Informationen mit weiteren Quellen abzugleichen und die Grenzen solcher Systeme einschätzen zu können.
-Kritisches Denken, Quellenprüfung und die reflektierte Einbindung KI-generierter Inhalte gelten dementsprechend als zentrale Voraussetzungen für einen verantwortungsvollen Einsatz generativer KI im Studium [@kasneci2023].
+Daher betonen verschiedene Autor:innen, dass Studierende auch im Umgang mit generativer KI grundlegende Medienkompetenzen wie kritisches Hinterfragen oder Quellenprüfung auch im Kontext von KI anwenden müssen, die Grenzen solcher Systeme einschätzen zu können. Diese Fähigkeiten gelten dementsprechend als zentrale Voraussetzungen für einen verantwortungsvollen Einsatz generativer KI im Studium [@kasneci2023].
 
 Die bisherige Forschung liefert somit ein umfassendes Bild über die Verbreitung generativer KI sowie über typische Einsatzbereiche und wahrgenommene Chancen im Studium.
 Diese Erkenntnisse beruhen jedoch nahezu ausschließlich auf Selbstauskünften der Studierenden.
@@ -1063,8 +1062,6 @@ Bei *`r aggregate_comparison[[4, "task"]]`* lag der Surveyanteil um `r formatC(a
 Bei *`r aggregate_comparison[[2, "task"]]`* war der Surveyanteil um `r formatC(abs(aggregate_comparison[[2, "Differenz"]]) * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte niedriger.
 Die aggregierten Unterschiede waren somit – abgesehen von technischer Unterstützung und Schreiben – gering.
 
-<!-- ???  Würde das nicht ausschreiben "Die Verteilung der Nutzungsarten ist in @tbl-nutzungsarten dargestellt." sondern einfach zitieren (@tbl-nutzungsarten) oder so in der Art, wenn man es direkt im Text machen will, dann ganz am Anfang- In Tabelle 4 sieht man die .... hier kann man beobachten das... 
--->
 
 <!-- ??? müsste es hier nicht auch Prozentpunkte sien also -6,67 PP und ich habe in allen tabllen  im anhang "." statt "," verwendet villeicht wollen wir das einheitlich. Ich glaube es ist egal welche variante man verwendet. Im Text wird auch machnmal punkt (bei den p werten) bei dir und komma verwendent. Ich ändere meine tabllen jetzt mal zu komma--->
 
@@ -1174,7 +1171,7 @@ Im Hinblick auf F2 (siehe @sec-forschungsfragen) zeigt sich, dass Personen sich 
 Die Übereinstimmung zwischen Selbstauskunft und beobachteter Nutzung unterschied sich deutlich zwischen den Personen. Die mittlere Total-Variation-Distanz betrug `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % (SD = `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte). Somit hätten im Durchschnitt rund 40 % der angegebenen Nutzungsanteile zwischen den fünf Aufgabenbereichen umverteilt werden müssen, damit Selbstauskunft und beobachtete Nutzung vollständig übereinstimmen. Der Median lag bei `r formatC(100 * median(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Die Werte reichten von `r formatC(100 * min(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % bis `r formatC(100 * max(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Dies weist auf Unterschiede im Ausmaß der personenbezogenen Diskrepanzen hin. -->
 
 
-## Interaktionsstil und Kritisches Prüfen: F3 und F4
+## Interaktionsstil und Kritisches Prüfen: F4 und F5
 
 <!--??? braucht tabelle im appendix aus der das zitiert werden kann. Die zahlen können nicht einfach so im text stehen ohne refrenzierunt--->
 
