@@ -6,9 +6,7 @@
 # if (!requireNamespace("here", quietly = TRUE)) install.packages("here")
 library(here)
 
-base_path   <- here::here()
 data_path   <- file.path(
-  base_path,
   here::here("data", "processed", "analysis_dataset.rds")
 )
 
