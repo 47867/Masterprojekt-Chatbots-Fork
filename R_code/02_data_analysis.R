@@ -3,9 +3,15 @@
 ##########################################
 # Projektwurzel wird über die .Rproj-Datei gefunden - funktioniert im interaktiven
 # Skript wie auch beim Quarto-Render von index.qmd
-if (!requireNamespace("here", quietly = TRUE)) install.packages("here")
+# if (!requireNamespace("here", quietly = TRUE)) install.packages("here")
+library(here)
+
 base_path   <- here::here()
-data_path   <- file.path(base_path, "data/processed/analysis_dataset.rds")
+data_path   <- file.path(
+  base_path,
+  here::here("data", "processed", "analysis_dataset.rds")
+)
+
 plot_dir    <- file.path(base_path, "plots")
 setwd(base_path)
 #Daten laden
