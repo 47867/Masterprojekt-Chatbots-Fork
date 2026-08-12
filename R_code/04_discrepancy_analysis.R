@@ -1002,3 +1002,210 @@ association_table <- bind_rows(
   )
 
 association_table
+
+## visualisierung kritisches prüfen und interaktionsstil
+
+agreement_plot_data <- bind_rows(
+  sentiment_results |>
+    transmute(
+      id,
+      Dimension = "Interaktionsstil",
+
+      Kategorie = recode(
+        as.character(discrepancy),
+        "unfreundlicher" = "Unfreundlicher als angegeben",
+        "korrekt" = "Übereinstimmung",
+        "freundlicher" = "Freundlicher als angegeben"
+      ),
+
+      Richtung = recode(
+        as.character(discrepancy),
+        "unfreundlicher" = "Negative Abweichung",
+        "korrekt" = "Übereinstimmung",
+        "freundlicher" = "Positive Abweichung"
+      )
+    ),
+
+  critical_results |>
+    transmute(
+      id,
+      Dimension = "Kritisches Prüfen",
+
+      Kategorie = recode(
+        as.character(discrepancy),
+        "Nur in Selbstauskunft" =
+          "Weniger kritisch als angegeben",
+        "Übereinstimmung" =
+          "Übereinstimmung",
+        "Nur in Chatlogs" =
+          "Kritischer als angegeben"
+      ),
+
+      Richtung = recode(
+        as.character(discrepancy),
+        "Nur in Selbstauskunft" =
+          "Negative Abweichung",
+        "Übereinstimmung" =
+          "Übereinstimmung",
+        "Nur in Chatlogs" =
+          "Positive Abweichung"
+      )
+    )
+) |>
+  filter(
+    !is.na(Kategorie)
+  ) |>
+  count(
+    Dimension,
+    Kategorie,
+    Richtung,
+    name = "N"
+  ) |>
+  group_by(Dimension) |>
+  mutate(
+    Prozent = N / sum(N)
+  ) |>
+  ungroup() |>
+  mutate(
+    Dimension = factor(
+      Dimension,
+      levels = c(
+        "Interaktionsstil",
+        "Kritisches Prüfen"
+      )
+    ),
+
+    # Die Faktorstufen laufen in ggplot von unten nach oben
+    Kategorie = factor(
+      Kategorie,
+      levels = c(
+        "Freundlicher als angegeben",
+        "Kritischer als angegeben",
+        "Übereinstimmung",
+        "Unfreundlicher als angegeben",
+        "Weniger kritisch als angegeben"
+      )
+    ),
+
+    Richtung = factor(
+      Richtung,
+      levels = c(
+        "Negative Abweichung",
+        "Übereinstimmung",
+        "Positive Abweichung"
+      )
+    )
+  )
+
+agreement_plot_data <- agreement_plot_data |>
+  mutate(
+    Dimension = factor(
+      Dimension,
+      levels = c(
+        "Kritisches Prüfen",
+        "Interaktionsstil"
+      )
+    )
+  )
+
+
+plot_agreement <- ggplot(
+  agreement_plot_data,
+  aes(
+    x = Prozent,
+    y = Kategorie,
+    fill = Richtung
+  )
+) +
+  geom_col(
+    width = 0.65
+  ) +
+  facet_wrap(
+    ~ Dimension,
+    ncol = 1,
+    scales = "free_y"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Negative Abweichung" = "#C76D5E",
+      "Übereinstimmung" = "#2C6E9B",
+      "Positive Abweichung" = "#5B9279"
+    ),
+    guide = "none"
+  ) +
+  scale_x_continuous(
+    labels = scales::label_percent(
+      accuracy = 1,
+      decimal.mark = ","
+    ),
+
+    limits = c(0, 1),
+
+    # Beschriftung alle 10 Prozentpunkte
+    breaks = seq(
+      0,
+      1,
+      by = 0.10
+    ),
+
+    # Hilfslinien alle 5 Prozentpunkte
+    minor_breaks = seq(
+      0,
+      1,
+      by = 0.05
+    ),
+
+    expand = expansion(
+      mult = c(0, 0.01)
+    )
+  ) +
+  scale_y_discrete(
+    labels = \(x) stringr::str_wrap(
+      x,
+      width = 28
+    )
+  ) +
+  labs(
+    x = "Anteil der Personen",
+    y = NULL,
+    caption = paste(
+      "Eigene Erhebung\n N =",
+      nrow(df_analysis)
+    )
+  ) +
+  theme_minimal(
+    base_size = 10
+  ) +
+  theme(
+    # Keine waagerechten Gitternetzlinien
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+
+    # Haupt- und Nebenlinien auf der Prozentachse
+    panel.grid.major.x = element_line(
+      color = "grey82",
+      linewidth = 0.4
+    ),
+    panel.grid.minor.x = element_line(
+      color = "grey92",
+      linewidth = 0.3
+    ),
+
+    strip.text = element_text(
+      face = "bold",
+      hjust = 0
+    ),
+
+    axis.text.y = element_text(
+      color = "black"
+    ),
+
+    plot.margin = margin(
+      t = 5,
+      r = 10,
+      b = 5,
+      l = 5
+    )
+  )
+
+plot_agreement
