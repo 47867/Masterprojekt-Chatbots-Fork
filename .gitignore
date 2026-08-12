@@ -67,7 +67,7 @@ renv/staging/
 
 
 # Rohdaten sensibel
-data/raw/
+data/raw/data_MP_umfrage_chatbots_2026-07-31_10-12.csv
 
 # Private Adressen
 private-authors.tex
