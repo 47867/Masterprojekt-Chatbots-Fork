@@ -4,6 +4,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(scales)
+library(gtsummary)
 
 global_digits <- 2
 
@@ -116,6 +117,96 @@ df_sample_reasons <- df_sample |>
     )
   )
 
+sample_profile_data <- df_sample_reasons |>
+  filter(
+    final_sample == 1 |
+      (
+        final_sample == 0 &
+          complete.cases(
+            DE01,
+            DE02,
+            DE05,
+            DE06
+          )
+      )
+  ) |>
+  mutate(
+    sample_group = factor(
+      final_sample,
+      levels = c(1, 0),
+      labels = c(
+        "Analysestichprobe",
+        "Ausgeschlossene Fälle mit vollständigen Angaben"
+      )
+    ),
+
+    age = DE02,
+
+    gender = factor(
+      DE01,
+      levels = c(1, 2),
+      labels = c(
+        "Männlich",
+        "Weiblich"
+      )
+    ),
+
+    degree = factor(
+      DE05,
+      levels = c(1, 2, 3),
+      labels = c(
+        "Bachelor",
+        "Master",
+        "Promotion"
+      )
+    ),
+
+    field = factor(
+      if_else(
+        DE06 == 3,
+        "Sozialwissenschaften",
+        "Andere Studienrichtung"
+      ),
+      levels = c(
+        "Sozialwissenschaften",
+        "Andere Studienrichtung"
+      )
+    ),
+
+    ai_experience = NU01,
+
+    use_frequency = SC05,
+
+    info_literacy_where = NU04_01,
+
+    info_literacy_how = NU04_02,
+
+    social_desirability = rowMeans(
+      cbind(
+        sd_argument,
+        sd_stressed,
+        sd_listening,
+        6 - sd_advantage,
+        6 - sd_litter,
+        6 - sd_help
+      ),
+      na.rm = FALSE
+    )
+  ) |>
+  select(
+    sample_group,
+    age,
+    gender,
+    degree,
+    field,
+    ai_experience,
+    use_frequency,
+    info_literacy_where,
+    info_literacy_how,
+    social_desirability
+  )
+
+
 sample_table <- df_sample_reasons |>
   count(
     Ausschlussgrund,
@@ -135,6 +226,62 @@ sample_table <- df_sample_reasons |>
   )
 
 sample_table
+
+
+
+table_sample_comparison <- sample_profile_data |>
+  tbl_summary(
+    by = sample_group,
+
+    type = list(
+      c(
+        age,
+        ai_experience,
+        use_frequency,
+        info_literacy_where,
+        info_literacy_how,
+        social_desirability
+      ) ~ "continuous"
+    ),
+
+    statistic = list(
+      all_continuous() ~
+        "{median} ({p25}, {p75})",
+
+      all_categorical() ~
+        "{n} ({p} %)"
+    ),
+
+    digits = list(
+      all_continuous() ~ global_digits,
+      all_categorical() ~ c(0, 1)
+    ),
+
+    label = list(
+      age ~ "Alter in Jahren",
+      gender ~ "Geschlecht",
+      degree ~ "Angestrebter Abschluss",
+      field ~ "Studienrichtung",
+      ai_experience ~ "KI-Erfahrung (1–5)",
+      use_frequency ~ "Nutzungshäufigkeit (2–6)",
+      info_literacy_where ~
+        "Informationskompetenz: geeignete Quellen finden (1–5)",
+      info_literacy_how ~
+        "Informationskompetenz: Anfragen formulieren (1–5)",
+      social_desirability ~
+        "Soziale Erwünschtheit (1–5)"
+    ),
+
+    missing = "ifany",
+    missing_text = "Fehlend"
+  ) |>
+  modify_header(
+    label ~ "**Charakteristik**",
+    all_stat_cols() ~ "**{level}**, N = {n}"
+  ) |>
+  bold_labels()
+
+table_sample_comparison
 
 
 
@@ -244,3 +391,154 @@ sample_differences <- sample_comparison |>
   )
 
 sample_differences
+
+
+
+### Datensatz für Variablen
+
+sample_profile_data <- df_sample_reasons |>
+  filter(
+    final_sample == 1 |
+      (
+        final_sample == 0 &
+          complete.cases(
+            DE01,
+            DE02,
+            DE05,
+            DE06
+          )
+      )
+  ) |>
+  mutate(
+    sample_group = factor(
+      final_sample,
+      levels = c(1, 0),
+      labels = c(
+        "Analysestichprobe",
+        "Ausgeschlossene Fälle mit vollständigen Angaben"
+      )
+    ),
+
+    age = DE02,
+
+    gender = factor(
+      DE01,
+      levels = c(1, 2),
+      labels = c(
+        "Männlich",
+        "Weiblich"
+      )
+    ),
+
+    degree = factor(
+      DE05,
+      levels = c(1, 2, 3),
+      labels = c(
+        "Bachelor",
+        "Master",
+        "Promotion"
+      )
+    ),
+
+    field = factor(
+      if_else(
+        DE06 == 3,
+        "Sozialwissenschaften",
+        "Andere Studienrichtung"
+      ),
+      levels = c(
+        "Sozialwissenschaften",
+        "Andere Studienrichtung"
+      )
+    ),
+
+    ai_experience = NU01,
+
+    use_frequency = SC05,
+
+    info_literacy_where = NU04_01,
+
+    info_literacy_how = NU04_02,
+
+    social_desirability = rowMeans(
+      cbind(
+        sd_argument,
+        sd_stressed,
+        sd_listening,
+        6 - sd_advantage,
+        6 - sd_litter,
+        6 - sd_help
+      ),
+      na.rm = FALSE
+    )
+  ) |>
+  select(
+    sample_group,
+    age,
+    gender,
+    degree,
+    field,
+    ai_experience,
+    use_frequency,
+    info_literacy_where,
+    info_literacy_how,
+    social_desirability
+  )
+
+
+## Tabelle für Variablenvergleich
+
+
+table_sample_comparison <- sample_profile_data |>
+  tbl_summary(
+    by = sample_group,
+
+    type = list(
+      c(
+        age,
+        ai_experience,
+        use_frequency,
+        info_literacy_where,
+        info_literacy_how,
+        social_desirability
+      ) ~ "continuous"
+    ),
+
+    statistic = list(
+      all_continuous() ~
+        "{median} ({p25}, {p75})",
+
+      all_categorical() ~
+        "{n} ({p} %)"
+    ),
+
+    digits = list(
+      all_continuous() ~ global_digits,
+      all_categorical() ~ c(0, 1)
+    ),
+
+    label = list(
+      age ~ "Alter in Jahren",
+      gender ~ "Geschlecht",
+      degree ~ "Angestrebter Abschluss",
+      field ~ "Studienrichtung",
+      ai_experience ~ "KI-Erfahrung (1–5)",
+      use_frequency ~ "Nutzungshäufigkeit (2–6)",
+      info_literacy_where ~
+        "Informationskompetenz: geeignete Quellen finden (1–5)",
+      info_literacy_how ~
+        "Informationskompetenz: Anfragen formulieren (1–5)",
+      social_desirability ~
+        "Soziale Erwünschtheit (1–5)"
+    ),
+
+    missing = "ifany",
+    missing_text = "Fehlend"
+  ) |>
+  modify_header(
+    label ~ "**Charakteristik**",
+    all_stat_cols() ~ "**{level}**, N = {n}"
+  ) |>
+  bold_labels()
+
+table_sample_comparison
