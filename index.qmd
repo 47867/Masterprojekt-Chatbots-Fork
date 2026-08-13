@@ -389,7 +389,7 @@ Auf die Art der Erhebung und Operationalisierung der beiden Datenquellen wird nu
 
 ## Erstellung des Fragebogens {#sec-erstellung-fragebogen}
 
-Als Plattform für den Fragebogen wurde SoSci Survey ausgewählt. Dabei handelt es sich um eine in der deutschsprachigen Forschung weit verbreitete und etablierte Plattform für die Durchführung von Onlinebefragungen, 
+Als Plattform für den Fragebogen wurde SoSci Survey [@leiner2026] gewählt, eine etablierte und weit verbreitete Plattform zur Durchführung von Onlinebefragungen.
 Dort werden die Daten auf Servern in Deutschland gespeichert, wodurch die Einhaltung der Datenschutzgrundverordnung (DSGVO) gewährleistet ist.
 
 Der Fragebogen wurde auf Grundlage der Forschungsfragen entwickelt und zielt darauf ab, die studienbezogene Nutzung von ChatGPT strukturiert zu erfassen.
@@ -402,7 +402,7 @@ Personen, die nicht allen Angaben zugestimmt haben, wurden von der Erhebung ausg
 Anschließend wurden weitere zu einem Screenout führende Fragen gestellt.
 Die Screeningfragen wurden bewusst zu Beginn des Fragebogens platziert, um Personen außerhalb der Zielgruppe frühzeitig ausschließen zu können und überflüssige Bearbeitungszeiten für diese zu vermeiden.
 Die Fragen zum Screenout betrafen den Studierendenstatus, die allgemeine Nutzung verschiedener KI-Tools [vgl. @falk2025] und die Nutzungshäufigkeit von ChatGPT [vgl. @köhler2024] im Rahmen des Studiums.
-Wer angab, nicht an einer Hochschule immatrikuliert zu sein, ChatGPT generell nicht oder nicht im Studienkontext zu nutzen, wurde vom weiteren Aufüllen des Fragebogens ausgeschlossen.
+Wer angab, nicht an einer Hochschule immatrikuliert zu sein, ChatGPT generell nicht, oder nicht im Studienkontext zu nutzen, wurde vom weiteren Aufüllen des Fragebogens ausgeschlossen.
 
 Zur Beschreibung der Stichprobe und zur Einordnung der späteren Ergebnisse wurden des Weiteren Angaben zur allgemeinen Nutzung generativer KI-Systeme erhoben.
 Dazu gehören zum einen die Vertrautheit und die Kompetenz im Umgang mit generativer KI (angelehnt an @shin2022) um die Charakterisierung der Stichprobe und eine Einordung der später beobachteten Nutzungsmuster zu ermöglichen.
@@ -416,7 +416,7 @@ Dieser erfolgte erst nach Abschluss der Befragung, um eine Beeinflussung der Seb
 
 <!-- $$$ Vielleicht noch adden dass eine Beeinflussung trotzdem nicht komplett ausgeschlossen werden kann - aber no issue weil das ja auch bei studien die "nur" Selbstauskünfte erheben passieren kann -->
 
-Der Upload sollte im Idealfall als von ChatGPT erstellter Text im JSON Format erfolgen. Falls dies den Teilnehmenden nicht möglich war, wurden die Chatlogs als HTML Datei eingespeist.
+Der Upload sollte im Idealfall als von ChatGPT erstellter Text im JSON Format erfolgen, falls dies den Teilnehmenden nicht möglich war, wurden die Chatlogs als HTML Datei eingespeist.
 Zur Bewertung der Datenqualität wurden mögliche technische Probleme beim Export oder Upload der Chatverläufe erhoben.
 
 Zusätzlich wurden Einschätzungen zur Repräsentativität der hochgeladenen Chatverläufe erfragt.
@@ -460,7 +460,7 @@ Die Feldphase startete am 09.
 Juli 2026 und endete am 30.
 Juli 2026.
 Teilnehmende wurden über den E-Mail-Verteiler der Studierenden im Masterprojekt und im Whatsapp-Kanal des Masters Computational Social Science mit weiteren Studierenden zur Teilnahme eingeladen, welche insgesamt 27 Studierende umfasst.
-Da zwischen dem E-Mail-Verteiler und dem Whatsapp-Kanal nur wenige Studierende erreicht werden konnten, wurden weitere Teilnehmende im privaten Umfeld, über die Whatsapp Kanäle der Soziologie Studiengänge und über den Instagram-Kanal der Fachschftsinitiative Soziologie rekrutiert.
+Aufgrund der geringen Zahl der beantworteten Fragebögen, wurden weitere Teilnehmende im privaten Umfeld, über die Whatsapp Kanäle der Soziologie Studiengänge und über den Instagram-Kanal der Fachschftsinitiative Soziologie rekrutiert.
 Die Teilnahme war freiwillig und anonym.
 
 Während der Feldphase zeigte sich in drei Fällen, dass Texteingaben in SoSci Survey einem internen Zeichenlimit unterlagen und beim Absenden gekürzt wurden.
@@ -578,7 +578,7 @@ sample_comparison |>
   cols_label(
     sample_group = "Gruppe",
     N = "N",
-    mean_age = "Alter: Mean",
+    mean_age = "Alter (M)",
     female_percent = "Frauen (%)",
     bachelor_percent = "Bachelor (%)",
     master_percent = "Master (%)",
@@ -758,7 +758,6 @@ categorical_profile <- bind_rows(
 categorical_profile
 ```
 
-
 ```{r}
 #| label: tbl-kategorische-merkmale
 #| tbl-cap: "Kategorische Merkmale in der Analysestichprobe"
@@ -795,24 +794,24 @@ Hinsichtlich des angestrebten Abschlusses bildeten Masterstudierende mit `r cate
 Auch die Studienrichtungen waren annähernd gleich verteilt: `r categorical_profile |> filter(Kategorie == "Sozialwissenschaften") |> select(N) |> pull()` Personen (`r formatC(categorical_profile |> filter(Kategorie == "Sozialwissenschaften") |> select(Prozent) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` %) studierten ein sozialwissenschaftliches Fach, während `r categorical_profile |> filter(Kategorie == "Andere Studienrichtung") |> select(N) |> pull()` Personen (`r formatC(categorical_profile |> filter(Kategorie == "Andere Studienrichtung") |> select(Prozent) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` %) einer anderen Studienrichtung angehörten.
 Das Alter der Teilnehmenden reichte von `r round(overview_age |> select(min) |> pull(), digits = global_digits)` bis `r round(overview_age |> select(max) |> pull(), digits = global_digits)` Jahren.
 Im Mittel waren die Teilnehmenden `r formatC(overview_age |> select(mean) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Jahre alt.
-Die Fragebogendauer lag im Mittel bei `r overview_time |> select(mean) |> pull()`.
-Die kürzeste Befragung dauerte dabei `r overview_time |> select(min) |> pull()`, während die längste `r overview_time |> select(max) |> pull()` andauerte.
+Die Fragebogendauer lag im Mittel bei `r formatC(overview_time |> select(mean) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten.
+Die kürzeste Befragung dauerte dabei `r formatC(overview_time |> select(min) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten, <!-- $$$ hoffe die war ungültig - das wäre noch gut zu ergänzen-->während die längste `r formatC(overview_time |> select(max) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten andauerte.
 
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
 
 ## Aufbereitung und Klassifikation der Chatlogs
 
-Um die erhobenen Chatlogs für die statistische Analyse vorzubereiten, mussten diese zuerst aufbereitet und klassifiziert werden um anschließend mit den Selbstauskünften aus dem Fragebogen vergleichbar gemacht zu werden.
+Um die erhobenen Chatlogs für die statistische Analyse vorzubereiten, mussten diese zuerst aufbereitet und klassifiziert werden, um anschließend mit den Selbstauskünften aus dem Fragebogen vergleichbar gemacht zu werden.
 
-Da die gespendeten Chatverläufe im Fragebogen entweder als JSON oder HTML hochgeladen wurden, wurden im ersten Schritt diese beiden Dateiformate separat aufbereitet, in ein Datenformat vereinheitlicht und ausschließlich auf User-Nachrichten gefiltert.
-Diese Daten werden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Sentiment, kritischen Nachfragen und Aufgabenbereich klassifiziert.
+Da die gespendeten Chatverläufe im Fragebogen entweder als JSON oder HTML hochgeladen wurden, war der erste Schritt diese beiden Dateiformate separat aufzubereiten, zu vereinheitlichen und ausschließlich auf User-Nachrichten zu filtern.
+Diese Daten wurden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Sentiment, kritischen Nachfragen und Aufgabenbereich klassifiziert.
 
-Die Nutzung eines LLMs hat hier gegenüber traditionellen Textklassifikationen mittels Machine Learning den großen Vorteil, dass sie deutlich leichter zu implementieren sind und keine aufwendigen Trainingsprozesse erfordern [@wang2023].
+Die Nutzung eines LLMs hat hier gegenüber traditionellen Textklassifikationen mittels Machine Learning den großen Vorteil, dass sie deutlich leichter zu implementieren ist und keine aufwendigen Trainingsprozesse erfordert [@wang2023].
 Bei komplexeren Aufgaben können LLMs zusätzliches Training in Form von Fine-Tuning (das Trainieren des LLMs an einem zusätzlichen, auf die Zielaufgabe zugeschnittenen, Datensatz) oder Few-Shots (das Integrieren einiger exemplarischer Fälle in den Prompt) benötigen, wenn diese für allgemeine Aufgaben konzipiert sind.
 Dennoch zeigen LLMs bei Klassifikationsaufgaben, insbesondere der Klassifikation von Sentiment, gute Ergebnisse, die mit „Natural Language Processing"-Modellen (NLP) [@wang2023; @anglin2025] und sogar mit den Annotationen von „Crowd-Workern" [@gilardi2023] mithalten können.
 
 Um die Performance von GPT auf unserem Datensatz im Vorraus zu testen, wurde ein Datensatz mit insgesamt 30 Beispiel-Chats annotiert und mit verschiedenen GPT-Modellen, verschiedenen Prompts sowie verschiedenen Strategien (alle Klassifikationsaufgaben in einem oder in separaten Prompts) mittels Zero-Shot Promts getestet.
-Das mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ am besten perfomende Modell war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5.
+Das mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ am Modell mit der besten Leistung war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5.
 Eine detaillierte Evaluation der verglichenen Modelle ist im [Online-Anhang](#0) verfügbar.
 
 ![Zero-Shot Textklassifikation von GPT-5.5 (combined Strategie)](plots/performance_gpt55_combined.png)
@@ -825,17 +824,16 @@ Die Ergebnisse der Evaluation zeigen, dass GPT-5.5 grundsätzlich in der Lage is
 Die hier ermittelten Zero-Shot-Leistungskennzahlen können daher als Schätzung der zu erwartenden Modellperformance für die gespendeten Chatlogs herangezogen werden.
 Diese Annahme basiert darauf, dass beide Datensätze hinsichtlich ihrer Domäne (Chatverläufe von Studierenden), des Aufgabenkontexts (Nutzungsart von ChatGPT), des Labelschemas sowie der strukturellen Ähnlichkeiten der Chats (iterative Prompt-Verfeinerung, Frage-Antwort-Strukturen) vergleichbar sind.
 Dennoch ist nicht auszuschließen, dass Unterschiede in der Datenverteilung zu einer abweichenden tatsächlichen Performance auf dem Analysedatensatz führen können.
-Insbesondere bei der Klassifizierung von Inhalten könnte dies Dies könnte insbesondere die Klassifikation von Inhalten betreffen, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine hoheHomogenität der Inhalte zu erwarten ist.
+Dies könnte insbesondere die Klassifikation von Inhalten betreffen, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine hohe Homogenität der Inhalte zu erwarten ist.
 Da GPT-5.5 bei der Inhaltsklassifikation über alle Evaluationsrunden hinweg eine sehr hohe Genauigkeit erreichte, deutet dies darauf hin, dass eine solche Einschränkung für die weitere Analyse von nicht zu großer Bedeutung sein dürfte.
 
 Um die Übertragbarkeit der Evaluationsergebnisse auf den Analysedatensatz zusätzlich zu überprüfen, wurde eine Stichprobe von 30 % des Survey-Datensatzes gezogen und die von GPT-5.5 vergebenen Labels manuell validiert.
 Die Annotation wurde von zwei der Autor:innen durchgeführt, die Intercoder-Realibilität lag für die Sentiment-Klassifikation bei 90.6 % und für die beiden anderen Klassifikationen jeweils bei 100%.
 Im Anschluss wurden in einer gemeinsamen Diskussion für alle Fälle ein konsensbasierter Godstandard festgelegt.
 Auf dieser Grundlage wurden die Leistungskennzahlen für GPT-5.5 erneut berechnet.
-Für das Erkennen des Aufgabentyps erziehlte das Modell eine Accuracy von 100%, bei kritischen Nachfragen lag die Accuracy bei 93.8% mit einem Macro-F1-Score von 88.1%.
-Die schlechteste Performance zeigte das Modell mit einer Accuracy von 84.4% und einem Macro-F1-Score von 0.604 bei der Sentiment Klassifikation (@tbla-llm-metriken).
-Dieser vergleichsweise niedrige Macro-F1-Score lässt sich insbesondere aud eine Tendenz von GPT-5.5 erklären, neutrale Chats als unfreundlich zu klassifizieren.
-- dies geschah in vier Fällen (@figb-konfusssion).
+Für das Erkennen des Aufgabentyps erziehlte das Modell eine Accuracy von 100%, bei kritischen Nachfragen lag die Accuracy bei 0.938 mit einem Macro-F1-Score von 0.881.
+Die schlechteste Leistung zeigte das Modell mit einer Accuracy von 0.844 und einem Macro-F1-Score von 0.604 bei der Sentiment Klassifikation (@tbla-llm-metriken).
+Dieser vergleichsweise niedrige Macro-F1-Score lässt sich insbesondere aud eine Tendenz von GPT-5.5 erklären, neutrale Chats als unfreundlich zu klassifizieren - dies geschah in vier Fällen (@figb-konfusssion).
 Diese Klassifikationsunsicherheit wird in der nachgelagerten Clusteranalyse nicht mehr explizit abgebildet, da die generierten Labels dort als feststehende Merkmalsausprägungen behandelt werden und die Distanzberechnung nicht zwischen einer sicheren und einer fehlerhaften Zuordnung unterscheiden kann.
 Insbesondere für die Sentiment-Dimension kann dies die später gezeigte Clusterlösung beeinflussen, wenn einzelne Fälle fälschlicherweise als unfreundlich klassifiziert werden.
 Dieser Aspekt ist daher bei der Interpretation der Ergebnisse zu berücksichtigen.
@@ -873,7 +871,7 @@ tibble::tribble(
   kableExtra::column_spec(2, width = "10cm")
 ```
 
-Während die Selbstauskünfte der Teilnehmenden auf Personenebene vorlagen, wurden die gespendeten Chatlogs auf Chatebene klassifiziert und dann auf Personenebene aggregiert.
+Während die Selbstauskünfte der Teilnehmenden auf Personenebene vorlagen, wurden die gespendeten Chatlogs auf Chatebene klassifiziert und mussten vor der weiteren Analyse ebenfalls auf Personenebene transformiert werden.
 
 Die studienbezogene *Informationsnutzung* wurde im Fragebogen über fünf Aufgabenbereiche operationalisiert: *Lernen und Prüfungsvorbereitung*, *Schreiben und Textarbeit*, *Praktische Unterstützung und Strukturierung*, *Informationssuche und Verständnis* und *Technische und analytische Unterstützung*.
 Die Teilnehmenden verteilten insgesamt zehn Punkte auf diese fünf Kategorien, sodass ihre typische Nutzung als relative Verteilung verschiedener Nutzungsarten erfasst wurde.
@@ -913,7 +911,7 @@ $$S_{\text{Diskrepanz}} =
 1, & \text{freundlicher}
 \end{cases}$$
 
-Bei kritischen Nachfragen bedeutet ein Wert von -1, dass die Person angibt mehr nachzufragen als es in den Chatlogs beobachtet wird, ein Wert voon 0, dass die Selbstauskunft korrekt ist und ein Wert von 1, dass die Person angibt keine kritischen Nachfragen durchzuführen, diese aber in den gespendeten Chat-Daten vorkommen.
+Bei kritischen Nachfragen bedeutet ein Wert von -1, dass die Person angibt mehr nachzufragen, als es in den Chatlogs beobachtet wird, ein Wert von 0, dass die Selbstauskunft korrekt ist und ein Wert von 1, dass die Person angibt, keine kritischen Nachfragen durchzuführen, diese aber in den gespendeten Chat-Daten vorkommen.
 
 $(ii) kritischesNachfragen (K):$
 
@@ -925,7 +923,7 @@ $$K_{\text{Diskrepanz}} =
 \end{cases}$$
 
 Bei den fünf Kategorien der Informationsnutzung bedeutet ein positiver Wert für eine Aufgabe “i”, dass die Selbstauskunft (SA) der Person von dem beobachteten Verhalten (BE) um den Anteil nach oben abweicht.
-Ein negativer Wert, analog dazu, dass die Person nach unten abweicht.
+Ein negativer Wert, analog dazu, dass die Selbstauskunft nach unten abweicht.
 
 <!-- $(iii) Aufgaben (A)$ -->
 
@@ -940,7 +938,7 @@ $$A_{i,\text{Diskrepanz}} =
 
 Zur Vorbereitung der statistischen Analyse wurden zunächst sämtliche Antwortkodierungen einheitlich rekodiert.
 Da der Schwerpunkt der Studie auf dem Vergleich zweier Datenquellen und nicht auf der Messung latenter Konstrukte liegt, wurden überwiegend Einzelitems eingesetzt.
-ine Ausnahme bildet die Skala zur sozialen Erwünschtheit, die zu einem Index zusammengefasst wurde.
+Eine Ausnahme bildet die Skala zur sozialen Erwünschtheit, die zu einem Index zusammengefasst wurde.
 Hierfür wurden zunächst die invertiert formulierten Items rekodiert und anschließend gemeinsam mit den übrigen Items zu einem Mittelwertindex aggregiert.
 Der resultierende Index bildet die individuelle Tendenz zu sozial erwünschtem Antwortverhalten ab.
 
@@ -951,16 +949,19 @@ Fälle mit fehlenden Werten in zentralen Analysevariablen wurden von der weitere
 
 <!-- TODO: hier nch die technische Aufbereitung zu JSON/HTML Aufbereitung -->
 
+<!-- $$$ ist das noch aktuell? -->
+
 ## Statistische Analyse
 
-Die statistische Analyse gliederte sich in deskriptive Vergleiche zwischen Survey- und Chatlogdaten, explorative Zusammenhangsanalysen mit personenbezogenen Merkmalen sowie eine Clusteranalyse personenbezogener Diskrepanzmuster.
+Die statistische Analyse gliedert sich in deskriptive Vergleiche zwischen Survey- und Chatlogdaten, explorative Zusammenhangsanalysen mit personenbezogenen Merkmalen, sowie eine Clusteranalyse personenbezogener Diskrepanzmuster.
 
-Forschungsfrage 1 (siehe @sec-forschungsfragen) wird durch eine gemeinsame Betrachtung der Ergebnisse zur Informationsnutzung, zum kritischen Prüfen und zum Interaktionsstil aus beiden Datenquellen beantwortet.
-Die drei Bereiche werden nicht zu einem gemeinsmaen Gesamtscore zusammengefasst, die ihre Diskrepanzmaße unterschiedlich skaliert sind (siehe @sec-operationalisierung).
+Forschungsfrage 1 wird durch eine gemeinsame Betrachtung der Ergebnisse zur Informationsnutzung, zum kritischen Prüfen und zum Interaktionsstil aus beiden Datenquellen beantwortet.
+Da die Diskrepanzmaße der drei Bereiche unterschiedlich skaliert sind (siehe @sec-operationalisierung), werden sie nicht zu einem gemeinsamen Gesamtscore zusammengefasst sondern getrennt voneinander bewertet.
+<!-- $$$ das heißt halt lowkey dass FF1 extrem unnötig ist und stattdessen 3-5 beantwortet werden, oder? -->
 
-Zur Beantwortung von Forschungsfrage 2 (siehe @sec-forschungsfragen) werden für jeden der fünf Aufgabenbereiche der Informationsnutzung der mittlere Surveyanteil, der mittlere Chatloganteil und die mittlere gerichtete Differenz ermittelt.
+Zur Beantwortung von Forschungsfrage 2 werden für jeden der fünf Aufgabenbereiche der Informationsnutzung der mittlere Surveyanteil, der mittlere Chatloganteil und die mittlere gerichtete Differenz ermittelt.
 Zusätzlich werden die mittlere absolute Abweichung und der Anteil der Personen mit exakter Übereinstimmung bestimmt.
-Die gerichtete Differenz zeigt, ob der Surveyanteil einer Nutzungsart im Durschnitt höher oder niedriger ist als der Chatloganteil.
+Die gerichtete Differenz zeigt, ob die Selbstauskunft einer Nutzungsart im Durchschnitt höher oder niedriger liegt als der in den Chatlogs beobachtete Anteil.
 Die mittlere absolute Abweichung beschreibt die Größe der Diskrepanz unabhängig von ihrer Richtung.
 Als zusammenfassendes personenbezogenes Maß wird die in @sec-operationalisierung definierte Total-Variation-Distanz deskriptiv beschrieben.
 
