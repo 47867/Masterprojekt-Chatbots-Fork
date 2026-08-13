@@ -758,7 +758,6 @@ categorical_profile <- bind_rows(
 categorical_profile
 ```
 
-\FloatBarrier
 
 ```{r}
 #| label: tbl-kategorische-merkmale

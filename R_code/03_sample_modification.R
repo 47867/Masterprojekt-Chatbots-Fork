@@ -79,16 +79,16 @@ reason_levels <- c(
   "Keine Einwilligung zur Teilnahme",
   "Fragebogen nicht abgeschlossen",
   "Ausschluss durch Screeningfragen",
-  "Keine Einwilligung zur Chatlogspende",
+  "Keine vollständige Einwilligung zur Chatlogspende",
   "Nicht alle erforderlichen Chats hochgeladen",
   "Sonstiger Ausschlussgrund",
   "Finale Analysestichprobe"
 )
 
-df_sample_reasons <- df_sample %>%
+df_sample_reasons <- df_sample |>
   mutate(
     Ausschlussgrund = case_when(
-      is.na(CH01) | CH01 != 5 ~
+      is.na(CO03) | CO03 != 4 ~
         "Keine Einwilligung zur Teilnahme",
 
       is.na(FINISHED) | FINISHED == FALSE ~
@@ -97,7 +97,7 @@ df_sample_reasons <- df_sample %>%
       STATUS == "screenout" ~
         "Ausschluss durch Screeningfragen",
 
-      is.na(CO03) | CO03 != 4 ~
+      is.na(CH01) | CH01 != 5 ~
         "Keine Einwilligung zur Chatlogspende",
 
       is.na(n_chats_valid) | n_chats_valid != 5 ~
@@ -115,6 +115,28 @@ df_sample_reasons <- df_sample %>%
       levels = reason_levels
     )
   )
+
+sample_table <- df_sample_reasons |>
+  count(
+    Ausschlussgrund,
+    .drop = FALSE,
+    name = "N"
+  ) |>
+  filter(N > 0) |>
+  mutate(
+    Ausschlussgrund = as.character(Ausschlussgrund),
+    Prozent = 100 * N / nrow(df_sample)
+  ) |>
+  tibble::add_row(
+    Ausschlussgrund = "Gesamtstichprobe",
+    N = nrow(df_sample),
+    Prozent = 100,
+    .before = 1
+  )
+
+sample_table
+
+
 
 demographic_n <- df_sample_reasons |>
   mutate(
@@ -140,28 +162,28 @@ demographic_n <- df_sample_reasons |>
 demographic_n
 
 
-sample_table <- df_sample_reasons %>%
-  count(Ausschlussgrund, .drop = FALSE, name = "N") %>%
-  mutate(
-    Prozent = round(100 * N / nrow(df_sample), 1)
-  ) %>%
-  filter(N > 0) %>%
-  bind_rows(
-    tibble(
-      Ausschlussgrund = factor(
-        "Gesamtstichprobe",
-        levels = c("Gesamtstichprobe", reason_levels)
-      ),
-      N = nrow(df_sample),
-      Prozent = 100
-    ),
-    .
-  ) %>%
-  mutate(
-    Ausschlussgrund = as.character(Ausschlussgrund)
-  )
-
-sample_table
+# sample_table <- df_sample_reasons %>%
+#   count(Ausschlussgrund, .drop = FALSE, name = "N") %>%
+#   mutate(
+#     Prozent = round(100 * N / nrow(df_sample), 1)
+#   ) %>%
+#   filter(N > 0) %>%
+#   bind_rows(
+#     tibble(
+#       Ausschlussgrund = factor(
+#         "Gesamtstichprobe",
+#         levels = c("Gesamtstichprobe", reason_levels)
+#       ),
+#       N = nrow(df_sample),
+#       Prozent = 100
+#     ),
+#     .
+#   ) %>%
+#   mutate(
+#     Ausschlussgrund = as.character(Ausschlussgrund)
+#   )
+#
+# sample_table
 
 
 sample_comparison <- df_sample_reasons |>
