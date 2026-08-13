@@ -79,7 +79,7 @@ reason_levels <- c(
   "Keine Einwilligung zur Teilnahme",
   "Fragebogen nicht abgeschlossen",
   "Ausschluss durch Screeningfragen",
-  "Keine vollständige Einwilligung zur Chatlogspende",
+  "Keine Einwilligung zur Chatlogspende",
   "Nicht alle erforderlichen Chats hochgeladen",
   "Sonstiger Ausschlussgrund",
   "Finale Analysestichprobe"
