@@ -542,3 +542,23 @@ table_sample_comparison <- sample_profile_data |>
   bold_labels()
 
 table_sample_comparison
+
+
+## export in tab
+
+sample_comparison_export <- table_sample_comparison |>
+  gtsummary::as_tibble(col_labels = FALSE) |>
+  rename(
+    Merkmal = label,
+    'Ausgeschlossene Fälle (N = 17)' = stat_1,
+    'Analysestichprobe (N = 21)' = stat_2
+  )
+
+readr::write_csv(
+  sample_comparison_export,
+  here::here(
+    "tabs",
+    "T21_sample_comparison.csv"
+  ),
+  na = ""
+)

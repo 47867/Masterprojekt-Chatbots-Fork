@@ -795,7 +795,7 @@ Auch die Studienrichtungen waren annähernd gleich verteilt: `r categorical_prof
 Das Alter der Teilnehmenden reichte von `r round(overview_age |> select(min) |> pull(), digits = global_digits)` bis `r round(overview_age |> select(max) |> pull(), digits = global_digits)` Jahren.
 Im Mittel waren die Teilnehmenden `r formatC(overview_age |> select(mean) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Jahre alt.
 Die Fragebogendauer lag im Mittel bei `r formatC(overview_time |> select(mean) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten.
-Die kürzeste Befragung dauerte dabei `r formatC(overview_time |> select(min) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten, <!-- $$$ hoffe die war ungültig - das wäre noch gut zu ergänzen-->während die längste `r formatC(overview_time |> select(max) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten andauerte.
+Die kürzeste Befragung dauerte dabei `r formatC(overview_time |> select(min) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten, <!-- $$$ hoffe die war ungültig - das wäre noch gut zu ergänzen-->während die längste `r formatC(overview_time |> select(max) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten andauerte. Weitere Kennzahlen sind in @tbla-sample-comparison aufgeführt.
 
 <!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
 
@@ -1492,6 +1492,21 @@ Nicht zuletzt könnten qualitative Anschlussstudien wie etwa kognitive Interview
 # Anhang {.unnumbered}
 
 ## Tabellen (A) {.unnumbered}
+
+::: {#tbla-sample-comparison}
+
+```{r}
+#| echo: false
+
+anhang_tab("T21_sample_comparison.csv")
+```
+
+*Anmerkung:* Für kontinuierliche und ordinale Merkmale werden Median (Interquartilsabstand), für kategoriale Merkmale *n* (%) berichtet. Die ausgeschlossene Gruppe umfasst nur Fälle mit vollständigen Angaben zu den dargestellten Merkmalen.
+
+Vergleich der Analysestichprobe mit den ausgeschlossenen Fällen
+
+:::
+
 
 ::: {#tbla-llm-metriken}
 ```{r}
