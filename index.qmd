@@ -847,23 +847,37 @@ Dadurch wurde eine direkte Vergleichbarkeit beider Datenquellen auf Personeneben
 
 
 tibble::tribble(
-  ~Konstrukt, ~Erhebung,
-  "Interaktionsstil",
-  "Selbsteinschätzung des Kommunikationsstils gegenüber ChatGPT",
-  
-  "Kritisches Prüfen",
-  "Zustimmung zu einer Aussage über das kritische Prüfen von ChatGPT-Antworten",
+  ~Konstrukt, ~Selbstauskunft, ~Chatlogdaten,
   
   "Informationsnutzung",
-  "Verteilung von genau zehn Punkten auf fünf Nutzungsbereiche"
+  "Verteilung von zehn Punkten auf fünf Nutzungsbereiche; Umrechnung in Anteile",
+  "Klassifikation der primären Nutzungsart jedes Chats; Bildung personenbezogener Anteile",
+  
+  "Interaktionsstil",
+  "Fünfstufige Selbsteinschätzung; Zusammenfassung zu freundlich, neutral und unfreundlich",
+  "Klassifikation jedes Chats als freundlich, neutral oder unfreundlich; personenbezogener Modus",
+  
+  "Kritisches Prüfen",
+  "Vierstufige Zustimmungsskala; anschließende Dichotomisierung",
+  "Klassifikation jedes Chats als vorhanden oder nicht vorhanden; personenbezogener Modus"
 ) |>
   knitr::kable(
     format = "latex",
-    align = c("l", "l"),
-    booktabs = TRUE
+    align = c("l", "l", "l"),
+    booktabs = TRUE,
+    linesep = ""
   ) |>
-  kableExtra::column_spec(1, width = "4cm") |>
-  kableExtra::column_spec(2, width = "10cm")
+  kableExtra::column_spec(1, width = "3cm") |>
+  kableExtra::column_spec(2, width = "5.3cm") |>
+  kableExtra::column_spec(3, width = "5.3cm") |>
+  kableExtra::row_spec(
+    1,
+    extra_latex_after = "\\midrule"
+  ) |>
+  kableExtra::row_spec(
+    2,
+    extra_latex_after = "\\midrule"
+  )
 ```
 
 Während die Selbstauskünfte der Teilnehmenden auf Personenebene vorlagen, wurden die gespendeten Chatlogs auf Chatebene klassifiziert und mussten vor der weiteren Analyse ebenfalls auf Personenebene transformiert werden.
@@ -893,43 +907,84 @@ Durch die quantitative Textklassifikation können somit insgesamt sieben Variabl
 So wird im Anschluss eine direkte Vergleichbarkeit zwischen Selbstauskunft und Verhaltensdaten ermöglicht.
 Auf dieser Grundlage wird untersucht, inwieweit das in den Chatlogs beobachtete Verhalten von den entsprechenden Selbstauskünften abweicht.
 
-Für jede der sieben Dimensionen wird hierfür eine Differenzvariable gebildet, wobei der aus den Chatlogs abgeleitete Wert als Referenz dient und mit dem entsprechenden Wert der Selbstauskunft verglichen wird.
-Positive Werte zeigen an, dass das beobachtete Verhalten stärker ausgeprägt ist als von der Person angegeben, während negative Werte auf eine geringere Ausprägung im beobachteten Verhalten hinweisen.
-Bei der Sentiment-Variable bedeutet ein Wert von 1 entsprechend, dass die Person im beobachteten Verhalten freundlicher erscheint als in der Selbstauskunft angegeben, ein Wert von 0, dass Selbstauskunft und beobachtetes Verhalten übereinstimmen, und ein Wert von −1, dass die Person im beobachteten Verhalten unfreundlicher erscheint als angegeben.
 
-$(i) Sentiment (S):$
+Im Folgenden bezeichnet $p$ eine Person und $i$ einen der fünf Bereiche der Informationsnutzung. $SA$ steht für die Selbstauskunft und $BE$ für das in den Chatlogs beobachtete Verhalten.
+Zur besseren Lesbarkeit werden im Folgenden die Kurzbezeichnungen
+$Info$ für Informationsnutzung,
+$Stil$ für Interaktionsstil und
+$Kritik$ für kritisches Prüfen verwendet.
 
-$$S_{\text{Diskrepanz}} =
+Für die *Informationsnutzung* wurde die Differenz der jeweiligen Anteile berechnet:
+
+$$
+D_{pi}^{(\text{Info})}
+=
+SA_{pi}^{(\text{Info})}
+-
+BE_{pi}^{(\text{Info})},
+\qquad
+D_{pi}^{(\text{Info})}\in[-1,1].
+$$
+
+$$
+\left\{
+\begin{aligned}
+D_{pi}^{\mathrm{Info}} < 0
+&\quad\Longrightarrow\quad
+\text{Selbstauskunft liegt unter dem Chatloganteil}, \\[0.7em]
+D_{pi}^{\mathrm{Info}} = 0
+&\quad\Longrightarrow\quad
+\text{Übereinstimmung}, \\[0.7em]
+D_{pi}^{\mathrm{Info}} > 0
+&\quad\Longrightarrow\quad
+\text{Selbstauskunft liegt über dem Chatloganteil}.
+\end{aligned}
+\right.
+$$
+
+
+Für den *Interaktionsstil* wurden Selbstauskunft und Chatlogmodus mit $-1=\text{freundlich}$, $0=\text{neutral}$ und $1=\text{unfreundlich}$ kodiert. Die Diskrepanz wurde berechnet als
+
+$$
+D_p^{(\text{Stil})}
+=
+\operatorname{sgn}
+\left(
+SA_p^{(\text{Stil})}
+-
+BE_p^{(\text{Stil})}
+\right).
+$$
+
+$$
+D_p^{(\text{Stil})}
+=
 \begin{cases}
--1, & \text{unfreundlicher} \\
-0, & \text{korrekt} \\
-1, & \text{freundlicher}
-\end{cases}$$
+-1, & \text{in den Chatlogs unfreundlicher als angegeben}, \\[0.6em]
+0, & \text{Übereinstimmung}, \\[0.6em]
+1, & \text{in den Chatlogs freundlicher als angegeben}.
+\end{cases}
+$$
 
-Bei kritischen Nachfragen bedeutet ein Wert von -1, dass die Person angibt mehr nachzufragen, als es in den Chatlogs beobachtet wird, ein Wert von 0, dass die Selbstauskunft korrekt ist und ein Wert von 1, dass die Person angibt, keine kritischen Nachfragen durchzuführen, diese aber in den gespendeten Chat-Daten vorkommen.
+Für das *kritische Prüfen* wurden beide Datenquellen mit $0=\text{nicht vorhanden}$ und $1=\text{vorhanden}$ kodiert. Die Diskrepanz wurde berechnet als
 
-$(ii) kritischesNachfragen (K):$
+$$
+D_p^{(\text{Kritik})}
+=
+BE_p^{(\text{Kritik})}
+-
+SA_p^{(\text{Kritik})}.
+$$
 
-$$K_{\text{Diskrepanz}} =
+$$
+D_p^{(\text{Kritik})}
+=
 \begin{cases}
--1, & \text{unkritischer als angegeben} \\
-0, & \text{korrekt} \\
-1, & \text{kritischer als angegeben}
-\end{cases}$$
-
-Bei den fünf Kategorien der Informationsnutzung bedeutet ein positiver Wert für eine Aufgabe “i”, dass die Selbstauskunft (SA) der Person von dem beobachteten Verhalten (BE) um den Anteil nach oben abweicht.
-Ein negativer Wert, analog dazu, dass die Selbstauskunft nach unten abweicht.
-
-<!-- $(iii) Aufgaben (A)$ -->
-
-$$D_i = SA_i - BE_i, \qquad A_{i,\text{Diskrepanz}} \in [-1, 1]$$
-
-$$A_{i,\text{Diskrepanz}} =
-\begin{cases}
-\text{Unterschätzung}, & -1 \leq D_i < 0 \\
-\text{Übereinstimmung}, & D_i = 0 \\
-\text{Überschätzung}, & 0 < D_i \leq 1
-\end{cases}$$
+-1, & \text{nur in der Selbstauskunft angegeben}, \\[0.6em]
+0, & \text{Übereinstimmung}, \\[0.6em]
+1, & \text{nur in den Chatlogs beobachtet}.
+\end{cases}
+$$
 
 Zur Vorbereitung der statistischen Analyse wurden zunächst sämtliche Antwortkodierungen einheitlich rekodiert.
 Da der Schwerpunkt der Studie auf dem Vergleich zweier Datenquellen und nicht auf der Messung latenter Konstrukte liegt, wurden überwiegend Einzelitems eingesetzt.
@@ -952,22 +1007,35 @@ Die statistische Analyse gliedert sich in deskriptive Vergleiche zwischen Survey
 
 Forschungsfrage 1 wurde durch eine gemeinsame Betrachtung der Ergebnisse zur Informationsnutzung, zum kritischen Prüfen und zum Interaktionsstil aus beiden Datenquellen beantwortet.
 Da die Diskrepanzmaße der drei Bereiche unterschiedlich skaliert sind (siehe @sec-operationalisierung), wurden sie nicht zu einem gemeinsamen Gesamtscore zusammengefasst sondern getrennt voneinander bewertet.
-<!-- $$$ das heißt halt lowkey dass FF1 extrem unnötig ist und stattdessen 3-5 beantwortet werden, oder? --> <!-- @Hannah: Ja, man könnte FF1 als übergeordnete FF verstehen und den Rest als FF1a - FF1d. -->
 
-Zur Beantwortung von Forschungsfrage 2 wurden für jeden der fünf Aufgabenbereiche der Informationsnutzung der mittlere Surveyanteil, der mittlere Chatloganteil und die mittlere gerichtete Differenz ermittelt.
+
+Zur Beantwortung von Forschungsfrage 1a wurden für jeden der fünf Aufgabenbereiche der Informationsnutzung der mittlere Surveyanteil, der mittlere Chatloganteil und die mittlere gerichtete Differenz ermittelt.
 Zusätzlich wurden die mittlere absolute Abweichung und der Anteil der Personen mit exakter Übereinstimmung bestimmt.
-Die gerichtete Differenz zeigt - unabhängig von der Richtung - ob die Selbstauskunft einer Nutzungsart im Durchschnitt höher oder niedriger liegt als der in den Chatlogs beobachtete Anteil.
+Die gerichtete Differenz zeigt — unabhängig von der Richtung — ob die Selbstauskunft einer Nutzungsart im Durchschnitt höher oder niedriger liegt als der in den Chatlogs beobachtete Anteil. Zusätzlich wurde die Total-Variation-Distanz ermittelt:
 
-Für Forschungsfrage 3 wurden die absoluten Häufigkeiten und relativen Anteile der fünf Nutzungsarten in den 105 Chatverläufen ermittelt.
+$$
+TV_p
+=
+\frac{1}{2}
+\sum_{i=1}^{5}
+\left|
+SA_{pi}^{(\text{Info})}
+-
+BE_{pi}^{(\text{Info})}
+\right|.
+$$
+Sie gibt an, welcher Anteil zwischen den fünf Nutzungsbereichen umverteilt werden müsste, damit beide Verteilungen übereinstimmen.
+
+Für Forschungsfrage 1b wurden die absoluten Häufigkeiten und relativen Anteile der fünf Nutzungsarten in den 105 ($5 \times 21$) Chatverläufen ermittelt.
 Anschließend wurden die über alle Personen gemittelten Umfrage- und Chatloganteile der fünf Nutzungsarten gegenübergestellt.
 
-Zur Beantwortung von Forschungsfrage 4 wurden die absoluten und relativen Häufigkeiten der drei in @sec-operationalisierung definierten Ergebniskategorien des kritischen Prüfens bestimmt.
+Zur Beantwortung von Forschungsfrage 1c wurden die absoluten und relativen Häufigkeiten der drei in @sec-operationalisierung definierten Ergebniskategorien des kritischen Prüfens bestimmt.
 Zusätzlich wurde der Anteil aller Personen mit einer Diskrepanz berechnet.
 
-Für Forschungsfrage 5 wurde ausgewertet, bei wie vielen Personen der selbstberichtete mit dem beobachtete Interaktionsstil übereinstimmt.
+Für Forschungsfrage 1d wurde ausgewertet, bei wie vielen Personen der selbstberichtete mit dem beobachtete Interaktionsstil übereinstimmt.
 Die Ergebnisse wurden als absolute und relative Häufigkeiten dargestellt.
 
-Ergänzend wurde für Forschungsfrage 6 untersucht, ob die Diskrepanzen mit dem Alter, der KI-Erfahrung, der sozialen Erwünschtheit oder dem Geschlecht zusammenhängen.
+Ergänzend wurde für Forschungsfrage 1e untersucht, ob die Diskrepanzen mit dem Alter, der KI-Erfahrung, der sozialen Erwünschtheit oder dem Geschlecht zusammenhängen.
 Der Zusammenhang zwischen Informationsnutzung und den metrischen personenbezogenen Merkmalen wurde anhand von Spearman-Rangkorrelationen untersucht.
 Geschlechterunterschiede wurden aufgrund der kleinen Gruppen und der nicht vorausgesetzten Normalverteilung mit einem Wilcoxon-Rangsummentest analysiert.
 
@@ -982,35 +1050,39 @@ Da insgesamt neun Korrelationskoeffizienten berechnet wurden, erfolgte eine Korr
 
 <!-- ca 5000 Zeichen --->
 
-Die explorative Analyse der gewonnenen Daten wurde mittels einer k-medoids-Clusteranalyse durchgeführt.
-Da die Variablen, die in das Cluster einfließen sollten, aus fünf kontinuierlichen Diskrepanzscores (Kategorien der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Nachfragen und Sentiment) bestanden, lagen gemischte Skalenniveaus vor.
-Die Manhattan-Distanz und die Euklidische-Distanz benötigen zum Beispiel metrische oder binäre Daten, beziehungsweise – im Fall der Euklidischen-Distanz – einen euklidischen Vektorraum.
+Die weitere explorative Analyse der gewonnenen Daten wurde mittels einer k-medoids-Clusteranalyse durchgeführt.
+Da die Variablen, die in das Cluster einfließen sollten, aus fünf kontinuierlichen Diskrepanzscores (Arten der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Prüfen und Interaktionsstil) bestanden, lagen gemischte Skalenniveaus vor.
+Die Manhattan-Distanz und die Euklidische-Distanz benötigen zum Beispiel metrische oder binäre Daten, beziehungsweise — im Fall der Euklidischen-Distanz — einen euklidischen Vektorraum.
 Für das Clustering wurde daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert [@gower1971].
 Die Idee der Gower-Distanz ist, dass für alle Variablen eine eigene, zwischen 0 und 1 liegende, Distanz berechnet wird.
-Diese berechneten Einzel-Distanzen werden in einee Gesamtdistanz pro Personenpaar verrechnet, bei der 0 bedeutet, dass die Personen identisch sind, und 1 bedeutet, dass sie maximal unterschiedlich sind.
-In der vorliegenden Analyse wurde von den kontinuierlichen Variablen $A_i$ wurde die absolute Differenz genommen, während $S_{\text{Diskrepanz}}$ und $K_{\text{Diskrepanz}}$ zuerst als geordnete Faktoren kodiert wurden, damit ihre Richtung erhalten bleibt.
-Anschließend wurden die ordinalen Maßzahlen in Ränge übersetzt.
-Da die inhaltliche Domäne mit fünf Variablen gegenüber Sentiment und Kritik mit je einer Variable bei Gleichgewichtung aller einzelnen Variablen überproportional stark in die Distanz eingegangen wäre, wurden die 5 aufgabenspezifischen Diskrepanzmaße mit $\frac{1}{5} = 0{,}2$ gewichtet.
+Die variablenspezifischen Einzel-Distanzen wurden anschließend als gewichtetes Mittel zu einer Gower-Gesamtdistanz für jedes Personenpaar zusammengefasst.
+Ein Wert von 0 bedeutet, dass zwei Personen hinsichtlich der berücksichtigten Diskrepanzvariablen übereinstimmen; ein Wert von 1 bezeichnet die größtmögliche Unterschiedlichkeit.
+
+Für die fünf kontinuierlichen Diskrepanzen der Informationsnutzung $D_{pi}^{\mathrm{Info}}$ wurde jeweils die am Wertebereich standardisierte absolute Differenz berechnet.
+Die Diskrepanzen des Interaktionsstils $D_p^{\mathrm{Stil}}$ und des kritischen Prüfens $D_p^{\mathrm{Kritik}}$ wurden als geordnete Faktoren mit den Stufen $-1 < 0 < 1$ behandelt und für die Distanzberechnung in normierte Rangwerte überführt.
+
+Damit die Informationsnutzung aufgrund ihrer fünf Variablen nicht stärker als die beiden anderen Konstrukte in die Gesamtdistanz einging, wurde jedes ihrer fünf Diskrepanzmaße mit $\frac{1}{5}=0{,}2$ gewichtet.
+Die Informationsnutzung erhielt damit insgesamt dasselbe Gewicht wie der Interaktionsstil beziehungsweise das kritische Prüfen.
 
 Für die Durchführung der Clusteranalyse wurde der Algorithmus "Partitioning around Medoids"-Algorithmus, kurz PAM verwendet [@kaufman1990a].
 Dieser funktioniert wie folgt: Wie der k-means-Algorithmus unterteilt er den Datensatz in eine Anzahl von k-Partitionen.
-Dabei werden aber statt des arithmetischen Mittels oder des Medians tatsächliche Beobachtungseinheiten als Clusterzentren gewählt.
+Dabei werden statt des arithmetischen Mittels oder des Medians tatsächliche Beobachtungseinheiten als Clusterzentren gewählt.
 Dadurch können beliebige Distanzmaße verwendet werden, anstatt – wie bei k-Means – auf die euklidische Distanz beschränkt zu sein.
 Dies ermöglicht auch die gemeinsame Berücksichtigung metrischer und binärer Daten.
 Da PAM Personen als Zentrum der k-Partitionen erlaubt, können die Cluster-Zentren intuitiver interpretiert werden: Die Person, die im Zentrum steht, ist eine Art Idealtyp des Clusters, dem die anderen Personen ähneln.
-Dies macht den Algorithmus zu einer attraktiven Wahl für unser exploratives Vorhaben.
-Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall $k$ Beobachtungen als anfängliche Medoide, also als Cluster-Zentren, ausgewählt (dies wird durch einen Seed "404" replizierbar gehalten).
+Dies macht den Algorithmus zu einer idealen Wahl für unser exploratives Vorhaben.
+Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall $k$ Beobachtungen als anfängliche Medoide, also als Cluster-Zentren, ausgewählt.
 Daraufhin werden alle Personen dem Medoid (Zentrum) zugeordnet, dem sie am nächsten liegen und die Summe aller Distanzen von den Personen zu ihrem Medoid berechnet.
 Schließlich werden die Cluster-Zentren (die Medoide) durch die übrigen Beobachtungen durchrotiert.
 Dieser Prozess wiederholt sich so lange, bis keine weitere Verbesserung möglich ist.
 Die Anzahl der k-Partitionen wird, anders als bei einer k-means-Clusterung, mittels der Silhouette-Methode von @rousseeuw1987 festgelegt.
 Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe.
-Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei 1 heißt, dass die Person indeal in das zugeordnete Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
-Nun wird der Durchschnitt für alle Personen ausgerechnet der anzeigt, wie eng gruppiert alle Personen in dem Cluster sind.
-Ein Cluster mit einer durchschnittlichen Silhouette von 0,5 wird als ausreichend für unsere Zwecke betrachtet, 0,7 als stark nach @kaufman1990a.
-Dieser Prozess wird für $k = 2$ bis $k = 10$ wiederholt, also für bis zu zehn Cluster.
+Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei $1$ heißt, dass die Person indeal in das zugeordnete Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
+Anschließend wird der Durchschnitt für alle Personen ermittelt der anzeigt, wie eng gruppiert alle Personen im jeweiligen Cluster sind.
+Ein Cluster mit einer durchschnittlichen Silhouette von $0,5$ wird als ausreichend für unsere Zwecke betrachtet, $0,7$ als stark nach @kaufman1990a.
+Dieser Prozess wird für $k = 2$ bis $k = 10$ wiederholt, sprich für bis zu zehn Cluster.
 Als Clusterzahl wird anschließend derjenige Wert von $k$ verwendet, für den die die höchste durchschnittliche Silhouette berechnet wird.
-Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden.
+Nachdem die Cluster ermittelt wurden, werden diese auf inhaltliche Unterschied analysiert.
 Dazu werden die einzelnen Cluster deskriptiv auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen, wie Studienrichtung oder soziale Erwünschtheit, untersucht.
 
 Im folgenden Abschnitt werden die Ergebnisse der aufgeführten statistischen Analyse erläutert.
@@ -1233,19 +1305,19 @@ association_table |>
   )
 ```
 
-Bei der Informationsnutzung zeigt sich praktisch kein Zusammenhang zwischen dem Alter und dem Ausmaß der Diskrepanz ($\rho=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Alter") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Alter") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
-Für die KI-Erfahrung ergab sich dagegen ein schwacher bis moderat positiver Zusammenhang ($\rho=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "KI-Erfahrung") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "KI-Erfahrung") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
+Bei der Informationsnutzung zeigt sich praktisch kein Zusammenhang zwischen dem Alter und dem Ausmaß der Diskrepanz ($\rho=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Alter") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p_{adj}=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Alter") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
+Für die KI-Erfahrung ergab sich dagegen ein schwacher bis moderater, statistisch nicht signifikanter positiver Zusammenhang ($\rho=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "KI-Erfahrung") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p_{adj}=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "KI-Erfahrung") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
 Personen mit größerer KI-Erfahrung wiesen somit deskriptiv eher größere Abweichungen zwischen ihrer Selbstauskunft und der beobachteten Verteilung der Nutzungsarten auf.
-Der Zusammenhang mit sozialer Erwünschtheit fiel nur schwach positiv aus ($\rho=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Soziale Erwünschtheit") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Soziale Erwünschtheit") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
+Der Zusammenhang mit sozialer Erwünschtheit fiel nur schwach positiv aus und war ebenfalls nicht statistisch signifikant ($\rho=$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Soziale Erwünschtheit") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=_{adj}$ `r association_table |> filter(Dimension == "Informationsnutzung", Merkmal == "Soziale Erwünschtheit") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
 
 Beim Interaktionsstil zeigte das Alter den betragsmäßig stärksten Zusammenhang.
-Ältere Teilnehmende wiesen tendenziell seltener eine Diskrepanz zwischen Selbstauskunft und Chatlogdaten auf ($\rho=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Alter") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Alter") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
-Auch eine größere KI-Erfahrung ging tendenziell mit selteneren Diskrepanzen einher, der Zusammenhang war jedoch schwach ($\rho=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "KI-Erfahrung") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "KI-Erfahrung") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
-Soziale Erwünschtheit war dagegen schwach positiv mit dem Auftreten einer Diskrepanz verbunden ($\rho=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Soziale Erwünschtheit") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Soziale Erwünschtheit") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
+Ältere Teilnehmende wiesen tendenziell seltener eine Diskrepanz zwischen Selbstauskunft und Chatlogdaten auf, was jedoch statistisch nicht signifikant war ($\rho=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Alter") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p_{adj}=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Alter") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
+Auch eine größere KI-Erfahrung ging tendenziell mit selteneren Diskrepanzen einher, der Zusammenhang war jedoch schwach und statistisch nicht signifikant ($\rho=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "KI-Erfahrung") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p_{adj}=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "KI-Erfahrung") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
+Soziale Erwünschtheit war dagegen schwach positiv mit dem Auftreten einer Diskrepanz verbunden, aber ebenfalls nicht statistisch signifikant ($\rho=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Soziale Erwünschtheit") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p_{adj}=$ `r association_table |> filter(Dimension == "Interaktionsstil", Merkmal == "Soziale Erwünschtheit") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
 
 Beim kritischen Prüfen zeigten sich ähnliche Tendenzen.
-Eine größere KI-Erfahrung ($\rho=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "KI-Erfahrung") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "KI-Erfahrung") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`) und ein höheres Alter ($\rho=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Alter") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Alter") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`) gingen deskriptiv mit selteneren Diskrepanzen einher.
-Für soziale Erwünschtheit zeigte sich wiederum ein schwacher positiver Zusammenhang ($\rho=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Soziale Erwünschtheit") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Soziale Erwünschtheit") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
+Eine größere KI-Erfahrung ($\rho=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "KI-Erfahrung") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p_{adj}=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "KI-Erfahrung") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`) und ein höheres Alter ($\rho=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Alter") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p_{adj}=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Alter") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`) gingen deskriptiv mit selteneren Diskrepanzen einher, die allerdings nicht statistisch signifikant waren.
+Für soziale Erwünschtheit zeigte sich wiederum ein schwach positiver und nicht statistisch signifikanter Zusammenhang ($\rho=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Soziale Erwünschtheit") |> pull(rho) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`, $p_{adj}=$ `r association_table |> filter(Dimension == "Kritisches Prüfen", Merkmal == "Soziale Erwünschtheit") |> pull(p_adjusted) |> formatC(format = "f", digits = global_digits, decimal.mark = ",")`).
 Höhere soziale Erwünschtheit war damit tendenziell mit häufigeren Diskrepanzen beim kritischen Prüfen verbunden.
 
 Auch nach Geschlecht zeigten sich gegenläufige deskriptive Muster.
