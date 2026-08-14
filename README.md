@@ -57,7 +57,7 @@ Die Chatlogs wurden mithilfe eines Large Language Models klassifiziert. Die Güt
 
 ### Voraussetzungen
 
-- R und RStudio
+- R und RStudio. Die Analysen wurden mit R 4.6.0 durchgeführt
 - Quarto
 - eine LaTeX-Installation mit XeLaTeX, beispielsweise TinyTeX
 - das R-Paket `renv`
