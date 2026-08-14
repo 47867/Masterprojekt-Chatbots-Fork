@@ -412,9 +412,7 @@ Die konkrete Operationalisierung dieser Konstrukte wird in @sec-operationalisier
 
 Anschließend wurden die Teilnehmenden gebeten, freiwillig ihre fünf zuletzt genutzten studienbezogenen Chatverläufe mit ChatGPT hochzuladen.
 Dafür wurde eine separate Einwilligung eingeholt nach welcher der Upload stattfand.
-Dieser erfolgte erst nach Abschluss der Befragung, um eine Beeinflussung der Sebsteinkünfte durch Einsicht in die eigenen Chatverläufe möglichst zu vermeiden.
-
-<!-- $$$ Vielleicht noch adden dass eine Beeinflussung trotzdem nicht komplett ausgeschlossen werden kann - aber no issue weil das ja auch bei studien die "nur" Selbstauskünfte erheben passieren kann -->
+Dieser erfolgte erst nach Abschluss der Befragung, um eine Beeinflussung der Sebsteinkünfte durch Einsicht in die eigenen Chatverläufe möglichst zu reduzieren. Jedoch kann eine Beeinflussung durch die Auseinandersetzung mit dem Fragebogen nicht vollends ausgeschlossen werden.
 
 Der Upload sollte im Idealfall als von ChatGPT erstellter Text im JSON Format erfolgen, falls dies den Teilnehmenden nicht möglich war, wurden die Chatlogs als HTML Datei eingespeist.
 Zur Bewertung der Datenqualität wurden mögliche technische Probleme beim Export oder Upload der Chatverläufe erhoben.
@@ -438,10 +436,8 @@ Juli 2026 und zeigte mehrere Verbesserungsmöglichkeiten.
 So hatten einige Teilnehmende Schwierigkeiten, die Schaltflächen zum Kopieren der KI-Ausgabe sowie zur erneuten Generierung der Antwort unter „Erneut versuchen“ in der Benutzeroberfläche von ChatGPT zu finden.
 Zudem war der Prompt für den JSON-Export in der ursprünglichen Version der Anleitung nicht ausreichend früh und visuell hervorgehoben und wurde daher nicht unmittelbar gefunden.
 Darüber hinaus zeigte sich ein bislang nicht berücksichtigter technischer Sonderfall: Bei sehr langen Chatverläufen verweigerte ChatGPT teilweise die Ausgabe da die Antwort das maximal zulässige Ausgabelimit überschritten hätte.
-Weiterhin fiel auf, dass verschiedene technische Fehlerursachen in einer Frage nicht eindeutig voneinander abgegrenzt waren.
+Weiterhin fiel auf, dass verschiedene technische Fehlerursachen in der Frage zu technischen Schwierigkeiten nicht eindeutig voneinander abgegrenzt waren. Um disjunkte Antwortoptionen zu ermöglichen, wurde die Frage daher in mehrere separate Fragen aufgeteilt.
 Zusätzlich wurden einzelne sprachliche Formulierungen (z. B. die Verwendung des Begriffs „Chatlogs“ anstelle von „Chatverläufe“) nicht verstanden und kleinere Unstimmigkeiten im Fragebogen entdeckt.
-
-<!-- $$$ In welcher Frage waren die Fehlerursachen nicht abgegrenzt? Würde das lieber konkret reinschreiben statt so schwammig zu lassen -->
 
 Auf Grundlage dieser Rückmeldungen wurden mehrere Anpassungen vorgenommen.
 Die Hinweise auf die Schaltflächen „Kopieren“ und „Erneut versuchen“ wurden direkt in die Anleitung integriert und durch Abbildungen ergänzt.
@@ -622,7 +618,7 @@ sample_comparison |>
 
 Die Personen in der Analysestichprobe waren im Durchschnitt `r formatC(abs(sample_differences$age_difference), format = "f", digits = global_digits, decimal.mark = ",")` Jahre älter als die ausgeschlossenen Personen.
 Der Frauenanteil lag um `r formatC(abs(sample_differences$female_difference), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte niedriger.
-Besonders deutliche Unterschiede zeigten sich beim angestrebten Abschluss: Der Anteil der Bachelorstudierenden war in der Analysestichprobe um `r formatC(abs(sample_differences$bachelor_difference), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte niedriger, während der Anteil der Masterstudierenden um `r formatC(abs(sample_differences$master_difference), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte höher lag<!-- $$$ höher als was? -->.
+Besonders deutliche Unterschiede zeigten sich beim angestrebten Abschluss: Der Anteil der Bachelorstudierenden war in der Analysestichprobe um `r formatC(abs(sample_differences$bachelor_difference), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte niedriger, während der Anteil der Masterstudierenden um `r formatC(abs(sample_differences$master_difference), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte höher lag als in den ausgeschlossenen Fällen.
 Beim Anteil der Studierenden aus sozialwissenschaftlichen Studiengängen bestand mit `r formatC(abs(sample_differences$field_social_difference), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkten hingegen kaum ein Unterschied (@tbl-stichprobenvergleich).
 
 ```{r}
@@ -795,9 +791,9 @@ Auch die Studienrichtungen waren annähernd gleich verteilt: `r categorical_prof
 Das Alter der Teilnehmenden reichte von `r round(overview_age |> select(min) |> pull(), digits = global_digits)` bis `r round(overview_age |> select(max) |> pull(), digits = global_digits)` Jahren.
 Im Mittel waren die Teilnehmenden `r formatC(overview_age |> select(mean) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Jahre alt.
 Die Fragebogendauer lag im Mittel bei `r formatC(overview_time |> select(mean) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten.
-Die kürzeste Befragung dauerte dabei `r formatC(overview_time |> select(min) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten, <!-- $$$ hoffe die war ungültig - das wäre noch gut zu ergänzen-->während die längste `r formatC(overview_time |> select(max) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten andauerte. Weitere Kennzahlen sind in @tbla-sample-comparison aufgeführt.
-
-<!-- Hier wird statistische Analyse hinkommen, würde das spezifiisch nach dem fragebogenteil machen, weil dann haben wir einen teil Datenerhebung und einen Teil Datenauswertung-->
+Die kürzeste Befragung dauerte dabei `r formatC(overview_time |> select(min) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten, <!-- $$$ hoffe die war ungültig - das wäre noch gut zu ergänzen-->
+<!-- @Hannah: die haben wir nicht ausgeschlossen -->
+während die längste `r formatC(overview_time |> select(max) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten andauerte. Weitere Kennzahlen sind in @tbla-sample-comparison aufgeführt.
 
 ## Aufbereitung und Klassifikation der Chatlogs
 
@@ -957,6 +953,7 @@ Die statistische Analyse gliedert sich in deskriptive Vergleiche zwischen Survey
 Forschungsfrage 1 wurde durch eine gemeinsame Betrachtung der Ergebnisse zur Informationsnutzung, zum kritischen Prüfen und zum Interaktionsstil aus beiden Datenquellen beantwortet.
 Da die Diskrepanzmaße der drei Bereiche unterschiedlich skaliert sind (siehe @sec-operationalisierung), wurden sie nicht zu einem gemeinsamen Gesamtscore zusammengefasst sondern getrennt voneinander bewertet.
 <!-- $$$ das heißt halt lowkey dass FF1 extrem unnötig ist und stattdessen 3-5 beantwortet werden, oder? -->
+<!-- @Hannah: Ja, man könnte FF1 als übergeordnete FF verstehen und den Rest als FF1a - FF1d. -->
 
 Zur Beantwortung von Forschungsfrage 2 wurden für jeden der fünf Aufgabenbereiche der Informationsnutzung der mittlere Surveyanteil, der mittlere Chatloganteil und die mittlere gerichtete Differenz ermittelt.
 Zusätzlich wurden die mittlere absolute Abweichung und der Anteil der Personen mit exakter Übereinstimmung bestimmt.
@@ -1024,8 +1021,6 @@ Zunächst erfolgt ein deskriptiver graphischer Überblick, bevor die einzelnen W
 
 \FloatBarrier
 
-<!-- -Deskrepziva Stichprobe \<\<<INSERT GRAPHS>\>\> -Deskreptiva Zusammenhang \<\<\< -->
-
 \newpage
 
 # Ergebnisse
@@ -1033,8 +1028,6 @@ Zunächst erfolgt ein deskriptiver graphischer Überblick, bevor die einzelnen W
 \FloatBarrier
 
 <!-- ??? Wenn wir im Ergebnissteil lauter neue statistischen mehtoden verwednen die davor nicht in der Methode bereichtet wurden, sollten wir das noch in der Methode erwähnen sonst ist das einfach merkwürdig -> müssen auch noch erwähenen das wir hier dann von unserer Preregestreirung abgewichen sind -->
-
-<!-- ??? zu klein F3/F4/F5 für eigenen unterpunkt mindestnes eine hable seite (siehe powerpoint von der kümple) villeicht, alle f1 - f5 unter einen unterpunkt "Beschreibung der Stichprobe" (oder etwas passenderes) und clusteranalyse lassen wie es ist oder auch unter einen Unterunkt.  -->
 
 <!-- Allgemein weniger absätze -> text soltle nicht zu zerstückelt sein -->
 
