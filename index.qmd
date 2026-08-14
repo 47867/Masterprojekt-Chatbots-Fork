@@ -907,27 +907,21 @@ Durch die quantitative Textklassifikation können somit insgesamt sieben Variabl
 So wird im Anschluss eine direkte Vergleichbarkeit zwischen Selbstauskunft und Verhaltensdaten ermöglicht.
 Auf dieser Grundlage wird untersucht, inwieweit das in den Chatlogs beobachtete Verhalten von den entsprechenden Selbstauskünften abweicht.
 
-
-Im Folgenden bezeichnet $p$ eine Person und $i$ einen der fünf Bereiche der Informationsnutzung. $SA$ steht für die Selbstauskunft und $BE$ für das in den Chatlogs beobachtete Verhalten.
-Zur besseren Lesbarkeit werden im Folgenden die Kurzbezeichnungen
-$Info$ für Informationsnutzung,
-$Stil$ für Interaktionsstil und
-$Kritik$ für kritisches Prüfen verwendet.
+Im Folgenden bezeichnet $p$ eine Person und $i$ einen der fünf Bereiche der Informationsnutzung.
+$SA$ steht für die Selbstauskunft und $BE$ für das in den Chatlogs beobachtete Verhalten.
+Zur besseren Lesbarkeit werden im Folgenden die Kurzbezeichnungen $Info$ für Informationsnutzung, $Stil$ für Interaktionsstil und $Kritik$ für kritisches Prüfen verwendet.
 
 Für die *Informationsnutzung* wurde die Differenz der jeweiligen Anteile berechnet:
 
-$$
-D_{pi}^{(\text{Info})}
+$$D_{pi}^{(\text{Info})}
 =
 SA_{pi}^{(\text{Info})}
 -
 BE_{pi}^{(\text{Info})},
 \qquad
-D_{pi}^{(\text{Info})}\in[-1,1].
-$$
+D_{pi}^{(\text{Info})}\in[-1,1].$$
 
-$$
-\left\{
+$$\left\{
 \begin{aligned}
 D_{pi}^{\mathrm{Info}} < 0
 &\quad\Longrightarrow\quad
@@ -939,52 +933,44 @@ D_{pi}^{\mathrm{Info}} > 0
 &\quad\Longrightarrow\quad
 \text{Selbstauskunft liegt über dem Chatloganteil}.
 \end{aligned}
-\right.
-$$
+\right.$$
 
+Für den *Interaktionsstil* wurden Selbstauskunft und Chatlogmodus mit $-1=\text{freundlich}$, $0=\text{neutral}$ und $1=\text{unfreundlich}$ kodiert.
+Die Diskrepanz wurde berechnet als
 
-Für den *Interaktionsstil* wurden Selbstauskunft und Chatlogmodus mit $-1=\text{freundlich}$, $0=\text{neutral}$ und $1=\text{unfreundlich}$ kodiert. Die Diskrepanz wurde berechnet als
-
-$$
-D_p^{(\text{Stil})}
+$$D_p^{(\text{Stil})}
 =
 \operatorname{sgn}
 \left(
 SA_p^{(\text{Stil})}
 -
 BE_p^{(\text{Stil})}
-\right).
-$$
+\right).$$
 
-$$
-D_p^{(\text{Stil})}
+$$D_p^{(\text{Stil})}
 =
 \begin{cases}
 -1, & \text{in den Chatlogs unfreundlicher als angegeben}, \\[0.6em]
 0, & \text{Übereinstimmung}, \\[0.6em]
 1, & \text{in den Chatlogs freundlicher als angegeben}.
-\end{cases}
-$$
+\end{cases}$$
 
-Für das *kritische Prüfen* wurden beide Datenquellen mit $0=\text{nicht vorhanden}$ und $1=\text{vorhanden}$ kodiert. Die Diskrepanz wurde berechnet als
+Für das *kritische Prüfen* wurden beide Datenquellen mit $0=\text{nicht vorhanden}$ und $1=\text{vorhanden}$ kodiert.
+Die Diskrepanz wurde berechnet als
 
-$$
-D_p^{(\text{Kritik})}
+$$D_p^{(\text{Kritik})}
 =
 BE_p^{(\text{Kritik})}
 -
-SA_p^{(\text{Kritik})}.
-$$
+SA_p^{(\text{Kritik})}.$$
 
-$$
-D_p^{(\text{Kritik})}
+$$D_p^{(\text{Kritik})}
 =
 \begin{cases}
 -1, & \text{nur in der Selbstauskunft angegeben}, \\[0.6em]
 0, & \text{Übereinstimmung}, \\[0.6em]
 1, & \text{nur in den Chatlogs beobachtet}.
-\end{cases}
-$$
+\end{cases}$$
 
 Zur Vorbereitung der statistischen Analyse wurden zunächst sämtliche Antwortkodierungen einheitlich rekodiert.
 Da der Schwerpunkt der Studie auf dem Vergleich zweier Datenquellen und nicht auf der Messung latenter Konstrukte liegt, wurden überwiegend Einzelitems eingesetzt.
@@ -1008,13 +994,12 @@ Die statistische Analyse gliedert sich in deskriptive Vergleiche zwischen Survey
 Forschungsfrage 1 wurde durch eine gemeinsame Betrachtung der Ergebnisse zur Informationsnutzung, zum kritischen Prüfen und zum Interaktionsstil aus beiden Datenquellen beantwortet.
 Da die Diskrepanzmaße der drei Bereiche unterschiedlich skaliert sind (siehe @sec-operationalisierung), wurden sie nicht zu einem gemeinsamen Gesamtscore zusammengefasst sondern getrennt voneinander bewertet.
 
-
 Zur Beantwortung von Forschungsfrage 1a wurden für jeden der fünf Aufgabenbereiche der Informationsnutzung der mittlere Surveyanteil, der mittlere Chatloganteil und die mittlere gerichtete Differenz ermittelt.
 Zusätzlich wurden die mittlere absolute Abweichung und der Anteil der Personen mit exakter Übereinstimmung bestimmt.
-Die gerichtete Differenz zeigt — unabhängig von der Richtung — ob die Selbstauskunft einer Nutzungsart im Durchschnitt höher oder niedriger liegt als der in den Chatlogs beobachtete Anteil. Zusätzlich wurde die Total-Variation-Distanz ermittelt:
+Die gerichtete Differenz zeigt — unabhängig von der Richtung — ob die Selbstauskunft einer Nutzungsart im Durchschnitt höher oder niedriger liegt als der in den Chatlogs beobachtete Anteil.
+Zusätzlich wurde die Total-Variation-Distanz ermittelt:
 
-$$
-TV_p
+$$TV_p
 =
 \frac{1}{2}
 \sum_{i=1}^{5}
@@ -1022,8 +1007,7 @@ TV_p
 SA_{pi}^{(\text{Info})}
 -
 BE_{pi}^{(\text{Info})}
-\right|.
-$$
+\right|.$$
 Sie gibt an, welcher Anteil zwischen den fünf Nutzungsbereichen umverteilt werden müsste, damit beide Verteilungen übereinstimmen.
 
 Für Forschungsfrage 1b wurden die absoluten Häufigkeiten und relativen Anteile der fünf Nutzungsarten in den 105 ($5 \times 21$) Chatverläufen ermittelt.
@@ -1798,7 +1782,7 @@ p_agree
 ## Kennzeichnung von verwendeten KI-Tools {.unnumbered}
 
 | Genutztes Tool | Verwendungszweck | Sektion der Arbeit | Prompt |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Claude (Opus 4.8) und Github Copilot) | Programmieren | In den R, Python und Jupyter Notebook Skripten. | z\. B. Wieso funktioniert dieser json paser nicht bei diesem json? |
 | Claude (Opus 4.8) | Rechtschreibkorrektur | Methode (Datenauswertung), Ergebnissteil | Korregiere diesen Absatz auf Rechtschreibung und Grammatik: ... |
 | Claude (Opus 4.8) | Konzepte Erklären | Statistische analyse | hat die silluheten methode die Tendenz bei höheren k besser zu werden? |
