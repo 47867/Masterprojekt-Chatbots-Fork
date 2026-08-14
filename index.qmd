@@ -148,11 +148,10 @@ global_digits <- 2
 <!-- ??? muss mann ggf- nochmal anpassen an neunen ergebnissteil  -->
 
 Ziel dieser Arbeit ist es, zu untersuchen, inwiefern sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von ihrem in gespendeten Chatverläufen beobachtbaren Nutzungsverhalten unterscheiden.
-Die bisherige Forschung zur Verbreitung und Nutzung generativer Sprachmodelle im Studium stützt sich fast ausschließlich auf Befragungsdaten, obwohl solche Selbstauskünfte anfällig für Erinnerungsfehler und sozial erwünschtes Antwortverhalten sein können.
-Daraus ergibt sich die Forschungsfrage, ob und in welchen Dimensionen sich berichtete und in Chatlogs beobachtete Nutzung unterscheiden, welche Nutzungsarten sich in den Chatverläufen identifizieren lassen und wie gut sich eine Klassifikation durch ein großes Sprachmodell zur systematischen Erfassung dieser Nutzungsmuster eignet.
 Zur Beantwortung wurden in einer Online-Befragung Selbstauskünfte 21 Studierender zu Interaktionsstil, kritischem Prüfen von Chatbot-Antworten und studienbezogener Informationsnutzung erhoben und mit freiwillig gespendeten, mittels eines großen Sprachmodells klassifizierten Chatverläufen abgeglichen.
-Eine explorative Clusteranalyse ordnet die Stichprobe vier Clustern mit unterschiedlichen Diskrepanzmustern zu.
-Während Angaben zu Schreib- und Lernaufgaben weitgehend zutreffend berichtet werden, zeigen sich deutliche Abweichungen bei Informationssuche sowie praktischer und technischer Unterstützung, beim Umgangston und insbesondere beim kritischen Prüfen von Antworten.
+Während Angaben zu Schreib- und Lernaufgaben weitgehend zutreffend berichtet werden, zeigen sich deutliche Abweichungen bei Informationssuche sowie praktischer und technischer Unterstützung, beim Umgangston und insbesondere beim kritischen Prüfen von Antworten, das im Survey deutlich häufiger berichtet als in den Logs sichtbar wird.
+Eine explorative PAM-Clusteranalyse ordnet die Stichprobe vier über drei Robustheitschecks hinweg stabilen Clustern mit unterschiedlichen Diskrepanzmustern zu, die sich weniger im Ausmaß als in der Richtung ihrer Abweichungen unterscheiden.
+Ergänzende, für die geringe Stichprobengröße explorative Korrelations- und Gruppenvergleiche zeigen keine statistisch robusten, aber deskriptiv erkennbare Zusammenhänge der Diskrepanzen mit Alter, KI-Erfahrung und sozialer Erwünschtheit sowie unterschiedliche Kontextprofile der Cluster.
 Diese Befunde legen nahe, dass Selbstauskünfte zur KI-Nutzung konstrukt- und gruppenspezifisch verzerrt sind und nicht gleichmäßig korrigiert werden können.
 Für künftige Forschung wird empfohlen, Selbstauskünfte systematisch durch Verhaltensdaten zu ergänzen und größere, breiter zusammengesetzte Stichproben sowie weitere KI-Anwendungen einzubeziehen.
 
@@ -412,7 +411,8 @@ Die konkrete Operationalisierung dieser Konstrukte wird in @sec-operationalisier
 
 Anschließend wurden die Teilnehmenden gebeten, freiwillig ihre fünf zuletzt genutzten studienbezogenen Chatverläufe mit ChatGPT hochzuladen.
 Dafür wurde eine separate Einwilligung eingeholt nach welcher der Upload stattfand.
-Dieser erfolgte erst nach Abschluss der Befragung, um eine Beeinflussung der Sebsteinkünfte durch Einsicht in die eigenen Chatverläufe möglichst zu reduzieren. Jedoch kann eine Beeinflussung durch die Auseinandersetzung mit dem Fragebogen nicht vollends ausgeschlossen werden.
+Dieser erfolgte erst nach Abschluss der Befragung, um eine Beeinflussung der Sebsteinkünfte durch Einsicht in die eigenen Chatverläufe möglichst zu reduzieren.
+Jedoch kann eine Beeinflussung durch die Auseinandersetzung mit dem Fragebogen nicht vollends ausgeschlossen werden.
 
 Der Upload sollte im Idealfall als von ChatGPT erstellter Text im JSON Format erfolgen, falls dies den Teilnehmenden nicht möglich war, wurden die Chatlogs als HTML Datei eingespeist.
 Zur Bewertung der Datenqualität wurden mögliche technische Probleme beim Export oder Upload der Chatverläufe erhoben.
@@ -436,7 +436,8 @@ Juli 2026 und zeigte mehrere Verbesserungsmöglichkeiten.
 So hatten einige Teilnehmende Schwierigkeiten, die Schaltflächen zum Kopieren der KI-Ausgabe sowie zur erneuten Generierung der Antwort unter „Erneut versuchen“ in der Benutzeroberfläche von ChatGPT zu finden.
 Zudem war der Prompt für den JSON-Export in der ursprünglichen Version der Anleitung nicht ausreichend früh und visuell hervorgehoben und wurde daher nicht unmittelbar gefunden.
 Darüber hinaus zeigte sich ein bislang nicht berücksichtigter technischer Sonderfall: Bei sehr langen Chatverläufen verweigerte ChatGPT teilweise die Ausgabe da die Antwort das maximal zulässige Ausgabelimit überschritten hätte.
-Weiterhin fiel auf, dass verschiedene technische Fehlerursachen in der Frage zu technischen Schwierigkeiten nicht eindeutig voneinander abgegrenzt waren. Um disjunkte Antwortoptionen zu ermöglichen, wurde die Frage daher in mehrere separate Fragen aufgeteilt.
+Weiterhin fiel auf, dass verschiedene technische Fehlerursachen in der Frage zu technischen Schwierigkeiten nicht eindeutig voneinander abgegrenzt waren.
+Um disjunkte Antwortoptionen zu ermöglichen, wurde die Frage daher in mehrere separate Fragen aufgeteilt.
 Zusätzlich wurden einzelne sprachliche Formulierungen (z. B. die Verwendung des Begriffs „Chatlogs“ anstelle von „Chatverläufe“) nicht verstanden und kleinere Unstimmigkeiten im Fragebogen entdeckt.
 
 Auf Grundlage dieser Rückmeldungen wurden mehrere Anpassungen vorgenommen.
@@ -791,9 +792,8 @@ Auch die Studienrichtungen waren annähernd gleich verteilt: `r categorical_prof
 Das Alter der Teilnehmenden reichte von `r round(overview_age |> select(min) |> pull(), digits = global_digits)` bis `r round(overview_age |> select(max) |> pull(), digits = global_digits)` Jahren.
 Im Mittel waren die Teilnehmenden `r formatC(overview_age |> select(mean) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Jahre alt.
 Die Fragebogendauer lag im Mittel bei `r formatC(overview_time |> select(mean) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten.
-Die kürzeste Befragung dauerte dabei `r formatC(overview_time |> select(min) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten, <!-- $$$ hoffe die war ungültig - das wäre noch gut zu ergänzen-->
-<!-- @Hannah: die haben wir nicht ausgeschlossen -->
-während die längste `r formatC(overview_time |> select(max) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten andauerte. Weitere Kennzahlen sind in @tbla-sample-comparison aufgeführt.
+Die kürzeste Befragung dauerte dabei `r formatC(overview_time |> select(min) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten, <!-- $$$ hoffe die war ungültig - das wäre noch gut zu ergänzen--> <!-- @Hannah: die haben wir nicht ausgeschlossen --> während die längste `r formatC(overview_time |> select(max) |> pull(), format = "f", digits = global_digits, decimal.mark = ",")` Minuten andauerte.
+Weitere Kennzahlen sind in @tbla-sample-comparison aufgeführt.
 
 ## Aufbereitung und Klassifikation der Chatlogs
 
@@ -952,8 +952,7 @@ Die statistische Analyse gliedert sich in deskriptive Vergleiche zwischen Survey
 
 Forschungsfrage 1 wurde durch eine gemeinsame Betrachtung der Ergebnisse zur Informationsnutzung, zum kritischen Prüfen und zum Interaktionsstil aus beiden Datenquellen beantwortet.
 Da die Diskrepanzmaße der drei Bereiche unterschiedlich skaliert sind (siehe @sec-operationalisierung), wurden sie nicht zu einem gemeinsamen Gesamtscore zusammengefasst sondern getrennt voneinander bewertet.
-<!-- $$$ das heißt halt lowkey dass FF1 extrem unnötig ist und stattdessen 3-5 beantwortet werden, oder? -->
-<!-- @Hannah: Ja, man könnte FF1 als übergeordnete FF verstehen und den Rest als FF1a - FF1d. -->
+<!-- $$$ das heißt halt lowkey dass FF1 extrem unnötig ist und stattdessen 3-5 beantwortet werden, oder? --> <!-- @Hannah: Ja, man könnte FF1 als übergeordnete FF verstehen und den Rest als FF1a - FF1d. -->
 
 Zur Beantwortung von Forschungsfrage 2 wurden für jeden der fünf Aufgabenbereiche der Informationsnutzung der mittlere Surveyanteil, der mittlere Chatloganteil und die mittlere gerichtete Differenz ermittelt.
 Zusätzlich wurden die mittlere absolute Abweichung und der Anteil der Personen mit exakter Übereinstimmung bestimmt.
@@ -1487,19 +1486,17 @@ Nicht zuletzt könnten qualitative Anschlussstudien wie etwa kognitive Interview
 ## Tabellen (A) {.unnumbered}
 
 ::: {#tbla-sample-comparison}
-
 ```{r}
 #| echo: false
 
 anhang_tab("T21_sample_comparison.csv")
 ```
 
-*Anmerkung:* Für kontinuierliche und ordinale Merkmale werden Median (Interquartilsabstand), für kategoriale Merkmale *n* (%) berichtet. Die ausgeschlossene Gruppe umfasst nur Fälle mit vollständigen Angaben zu den dargestellten Merkmalen.
+*Anmerkung:* Für kontinuierliche und ordinale Merkmale werden Median (Interquartilsabstand), für kategoriale Merkmale *n* (%) berichtet.
+Die ausgeschlossene Gruppe umfasst nur Fälle mit vollständigen Angaben zu den dargestellten Merkmalen.
 
 Vergleich der Analysestichprobe mit den ausgeschlossenen Fällen
-
 :::
-
 
 ::: {#tbla-llm-metriken}
 ```{r}
