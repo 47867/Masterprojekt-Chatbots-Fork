@@ -804,19 +804,18 @@ Die kürzeste Befragung dauerte dabei `r formatC(overview_time |> select(min) |>
 Um die erhobenen Chatlogs für die statistische Analyse vorzubereiten, mussten diese zuerst aufbereitet und klassifiziert werden, um anschließend mit den Selbstauskünften aus dem Fragebogen vergleichbar gemacht zu werden.
 
 Da die gespendeten Chatverläufe im Fragebogen entweder als JSON oder HTML hochgeladen wurden, war der erste Schritt diese beiden Dateiformate separat aufzubereiten, zu vereinheitlichen und ausschließlich auf User-Nachrichten zu filtern.
-Diese Daten wurden für jeden Chat jeder Person im nächsten Schritt mit GPT-5.5 nach Sentiment, kritischen Nachfragen und Aufgabenbereich klassifiziert.
+Diese Daten wurden für jeden Chat jeder Person im nächsten Schritt mit OpenAIs GPT-5.5 nach Sentiment, kritischen Nachfragen und Aufgabenbereich klassifiziert.
 
 Die Nutzung eines LLMs hat hier gegenüber traditionellen Textklassifikationen mittels Machine Learning den großen Vorteil, dass sie deutlich leichter zu implementieren ist und keine aufwendigen Trainingsprozesse erfordert [@wang2023].
 Bei komplexeren Aufgaben können LLMs zusätzliches Training in Form von Fine-Tuning (das Trainieren des LLMs an einem zusätzlichen, auf die Zielaufgabe zugeschnittenen, Datensatz) oder Few-Shots (das Integrieren einiger exemplarischer Fälle in den Prompt) benötigen, wenn diese für allgemeine Aufgaben konzipiert sind.
-Dennoch zeigen LLMs bei Klassifikationsaufgaben, insbesondere der Klassifikation von Sentiment, gute Ergebnisse, die mit „Natural Language Processing"-Modellen (NLP) [@wang2023; @anglin2025] und sogar mit den Annotationen von „Crowd-Workern" [@gilardi2023] mithalten können.
+Dennoch zeigen LLMs bei Klassifikationsaufgaben, insbesondere der Klassifikation von Sentiment, gute Ergebnisse, die mit kostenaufwendigen „supervised learning"-Methoden [@wang2023; @anglin2025] und sogar mit den Annotationen von „Crowd-Workern" [@gilardi2023] mithalten können.
 
 Um die Performance von GPT auf unserem Datensatz im Vorraus zu testen, wurde ein Datensatz mit insgesamt 30 Beispiel-Chats annotiert und mit verschiedenen GPT-Modellen, verschiedenen Prompts sowie verschiedenen Strategien (alle Klassifikationsaufgaben in einem oder in separaten Prompts) mittels Zero-Shot Promts getestet.
-Das mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Macro von $0{,}67 - 0{,}81$ am Modell mit der besten Leistung war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5.
-Eine detaillierte Evaluation der verglichenen Modelle ist im [Online-Anhang](#0) verfügbar.
+Das mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Makro von $0{,}67 - 0{,}81$ am Modell mit der besten Leistung war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5.
+Diese Ergebnisse erzielte es nach drei Runden der Promptverfeinerung.
+Eine detaillierte Evaluation der verglichenen Modelle, inklusive aller Prompts und Modellspezifikationen, ist im [Online-Anhang](#0) verfügbar.
 
-![Zero-Shot Textklassifikation von GPT-5.5 (combined Strategie)](plots/performance_gpt55_combined.png)
-
-<!-- TODO: @Theo Ordner und Plot fehlen auf Github. ![Zero-Shot Textklassifikation von GPT-5.5 (combined Strategie)](plots/performance_gpt55_combined.png)-->
+![Zero-Shot Textklassifikation von GPT-5.5 (alle Aufgaben in einem Prompt)](plots/performance_gpt55_combined.png)
 
 <!-- $$$ Ist das noch aktuell?-->
 
@@ -827,8 +826,8 @@ Dennoch ist nicht auszuschließen, dass Unterschiede in der Datenverteilung zu e
 Dies könnte insbesondere die Klassifikation von Inhalten betreffen, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine hohe Homogenität der Inhalte zu erwarten ist.
 Da GPT-5.5 bei der Inhaltsklassifikation über alle Evaluationsrunden hinweg eine sehr hohe Genauigkeit erreichte, deutet dies darauf hin, dass eine solche Einschränkung für die weitere Analyse von nicht zu großer Bedeutung sein dürfte.
 
-Um die Übertragbarkeit der Evaluationsergebnisse auf den Analysedatensatz zusätzlich zu überprüfen, wurde eine Stichprobe von 30 % des Survey-Datensatzes gezogen und die von GPT-5.5 vergebenen Labels manuell validiert.
-Die Annotation wurde von zwei der Autor:innen durchgeführt, die Intercoder-Realibilität lag für die Sentiment-Klassifikation bei 90.6 % und für die beiden anderen Klassifikationen jeweils bei 100%.
+Um die Übertragbarkeit der Evaluationsergebnisse auf den Analysedatensatz zusätzlich zu überprüfen, wurde eine Stichprobe von 30 % der Survey-Datenspenden gezogen und die von GPT-5.5 vergebenen Labels manuell validiert.
+Die Annotation wurde von zwei der Autor:innen durchgeführt, die Übereinstimmung der Coder lag für die Sentiment-Klassifikation bei 90.6 % und für die beiden anderen Klassifikationen jeweils bei 100%.
 Im Anschluss wurden in einer gemeinsamen Diskussion für alle Fälle ein konsensbasierter Godstandard festgelegt.
 Auf dieser Grundlage wurden die Leistungskennzahlen für GPT-5.5 erneut berechnet.
 Für das Erkennen des Aufgabentyps erziehlte das Modell eine Accuracy von 1, bei kritischen Nachfragen lag die Accuracy bei 0,938 mit einem Macro-F1-Score von 0,881.
@@ -989,7 +988,7 @@ Da insgesamt neun Korrelationskoeffizienten berechnet wurden, erfolgte eine Korr
 
 Die explorative Analyse der gewonnenen Daten wurde mittels einer k-medoids-Clusteranalyse durchgeführt.
 Da die Variablen, die in das Cluster einfließen sollten, aus fünf kontinuierlichen Diskrepanzscores (Kategorien der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Nachfragen und Sentiment) bestanden, lagen gemischte Skalenniveaus vor.
-Die Manhattan-Distanz und Euklidische-Distanz, die in der Literatur sehr prominent sind <!-- $$$ Belege?? --->, benötigen metrische oder binäre Daten.
+Die Manhattan-Distanz und die Euklidische-Distanz benötigen zum Beispiel metrische oder binäre Daten, beziehungsweise – im Fall der Euklidischen-Distanz – einen euklidischen Vektorraum.
 Für das Clustering wurde daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert [@gower1971].
 Die Idee der Gower-Distanz ist, dass für alle Variablen eine eigene, zwischen 0 und 1 liegende, Distanz berechnet wird.
 Diese berechneten Einzel-Distanzen werden in einee Gesamtdistanz pro Personenpaar verrechnet, bei der 0 bedeutet, dass die Personen identisch sind, und 1 bedeutet, dass sie maximal unterschiedlich sind.
@@ -1004,16 +1003,16 @@ Dadurch können beliebige Distanzmaße verwendet werden, anstatt – wie bei k-M
 Dies ermöglicht auch die gemeinsame Berücksichtigung metrischer und binärer Daten.
 Da PAM Personen als Zentrum der k-Partitionen erlaubt, können die Cluster-Zentren intuitiver interpretiert werden: Die Person, die im Zentrum steht, ist eine Art Idealtyp des Clusters, dem die anderen Personen ähneln.
 Dies macht den Algorithmus zu einer attraktiven Wahl für unser exploratives Vorhaben.
-Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall drei Beobachtungen ausgewählt (dies wird durch einen Seed "404" replizierbar gehalten).
+Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall $k$ Beobachtungen als anfängliche Medoide, also als Cluster-Zentren, ausgewählt (dies wird durch einen Seed "404" replizierbar gehalten).
 Daraufhin werden alle Personen dem Medoid (Zentrum) zugeordnet, dem sie am nächsten liegen und die Summe aller Distanzen von den Personen zu ihrem Medoid berechnet.
-Schließlich werden die Beobachtungen, die Medoid sind, mit Beobachtungen, die nicht Medoid sind, ausgetauscht.
+Schließlich werden die Cluster-Zentren (die Medoide) durch die übrigen Beobachtungen durchrotiert.
 Dieser Prozess wiederholt sich so lange, bis keine weitere Verbesserung möglich ist.
 Die Anzahl der k-Partitionen wird, anders als bei einer k-means-Clusterung, mittels der Silhouette-Methode von @rousseeuw1987 festgelegt.
 Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe.
 Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei 1 heißt, dass die Person indeal in das zugeordnete Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
 Nun wird der Durchschnitt für alle Personen ausgerechnet der anzeigt, wie eng gruppiert alle Personen in dem Cluster sind.
-Ein Cluster mit einer durchschnittlichen Silhouette von 0,5 wird als ausreichend für unsere Zwecke betrachtet, 0,7 als stark.
-Dieser Prozess wird für $k = 2$ bis $k = 6$ wiederholt.
+Ein Cluster mit einer durchschnittlichen Silhouette von 0,5 wird als ausreichend für unsere Zwecke betrachtet, 0,7 als stark nach @kaufman1990a.
+Dieser Prozess wird für $k = 2$ bis $k = 10$ wiederholt, also für bis zu zehn Cluster.
 Als Clusterzahl wird anschließend derjenige Wert von $k$ verwendet, für den die die höchste durchschnittliche Silhouette berechnet wird.
 Nachdem die Cluster stehen, können diese noch auf inhaltliche Unterschiede überprüft werden.
 Dazu werden die einzelnen Cluster deskriptiv auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen, wie Studienrichtung oder soziale Erwünschtheit, untersucht.
@@ -1302,7 +1301,7 @@ p_mds
 
 ```
 
-Die Stabilität der Vier-Cluster-Lösung wurde mit drei Robustheitschecks geprüft.
+Die Stabilität der Vier-Cluster-Lösung wurde mit drei Robustheitschecks geprüft, wie in der Präregistrierung angekündigt.
 Erstens wurden die drei Personen ausgeschlossen, deren Sentiment-Modus nicht eindeutig bestimmbar war und die deshalb konservativ als „neutral" codiert wurden. Die Clusterbildung der verbleibenden 18 Personen ist mit der Hauptlösung identisch (Adjusted Rand Index = 1,00), die konservative Codierung der uneindeutigen Fälle bestimmt die Gruppenzugehörigkeit also nicht (@tbla-robustheit). Zweitens wurde die Clusterung ohne die Gewichtung der fünf aufgabenbezogenen Diskrepanzmaße wiederholt. Auch hier ergibt die Silhouette-Methode k = 4, und 18 der 21 Personen werden derselben Gruppe zugeordnet. Die Abweichungen betreffen ausschließlich die Cluster eins und drei. Zwei Personen aus Cluster drei und eine aus Cluster eins wechselten die Zuordnung, während die Cluster zwei und vier unverändert blieben (@tbla-pam-ungewichtet). Die durchschnittliche Silhouettenweite sank allerdings deutlich auf 0,26 (@tbla-robustheit). Ohne Gewichtung dominieren die fünf Aufgabenvariablen die Distanzberechnung gegenüber Sentiment und kritischem Nachfragen, wodurch die Cluster inhaltlich weniger trennscharf werden. Das bestätigt die Gewichtung als Voraussetzung dafür, dass alle drei Konstrukte gleichgewichtig in die Lösung eingehen.
 
 Drittens wurde ein hierarchisches Clustering mit Average Linkage auf der selben Gower-Distanzmatrix berechnet und auf vier Gruppen zugeschnitten.
@@ -1369,7 +1368,7 @@ p_krit_cl
 ### Vergleich mit Kontextvariablen
 
 Um die Cluster inhaltlich zu untersuchen, wurden diese nach Unterschieden bezüglich soziodemografischer Merkmale, sozialer Erwünschtheit, KI-Erfahrung, Nutzungshäufigkeit und Informationskompetenz verglichen, also anhand von Variablen, die nicht in die Clusterbildung eingeflossen sind.
-Die zugehörigen Gruppenvergleiche finden sich in @tbla-socialdesir (Welch-ANOVA), @tbla-ordinal-kruskal (Kruskal-Wallis) und @tbla-nominal-chi2 (Chi-Quadrat).
+Die zugehörigen Gruppenvergleiche finden sich in @tbla-socialdesir (Welch-ANOVA), @tbla-ordinal-kruskal (Kruskal-Wallis) und @tbla-nominal-chi2 (Pearson-Chi-Quadrat).
 
 @fig-profile fasst die Cluster-Mittelwerte aller metrischen und ordinalen Kontextvariablen zusammen, wobei jede Variable auf ihren jeweiligen Skalenbereich reskaliert wurde, um sie vergleichbar darzustellen.
 Die grauen Balken zeigen die Spannweite zwischen dem niedrigsten und höchsten Clustermittelwert und machen damit sichtbar, welche Variablen überhaupt zwischen den Clustern differenzieren.
@@ -1405,12 +1404,12 @@ Zusammenfassend lassen sich die vier Cluster wie folgt charakterisieren.
 Cluster eins (n = 6) schätzt seine Aufgabennutzung durchgehend zutreffend ein, keine Abweichung überschreitet 0,13 (@fig-heatmap), und auch das eigene kritische Nachfragen wird von fünf der sechs Personen korrekt eingeordnet (@fig-krit).
 Die einzige systematische Fehleinschätzung betrifft den Umgangston: ausnahmslos alle Personen treten in den Chatlogs unfreundlicher auf, als sie angegeben haben (@fig-sent).
 Bei den Kontextvariablen sticht dieses Cluster in keiner Dimension hervor, soziale Erwünschtheit, KI-Erfahrung, Nutzungshäufigkeit und Informationskompetenz liegen jeweils im Mittelfeld (@fig-profile), und auch soziodemografisch ist es mit ausgeglichenem Geschlechterverhältnis und vier Fächergruppen das heterogenste (@figb-soziodemografie).
-Cluster zwei (n = 6) ist das einzige rein männliche Cluster (@figb-soziodemografie) und weist zugleich die geringste Nutzungshäufigkeit (3,5 auf der Skala von 2 bis 6) sowie die niedrigste KI-Erfahrung und Informationskompetenz aller Gruppen auf (@fig-profile).
+Cluster zwei (n = 6) ist das einzige rein männliche Cluster (@figb-soziodemografie) und weist zugleich die geringste Nutzungshäufigkeit sowie die niedrigste KI-Erfahrung und Informationskompetenz aller Gruppen auf (@fig-profile).
 Inhaltlich unterschätzt es die Informationssuche am deutlichsten (−0,22) und überschätzt die praktische Nutzung (+0,10, @fig-heatmap).
 Charakteristisch ist jedoch das kritische Nachfragen, sämtliche sechs Personen schreiben sich eine kritische Prüfung der KI-Antworten zu, die in den Chatlogs nicht stattfindet (@fig-krit).
 Diese durchgängige Selbstüberschätzung geht mit einer überdurchschnittlichen Neigung zu sozial erwünschtem Antwortverhalten einher (M = 3,78).
 Cluster drei (n = 4) bildet dazu in mehrfacher Hinsicht den Gegenpol: Es zeigt mit Abstand die geringste soziale Erwünschtheit, zugleich die höchste Nutzungshäufigkeit, die meiste KI-Erfahrung und die höchsten Werte in beiden Informationskompetenz-Items (@fig-profile).
-Passend dazu schätzen alle vier Personen ihren Umgangston korrekt ein, und beim kritischen Nachfragen findet sich als einzigem Cluster der umgekehrte Fehlertyp — eine Person fragt kritischer nach, als sie angibt (@fig-krit).
+Passend dazu schätzen alle vier Personen ihren Umgangston korrekt ein, und beim kritischen Nachfragen findet sich als einzigem Cluster der umgekehrte Fehlertyp, eine Person fragt kritischer nach, als sie angibt (@fig-krit).
 Inhaltlich überschätzt das Cluster die Informationssuche (+0,15) und unterschätzt die praktische Unterstützung (−0,20, @fig-heatmap).
 Es ist zudem das homogenste Cluster: alle vier Personen studieren Sozialwissenschaften und streben einen Master an (@figb-soziodemografie).
 Cluster vier (n = 5) weicht inhaltlich fast ausschließlich bei der praktischen (+0,16) und der technischen Unterstützung (−0,16) ab (@fig-heatmap) und beurteilt das kritische Nachfragen mehrheitlich zutreffend.
@@ -1579,7 +1578,7 @@ Ordinale Kontextvariablen: Kruskal-Wallis-Tests
 anhang_tab("T14_nominale_chi2.csv")
 ```
 
-Nominale Kontextvariablen: Chi-Quadrat-Tests (simulierte p-Werte)
+Nominale Kontextvariablen: Pearson-Chi-Quadrat-Tests (simulierte p-Werte)
 :::
 
 ::: {#tbla-gender-cluster}
@@ -1738,4 +1737,5 @@ Die ursprünglich präregistrierte Forschungsfrage F5 („Wie gut eignet sich di
 Da sie die Güte des eingesetzten Messverfahrens betrifft, wird sie im Methodenteil im Rahmen der Validierung der LLM-basierten Klassifikation behandelt.
 An ihre Stelle tritt die Forschungsfrage: *Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?* Die Umformulierung erfolgte nach Einsicht in erste Analyseergebnisse.
 Die zugrunde liegende Clusteranalyse war bereits Bestandteil der Präregistrierung.
+In der Präregistrierung wurde angegeben, dass die Anzahl der Cluster für die Silhouette-Methode auf sechs beschränkt wird; dies wurde auf zehn ausgeweitet.
 Nachträglich verändert wurde somit die inhaltliche Einordnung dieser Analyse als eigenständige Forschungsfrage.
