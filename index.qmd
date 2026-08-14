@@ -940,7 +940,6 @@ D_{pi}^{\mathrm{Info}} > 0
 \right.
 $$
 
-Sie gibt an, welcher Anteil zwischen den fünf Nutzungsbereichen umverteilt werden müsste, damit beide Verteilungen übereinstimmen.
 
 Für den *Interaktionsstil* wurden Selbstauskunft und Chatlogmodus mit $-1=\text{freundlich}$, $0=\text{neutral}$ und $1=\text{unfreundlich}$ kodiert. Die Diskrepanz wurde berechnet als
 
