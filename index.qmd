@@ -147,13 +147,7 @@ global_digits <- 2
 
 <!-- ??? muss mann ggf- nochmal anpassen an neunen ergebnissteil  -->
 
-Ziel dieser Arbeit ist es, zu untersuchen, inwiefern sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von ihrem in gespendeten Chatverläufen beobachtbaren Nutzungsverhalten unterscheiden.
-Zur Beantwortung wurden in einer Online-Befragung Selbstauskünfte 21 Studierender zu Interaktionsstil, kritischem Prüfen von Chatbot-Antworten und studienbezogener Informationsnutzung erhoben und mit freiwillig gespendeten, mittels eines großen Sprachmodells klassifizierten Chatverläufen abgeglichen.
-Während Angaben zu Schreib- und Lernaufgaben weitgehend zutreffend berichtet werden, zeigen sich deutliche Abweichungen bei Informationssuche sowie praktischer und technischer Unterstützung, beim Umgangston und insbesondere beim kritischen Prüfen von Antworten, das im Survey deutlich häufiger berichtet als in den Logs sichtbar wird.
-Eine explorative PAM-Clusteranalyse ordnet die Stichprobe vier über drei Robustheitschecks hinweg stabilen Clustern mit unterschiedlichen Diskrepanzmustern zu, die sich weniger im Ausmaß als in der Richtung ihrer Abweichungen unterscheiden.
-Ergänzende, für die geringe Stichprobengröße explorative Korrelations- und Gruppenvergleiche zeigen keine statistisch robusten, aber deskriptiv erkennbare Zusammenhänge der Diskrepanzen mit Alter, KI-Erfahrung und sozialer Erwünschtheit sowie unterschiedliche Kontextprofile der Cluster.
-Diese Befunde legen nahe, dass Selbstauskünfte zur KI-Nutzung konstrukt- und gruppenspezifisch verzerrt sind und nicht gleichmäßig korrigiert werden können.
-Für künftige Forschung wird empfohlen, Selbstauskünfte systematisch durch Verhaltensdaten zu ergänzen und größere, breiter zusammengesetzte Stichproben sowie weitere KI-Anwendungen einzubeziehen.
+Ziel dieser Arbeit ist es, zu untersuchen, inwiefern sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von ihrem in gespendeten Chatverläufen beobachtbaren Nutzungsverhalten unterscheiden. Zur Beantwortung wurden in einer Online-Befragung Selbstauskünfte 21 Studierender zu Interaktionsstil, kritischem Prüfen von Chatbot-Antworten und studienbezogener Informationsnutzung erhoben und mit freiwillig gespendeten, mittels eines Large-Language-Modells klassifizierten Chatverläufen abgeglichen. Während Angaben zu Schreib- und Lernaufgaben weitgehend zutreffend berichtet werden, zeigen sich deutliche Abweichungen bei Informationssuche sowie praktischer und technischer Unterstützung, beim Umgangston und insbesondere beim kritischen Prüfen von Antworten, das im Survey deutlich häufiger berichtet als in den Logs sichtbar wird. Eine explorative PAM-Clusteranalyse ordnet die Stichprobe vier über drei Robustheitschecks hinweg stabilen Clustern mit unterschiedlichen Diskrepanzmustern zu, die sich weniger im Ausmaß als in der Richtung ihrer Abweichungen unterscheiden. Ergänzende, für die geringe Stichprobengröße explorative Korrelations- und Gruppenvergleiche zeigen keine statistisch robusten, aber deskriptiv erkennbare Zusammenhänge der Diskrepanzen mit Alter, KI-Erfahrung und sozialer Erwünschtheit sowie unterschiedliche Kontextprofile der Cluster. Diese Befunde legen nahe, dass Selbstauskünfte zur KI-Nutzung konstrukt- und gruppenspezifisch verzerrt sind und nicht gleichmäßig korrigiert werden können. Für künftige Forschung wird empfohlen, Selbstauskünfte systematisch durch Verhaltensdaten zu ergänzen und größere, breiter zusammengesetzte Stichproben sowie weitere KI-Anwendungen einzubeziehen.
 
 \clearpage
 
@@ -178,19 +172,21 @@ Jede Suche, jeder Klick und jede Interaktion mit digitalen Anwendungen erzeugen 
 Gleichzeitig basiert ein großer Teil der sozialwissenschaftlichen Forschung weiterhin auf einer indirekten Datenquelle, nämlich der Selbstauskunft von Personen über ihr eigenes Verhalten.
 Damit stellt sich eine grundlegende methodische Frage: Wie genau stimmen die Angaben von Menschen über ihre digitale Nutzung tatsächlich mit ihrem beobachtbaren Verhalten überein?
 
-Diese Frage gewinnt besondere Bedeutung im Kontext der Nutzung von auf künstlicher Intelligenz (KI) basierenden generativen Systemen.
+Diese Frage gewinnt besondere Bedeutung im Kontext der Nutzung von auf künstlicher Intelligenz (KI) basierten generativen Systemen.
 Seit der breiten Verfügbarkeit von generativen KI-Chatbots wie ChatGPT werden diese Anwendungen zunehmend in alltägliche und akademische Arbeitsprozesse integriert.
-Studierende nutzen generative KI unter anderem zur Informationssuche, zum Verständnis komplexer Inhalte oder zur Unterstützung beim wissenschaftlichen Schreiben [@garrel2025].
-Gleichzeitig ist die Nutzung solcher Systeme im Hochschulkontext weiterhin mit normativen Fragen hinsichtlich wissenschaftlicher Integrität, Eigenständigkeit und der Rolle von KI beim Lernen verbunden.
+So stieg in einer Längsschnittsstudie der Anteil von deutschen Studierenden die generative KI-Chatbots nutzten von 63% im Jahr 2023 auf über 90% im Jahr 2025.
+Einsatzbereiche sind unter anderem die Informationssuche, die Hilfestellung beim Verständnis komplexer Inhalte oder die Unterstützung beim wissenschaftlichen Schreiben [@garrel2025].
+Gleichzeitig ist die Nutzung solcher Systeme im Hochschulkontext mit normativen Fragen hinsichtlich wissenschaftlicher Integrität, Eigenständigkeit und der Rolle von KI beim Lernen verbunden [@kasneci2023].
 So entsteht ein Spannungsfeld zwischen der zunehmend verbreiteten Nutzung und einer möglicherweise zurückhaltenden Kommunikation darüber.
 
-Die bisherige Forschung zur Nutzung generativer KI stützt sich aktuell fast ausschließlich auf Selbstauskünfte [bspw. @garrel2025; @balabdaoui2024].
+Die bisherige Forschung zur Nutzung generativer KI stützt sich fast ausschließlich auf Selbstauskünfte [bspw. @garrel2025; @balabdaoui2024].
 Diese liefern wichtige Informationen darüber, wie Nutzende ihre eigene KI-Nutzung wahrnehmen und bewerten, unterliegen jedoch Einschränkungen hinsichtlich Erinnerungsgenauigkeit, Interpretation des eigenen Verhaltens und sozial erwünschter Antworttendenzen [@diekmann2008].
-Gerade bei einem gesellschaftlich kontrovers diskutierten Thema wie der Nutzung generativer KI stellt sich daher die Frage, ob Befragungsdaten die tatsächliche Nutzung angemessen abbilden oder systematische Verzerrungen enthalten.
+Gerade bei einem kontrovers diskutierten Thema wie der Nutzung generativer KI [bspw. @balalle2025; @deep2025; @fesenmaier2023; @neumann2023] stellt sich daher die Frage, ob Befragungsdaten die tatsächliche Nutzung angemessen abbilden oder systematische Verzerrungen enthalten.
 
 Digitale Logdaten eröffnen eine Möglichkeit, diese Diskrepanz zwischen berichteter und tatsächlicher Nutzung empirisch zu untersuchen.
 Während solche Daten in Bereichen wie der Internet-, Smartphone- oder Social-Media-Forschung bereits genutzt werden, um die Validität von Selbstauskünften zu überprüfen [bspw. @kmetty2025; @ohme2024; @vandriel2022], wurden vergleichbare Ansätze für generative KI bislang kaum angewandt.
-Die vorliegende Studie stellt einen ersten explorativen Vergleich dar, indem sie Selbstauskünfte von Studierenden zur Nutzung generativer KI mit tatsächlich geführten Chatverläufen vergleicht.
+Da bislang kaum empirische Erkenntnisse darüber vorliegen, in welchem Ausmaß sich berichtete und beobachtbare Nutzung generativer KI unterscheiden, stellt die vorliegende Studie einen ersten explorativen Vergleich dar, in dem Selbstauskünfte von Studierenden zur Nutzung generativer KI mit tatsächlich geführten Chatverläufen vergleicht werden.
+Ziel ist es zunächst, mögliche Diskrepanzen zwischen beiden Datenquellen sichtbar zu machen und unterschiedliche Muster zu beschreiben, anstatt einen bereits etablierten Zusammenhang oder eine spezifische Richtung der Abweichung zu überprüfen.
 Da bislang kaum empirische Erkenntnisse darüber vorliegen in welchem Ausmaß und in welcher Form sich berichtete und beobachtbare Nutzung generativer KI unterscheiden, verfolgt die Untersuchung einen explorativen Ansatz.
 Ziel ist es zunächst, mögliche Diskrepanzen zwischen beiden Datenquellen sichtbar zu machen und unterschiedliche Muster zu beschreiben, anstatt einen bereits etablierten Zusammenhang oder eine spezifische Richtung der Abweichung zu überprüfen.
 
@@ -204,7 +200,7 @@ Mithilfe einer Klassifikation durch ein Large-Language-Model (LLM) werden dabei 
 <!-- Gegebenenfalls die Struktur anpassen/umformulieren -->
 
 Im Folgenden wird der vorhandene Forschungsstand dargelegt, bevor unsere einzelnen Forschungsfragen daraus abgeleitet und präsentiert werden.
-Daraufhin wird in @sec-methode unsere Untersuchungsmethode vorgestellt bevor die daraus resultierenden Ergebnisse aufgezeigt und in der abschließenden Diskussion interpretiert werden.
+Daraufhin wird in @sec-methode unsere Untersuchungsmethode vorgestellt, die daraus resultierenden Ergebnisse aufgezeigt und in der abschließenden Diskussion interpretiert werden.
 
 # Unterschiede zwischen angegebenem und tatsächlichem Nutzungsverhalten von KI-Chatbots {#sec-unterschiede}
 
@@ -214,10 +210,12 @@ Selbstauskünfte stellen eines der am häufigsten eingesetzten Instrumente zur E
 Insbesondere in der Kommunikations-, Medien- und Bildungsforschung beruhen viele empirische Untersuchungen auf Befragungsdaten, da diese vergleichsweise einfach und kostengünstig erhoben werden können.
 Gleichzeitig ist bekannt, dass Selbstauskünfte verschiedenen Fehlerquellen unterliegen und daher nicht zwangsläufig das tatsächliche Verhalten einer Person widerspiegeln [@tourangeau2000].
 
-Das Beantworten von Surveyfragen ist ein komplexer kognitiver Prozess.
+Das Beantworten von Fragebögen ist ein komplexer kognitiver Prozess.
 Nach dem Modell von @tourangeau2000 müssen Befragte zunächst relevante Informationen aus ihrem Gedächtnis abrufen, diese zu einer Antwort zusammenfassen, ein Urteil bilden und schließlich entscheiden, wie sie dieses Urteil auf die vorgegebenen Antwortkategorien übertragen.
 Fehler können auf jeder dieser Stufen entstehen.
 Erinnerungen an vergangenes Verhalten sind häufig unvollständig oder verzerrt, insbesondere wenn Ereignisse länger zurückliegen oder regelmäßig auftreten.
+
+<!-- checke nicht wie man die Zitation zu "und" statt "&" wechseln kann -->
 
 Darüber hinaus ist die Fähigkeit zur korrekten Selbstauskunft grundsätzlich begrenzt.
 Bereits @nisbett1977 zeigten, dass Menschen häufig keinen direkten introspektiven Zugang zu den kognitiven Prozessen haben, die ihr Verhalten steuern.
@@ -228,7 +226,7 @@ Darunter wird die Tendenz verstanden, Fragen so zu beantworten, dass die eigene 
 Besonders bei sensiblen Themen besteht die Gefahr, dass Befragte unerwünschtes Verhalten herunterspielen oder gesellschaftlich erwünschtes Verhalten überbetonen.
 Dabei handelt es sich nicht ausschließlich um bewusste Täuschung anderer, sondern teilweise auch um eine Form der Selbsttäuschung, bei der Personen ihr eigenes Verhalten positiver wahrnehmen als es tatsächlich ist [@nederhof1985].
 
-Die Surveyforschung zeigt, dass solche Verzerrungen insbesondere bei sensiblen Fragestellungen auftreten und stark vom Erhebungskontext abhängen [@jann2019; @tourangeau1996; @wolter2022].
+Die Umfrageforschung zeigt, dass solche Verzerrungen insbesondere bei sensiblen Fragestellungen auftreten und stark vom Erhebungskontext abhängen [@jann2019; @tourangeau1996; @wolter2022].
 So beeinflussen unter anderem die Anwesenheit eines Interviewers, der Grad der Anonymität sowie die wahrgenommenen sozialen Konsequenzen einer Antwort das Ausmaß sozial erwünschten Antwortverhaltens [@tourangeau2007].
 Verschiedene methodische Ansätze wie etwa indirekte Fragetechniken oder Social-Desirability-Skalen können diese Verzerrungen zwar reduzieren, beseitigen sie jedoch nicht vollständig [@bernardi2023; @harel2023; @kemper2014; @krause2022; @wolter2018].
 
@@ -252,7 +250,7 @@ Im Gesundheits- und Verhaltensbereich fanden @kendall2004 für lebensmittelhygie
 Auch Metaanalysen aus der Kriminologie berichten lediglich moderate Zusammenhänge zwischen selbstberichtetem delinquentem Verhalten und offiziellen Verhaltensdaten, wobei die Übereinstimmung je nach Art des Verhaltens und Erhebungsmethode erheblich variiert [@li2026].
 
 Neben der begrenzten Übereinstimmung weisen neuere Arbeiten darauf hin, dass Messfehler in Selbstauskünften nicht ausschließlich zufällig auftreten, sondern systematischen Mustern folgen.
-Eine Analyse der UK Biobank von @schoeler2025 zeigt beispielsweise, dass selbst vermeintlich stabile Selbstauskünfte über persönliche Merkmale über verschiedene Zeitpunkte hinweg Inkonsistenzen aufweisen.
+Eine Analyse der UK Biobank von @schoeler2025 zeigte beispielsweise, dass selbst vermeintlich stabile Selbstauskünfte über persönliche Merkmale über verschiedene Zeitpunkte hinweg Inkonsistenzen aufweisen.
 Dieser Befund verdeutlicht, dass Verzerrungen in Selbstauskünften nicht nur zufällig auftreten, sondern mit weiteren Personenmerkmalen konfundiert sein können.
 
 Methodische Rahmenbedingungen der Erhebung selbst scheinen dabei eine untergeordnete Rolle zu spielen: @sharpe2025 fanden für Studierendenstichproben nur geringe Unterschiede in der Datenvalidität zwischen Labor- und Online-Erhebung, wohl aber Unterschiede je nach eingesetztem Prüfverfahren für invalide Antwortmuster.
@@ -263,7 +261,7 @@ Insbesondere in Forschungsfeldern in denen Beobachtungsdaten zunehmend verfügba
 
 ## Digitale Verhaltensdaten und Data Donations {#sec-digitaldaten}
 
-Mit der zunehmenden Digitalisierung stehen Forschenden heute jedoch neue Formen beobachtbarer Verhaltensdaten zur Verfügung.
+Mit der zunehmenden Digitalisierung stehen Forschenden heute neue Formen beobachtbarer Verhaltensdaten zur Verfügung.
 Insbesondere digitale Trace-Daten ermöglichen es, tatsächliches Nutzungsverhalten ohne Abhängigkeit von Selbstauskünften zu erfassen.
 Im Gegensatz zu Selbstauskünften entstehen diese Daten unmittelbar während der Nutzung digitaler Anwendungen und sind daher nicht auf Erinnerungsleistungen oder subjektive Einschätzungen der Befragten angewiesen.
 Logdaten, Serverdaten oder Nutzungsprotokolle ermöglichen damit eine deutlich detailliertere Erfassung individuellen Verhaltens und werden zunehmend als Ergänzung oder Alternative zu klassischen Surveydaten eingesetzt [@ohme2024].
@@ -307,13 +305,13 @@ Auch in diesem Kontext gelten für Selbstauskünfte grundsätzlich die selben, b
 
 Erste Studien deuten darauf hin, dass diese Einschränkungen bei der Erfassung der KI-Nutzung besonders relevant sein könnten.
 Anders als bei vielen alltäglichen Verhaltensweisen ist der Einsatz generativer KI im Hochschulkontext häufig normativ aufgeladen.
-Besonders im Kontext wissenschaftlicher Integrität, unzulässiger Unterstützung bei Prüfungsleistungen sowie möglicher negativer Auswirkungen auf das selbstständige Lernen und kritische Denken wird der Einsatz von KI-Chatbots kontrovers diskutiert [@kasneci2023].
+Besonders im Kontext wissenschaftlicher Integrität, unzulässiger Unterstützung bei Prüfungsleistungen sowie möglicher negativer Auswirkungen auf das selbstständige Lernen und kritische Denken wird der Einsatz von KI-Chatbots kontrovers diskutiert [@deep2025; @kasneci2023].
 Dadurch kann die Nutzung generativer KI von Studierenden als sensibles Thema wahrgenommen werden.
 
-Vor diesem Hintergrund argumentieren @ling2026, dass insbesondere Social Desirability Bias zu einer systematischen Unterschätzung der tatsächlichen KI-Nutzung führen könnte.
-In ihrer Studie berichten lediglich etwa 60 % der befragten Studierenden, selbst generative KI zu nutzen, während rund 90 % angeben, dass ihre Kommiliton:innen entsprechende Systeme verwenden.
-Die Autor:innen interpretieren diese Diskrepanz als Hinweis darauf, dass Befragte ihre eigene Nutzung aufgrund sozialer Normen oder befürchteter negativer Bewertungen eher herunterspielen.
-Sie argumentieren daher, dass die bislang verfügbaren Schätzungen zur Verbreitung generativer KI mit Vorsicht interpretiert und stärker durch objektive Beobachtungsdaten validiert werden müssen.
+Vor diesem Hintergrund argumentierten @ling2026, dass insbesondere Social Desirability Bias zu einer systematischen Unterschätzung der tatsächlichen KI-Nutzung führen könnte.
+In ihrer Studie berichteten lediglich etwa 60 % der befragten Studierenden, selbst generative KI zu nutzen, während rund 90 % angaben, dass ihre Kommiliton:innen entsprechende Systeme verwenden.
+Die Autor:innen interpretierten diese Diskrepanz als Hinweis darauf, dass Befragte ihre eigene Nutzung aufgrund sozialer Normen oder befürchteter negativer Bewertungen eher herunterspielen.
+Sie argumentierten daher, dass die bislang verfügbaren Schätzungen zur Verbreitung generativer KI mit Vorsicht interpretiert und stärker durch objektive Beobachtungsdaten validiert werden müssen.
 
 Bislang existieren jedoch kaum Studien die Selbstauskünfte zur Nutzung generativer KI unmittelbar mit tatsächlichen Nutzungsdaten vergleichen.
 Entsprechend bleibt bislang offen, in welchem Ausmaß Selbstauskünfte über die Nutzung von KI-Chatbots das tatsächliche Nutzungsverhalten widerspiegeln.
@@ -324,10 +322,10 @@ Seit der Veröffentlichung von ChatGPT Ende 2022 haben sich generative KI-System
 Zahlreiche Studien zeigen, dass Studierende diese Werkzeuge regelmäßig zur Unterstützung verschiedener studienbezogener Aufgaben einsetzen ([@garrel2025; @balabdaoui2024a]. <!-- @Hannah: Hier noch weitere Studien einfügen, damit die zahlreichen Studien rüberkommen ---> Gleichzeitig wird generative KI zunehmend nicht mehr als kurzfristiger Technologietrend, sondern als dauerhafte Veränderung akademischer Lehr- und Lernprozesse betrachtet [@kasneci2023].
 
 Aktuelle Befragungen verdeutlichen die hohe Verbreitung generativer KI unter Studierenden.
-So berichten @garrel2025 auf Grundlage einer deutschlandweiten Längsschnittstudie mit rund 5.000 Studierenden, dass mittlerweile über 90 % der Befragten KI-basierte Werkzeuge im Studium nutzen.
+So berichteten @garrel2025 auf Grundlage einer deutschlandweiten Längsschnittstudie mit rund 5.000 Studierenden, dass mittlerweile über 90 % der Befragten KI-basierte Werkzeuge im Studium nutzen.
 Im Vergleich zu einer Erhebung aus dem Jahr 2023, in der noch 63 % der Studierenden entsprechende Anwendungen verwendeten, zeigt sich damit ein deutlicher Anstieg innerhalb kurzer Zeit.
 Auch internationale Studien bestätigen diese Entwicklung.
-So zeigen @balabdaoui2024a anhand einer Befragung von etwa 4.800 Studierenden, dass generative KI an Hochschulen inzwischen breit akzeptiert, und von vielen Studierenden als hilfreiche Unterstützung im Lernprozess wahrgenommen wird.
+So zeigten @balabdaoui2024a anhand einer Befragung von etwa 4.800 Studierenden, dass generative KI an Hochschulen inzwischen breit akzeptiert, und von vielen Studierenden als hilfreiche Unterstützung im Lernprozess wahrgenommen wird.
 
 Neben der steigenden Verbreitung haben sich auch die Einsatzbereiche generativer KI deutlich erweitert.
 Während Chatbots zunächst vor allem genutzt wurden, um Verständnisfragen zu klären oder fachliche Inhalte erklären zu lassen, unterstützen sie Studierende inzwischen in nahezu allen Phasen des wissenschaftlichen Arbeitsprozesses.
@@ -335,8 +333,8 @@ Häufig genannte Anwendungsbereiche sind die Recherche von Informationen, das Zu
 Generative KI entwickelt sich damit zunehmend von einem reinen Auskunftssystem zu einem vielseitigen Werkzeug für akademisches Arbeiten.
 
 Gleichzeitig weist die Forschung darauf hin, dass der erfolgreiche Einsatz generativer KI nicht allein von ihrer Verfügbarkeit, sondern maßgeblich von der Art ihrer Nutzung abhängt.
-Große Sprachmodelle können überzeugend formulierte, jedoch fehlerhafte oder verzerrte Informationen erzeugen.
-Daher betonen verschiedene Autor:innen, dass Studierende auch im Umgang mit generativer KI grundlegende Medienkompetenzen wie kritisches Hinterfragen oder Quellenprüfung auch im Kontext von KI anwenden müssen um die Grenzen solcher Systeme einschätzen zu können.
+Large Language Modelle können überzeugend formulierte, jedoch fehlerhafte oder verzerrte Informationen erzeugen.
+Daher betonen verschiedene Autor:innen, dass Studierende auch im Umgang mit generativer KI grundlegende Medienkompetenzen wie kritisches Hinterfragen oder Quellenprüfung anwenden müssen, um die Grenzen solcher Systeme einschätzen zu können.
 Diese Fähigkeiten gelten dementsprechend als zentrale Voraussetzungen für einen verantwortungsvollen Einsatz generativer KI im Studium [@kasneci2023].
 
 Die bisherige Forschung liefert somit ein umfassendes Bild über die Verbreitung generativer KI sowie über typische Einsatzbereiche und wahrgenommene Chancen im Studium.
@@ -346,28 +344,28 @@ Ob die berichteten Nutzungsarten sowie Angaben zur kritischen Prüfung KI-generi
 ## Forschungslücke und Forschungsfragen {#sec-forschungsfragen}
 
 Obwohl inzwischen umfangreiche Erkenntnisse zur Verbreitung generativer KI sowie zu den berichteten Nutzungsweisen im Studium vorliegen, fehlen bislang Studien, die Selbstauskünfte mit tatsächlich beobachteten KI-Interaktionen vergleichen.
-Während sich digitale Verhaltensdaten in der Forschung zu Internet- und Social-Media-Nutzung bereits als wertvolle Ergänzung von Surveydaten etabliert haben [@ohme2024; @parry2021], wurde dieser Ansatz auf generative KI bislang kaum übertragen.
+Während sich digitale Verhaltensdaten in der Forschung zu Internet- und Social-Media-Nutzung bereits als wertvolle Ergänzung von Surveydaten etabliert haben [@ohme2024; @parry2021], wurde dieser Ansatz auf generative KI bislang nicht übertragen.
 Insbesondere ist bislang weitgehend ungeklärt, inwiefern Studierende ihre tatsächlichen Nutzungsarten oder die kritische Prüfung von KI-generierten Antworten zutreffend berichten.
-Dort setzt die vorliegende Studie an indem sie Selbstauskünfte aus einer Onlinebefragung mit tatsächlich geführten Chatverläufen generativer KI-Systeme vergleicht und diese mithilfe einer LLM-basierten Klassifikation systematisch auswertet.
+Dort setzt die vorliegende Studie an, indem sie Selbstauskünfte aus einer Onlinebefragung mit tatsächlich geführten Chatverläufen generativer KI-Systeme vergleicht und diese mithilfe einer LLM-basierten Klassifikation systematisch auswertet.
 
 Daraus ergeben sich folgende Forschungsfragen, die explorativ im Rahmen der Studie untersucht werden:
 
-<!-- ??? wir haben jetzt irgendwie gar keine Forschungsfrage die von unserer methode nutzen macht auser F6 oder? wir wollen ja schon in diese typbildungs ecke gehen  mehr als auf allgemeine unterschiede oder--->
+<!-- ??? wir haben jetzt irgendwie gar keine Forschungsfrage die von unserer methode nutzen macht auser F1e oder? wir wollen ja schon in diese typbildungs ecke gehen  mehr als auf allgemeine unterschiede oder--->
 
 F1: Inwiefern unterscheiden sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von der in gespendeten Chatlogs beobachteten Nutzung?
 
-F2: Bei welchen Dimensionen der Informationsnutzung zeigen sich besonders häufig Übereinstimmungen beziehungsweise Diskrepanzen zwischen Surveyangaben und Chatlogdaten?
+F1a: Bei welchen Dimensionen der Informationsnutzung zeigen sich besonders häufig Übereinstimmungen beziehungsweise Diskrepanzen zwischen Surveyangaben und Chatlogdaten?
 
-F3: Welche Arten studienbezogener Informationsnutzung lassen sich in den Chatlogs identifizieren?
+F1b: Welche Arten studienbezogener Informationsnutzung lassen sich in den Chatlogs identifizieren?
 Inwiefern stimmen diese mit den Survey angegebenen Nutzungsarten überein?
 
-F4: Inwiefern geben Studierende an, KI-Antworten kritisch zu prüfen?
+F1c: Inwiefern geben Studierende an, KI-Antworten kritisch zu prüfen?
 Inwiefern stimmen diese Angaben mit den Chatlogs überein?
 
-F5: Wie berichten Studierende, mit ChatGPT zu sprechen?
+F1d: Wie berichten Studierende, mit ChatGPT zu sprechen?
 Inwiefern stimmen diese Angaben mit den beobachteten Chats überein?
 
-F6: Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?
+F1e: Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?
 
 Da bislang kaum empirische Erkenntnisse zu Diskrepanzen zwischen berichteter und beobachtbarere Nutzung generativer KI vorliegen, dient die Untersuchung dieser Forschungsfragen zunächst der Exploration möglicher Unterschiede und Muster auf deren Grundlage in zukünftiger Forschung spezifischere Hypothesen entwickelt werden können.
 
@@ -1030,7 +1028,7 @@ Zunächst erfolgt ein deskriptiver graphischer Überblick, bevor die einzelnen W
 
 <!-- Allgemein weniger absätze -> text soltle nicht zu zerstückelt sein -->
 
-## Nutzungsarten: F2 und F3
+## Nutzungsarten: F1a und F1b
 
 In @tbl-nutzungsarten wird die Verteilung der Nutzungsarten vorgestellt.
 Auf Aggregatebene zeigt sich der größte Unterschied bei *`r aggregate_comparison[[1, "task"]]`*.
@@ -1071,7 +1069,7 @@ aggregate_comparison |>
   )
 ```
 
-Hinsichtlich F3 lässt sich festhalten, dass sich alle Nutzungsarten in den Chatlogs finden lassen.
+Hinsichtlich F1b lässt sich festhalten, dass sich alle Nutzungsarten in den Chatlogs finden lassen.
 Die Teilnehmenden unterschätzten in der Selbsteinschätzung tendenziell die Nutzung von technischen Hilfsmitteln und das Schreiben von Texten, während sie die Nutzung von Informationen überschätzten.
 
 <!-- ??? Abbildung 2 hat zwei title -> einen entfernen, man sollte auch die nummerichen werte in den appendix tun --->
@@ -1140,7 +1138,7 @@ plot_task_differences
 ```
 
 Diese Funde deuten darauf hin, dass die Selbstauskunft der Teilnehmenden in Bezug auf die Nutzung von *`r as.character(task_agreement_summary[[1, "task"]])`* und *`r as.character(task_agreement_summary[[2, "task"]])`* am häufigsten eine exakte Übereinstimmung aufweist, während die Selbstauskunft in Bezug auf *`r as.character(task_agreement_summary[[5, "task"]])`* am wenigsten zuverlässig ist.
-Im Hinblick auf F2 zeigt sich, dass Personen sich innerhalb der Nutzungsarten unterschiedlich gut selbst einschätzen können, die Werte sich jedoch überwiegend ausmitteln.
+Im Hinblick auf F1a zeigt sich, dass Personen sich innerhalb der Nutzungsarten unterschiedlich gut selbst einschätzen können, die Werte sich jedoch überwiegend ausmitteln.
 
 \FloatBarrier
 
@@ -1149,7 +1147,7 @@ Im Hinblick auf F2 zeigt sich, dass Personen sich innerhalb der Nutzungsarten un
 Die Übereinstimmung zwischen Selbstauskunft und beobachteter Nutzung unterschied sich deutlich zwischen den Personen. Die mittlere Total-Variation-Distanz betrug `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % (SD = `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte). Somit hätten im Durchschnitt rund 40 % der angegebenen Nutzungsanteile zwischen den fünf Aufgabenbereichen umverteilt werden müssen, damit Selbstauskunft und beobachtete Nutzung vollständig übereinstimmen. Der Median lag bei `r formatC(100 * median(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Die Werte reichten von `r formatC(100 * min(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % bis `r formatC(100 * max(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Dies weist auf Unterschiede im Ausmaß der personenbezogenen Diskrepanzen hin. -->
 ```
 
-## Interaktionsstil und Kritisches Prüfen: F4 und F5
+## Interaktionsstil und Kritisches Prüfen: F1c und F1d
 
 <!--??? braucht tabelle im appendix aus der das zitiert werden kann. Die zahlen können nicht einfach so im text stehen ohne refrenzierunt--->
 
@@ -1170,7 +1168,7 @@ Eine relative Ausnahme bestand darin, dass Teilnehmende ihr kritisches Prüfen u
 plot_agreement
 ```
 
-In Hinblick auf F4 deuten die Ergebnisse der kritischen Prüfung darauf hin, dass die Selbsteinschätzung der Teilnehmenden tendenziell korrekt ausfiel, bei Abweichungen aber insgesamt optimistischer angegeben wurde als das Verhalten in den Chatlogs zeigte.
+In Hinblick auf F1c deuten die Ergebnisse der kritischen Prüfung darauf hin, dass die Selbsteinschätzung der Teilnehmenden tendenziell korrekt ausfiel, bei Abweichungen aber insgesamt optimistischer angegeben wurde als das Verhalten in den Chatlogs zeigte.
 
 <!--??? braucht tabelle im appendix aus der das zitiert werden kann. Die zahlen können nicht einfach so im text stehen ohne refrenzierunt--->
 
@@ -1179,12 +1177,12 @@ Der selbstberichtete und der in den Chatlogs beobachtete Interaktionsstil stimmt
 Bei `r sentiment_summary |> filter(discrepancy == "unfreundlicher") |> select(Prozent) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % fiel der beobachtete Interaktionsstil unfreundlicher und bei `r sentiment_summary |> filter(discrepancy == "freundlicher") |> select(Prozent) |> pull() |> formatC(digits = global_digits, format = "f", decimal.mark = ",")` % freundlicher aus als selbst angegeben.
 Anders als beim kritischen Prüfen zeigte sich somit keine eindeutig vorherrschende Richtung der Abweichung.
 
-Im Hinblick auf F5 kann somit festgehalten werden, dass sich weniger als die Hälfte der Teilnehmenden richtig einschätzt.
+Im Hinblick auf F1d kann somit festgehalten werden, dass sich weniger als die Hälfte der Teilnehmenden richtig einschätzt.
 Die restlichen Teilnehmenden unterschätzen und überschätzen sich fast gleichermaßen.
 
 \FloatBarrier
 
-## Diskrepanzmuster: F6
+## Diskrepanzmuster: F1e
 
 ### Zusammenhangsmaße
 
@@ -1258,7 +1256,7 @@ Deskriptiv zeigten sich jedoch einige mögliche Muster.
 Insbesondere wiesen Männer eine höhere mittlere Total-Variation-Distanz der Informationsnutzung auf als Frauen.
 Beim Interaktionsstil und beim kritischen Prüfen fielen die Geschlechterunterschiede kleiner aus und verliefen in entgegengesetzte Richtungen.
 Darüber hinaus waren ein höheres Alter und eine größere KI-Erfahrung tendenziell mit selteneren Diskrepanzen beim Interaktionsstil beziehungsweise kritischen Prüfen verbunden, während soziale Erwünschtheit tendenziell positiv mit beiden Diskrepanzindikatoren zusammenhing.
-Damit lässt sich hinsichltich F6 (siehe @sec-forschungsfragen) festhalten, dass die untersuchten personenbezogenen Merkmale keine statistisch eindeutigen Zusammenhänge mit den Diskrepanzen zwischen Selbstauskunft und Chatlogdaten aufwiesen.
+Damit lässt sich hinsichltich F1e (siehe @sec-forschungsfragen) festhalten, dass die untersuchten personenbezogenen Merkmale keine statistisch eindeutigen Zusammenhänge mit den Diskrepanzen zwischen Selbstauskunft und Chatlogdaten aufwiesen.
 Deskriptiv lassen sich jedoch einige mögliche Muster erkennen, die in zukünftigen Studien weiter untersucht werden könnten.
 
 ### Clusteranalyse
@@ -1740,7 +1738,9 @@ In folgenden Punkten wurde von der Preregistration abgewichen:
 
 Die ursprünglich präregistrierte Forschungsfrage F5 („Wie gut eignet sich die LLM-basierte Klassifikation, um Dimensionen der Informationsnutzung in Chatlogs systematisch zu erfassen und mit Surveyangaben zu vergleichen?“) wird nicht mehr als eigenständige inhaltliche Forschungsfrage geführt.
 Da sie die Güte des eingesetzten Messverfahrens betrifft, wird sie im Methodenteil im Rahmen der Validierung der LLM-basierten Klassifikation behandelt.
-An ihre Stelle tritt die Forschungsfrage: *Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?* Die Umformulierung erfolgte nach Einsicht in erste Analyseergebnisse.
-Die zugrunde liegende Clusteranalyse war bereits Bestandteil der Präregistrierung.
-In der Präregistrierung wurde angegeben, dass die Anzahl der Cluster für die Silhouette-Methode auf sechs beschränkt wird, dies wurde auf zehn ausgeweitet.
-Nachträglich verändert wurde somit die inhaltliche Einordnung dieser Analyse als eigenständige Forschungsfrage.
+An ihre Stelle tritt die Forschungsfrage: *Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?* Die Umformulierung erfolgte erst nach Einsicht in erste Analyseergebnisse und beinhaltet unter anderem die Clusteranalyse.
+Diese zugrunde liegende Clusteranalyse war bereits Bestandteil der Präregistrierung und wird so explizit als eigenständige Forschungsfrage behandelt. 
+
+Um den hierarchischen Charakter zu verdeutlichen, wurden die Forschungsfragen F2 bis F6 als untergeordnete Forschungsfragen der übergeordneten Forschungsfrage F1 zusammengefasst. Damit ändern sich nur die Bezeichnungen der Forschungsfragen von F2 bis F6 zu F1a bis F1e.
+
+In der Präregistrierung wurde angegeben, dass die Anzahl der Cluster für die Silhouette-Methode auf sechs beschränkt wird. Diese wurde auf 10 ausgeweitet und eine Mindestgröße für die Cluster definiert. So können zu kleine Cluster verhindert werden, für die die Beschränkung von k ursprünglich gedacht war.
