@@ -1017,11 +1017,12 @@ TV_p
 \frac{1}{2}
 \sum_{i=1}^{5}
 \left|
-SA_{pi}^{(\text{Informationsnutzung})}
+SA_{pi}^{(\text{Info})}
 -
-BE_{pi}^{(\text{Informationsnutzung})}
+BE_{pi}^{(\text{Info})}
 \right|.
 $$
+Sie gibt an, welcher Anteil zwischen den fünf Nutzungsbereichen umverteilt werden müsste, damit beide Verteilungen übereinstimmen.
 
 Für Forschungsfrage 1b wurden die absoluten Häufigkeiten und relativen Anteile der fünf Nutzungsarten in den 105 ($5 \times 21$) Chatverläufen ermittelt.
 Anschließend wurden die über alle Personen gemittelten Umfrage- und Chatloganteile der fünf Nutzungsarten gegenübergestellt.
