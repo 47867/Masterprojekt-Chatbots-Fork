@@ -1737,5 +1737,5 @@ Die ursprünglich präregistrierte Forschungsfrage F5 („Wie gut eignet sich di
 Da sie die Güte des eingesetzten Messverfahrens betrifft, wird sie im Methodenteil im Rahmen der Validierung der LLM-basierten Klassifikation behandelt.
 An ihre Stelle tritt die Forschungsfrage: *Welche typischen personenbezogenen Diskrepanzmuster lassen sich über die untersuchten Nutzungsdimensionen hinweg explorativ identifizieren?* Die Umformulierung erfolgte nach Einsicht in erste Analyseergebnisse.
 Die zugrunde liegende Clusteranalyse war bereits Bestandteil der Präregistrierung.
-In der Präregistrierung wurde angegeben, dass die Anzahl der Cluster für die Silhouette-Methode auf sechs beschränkt wird; dies wurde auf zehn ausgeweitet.
+In der Präregistrierung wurde angegeben, dass die Anzahl der Cluster für die Silhouette-Methode auf sechs beschränkt wird, dies wurde auf zehn ausgeweitet.
 Nachträglich verändert wurde somit die inhaltliche Einordnung dieser Analyse als eigenständige Forschungsfrage.
