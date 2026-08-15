@@ -4,6 +4,7 @@ title-block-style: none
 bibliography: manuscript/references.bib
 csl: manuscript/apa.csl
 number-sections: true
+
 format:
   pdf:
     papersize: a4
@@ -192,7 +193,7 @@ Gerade bei einem kontrovers diskutierten Thema wie der Nutzung generativer KI [b
 
 Digitale Logdaten eröffnen eine Möglichkeit, diese Diskrepanz zwischen berichteter und beobachteter Nutzung empirisch zu untersuchen.
 Während solche Daten in Bereichen wie der Internet-, Smartphone- oder Social-Media-Forschung bereits genutzt werden, um die Validität von Selbstauskünften zu überprüfen [bspw. @kmetty2025; @ohme2024; @vandriel2022], wurden vergleichbare Ansätze für generative KI bislang kaum angewandt.
-Da bislang kaum empirische Erkenntnisse darüber vorliegen, in welchem Ausmaß sich berichtete und beobachtbare Nutzung generativer KI unterscheiden, stellt die vorliegende Studie einen ersten explorativen Vergleich dar, in dem Selbstauskünfte von Studierenden zur Nutzung generativer KI mit tatsächlich geführten Chatverläufen vergleicht werden.
+Da bislang kaum empirische Erkenntnisse darüber vorliegen, in welchem Ausmaß sich berichtete und beobachtbare Nutzung generativer KI unterscheiden, stellt die vorliegende Studie einen ersten explorativen Vergleich dar, indem Selbstauskünfte von Studierenden zur Nutzung generativer KI mit tatsächlich geführten Chatverläufen verglichen werden.
 Ziel ist es zunächst, mögliche Diskrepanzen zwischen beiden Datenquellen sichtbar zu machen und unterschiedliche Muster zu beschreiben, anstatt einen bereits etablierten Zusammenhang oder eine spezifische Richtung der Abweichung zu überprüfen.
 
 Daraus ergibt sich die folgende Forschungsfrage, die in dieser Arbeit untersucht werden soll:
@@ -249,7 +250,7 @@ Während Selbstauskünfte erfassen, wie Personen ihr eigenes Verhalten wahrnehme
 Beide Datenquellen liefern dabei unterschiedliche Informationen und sollten laut @nielsen2015 nicht als konkurrierende, sondern als komplementäre Messansätze verstanden werden.
 
 Vergleichsstudien aus unterschiedlichen Anwendungsbereichen zeigen, dass Selbstauskünfte häufig nur begrenzt mit beobachtetem Verhalten übereinstimmen.
-So fanden @nielsen2015 für die Beurteilung von Alltagskompetenzen bei Personen mit Depression, dass zwischen Selbstauskunft und Beobachtung nur ein geringer Zusammenhang bestand, was die Autorinnen als Argument für die Kombination beider Erhebungsmethoden werten.
+So fanden @nielsen2015 für die Beurteilung von Alltagskompetenzen bei Personen mit Depression, dass zwischen Selbstauskunft und Beobachtung nur ein geringer Zusammenhang bestand, was die Autorinnen als Argument für die Kombination beider Erhebungsmethoden werteten.
 
 Ähnliche Ergebnisse zeigen sich auch in anderen Forschungsbereichen.
 Im Gesundheits- und Verhaltensbereich fanden @kendall2004 für lebensmittelhygienisches Verhalten für einen Teil der Items Übereinstimmungen zwischen Fragebogenangaben und beobachtetem Verhalten.
@@ -308,7 +309,7 @@ So wird es möglich, Selbstauskünfte zur KI-Nutzung unmittelbar mit den tatsäc
 Mit der raschen Verbreitung generativer KI-Systeme ist in den vergangenen Jahren auch das wissenschaftliche Interesse an deren Nutzung deutlich gestiegen.
 Die überwiegende Mehrheit der bisherigen Studien basiert jedoch auf Selbstauskünften der Nutzenden.
 Angaben zur Häufigkeit der Nutzung, zu Einsatzbereichen oder zu Einstellungen gegenüber künstlicher Intelligenz werden dabei nahezu ausschließlich mittels standardisierter Befragungen erhoben [@balabdaoui2024; @garrel2025].
-Auch in diesem Kontext gelten für Selbstauskünfte grundsätzlich die selben, bereits aufgeführten, Einschränkungen wie in anderen Forschungsbereichen.
+Auch in diesem Kontext gelten für Selbstauskünfte grundsätzlich dieselben, bereits aufgeführten, Einschränkungen wie in anderen Forschungsbereichen.
 
 Erste Studien deuten darauf hin, dass diese Einschränkungen bei der Erfassung der KI-Nutzung besonders relevant sein könnten.
 Anders als bei vielen alltäglichen Verhaltensweisen ist der Einsatz generativer KI im Hochschulkontext häufig normativ aufgeladen.
@@ -786,7 +787,7 @@ Da die gespendeten Chatverläufe im Fragebogen entweder in den Formaten JSON und
 Anschließend wurden diese Daten für jeden Chat jeder Person mit OpenAIs GPT-5.5 nach Interaktionsstil, kritischen Prüfen und Nutzungsart klassifiziert.
 
 Für die Klassifikation wurde ein generatives LLM im Zero-Shot-Verfahren[^1] eingesetzt.
-Solche Modelle ermöglichen Textklassifikationen ohne aufgabenspezifisches Training und erreichten in früheren Studien teilweise eine mit überwachten Lernverfahren oder menschlichen Annotationen vergleichbare Leistung [@wang2023; @anglin2025; @gilardi2023].
+Solche Modelle ermöglichen Textklassifikationen ohne aufgabenspezifisches Training des Modells und erreichten in früheren Studien teilweise eine mit überwachten Lernverfahren oder menschlichen Annotationen vergleichbare Leistung [@wang2023; @anglin2025; @gilardi2023].
 Da ihre Güte von der Domäne, dem Labelschema und der Promptgestaltung abhängt, wurde das verwendete Modell vor dem Einsatz gesondert validiert.
 
 [^1]: Prompts, bei denen keine Beispiele oder weitere Erklärungen gegeben werden.
@@ -806,14 +807,12 @@ Diese Ergebnisse erzielte es nach drei Runden der Promptverfeinerung.
 Die Ergebnisse der Evaluation zeigen, dass GPT-5.5 grundsätzlich in der Lage ist, die für die Analyse notwendigen Klassifikationsaufgaben auszuführen.
 Deshalb können die Zero-Shot-Leistungskennzahlen als geeignete Schätzung der zu erwartenden Modellperformance mit den im Survey erhobenen Daten verwendet werden.
 Diese Annahme basiert darauf, dass beide Datensätze hinsichtlich ihrer Domäne (Chatverläufe von Studierenden), des Aufgabenkontexts (Nutzungsart von ChatGPT), des Labelschemas sowie der strukturellen Ähnlichkeiten der Chats (iterative Prompt-Verfeinerung, Frage-Antwort-Strukturen) vergleichbar sind.
-Dennoch ist nicht auszuschließen, dass Unterschiede in der Datenverteilung zu einer abweichenden tatsächlichen Performance auf dem Analysedatensatz führen können.
-
-Dies könnte insbesondere die Klassifikation von Inhalten betreffen, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine hohe Homogenität der Inhalte zu erwarten ist.
+Dennoch ist nicht auszuschließen, dass Unterschiede in der Datenverteilung zu einer abweichenden tatsächlichen Performance auf dem Analysedatensatz führen können. Dies könnte insbesondere die Klassifikation von Inhalten betreffen, da die 30 zur Promptentwicklung und Modellauswahl verwendeten Beispielchats von drei Computational-Social-Science-Masterstudierenden stammen und dementsprechend eine hohe Homogenität der Inhalte zu erwarten ist.
 Da GPT-5.5 bei der Inhaltsklassifikation über alle Evaluationsrunden hinweg eine sehr hohe Genauigkeit erreichte, deutet dies darauf hin, dass eine solche Einschränkung für die weitere Analyse von nicht zu großer Bedeutung sein dürfte.
 
 Im zweiten Validierungsschritt wurde die Übertragbarkeit der Evaluationsergebnisse anhand von 32 Chats aus der Haupterhebung überprüft.
 Diese entsprachen einer zufällig gezogenen Stichprobe von rund 30 % der gespendeten Chats.
-Die Annotation wurde von zwei der Autor:innen durchgeführt, die Übereinstimmung der Coder lag für die Interaktionsstil-Klassifikation bei 90.6 % und für die beiden anderen Klassifikationen jeweils bei 100%.
+Die Annotation wurde von zwei der Autor:innen durchgeführt, die Übereinstimmung der beiden Coder lag für die Interaktionsstil-Klassifikation bei 90,6 % und für die beiden anderen Klassifikationen jeweils bei 100%.
 Im Anschluss wurden in einer gemeinsamen Diskussion ein konsensbasierter Goldstandard festgelegt.
 Auf dieser Grundlage wurden die Leistungskennzahlen für GPT-5.5 erneut berechnet.
 Für das Erkennen des Aufgabentyps erzielte das Modell eine Accuracy von 1, bei kritischen Nachfragen lag die Accuracy bei 0,938 mit einem Macro-F1-Score von 0,881.
