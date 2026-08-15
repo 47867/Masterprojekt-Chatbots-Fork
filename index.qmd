@@ -100,9 +100,12 @@ source(here::here("R_code", "04_discrepancy_analysis.R"))
 # oben frisch nach tabs/ schreibt - so bleibt Anhang und Analyse synchron.
 # Zahlen stehen in den CSVs als Text mit Dezimalkomma (0,50 statt 0.50);
 # komma_align() aus 02_data_analasys.R haelt sie trotzdem rechtsbuendig.
+# Ausnahme: T20 kommt aus dem Python-Notebook und enthaelt echte Zahlen mit
+# Punkt. komma_df() stellt solche Spalten hier nachtraeglich auf Komma um.
 anhang_tab <- function(datei, ordner = "tabs", ...) {
   df <- read.csv(here::here(ordner, datei), check.names = FALSE,
                  encoding = "UTF-8")
+  df <- komma_df(df)
   knitr::kable(df, format = "pipe", row.names = FALSE,
                align = komma_align(df), ...)
 }
