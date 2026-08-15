@@ -142,6 +142,8 @@ library(psych)
 global_digits <- 2
 ```
 
+\pagenumbering{gobble}
+
 # Abstract {.unnumbered .unlisted}
 
 Ziel dieser Arbeit ist es, zu untersuchen, inwiefern sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von ihrem in gespendeten Chatverläufen beobachtbaren Nutzungsverhalten unterscheiden.
@@ -168,6 +170,8 @@ Für künftige Forschung wird empfohlen, Selbstauskünfte systematisch durch Ver
 \listoffigures
 
 \clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 # Einleitung {#sec-einleitung}
 
@@ -1596,7 +1600,9 @@ Die explorativen Cluster sprechen außerdem gegen einen einheitlichen Korrekturf
 ::: {#refs}
 :::
 
-\newpage
+\clearpage
+\pagenumbering{Roman}
+\setcounter{page}{1}
 
 # Anhang {.unnumbered}
 
