@@ -53,13 +53,11 @@ Die Chatlogs wurden mithilfe eines Large Language Models klassifiziert. Die Güt
 | `manuscript/` | Literatur, Vorlagen und weitere Manuskriptmaterialien |
 | `WORKFLOW.md` | Ausführlichere technische Dokumentation des Datenworkflows |
 
-Der Dateiname `data_analasys.R` wird hier entsprechend dem gegenwärtigen Stand des Projekts wiedergegeben.
-
 ## Reproduktion der R-Analysen
 
 ### Voraussetzungen
 
-- R und RStudio
+- R und RStudio. Die Analysen wurden mit R 4.6.0 durchgeführt
 - Quarto
 - eine LaTeX-Installation mit XeLaTeX, beispielsweise TinyTeX
 - das R-Paket `renv`
@@ -79,8 +77,9 @@ quarto render index.qmd --to pdf
 Das Quarto-Dokument führt die erforderlichen R-Skripte in der vorgesehenen Reihenfolge aus. Für die schrittweise Fehlersuche können sie auch einzeln ausgeführt werden:
 
 ``` bash
-Rscript R_code/data_prep.R
-Rscript R_code/data_analasys.R
+Rscript R_code/01_data_prep.R
+Rscript R_code/02_data_analysis.R
+Rscript R_code/03_sample_modification
 Rscript R_code/04_discrepancy_analysis.R
 ```
 
@@ -99,7 +98,7 @@ Erzeugte Dateien sollten möglichst über die zugehörigen Skripte aktualisiert 
 
 Die Rohdaten enthalten freiwillig gespendete Chatverläufe und potenziell sensible Surveyangaben. Deshalb gilt:
 
-- Rohdaten aus `data/raw/` werden nicht veröffentlicht oder in Git eingecheckt.
+- Rohdaten in `data/raw/` werden nicht veröffentlicht oder in Git eingecheckt.
 - API-Schlüssel und andere Zugangsdaten werden ausschließlich lokal gespeichert.
 - Veröffentlichte oder weitergegebene Datensätze dürfen nur anonymisierte beziehungsweise ausreichend aggregierte Informationen enthalten.
 - Eine Reproduktion ab den Rohdaten ist nur mit entsprechender Zugangsberechtigung möglich.
