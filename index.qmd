@@ -436,7 +436,10 @@ Um den Fragebogen zu optimieren, wurden vor Beginn der tatsächlichen Erhebung P
 Ziel des Pretests war es, mögliche Probleme hinsichtlich Verständlichkeit, Benutzerfreundlichkeit und technischer Umsetzung des Fragebogens zu identifizieren.
 Die Teilnehmenden wurden gebeten, den Fragebogen vollständig auszufüllen und sowohl während der Bearbeitung als auch im Anschluss daran Rückmeldung an die Autor:innen zu geben.
 
-Der Fragebogen wurde in zwei Pretestrunden auf Verständlichkeit, Benutzerfreundlichkeit und technische Funktionsfähigkeit geprüft. Dabei zeigten sich insbesondere Schwierigkeiten beim Auffinden der Exportfunktionen, beim Export sehr langer Chats und bei der Darstellung der Datenschutzerklärung. Daraufhin wurden die Anleitung und Antwortoptionen überarbeitet, Exporthinweise visuell hervorgehoben und die Datenschutzerklärung übersichtlicher eingebunden. In der zweiten Runde traten keine weiteren grundlegenden Bedienprobleme auf, sodass der Fragebogen für die Haupterhebung freigegeben wurde.
+Der Fragebogen wurde in zwei Pretestrunden auf Verständlichkeit, Benutzerfreundlichkeit und technische Funktionsfähigkeit geprüft.
+Dabei zeigten sich insbesondere Schwierigkeiten beim Auffinden der Exportfunktionen, beim Export sehr langer Chats und bei der Darstellung der Datenschutzerklärung.
+Daraufhin wurden die Anleitung und Antwortoptionen überarbeitet, Exporthinweise visuell hervorgehoben und die Datenschutzerklärung übersichtlicher eingebunden.
+In der zweiten Runde traten keine weiteren grundlegenden Bedienprobleme auf, sodass der Fragebogen für die Haupterhebung freigegeben wurde.
 
 Die Feldphase startete am 09.
 Juli 2026 und endete am 30.
@@ -782,7 +785,9 @@ Um die erhobenen Chatlogs für die statistische Analyse vorzubereiten, mussten d
 Da die gespendeten Chatverläufe im Fragebogen entweder in den Formaten JSON und HTML gespendet wurden, wurden diese beiden Dateiformate in einem ersten Schritt separat aufbereitet, vereinheitlich und ausschließlich auf User-Nachrichten gefiltert.
 Anschließend wurden diese Daten für jeden Chat jeder Person mit OpenAIs GPT-5.5 nach Interaktionsstil, kritischen Prüfen und Nutzungsart klassifiziert.
 
-Für die Klassifikation wurde ein generatives LLM im Zero-Shot-Verfahren[^1] eingesetzt. Solche Modelle ermöglichen Textklassifikationen ohne aufgabenspezifisches Training und erreichten in früheren Studien teilweise eine mit überwachten Lernverfahren oder menschlichen Annotationen vergleichbare Leistung [@wang2023; @anglin2025; @gilardi2023]. Da ihre Güte von der Domäne, dem Labelschema und der Promptgestaltung abhängt, wurde das verwendete Modell vor dem Einsatz gesondert validiert.
+Für die Klassifikation wurde ein generatives LLM im Zero-Shot-Verfahren[^1] eingesetzt.
+Solche Modelle ermöglichen Textklassifikationen ohne aufgabenspezifisches Training und erreichten in früheren Studien teilweise eine mit überwachten Lernverfahren oder menschlichen Annotationen vergleichbare Leistung [@wang2023; @anglin2025; @gilardi2023].
+Da ihre Güte von der Domäne, dem Labelschema und der Promptgestaltung abhängt, wurde das verwendete Modell vor dem Einsatz gesondert validiert.
 
 [^1]: Prompts, bei denen keine Beispiele oder weitere Erklärungen gegeben werden.
 
@@ -793,7 +798,6 @@ Anschließend wurde die Übertragbarkeit des ausgewählten Modells anhand von 32
 Im ersten Validierungsschritt wurden die 30 Beispielchats mit verschiedenen GPT-Modellen, Promptvarianten und Klassifikationsstrategien getestet.
 Das mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Makro von $0{,}67 - 0{,}81$ am Modell mit der besten Leistung war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5.
 Diese Ergebnisse erzielte es nach drei Runden der Promptverfeinerung.
-
 
 ![Zero-Shot Textklassifikation von GPT-5.5 (alle Aufgaben in einem Prompt)](plots/performance_gpt55_combined.png)
 
@@ -1041,12 +1045,11 @@ Berichtet werden zusätzlich die geschlechtsspezifischen Häufigkeiten und Antei
 
 Da insgesamt neun Korrelationskoeffizienten berechnet wurden, erfolgte eine Korrektur der p-Werte mithilfe des Benjamini-Hochberg-Verfahrens.
 
-Die weitere explorative Analyse der gewonnenen Daten wird mittels einer k-medoids-Clusteranalyse durchgeführt.
+Um die Diskrepanzen auf weitere mögliche Muster zu untersuchen wird eine k-medoids-Clusteranalyse durchgeführt.
 Da die Variablen, die in das Cluster einfließen, aus fünf kontinuierlichen Diskrepanzscores (Arten der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Prüfen und Interaktionsstil) bestehen, liegen gemischte Skalenniveaus vor.
-Die Manhattan-Distanz und die Euklidische-Distanz benötigen zum Beispiel metrische oder binäre Daten, beziehungsweise — im Fall der Euklidischen-Distanz — einen euklidischen Vektorraum.
-Für das Clustering wird daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert [@gower1971].
-Die Idee der Gower-Distanz ist, dass für alle Variablen eine eigene, zwischen 0 und 1 liegende, Distanz berechnet wird.
-Die variablenspezifischen Einzel-Distanzen wurden anschließend als gewichtetes Mittel zu einer Gower-Gesamtdistanz für jedes Personenpaar zusammengefasst.
+Die Manhattan-Distanz und die Euklidische-Distanz benötigen zum Beispiel metrische oder binäre Daten oder gar einen euklidischen Vektorraum.
+Daher die Gower-Distanz verwendet, die unterschiedliche Skalenniveaus in einer gemeinsamen Distanzmatrix kombiniert [@gower1971], sodass für alle Variablen eine eigene, zwischen 0 und 1 liegende, Distanz berechnet wird.
+Die variablenspezifischen Einzel-Distanzen werden anschließend als gewichtetes Mittel zu einer Gower-Gesamtdistanz für jedes Personenpaar zusammengefasst.
 Ein Wert von 0 bedeutet, dass zwei Personen hinsichtlich der berücksichtigten Diskrepanzvariablen übereinstimmen; ein Wert von 1 bezeichnet die größtmögliche Unterschiedlichkeit.
 
 Für die fünf kontinuierlichen Diskrepanzen der Informationsnutzung $D_{pi}^{\mathrm{Info}}$ wird jeweils die am Wertebereich standardisierte absolute Differenz berechnet.
@@ -1055,24 +1058,24 @@ Die Diskrepanzen des Interaktionsstils $D_p^{\mathrm{Stil}}$ und des kritischen 
 Damit die Informationsnutzung aufgrund ihrer fünf Variablen nicht stärker als die beiden anderen Konstrukte in die Gesamtdistanz eingeht, wird jedes ihrer fünf Diskrepanzmaße mit $\frac{1}{5}=0{,}2$ gewichtet.
 Die Informationsnutzung erhält damit insgesamt dasselbe Gewicht wie der Interaktionsstil und das kritische Prüfen.
 
-Für die Durchführung der Clusteranalyse wird der Algorithmus "Partitioning around Medoids"-Algorithmus, kurz PAM verwendet [@kaufman1990a].
-Dieser funktioniert wie folgt: Wie der k-means-Algorithmus unterteilt er den Datensatz in eine Anzahl von k-Partitionen.
+Für die Durchführung der Clusteranalyse wird der Algorithmus "Partitioning around Medoids"-Algorithmus (PAM), verwendet [@kaufman1990a].
+Wie der k-means-Algorithmus unterteilt PAM den Datensatz in eine Anzahl von k-Partitionen.
 Dabei werden statt des arithmetischen Mittels oder des Medians tatsächliche Beobachtungseinheiten als Clusterzentren gewählt.
 Dadurch können beliebige Distanzmaße verwendet werden, anstatt – wie bei k-Means – auf die euklidische Distanz beschränkt zu sein.
 Dies ermöglicht auch die gemeinsame Berücksichtigung metrischer und binärer Daten.
 Da PAM Personen als Zentrum der k-Partitionen erlaubt, können die Cluster-Zentren intuitiver interpretiert werden: Die Person, die im Zentrum steht, ist eine Art Idealtyp des Clusters, dem die anderen Personen ähneln.
-Dies macht den Algorithmus zu einer idealen Wahl für unser exploratives Vorhaben.
-Die Struktur des Algorithmus funktioniert wie folgt: Zu Beginn werden per Zufall $k$ Beobachtungen als anfängliche Medoide, also als Cluster-Zentren, ausgewählt.
+Dafür werden zu Beginn per Zufall $k$ Beobachtungen als anfängliche Medoide, also als Cluster-Zentren, ausgewählt.
 Daraufhin werden alle Personen dem Medoid (Zentrum) zugeordnet, dem sie am nächsten liegen und die Summe aller Distanzen von den Personen zu ihrem Medoid berechnet.
 Schließlich werden die Cluster-Zentren (die Medoide) durch die übrigen Beobachtungen durchrotiert.
 Dieser Prozess wiederholt sich so lange, bis keine weitere Verbesserung möglich ist.
-Die Anzahl der k-Partitionen wird, anders als bei einer k-means-Clusterung, mittels der Silhouette-Methode von @rousseeuw1987 festgelegt.
+Die Anzahl der k-Partitionen wird mittels der Silhouette-Methode von @rousseeuw1987 festgelegt.
 Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe.
 Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei $1$ heißt, dass die Person ideal in das zugeordnete Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
 Anschließend wird der Durchschnitt für alle Personen ermittelt der anzeigt, wie eng gruppiert alle Personen im jeweiligen Cluster sind.
-Ein Cluster mit einer durchschnittlichen Silhouette von $0,5$ wird als ausreichend für unsere Zwecke betrachtet, $0,7$ als stark nach @kaufman1990a.
-Dieser Prozess wird für $k = 2$ bis $k = 10$ wiederholt, sprich für bis zu zehn Cluster.
+Angelehnt an @kaufman1990a wird eine durchschnittliche Silhouette von $0,5$ als ausreichend und $0,7$ als stark betrachtet.
+Dieser Prozess wird für $k = 2$ bis $k = 10$ wiederholt, was zwischen zwei und zehn Cluster erzielt.
 Als Clusterzahl wird anschließend derjenige Wert von $k$ verwendet, für den die höchste durchschnittliche Silhouette berechnet wird.
+
 Nachdem die Cluster ermittelt wurden, werden diese auf inhaltliche Unterschiede analysiert.
 Dazu werden die einzelnen Cluster deskriptiv auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen, wie Studienrichtung oder soziale Erwünschtheit, untersucht.
 Ergänzend werden Unterschiede in nicht zur Clusterbildung verwendeten Kontextvariablen explorativ untersucht.
@@ -1209,7 +1212,8 @@ plot_task_differences
 ```
 
 Trotz teils geringer Unterschiede auf Aggregatebene bestehen deutliche Abweichungen auf Personenebene.
-Die mittlere Total-Variation-Distanz betrug `r formatC(mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` ($SD =$ `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")`). Somit hätten durchschnittlich `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte zwischen den fünf Nutzungsarten umverteilt werden müssen, damit Selbstauskunft und Chatlogverteilung vollständig übereinstimmen.
+Die mittlere Total-Variation-Distanz betrug `r formatC(mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` ($SD =$ `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")`).
+Somit hätten durchschnittlich `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte zwischen den fünf Nutzungsarten umverteilt werden müssen, damit Selbstauskunft und Chatlogverteilung vollständig übereinstimmen.
 
 Diese Funde deuten darauf hin, dass die Selbstauskunft der Teilnehmenden in Bezug auf die Nutzung von *`r as.character(task_agreement_summary[[1, "task"]])`* und *`r as.character(task_agreement_summary[[2, "task"]])`* am häufigsten eine exakte Übereinstimmung aufweist, während die Selbstauskunft in Bezug auf *`r as.character(task_agreement_summary[[5, "task"]])`* am wenigsten zuverlässig ist.
 Im Hinblick auf F1a zeigt sich, dass sich Teilnehmende innerhalb der Nutzungsarten unterschiedlich gut selbst einschätzen können, die Werte sich jedoch überwiegend ausmitteln.
@@ -1380,14 +1384,14 @@ Eine Fünf-Cluster-Lösung läge zwar oberhalb dieses Schwellenwerts, würde jed
 Bei $k=6$ bzw.
 $k=7$, wobei $k=7$ anhand der Silhouettenweite das tatsächliche Optimum darstellen würde, entstähen sogar Ein-Personen-Cluster (@tbla-silhouette-k, @figb-silhouette-k).
 
-Für jedes der vier Cluster wird eine reale Beobachtung als Medoid, also als Clusterzentrum, ausgewählt.
-Die zweidimensionale MDS-Projektion der Gower-Distanzen stellt die resultierende Clusterstruktur dar (@fig-silhouette_pms).
-Die vier Cluster liegen räumlich weitgehend getrennt voneinander, wobei sie unterschiedliche Bereiche des Merkmalsraums einnehmen.
-Dabei ist zu beachten, dass die MDS-Darstellung die tatsächlichen Distanzen im höherdimensionalen Merkmalsraum lediglich approximiert.
-Die dargestellten Abstände sind daher als Orientierung und nicht als exakte Abbildung der Gower-Distanzen zu interpretieren.
+Für jedes der vier Cluster wird eine reale Beobachtung als Medoid (Clusterzentrum) ausgewählt.
+Eine multidimensionale Skalierung (MDS) überführt die Gower-Distanzen zur grafischen Darstellung in einen zweidimensionalen Raum (@fig-silhouette_pms).
+Nahe beieinanderliegende Punkte weisen auf ähnliche Diskrepanzprofile hin.
+Dabei ist zu beachten, dass die MDS-Darstellung die tatsächlichen Distanzen im höherdimensionalen Merkmalsraum lediglich approximiert, weswegen sie nur zur visuellen Veranschaulichung dient.
+Die gefundenen vier Cluster liegen räumlich weitgehend getrennt voneinander, wobei sie unterschiedliche Bereiche des Merkmalsraums einnehmen.
 Zudem sind einzelne Beobachtungen erkennbar, die deutlich von ihrem jeweiligen Clusterzentrum entfernt liegen.
 Die beiden Beobachtungen im unteren rechten Bereich der Projektion würden bei einer Fünf-Cluster-Lösung ein eigenes zusätzliches Cluster bilden.
-Die personenbezogenen Silhouettenwerte (@figb-silhouette-person, numerische Werte in @tbla-silhouette-person) bestätigen dies: Zwei Personen weisen negative Silhuettenwerte auf und sind damit ihrem jeweils nächstgelegenen Nachbarcluster näher als ihrem zugewiesenen Cluster.
+Die personenbezogenen Silhouettenwerte (@figb-silhouette-person und @tbla-silhouette-person) bestätigen dies: Zwei Personen weisen negative Silhuettenwerte auf und sind damit ihrem jeweils nächstgelegenen Nachbarcluster näher als ihrem zugewiesenen Cluster.
 Diese Fälle sind bei der Interpretation der Clusterprofile als potenziell unsichere Zuordnungen zu berücksichtigen.
 
 ```{r}
@@ -1404,14 +1408,14 @@ p_mds
 ```
 
 Die Stabilität der Vier-Cluster-Lösung wird mit drei Robustheitschecks geprüft.
-Als Erstes wurden die drei Personen ausgeschlossen, deren Interaktionsstil-Modus nicht eindeutig bestimmbar war und die deshalb konservativ als „neutral" codiert wurden. Die Clusterbildung der verbleibenden 18 Personen ist mit der Hauptlösung identisch (Adjusted Rand Index = 1,00), die konservative Codierung der uneindeutigen Fälle bestimmt die Gruppenzugehörigkeit demnach nicht (@tbla-robustheit). Als Zweites wird die Clusterung ohne die Gewichtung der fünf aufgabenbezogenen Diskrepanzmaße wiederholt. Auch hier ergibt die Silhouette-Methode k = 4, und 18 der 21 Personen werden derselben Gruppe zugeordnet. Die Abweichungen betreffen ausschließlich die Cluster eins und drei. Zwei Personen aus Cluster drei und eine aus Cluster eins wechselten die Zuordnung, während die Cluster zwei und vier unverändert blieben (@tbla-pam-ungewichtet). Die durchschnittliche Silhouettenweite sank allerdings deutlich auf 0,26 (@tbla-robustheit). Ohne Gewichtung dominieren die fünf Aufgabenvariablen die Distanzberechnung gegenüber Sentiment und kritischem Nachfragen, wodurch die Cluster inhaltlich weniger trennscharf werden. Das bestätigt die Gewichtung als Voraussetzung dafür, dass alle drei Konstrukte gleichgewichtig in die Lösung eingehen.
+Als Erstes wurden die drei Personen ausgeschlossen, deren Interaktionsstil-Modus nicht eindeutig bestimmbar war und die deshalb konservativ als „neutral" codiert wurden. Die Clusterbildung der verbleibenden 18 Personen ist mit der Hauptlösung identisch (Adjusted Rand Index = 1,00), die konservative Codierung der uneindeutigen Fälle bestimmt die Gruppenzugehörigkeit demnach nicht (@tbla-robustheit). Als Zweites wird die Clusterung ohne die Gewichtung der fünf aufgabenbezogenen Diskrepanzmaße wiederholt. Auch hier ergibt die Silhouette-Methode $k = 4$, und 18 der 21 Personen werden derselben Gruppe zugeordnet. Die Abweichungen betreffen ausschließlich die Cluster eins und drei. Zwei Personen aus Cluster drei und eine aus Cluster eins wechselten die Zuordnung, während die Cluster zwei und vier unverändert blieben (@tbla-pam-ungewichtet). Die durchschnittliche Silhouettenweite sank allerdings deutlich auf 0,26 (@tbla-robustheit). Ohne Gewichtung dominieren die fünf Variablen der Nutzungsart die Distanzberechnung gegenüber Interaktionsstil und kritischem Prüfen, wodurch die Cluster inhaltlich weniger trennscharf werden. Das bestätigt die Gewichtung als Voraussetzung dafür, dass alle drei Konstrukte gleichgewichtig in die Lösung eingehen.
 
 Als Drittes wird ein hierarchisches Clustering mit Average Linkage auf der selben Gower-Distanzmatrix berechnet und auf vier Gruppen zugeschnitten.
 Die Zuordnung stimmt bis auf eine einzige Person mit der PAM-Lösung überein (@figb-agreement).
 Die abweichende Person wechselt von Cluster eins zu Cluster zwei, im Dendrogramm liegt sie am Rand ihres Astes (@figb-dendrogramm).
 Insgesamt hängt die Lösung damit nicht am gewählten Algorithmus.
 
-Die inhaltliche Charakterisierung der vier Cluster erfolgt über die mittlere Diskrepanz zwischen Selbstauskunft und beobachtetem Verhalten je Aufgabenbereich (@fig-heatmap).
+Die inhaltliche Charakterisierung der vier Cluster erfolgt über die mittlere Diskrepanz zwischen Selbstauskunft und beobachtetem Verhalten je Nutzungsart (@fig-heatmap).
 Ein positiver Wert bedeutet, dass die Person ihre Nutzung in diesem Bereich höher einschätzt, als es die Chatlogs abbilden; ein negativer Wert zeigt das Gegenteil.
 Werte um null stehen für eine zutreffende Selbsteinschätzung.
 
@@ -1547,13 +1551,16 @@ Einige Teilnehmende kommunizieren in den Chatlogs freundlicher, andere unfreundl
 Beide Abweichsrichtungen halten sich etwa die Waage, was dafür sprechen könnte, dass der Umgangston im Gegensatz zum kritischen Prüfen nicht als ein besonders sozial erwünschtes Thema wahrgenommen wird.
 <!--$$$ Ist ein hot take meinerseits-->
 
-Die Clusteranalyse deutet darauf hin, dass sich die Diskrepanzen nicht gleichmäßig über die Stichprobe verteilen, sondern in unterschiedlichen Kombinationen und Richtungen auftreten. Der Kontrast zwischen Cluster 2 und 3 spricht dabei explorativ dafür, dass KI-Erfahrung und soziale Erwünschtheit mit bestimmten Diskrepanzmustern zusammenhängen könnten. Aufgrund der kleinen Gruppen und statistisch nicht signifikanten Unterschiede ist diese Interpretation jedoch vorläufig und sollte in größeren Stichproben überprüft werden.
+Die Clusteranalyse deutet darauf hin, dass sich die Diskrepanzen nicht gleichmäßig über die Stichprobe verteilen, sondern in unterschiedlichen Kombinationen und Richtungen auftreten.
+Der Kontrast zwischen Cluster 2 und 3 spricht dabei explorativ dafür, dass KI-Erfahrung und soziale Erwünschtheit mit bestimmten Diskrepanzmustern zusammenhängen könnten.
+Aufgrund der kleinen Gruppen und statistisch nicht signifikanten Unterschiede ist diese Interpretation jedoch vorläufig und sollte in größeren Stichproben überprüft werden.
 
 Um die Diskrepanzmuster auf Personenebene ergänzend zu untersuchen, wurden Korrelationsanalysen zu Alter, KI-Erfahrung und sozialer Erwünschtheit durchgeführt, welche nach einer Benjamini-Hochberg-Korrektur nicht statistisch signifikant war.
 Nichtsdestotrotz zeigen die Korrelationen in dieselbe Richtung: mehr Erfahrung mit KI und geringere soziale Erwünschtheit gehen tendenziell mit selteneren Diskrepanzen einher.
 Für die Informationsnutzung zeigte sich dieses Muster jedoch nicht.
 
-Insgesamt stimmen Selbstauskünfte und Chatlogdaten weder durchgängig überein noch weichen sie in einer einheitlichen Richtung voneinander ab. Ausmaß und Richtung der Diskrepanzen unterscheiden sich vielmehr zwischen den untersuchten Konstrukten und Personen.
+Insgesamt stimmen Selbstauskünfte und Chatlogdaten weder durchgängig überein noch weichen sie in einer einheitlichen Richtung voneinander ab.
+Ausmaß und Richtung der Diskrepanzen unterscheiden sich vielmehr zwischen den untersuchten Konstrukten und Personen.
 
 Ein pauschaler Zusammenhang mit sozialer Erwünschtheit, der die Selbstauskunft der eigenen KI-Nutzung durchgehend gleichermaßen beinhaltet, lässt sich nicht ableiten.
 Die Ergebnisse lassen sich vielmehr mit dem mehrstufigen Antwortmodell von @tourangeau2000 vereinbaren, bei dem Erinnerung, Urteilsbildung und die Übertragung auf Antwortkategorien je nach Konstrukt und Person unterschiedlich fehleranfällig sein können.
@@ -1596,9 +1603,12 @@ Trotz dieser Einschränkungen stellt die Kombination aus Selbstauskunft und Chat
 ## Ausblick
 
 Die vorliegende Studie versteht sich als explorativer erster Schritt und eröffnet einige Anknüpfpunkte für die weitere Forschung.
-Künftige Studien sollten die gefundenen Diskrepanzmuster zunächst in größeren und heterogeneren Stichproben überprüfen. Weniger selektive Verhaltensdaten, etwa aus Trackingverfahren, könnten zudem klären, inwieweit die Auswahl gespendeter Chats die Ergebnisse beeinflusst. Schließlich sollten eine robustere Textklassifikation und qualitative Interviews untersuchen, ob die beobachteten Abweichungen auf Messfehler, Erinnerungsprobleme oder Prozesse sozialer Erwünschtheit zurückgehen.
+Künftige Studien sollten die gefundenen Diskrepanzmuster zunächst in größeren und heterogeneren Stichproben überprüfen.
+Weniger selektive Verhaltensdaten, etwa aus Trackingverfahren, könnten zudem klären, inwieweit die Auswahl gespendeter Chats die Ergebnisse beeinflusst.
+Schließlich sollten eine robustere Textklassifikation und qualitative Interviews untersuchen, ob die beobachteten Abweichungen auf Messfehler, Erinnerungsprobleme oder Prozesse sozialer Erwünschtheit zurückgehen.
 
-Künftige Studien sollten die LLM-Klassifikation anhand größerer Goldstandards validieren und insbesondere die Erkennung des Interaktionsstils, etwa durch Few-Shot-Beispiele oder Fine-Tuning, verbessern. Ergänzende kognitive Interviews könnten klären, an welcher Stelle des Antwortprozesses — beim Erinnern, Urteilen oder Übertragen auf Antwortkategorien — die beobachteten Diskrepanzen entstehen [@tourangeau2000].
+Künftige Studien sollten die LLM-Klassifikation anhand größerer Goldstandards validieren und insbesondere die Erkennung des Interaktionsstils, etwa durch Few-Shot-Beispiele oder Fine-Tuning, verbessern.
+Ergänzende kognitive Interviews könnten klären, an welcher Stelle des Antwortprozesses — beim Erinnern, Urteilen oder Übertragen auf Antwortkategorien — die beobachteten Diskrepanzen entstehen [@tourangeau2000].
 
 Für zukünftige Untersuchungen sprechen unsere Ergebnisse insgesamt dafür, Selbstauskünfte zur KI-Nutzung durch Verhaltensdaten zu ergänzen [@nielsen2015; @ohme2024].
 Die Chatlogdaten sollten dabei nicht als fehlerfreier Goldstandard, sondern als zusätzliche Datenquelle verstanden werden.
