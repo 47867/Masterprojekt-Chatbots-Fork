@@ -782,24 +782,18 @@ Um die erhobenen Chatlogs für die statistische Analyse vorzubereiten, mussten d
 Da die gespendeten Chatverläufe im Fragebogen entweder in den Formaten JSON und HTML gespendet wurden, wurden diese beiden Dateiformate in einem ersten Schritt separat aufbereitet, vereinheitlich und ausschließlich auf User-Nachrichten gefiltert.
 Anschließend wurden diese Daten für jeden Chat jeder Person mit OpenAIs GPT-5.5 nach Interaktionsstil, kritischen Prüfen und Nutzungsart klassifiziert.
 
-Die Nutzung eines LLMs hat gegenüber traditionellen Textklassifikationen mittels Machine Learning den Vorteil, dass sie deutlich leichter zu implementieren ist und keine aufwendigen Trainingsprozesse erfordert [@wang2023].
-Bei komplexeren Aufgaben können LLMs zusätzliches Training in Form von Fine-Tuning[^1] oder Few-Shots[^2] benötigen, wenn diese für allgemeine Aufgaben konzipiert sind
-. Dennoch zeigen LLMs bei Klassifikationsaufgaben, insbesondere der Klassifikation von Sentiment, gute Ergebnisse, die mit kostenaufwendigen „supervised learning"-Methoden [@wang2023; @anglin2025] und sogar mit den Annotationen von „Crowd-Workern" [@gilardi2023] mithalten können
-.
+Für die Klassifikation wurde ein generatives LLM im Zero-Shot-Verfahren[^1] eingesetzt. Solche Modelle ermöglichen Textklassifikationen ohne aufgabenspezifisches Training und erreichten in früheren Studien teilweise eine mit überwachten Lernverfahren oder menschlichen Annotationen vergleichbare Leistung [@wang2023; @anglin2025; @gilardi2023]. Da ihre Güte von der Domäne, dem Labelschema und der Promptgestaltung abhängt, wurde das verwendete Modell vor dem Einsatz gesondert validiert.
 
-[^1]: Das Trainieren des LLMs an einem zusätzlichen, auf die Zielaufgabe zugeschnittenen, Datensatz
-
-[^2]: Das Integrieren einiger exemplarischer Fälle in den Prompt
+[^1]: Prompts, bei denen keine Beispiele oder weitere Erklärungen gegeben werden.
 
 Die Validierung erfolgte in zwei getrennten Schritten.
 Zunächst wurden 30 unabhängig von der Haupterhebung zusammengestellte Beispielchats zur Promptentwicklung und Modellauswahl verwendet.
 Anschließend wurde die Übertragbarkeit des ausgewählten Modells anhand von 32 Chats aus der Haupterhebung überprüft, die manuell codiert und mit den Modellvorhersagen verglichen wurden.
 
-Im ersten Validierungsschritt wurden die 30 Beispielchats mit verschiedenen GPT-Modellen, Promptvarianten und Klassifikationsstrategien im Zero-Shot-Verfahren[^3] getestet.
+Im ersten Validierungsschritt wurden die 30 Beispielchats mit verschiedenen GPT-Modellen, Promptvarianten und Klassifikationsstrategien getestet.
 Das mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Makro von $0{,}67 - 0{,}81$ am Modell mit der besten Leistung war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5.
 Diese Ergebnisse erzielte es nach drei Runden der Promptverfeinerung.
 
-[^3]: Prompts, bei denen keine Beispiele oder weitere Erklärungen gegeben werden.
 
 ![Zero-Shot Textklassifikation von GPT-5.5 (alle Aufgaben in einem Prompt)](plots/performance_gpt55_combined.png)
 
