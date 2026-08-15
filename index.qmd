@@ -812,7 +812,9 @@ Bei komplexeren Aufgaben können LLMs zusätzliches Training in Form von Fine-Tu
 
 [^2]: Das Integrieren einiger exemplarischer Fälle in den Prompt
 
-Um die Performance von GPT auf unserem Datensatz im Vorraus zu testen, wurde ein Datensatz mit insgesamt 30 Beispiel-Chats annotiert und mit verschiedenen GPT-Modellen, verschiedenen Prompts sowie verschiedenen Strategien (alle Klassifikationsaufgaben in einem oder in separaten Prompts) mittels Zero-Shot-Prompts getestet.
+Die Validierung erfolgte in zwei getrennten Schritten. Zunächst wurden 30 unabhängig von der Haupterhebung zusammengestellte Beispielchats zur Promptentwicklung und Modellauswahl verwendet. Anschließend wurde die Übertragbarkeit des ausgewählten Modells anhand von 32 Chats aus der Haupterhebung überprüft, die manuell codiert und mit den Modellvorhersagen verglichen wurden.
+
+Im ersten Validierungsschritt wurden die 30 Beispielchats mit verschiedenen GPT-Modellen, Promptvarianten und Klassifikationsstrategien im Zero-Shot-Verfahren getestet.
 Das mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Makro von $0{,}67 - 0{,}81$ am Modell mit der besten Leistung war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5.
 Diese Ergebnisse erzielte es nach drei Runden der Promptverfeinerung.
 
@@ -828,7 +830,7 @@ Dennoch ist nicht auszuschließen, dass Unterschiede in der Datenverteilung zu e
 Dies könnte insbesondere die Klassifikation von Inhalten betreffen, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine hohe Homogenität der Inhalte zu erwarten ist.
 Da GPT-5.5 bei der Inhaltsklassifikation über alle Evaluationsrunden hinweg eine sehr hohe Genauigkeit erreichte, deutet dies darauf hin, dass eine solche Einschränkung für die weitere Analyse von nicht zu großer Bedeutung sein dürfte.
 
-Um die Übertragbarkeit der Evaluationsergebnisse auf den Analysedatensatz zusätzlich zu überprüfen, wurde eine Stichprobe von 30 % der Survey-Datenspenden gezogen und die von GPT-5.5 vergebenen Labels manuell validiert.
+Im zweiten Validierungsschritt wurde die Übertragbarkeit der Evaluationsergebnisse anhand von 32 Chats aus der Haupterhebung überprüft. Diese entsprachen einer zufällig gezogenen Stichprobe von rund 30 % der gespendeten Chats.
 Die Annotation wurde von zwei der Autor:innen durchgeführt, die Übereinstimmung der Coder lag für die Interaktionsstil-Klassifikation bei 90.6 % und für die beiden anderen Klassifikationen jeweils bei 100%.
 Im Anschluss wurden in einer gemeinsamen Diskussion ein konsensbasierter Goldstandard festgelegt.
 Auf dieser Grundlage wurden die Leistungskennzahlen für GPT-5.5 erneut berechnet.
@@ -1061,8 +1063,6 @@ Berichtet werden zusätzlich die geschlechtsspezifischen Häufigkeiten und Antei
 
 Da insgesamt neun Korrelationskoeffizienten berechnet wurden, erfolgte eine Korrektur der p-Werte mithilfe des Benjamini-Hochberg-Verfahrens.
 
-<!-- ca 5000 Zeichen --->
-
 Die weitere explorative Analyse der gewonnenen Daten wird mittels einer k-medoids-Clusteranalyse durchgeführt.
 Da die Variablen, die in das Cluster einfließen, aus fünf kontinuierlichen Diskrepanzscores (Arten der Informationsnutzung) und zwei ordinalskalierten und gerichteten Diskrepanzkategorien (kritisches Prüfen und Interaktionsstil) bestehen, liegen gemischte Skalenniveaus vor.
 Die Manhattan-Distanz und die Euklidische-Distanz benötigen zum Beispiel metrische oder binäre Daten, beziehungsweise — im Fall der Euklidischen-Distanz — einen euklidischen Vektorraum.
@@ -1097,6 +1097,8 @@ Dieser Prozess wird für $k = 2$ bis $k = 10$ wiederholt, sprich für bis zu zeh
 Als Clusterzahl wird anschließend derjenige Wert von $k$ verwendet, für den die die höchste durchschnittliche Silhouette berechnet wird.
 Nachdem die Cluster ermittelt wurden, werden diese auf inhaltliche Unterschied analysiert.
 Dazu werden die einzelnen Cluster deskriptiv auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen, wie Studienrichtung oder soziale Erwünschtheit, untersucht.
+Ergänzend werden Unterschiede in nicht zur Clusterbildung verwendeten Kontextvariablen explorativ untersucht. Für soziale Erwünschtheit wird eine Welch-ANOVA und für die ordinalen Variablen wird ein Kruskal-Wallis-Tests durchgeführt. Nominale Merkmale werden aufgrund der kleinen Zellbesetzungen mit Pearson-Chi-Quadrat-Tests und simulierten p-Werten verglichen. 
+
 
 Im folgenden Abschnitt werden die Ergebnisse der aufgeführten statistischen Analyse erläutert.
 Zunächst erfolgt ein deskriptiver graphischer Überblick, bevor die einzelnen Werte zwischen den Gruppen statistisch verglichen werden.
@@ -1560,7 +1562,9 @@ Wir können außerdem nicht ausschließen, dass Teilnehmende nur einen Teil ihre
 Trotz zugesicherter Anonymität ist denkbar, dass gerade Chats fehlen, die im Studienkontext als schlechte wissenschaftliche Praxis gelten würden.
 Das würde tendenziell zu einer Unterschätzung problematischer Nutzung in den Logs führen und die hier berichteten Diskrepanzen eher konservativ ausfallen lassen.
 
-Zudem erfasst der durchgeführte Fragebogen
+Zudem erfasst der durchgeführte Fragebogen die typische Nutzung, die Chatlogs bilden lediglich die fünf zuletzt gespendeten Chats ab. Beide Quellen beziehen sich demnach nicht zwingend auf denselben Zeitraum und denselben Verhaltensausschnit, was eine Vergleichbarkeit erschwert.
+
+Im Fragebogen können sich die Anteile zu den fünf Nutzungsarten in Zehn-Prozent-Schritten ändern, während Chatloganteile bei den fünf Chats nur in Zwanzig-Prozent-Schritten bewegen. Identifizierte exakte Einstimmungen sind daher teilweise durch unterschiedliche Messbereiche erschwert.
 
 Hinzu kommt, dass die Stichprobengröße von n = 21 zwar eine explorative Clusteranalyse erlaubt, die Gruppenvergleiche mit den Kontextvariablen jedoch statistisch unterpowert macht.
 Keiner der berichteten deskriptiven Unterschiede erreichte statistische Signifikanz, sodass sie als Tendenzen und nicht als gesicherte Gruppenunterschiede zu lesen sind.
