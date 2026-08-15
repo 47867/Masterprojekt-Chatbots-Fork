@@ -1,0 +1,4 @@
+"Check","Beschreibung","Ø Silhouette"
+"1: ohne Tie-Sentiment","3 Fälle ausgeschlossen","0,411"
+"2: ohne Gewichtung","k = 4","0,258"
+"3: Average-Linkage","k = 4",NA

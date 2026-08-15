@@ -1,0 +1,5 @@
+"Cluster","Person_ID","Informationssuche","Schreiben/Textarbeit","Praktische Unterstützung","Technische Unterstützung","Lernen/Prüfungsvorb.","Sentiment","Kritik"
+"1","366","0,1","0","0","-0,1","0","unfreundlicher","korrekt"
+"2","341","-0,2","0,2","0,1","-0,1","0","korrekt","falsches positiv"
+"3","257","0,4","0","-0,6","0,2","0","korrekt","korrekt"
+"4","363","0,2","-0,2","0,1","-0,1","0","freundlicher","korrekt"

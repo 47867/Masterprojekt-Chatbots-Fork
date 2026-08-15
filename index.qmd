@@ -100,12 +100,9 @@ source(here::here("R_code", "04_discrepancy_analysis.R"))
 # oben frisch nach tabs/ schreibt - so bleibt Anhang und Analyse synchron.
 # Zahlen stehen in den CSVs als Text mit Dezimalkomma (0,50 statt 0.50);
 # komma_align() aus 02_data_analasys.R haelt sie trotzdem rechtsbuendig.
-# Ausnahme: T20 kommt aus dem Python-Notebook und enthaelt echte Zahlen mit
-# Punkt. komma_df() stellt solche Spalten hier nachtraeglich auf Komma um.
 anhang_tab <- function(datei, ordner = "tabs", ...) {
   df <- read.csv(here::here(ordner, datei), check.names = FALSE,
                  encoding = "UTF-8")
-  df <- komma_df(df)
   knitr::kable(df, format = "pipe", row.names = FALSE,
                align = komma_align(df), ...)
 }
@@ -148,7 +145,7 @@ global_digits <- 2
 # Abstract {.unnumbered .unlisted}
 
 Ziel dieser Arbeit ist es, zu untersuchen, inwiefern sich Selbstauskünfte Studierender zur studienbezogenen Nutzung generativer KI-Chatbots von ihrem in gespendeten Chatverläufen beobachtbaren Nutzungsverhalten unterscheiden.
-Zur Beantwortung wurden in einer Online-Befragung Selbstauskünfte 21 Studierender zu Interaktionsstil, kritischem Prüfen von Chatbot-Antworten und studienbezogener Informationsnutzung erhoben und mit freiwillig gespendeten, mittels eines Large-Language-Modells hinsichtlich der drei Konstrukten klassifizierten Chatverläufen abgeglichen.
+Zur Beantwortung wurden in einer Online-Befragung Selbstauskünfte 21 Studierender zu Interaktionsstil, kritischem Prüfen von Chatbot-Antworten und studienbezogener Informationsnutzung erhoben und mit freiwillig gespendeten, mittels eines Large-Language-Modells hinsichtlich der drei Konstrukte klassifizierten Chatverläufen abgeglichen.
 Während Angaben zu Schreib- und Lernaufgaben weitgehend zutreffend berichtet wurden, zeigen sich deutliche Abweichungen bei der Informationssuche sowie praktischer und technischer Unterstützung, beim Umgangston und insbesondere beim kritischen Prüfen von Antworten, das im Survey deutlich häufiger berichtet als in den Logs sichtbar wird.
 Eine explorative PAM-Clusteranalyse ordnet die Stichprobe vier über drei Robustheitschecks hinweg stabilen Clustern mit unterschiedlichen Diskrepanzmustern zu, die sich weniger im Ausmaß als in der Richtung ihrer Abweichungen unterscheiden.
 Ergänzende, für die geringe Stichprobengröße explorative Korrelations- und Gruppenvergleiche zeigen keine statistisch robusten, aber deskriptiv erkennbare Zusammenhänge der Diskrepanzen mit Alter, Erfahrung mit KI und sozialer Erwünschtheit sowie unterschiedliche Kontextprofile der Cluster.
@@ -623,7 +620,6 @@ sample_comparison |>
   )
 ```
 
-
 ```{r}
 #| include: false
 
@@ -812,10 +808,9 @@ Bei komplexeren Aufgaben können LLMs zusätzliches Training in Form von Fine-Tu
 
 [^2]: Das Integrieren einiger exemplarischer Fälle in den Prompt
 
-Um die Performance von GPT auf unserem Datensatz im Vorraus zu testen, wurde ein Datensatz mit insgesamt 30 Beispiel-Chats annotiert und mit verschiedenen GPT-Modellen, verschiedenen Prompts sowie verschiedenen Strategien (alle Klassifikationsaufgaben in einem oder in separaten Prompts) mittels Zero-Shot Promts getestet.
+Um die Performance von GPT auf unserem Datensatz im Vorraus zu testen, wurde ein Datensatz mit insgesamt 30 Beispiel-Chats annotiert und mit verschiedenen GPT-Modellen, verschiedenen Prompts sowie verschiedenen Strategien (alle Klassifikationsaufgaben in einem oder in separaten Prompts) mittels Zero-Shot-Prompts getestet.
 Das mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Makro von $0{,}67 - 0{,}81$ am Modell mit der besten Leistung war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5.
 Diese Ergebnisse erzielte es nach drei Runden der Promptverfeinerung.
-Eine detaillierte Evaluation der verglichenen Modelle, inklusive aller Prompts und Modellspezifikationen, ist im [Online-Anhang](#0) verfügbar.
 
 ![Zero-Shot Textklassifikation von GPT-5.5 (alle Aufgaben in einem Prompt)](plots/performance_gpt55_combined.png)
 
@@ -831,9 +826,9 @@ Da GPT-5.5 bei der Inhaltsklassifikation über alle Evaluationsrunden hinweg ein
 
 Um die Übertragbarkeit der Evaluationsergebnisse auf den Analysedatensatz zusätzlich zu überprüfen, wurde eine Stichprobe von 30 % der Survey-Datenspenden gezogen und die von GPT-5.5 vergebenen Labels manuell validiert.
 Die Annotation wurde von zwei der Autor:innen durchgeführt, die Übereinstimmung der Coder lag für die Interaktionsstil-Klassifikation bei 90.6 % und für die beiden anderen Klassifikationen jeweils bei 100%.
-Im Anschluss wurden in einer gemeinsamen Diskussion ein konsensbasierter Godstandard festgelegt.
+Im Anschluss wurden in einer gemeinsamen Diskussion ein konsensbasierter Goldstandard festgelegt.
 Auf dieser Grundlage wurden die Leistungskennzahlen für GPT-5.5 erneut berechnet.
-Für das Erkennen des Aufgabentyps erziehlte das Modell eine Accuracy von 1, bei kritischen Nachfragen lag die Accuracy bei 0,938 mit einem Macro-F1-Score von 0,881.
+Für das Erkennen des Aufgabentyps erzielte das Modell eine Accuracy von 1, bei kritischen Nachfragen lag die Accuracy bei 0,938 mit einem Macro-F1-Score von 0,881.
 Die schlechteste Leistung zeigte das Modell mit einer Accuracy von 0,844 und einem Macro-F1-Score von 0,604 bei der Interaktionsstil-Klassifikation (@tbla-llm-metriken).
 Dieser vergleichsweise niedrige Macro-F1-Wert lässt sich insbesondere aud eine Tendenz von GPT-5.5 erklären, neutrale Chats als unfreundlich zu klassifizieren — dies geschah in vier Fällen (@figb-konfusssion).
 Diese Klassifikationsunsicherheit wird in der nachgelagerten Clusteranalyse nicht mehr explizit abgebildet, da die generierten Labels dort als feststehende Merkmalsausprägungen behandelt werden und die Distanzberechnung nicht zwischen einer sicheren und einer fehlerhaften Zuordnung unterscheiden kann.
@@ -1003,11 +998,11 @@ alpha_social_n <-
   nrow(social_desirability_items)
 ```
 
-
 Da der Schwerpunkt der Studie auf dem Vergleich zweier Datenquellen und nicht auf der Messung latenter Konstrukte liegt, wurden überwiegend Einzelitems eingesetzt.
 Eine Ausnahme bildet die Skala zur sozialen Erwünschtheit, die zu einem Index zusammengefasst wurde.
 Hierfür wurden zunächst die invertiert formulierten Items rekodiert und anschließend gemeinsam mit den übrigen Items zu einem Mittelwertindex aggregiert.
-Höhere Werte kennzeichnen eine stärkere Tendenz zu sozial erwünschtem Antwortverhalten. Die interne Konsistenz des aus sechs Items gebildeten Index betrug in der Analysestichprobe Cronbachs $\alpha =$ `r formatC(alpha_social_value, digits = global_digits, format = "f", decimal.mark = ",")` $(N=$ `r alpha_social_n`).
+Höhere Werte kennzeichnen eine stärkere Tendenz zu sozial erwünschtem Antwortverhalten.
+Die interne Konsistenz des aus sechs Items gebildeten Index betrug in der Analysestichprobe Cronbachs $\alpha =$ `r formatC(alpha_social_value, digits = global_digits, format = "f", decimal.mark = ",")` $(N=$ `r alpha_social_n`).
 
 Für jede Nutzungsart wurden zudem die vergebenen Punkte in relative Anteile an der Gesamtpunktzahl überführt.
 Dadurch konnte die subjektive Gewichtung der verschiedenen Nutzungsarten zwischen den Teilnehmenden vergleichbar gemacht und den entsprechenden Anteilen aus den Chatlogdaten gegenübergestellt werden.
@@ -1054,7 +1049,7 @@ Der Zusammenhang zwischen Informationsnutzung und den metrischen personenbezogen
 Geschlechterunterschiede werden aufgrund der kleinen Gruppen und der nicht vorausgesetzten Normalverteilung mit einem Wilcoxon-Rangsummentest analysiert.
 
 Für den Interaktionsstil und das kritische Prüfen werden jeweils binäre Indikatioren verwendet.
-Die Zusammenhänge dieser Indikatoren mit den metrischen personenbezogenen Merkmalen werden ebenfalls anhand von Spearman-Rangkrrelationen untersucht.
+Die Zusammenhänge dieser Indikatoren mit den metrischen personenbezogenen Merkmalen werden ebenfalls anhand von Spearman-Rangkorrelationen untersucht.
 Ein positiver Korrelationskoeffizient bezeichnet dabei einen Zusammenhang mit häufigeren Diskrepanzen, ein negativer Koeffizient eine Korrelation mit häufigeren Übereinstimmungen.
 
 Zusammenhänge der beiden binären Diskrepanzindikatoren mit dem Geschlecht werden aufgrund der kleinen Beobachtungszahl mit einem exakten Fisher-Test untersucht.
@@ -1091,7 +1086,7 @@ Schließlich werden die Cluster-Zentren (die Medoide) durch die übrigen Beobach
 Dieser Prozess wiederholt sich so lange, bis keine weitere Verbesserung möglich ist.
 Die Anzahl der k-Partitionen wird, anders als bei einer k-means-Clusterung, mittels der Silhouette-Methode von @rousseeuw1987 festgelegt.
 Dabei wird berechnet, ob und wie viel die Distanz einer Person zum nächsten fremden Cluster größer ist als die Distanz innerhalb der eigenen Gruppe.
-Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei $1$ heißt, dass die Person indeal in das zugeordnete Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
+Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei $1$ heißt, dass die Person ideal in das zugeordnete Cluster passt, 0, dass es uneindeutig ist, und $-1$, dass die Person näher an einem anderen Cluster ist.
 Anschließend wird der Durchschnitt für alle Personen ermittelt der anzeigt, wie eng gruppiert alle Personen im jeweiligen Cluster sind.
 Ein Cluster mit einer durchschnittlichen Silhouette von $0,5$ wird als ausreichend für unsere Zwecke betrachtet, $0,7$ als stark nach @kaufman1990a.
 Dieser Prozess wird für $k = 2$ bis $k = 10$ wiederholt, sprich für bis zu zehn Cluster.
@@ -1127,7 +1122,7 @@ Ihr durchschnittlicher Anteil beträgt bei den Selbstauskünften `r formatC(aggr
 Damit liegt der selbstberichtete Anteil um `r formatC(abs(aggregate_comparison[[1, "Differenz"]]) * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte unter dem beobachteten Anteil.
 Bei *`r aggregate_comparison[[5, "task"]]`* zeigt sich hingegen ein umgekehrtes Muster: Im Fragebogen entfallen durchschnittlich `r formatC(aggregate_comparison[[5, "Survey"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` % auf diesen Bereich, in den Chatlogs `r formatC(aggregate_comparison[[5, "Chatlogs"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` %, was einer Differenz von `r formatC(aggregate_comparison[[5, "Differenz"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkten entspricht.
 Bei *`r aggregate_comparison[[4, "task"]]`* liegt der Surveyanteil um `r formatC(aggregate_comparison[[4, "Differenz"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte und bei *`r aggregate_comparison[[3, "task"]]`* um `r formatC(aggregate_comparison[[3, "Differenz"]] * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte höher.
-Bei *`r aggregate_comparison[[2, "task"]]`* liegt der Umfrageanteil um `r formatC(abs(aggregate_comparison[[2, "Differenz"]]) * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte niedriger.
+Bei *`r aggregate_comparison[[2, "task"]]`* unterscheiden sich die beiden Datenquellen mit `r formatC(abs(aggregate_comparison[[2, "Differenz"]]) * 100, format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkten kaum.
 Die aggregierten Unterschiede sind somit, abgesehen von technischer Unterstützung und Schreiben, gering.
 
 ```{r}
@@ -1167,10 +1162,10 @@ Die Teilnehmenden unterschätzen in der Selbsteinschätzung tendenziell die Nutz
 
 Sowohl Häufigkeit als auch Ausmaß der Übereinstimmung zwischen Surveyangaben und Chatlogs unterscheiden sich deutlich zwischen den fünf Nutzungsarten.
 Die größte Übereinstimmung zeigt sich dabei bei *`r as.character(task_agreement_summary[[1, "task"]])`* mit `r formatC(task_agreement_summary[[1, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % und einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[1, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
-Die zweitgrößte Übereinstimmung zeigt sich bei *`r as.character(task_agreement_summary[[2, "task"]])`* mit `r formatC(task_agreement_summary[[2, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % Übereinstimmung und einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[2, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
-Die zweitgrößte Diskrepanz ist bei *`r as.character(task_agreement_summary[[3, "task"]])`* erkennbar mit einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[3, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten und `r formatC(task_agreement_summary[[3, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % an Übereinstimmung.
-Die niedrigsten Übereinstimmungen zeigen sich bei *`r as.character(task_agreement_summary[[4, "task"]])`* und *`r as.character(task_agreement_summary[[5, "task"]])`* mit einer Übereinstimmung bei `r formatC(task_agreement_summary[[4, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % der Teilnehmenden und einer mittleren Abweichung von `r formatC(task_agreement_summary[[4, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` beziehungsweise `r formatC(task_agreement_summary[[5, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
-Die Ergebnisse sind in @tbl-nutzungsarten-abweichungen zusammengefasst.
+Danach zeigt sich die zweitgrößte Übereinstimmung bei *`r as.character(task_agreement_summary[[2, "task"]])`* mit `r formatC(task_agreement_summary[[2, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % Übereinstimmung und einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[2, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
+Bei *`r as.character(task_agreement_summary[[3, "task"]])`* wird die zweitgrößte Diskrepanz erkennbar mit einer mittleren absoluten Abweichung von `r formatC(task_agreement_summary[[3, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten und `r formatC(task_agreement_summary[[3, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % an Übereinstimmung.
+Niedrige Übereinstimmungs-Werte zeigen sich bei *`r as.character(task_agreement_summary[[4, "task"]])`* und *`r as.character(task_agreement_summary[[5, "task"]])`* mit einer Übereinstimmung bei `r formatC(task_agreement_summary[[4, "exact_agreement_percent"]], format = "f", decimal.mark = ",", digits = global_digits)` % der Teilnehmenden und einer mittleren Abweichung von `r formatC(task_agreement_summary[[4, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` beziehungsweise `r formatC(task_agreement_summary[[5, "mean_absolute_difference_pp"]], format = "f", decimal.mark = ",", digits = global_digits)` Prozentpunkten.
+Alle genannten Ergebnisse sind in @tbl-nutzungsarten-abweichungen zusammengefasst.
 
 <!--??? die reinfolge der spalten ist bei tabelle 4 und 5 unterschiedlich das sollte man nich ändern --->
 
@@ -1213,9 +1208,8 @@ task_agreement_summary |>
   )
 ```
 
-Anhand @fig-plot_task_differences wird ersichtlich, dass Teilnehmende zwischen den angegebenen und beobachteten Nutzungsarten teils erheblich abweichen.
-So überschätzen sich die Teilnehmenden tendenziell bei *`r as.character(task_agreement_summary[[3, "task"]])`* und *`r as.character(task_agreement_summary[[2, "task"]])`*, während sie sich bei *`r as.character(task_agreement_summary[[5, "task"]])`* tendenziell unterschätzen.
-Insgesamt lässt sich jedoch festhalten, dass die Selbsteinschätzung im Mittel ungefähr den berichteten Werten entspricht.
+@fig-plot_task_differences zeigt, dass die selbstberichteten Nutzungsanteile auf Personenebene teilweise deutlich von den in den Chatlogs beobachteten Anteilen abweichen.
+Bei *`r as.character(task_agreement_summary[[3, "task"]])`* und *`r as.character(task_agreement_summary[[2, "task"]])`* liegen die selbstberichteten Anteile tendenziell über den beobachteten Anteilen, während sie bei *`r as.character(task_agreement_summary[[5, "task"]])`* tendenziell darunter liegen.
 
 ```{r}
 #| label: fig-plot_task_differences
@@ -1228,22 +1222,20 @@ Insgesamt lässt sich jedoch festhalten, dass die Selbsteinschätzung im Mittel 
 plot_task_differences
 ```
 
+Trotz teils geringer Unterschiede auf Aggregatebene bestehen deutliche Abweichungen auf Personenebene.
+Im Durschnitt hätten `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte zwischen den fünf Nutzungsarten umverteilt werden müssen, damit Selbstauskunft und Chatlogverteilung vollständig übereinstimmen ($TVD =$ `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")`, $SD =$ `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")`).
+
 Diese Funde deuten darauf hin, dass die Selbstauskunft der Teilnehmenden in Bezug auf die Nutzung von *`r as.character(task_agreement_summary[[1, "task"]])`* und *`r as.character(task_agreement_summary[[2, "task"]])`* am häufigsten eine exakte Übereinstimmung aufweist, während die Selbstauskunft in Bezug auf *`r as.character(task_agreement_summary[[5, "task"]])`* am wenigsten zuverlässig ist.
-Im Hinblick auf F1a zeigt sich, dass Personen sich innerhalb der Nutzungsarten unterschiedlich gut selbst einschätzen können, die Werte sich jedoch überwiegend ausmitteln.
+Im Hinblick auf F1a zeigt sich, dass sich Teilnehmende innerhalb der Nutzungsarten unterschiedlich gut selbst einschätzen können, die Werte sich jedoch überwiegend ausmitteln.
 
 \FloatBarrier
-
-```{=html}
-<!-- von Laura @ Laura: ggf entfernen
-Die Übereinstimmung zwischen Selbstauskunft und beobachteter Nutzung unterschied sich deutlich zwischen den Personen. Die mittlere Total-Variation-Distanz betrug `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % (SD = `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte). Somit hätten im Durchschnitt rund 40 % der angegebenen Nutzungsanteile zwischen den fünf Aufgabenbereichen umverteilt werden müssen, damit Selbstauskunft und beobachtete Nutzung vollständig übereinstimmen. Der Median lag bei `r formatC(100 * median(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Die Werte reichten von `r formatC(100 * min(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` % bis `r formatC(100 * max(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` %. Dies weist auf Unterschiede im Ausmaß der personenbezogenen Diskrepanzen hin. -->
-```
 
 ## Interaktionsstil und Kritisches Prüfen: F1c und F1d
 
 <!--??? braucht tabelle im appendix aus der das zitiert werden kann. Die zahlen können nicht einfach so im text stehen ohne refrenzierunt--->
 
 Knapp die Hälfte der Teilnehmenden gibt an, ChatGPT-Antworten im Chat kritisch zu prüfen (`r formatC(mean(df_analysis$SA_krit_code == 1, na.rm = TRUE) * 100, digits = global_digits, decimal.mark = ",", format = "f")` %).
-Ein überwiegend sichtbares Prüfverhalten zeigt sich in den gespendeten Chatlogs dagegen nur bei `r df_analysis |> count(       Modus_Kritik, Modus_Kritik_Label) |> mutate(percent = n /21 * 100) |> filter(Modus_Kritik_Label == "Ja") |> select(percent) |> pull() |> formatC(format = "f", decimal.mark = ",", digits = global_digits)` % der Personen.
+Ein in der Mehrheit der gespendeten Chatlogs sichtbares Prüfverhalten zeigt sich in den gespendeten Chatlogs dagegen nur bei `r df_analysis |> count(       Modus_Kritik, Modus_Kritik_Label) |> mutate(percent = n /21 * 100) |> filter(Modus_Kritik_Label == "Ja") |> select(percent) |> pull() |> formatC(format = "f", decimal.mark = ",", digits = global_digits)` % der Personen.
 Survey- und Chatlogangaben stimmen bei `r critical_summary |> filter(discrepancy == "Übereinstimmung") |> select(Prozent) |> pull() |> formatC(digits = global_digits, decimal.mark = ",", format = "f")` % überein.
 Die häufigste Abweichung besteht darin, dass kritisches Prüfen im Survey angegeben wurde, ohne dass es in der Mehrheit der gespendeten Chatlogs sichtbar war (`r critical_summary |> filter(discrepancy == "Nur in Selbstauskunft") |> select(Prozent) |> pull() |> formatC(digits = global_digits, decimal.mark = ",", format = "f")` %).
 Eine relative Ausnahme bestand darin, dass Teilnehmende ihr kritisches Prüfen unterschätzten, obwohl dies in den Chatlogs sichtbar wurde (`r critical_summary |> filter(discrepancy == "Nur in Chatlogs") |> select(Prozent) |> pull() |> formatC(digits = global_digits, decimal.mark = ",", format = "f")` %).
@@ -1347,7 +1339,7 @@ Deskriptiv zeigen sich jedoch einige mögliche Muster.
 Insbesondere weisen Männer eine höhere mittlere Total-Variation-Distanz der Informationsnutzung auf als Frauen.
 Beim Interaktionsstil und beim kritischen Prüfen fallen die Geschlechterunterschiede kleiner aus und verlaufen in entgegengesetzte Richtungen.
 Darüber hinaus sind ein höheres Alter und eine größere KI-Erfahrung tendenziell mit selteneren Diskrepanzen beim Interaktionsstil beziehungsweise kritischen Prüfen verbunden, während soziale Erwünschtheit tendenziell positiv mit beiden Diskrepanzindikatoren zusammenhängt.
-Damit lässt sich hinsichltich F1e festhalten, dass die untersuchten personenbezogenen Merkmale keine statistisch eindeutigen Zusammenhänge mit den Diskrepanzen zwischen Selbstauskunft und Chatlogdaten aufweisen.
+Damit lässt sich hinsichtlich F1e festhalten, dass die untersuchten personenbezogenen Merkmale keine statistisch eindeutigen Zusammenhänge mit den Diskrepanzen zwischen Selbstauskunft und Chatlogdaten aufweisen.
 Deskriptiv lassen sich jedoch einige mögliche Muster erkennen.
 
 ### Clusteranalyse
@@ -1491,7 +1483,7 @@ Bei den Kontextvariablen sticht dieses Cluster in keiner Dimension hervor, sozia
 Auch soziodemografisch ist das Cluster mit ausgeglichenem Geschlechterverhältnis und vier Fächergruppen das heterogenste (@figb-soziodemografie).
 Cluster zwei (n = 6) ist das einzige rein männliche Cluster (@figb-soziodemografie) und weist zugleich die geringste Nutzungshäufigkeit sowie die niedrigste KI-Erfahrung und Informationskompetenz aller Gruppen auf (@fig-profile).
 Inhaltlich unterschätzt es die Informationssuche am deutlichsten (−0,22) und überschätzt die praktische Nutzung (+0,10, @fig-heatmap).
-Charakteristisch ist jedoch das kritische Nachfragen, sämtliche sechs Personen schreiben sich eine kritische Prüfung der KI-Antworten zu, die in den Chatlogs nicht stattfindet (@fig-krit).
+Charakteristisch ist jedoch das kritische Nachfragen, sämtliche sechs Personen schreiben sich eine kritische Prüfung der KI-Antworten zu, die in der Mehrheit der Chatlogs nicht stattfindet (@fig-krit).
 Diese durchgängige Selbstüberschätzung geht mit einer überdurchschnittlichen Neigung zu sozial erwünschtem Antwortverhalten einher (M = 3,78).
 Cluster drei (n = 4) bildet dazu in mehrfacher Hinsicht den Gegenpol: Es zeigt mit Abstand die geringste soziale Erwünschtheit, zugleich die höchste Nutzungshäufigkeit, die meiste KI-Erfahrung und die höchsten Werte in beiden Informationskompetenz-Items (@fig-profile).
 Passend dazu schätzen alle vier Personen ihren Umgangston korrekt ein, und beim kritischen Nachfragen findet sich als einzigem Cluster der umgekehrte Fehlertyp, eine Person fragt kritischer nach, als sie angibt (@fig-krit).
@@ -1510,7 +1502,7 @@ Sämtliche hier beschriebenen Unterschiede in den Kontextvariablen sind bei Grup
 
 Ausgangspunkt dieser Arbeit war die Beobachtung, dass die bisherige Forschung zur Nutzung generativer KI-Chatbots im Studium ausschließlich auf Selbstauskünften beruht, obwohl aus der Internet- und Social-Media-Forschung bekannt ist, dass Selbstauskünfte und beobachtetes Verhalten oft nur moderat übereinstimmen [@scharkow2016; @parry2021].
 
-<!-- @Hannah: ich habe diesen Satz rausgenommen, weil soziale Erwünschtheit in F1 nicht auftaucht, nur in F1e. Hier der Text: Da die Nutzung von ChatGPT im Hochschulkontext normativ aufgeladen ist, wollten wir prüfen, ob soziale Erwünschtheit die Validität von Selbstauskünften zur KI-Nutzung zusätzlich beeinträchtigt (Ling et al., 2026). -->
+<!-- @Hannah von Laura: ich habe diesen Satz rausgenommen, weil soziale Erwünschtheit in F1 nicht auftaucht, nur in F1e. Hier der alte Text: Da die Nutzung von ChatGPT im Hochschulkontext normativ aufgeladen ist, wollten wir prüfen, ob soziale Erwünschtheit die Validität von Selbstauskünften zur KI-Nutzung zusätzlich beeinträchtigt (Ling et al., 2026). -->
 
 Da die Nutzung von ChatGPT im Hochschulkontext normativ aufgeladen ist, haben wir geprüft, inwiefern sich Selbstauskünfte von der in gespendeten Chatlogs beobachteten Nutzung unterscheiden.
 Die übergeordnete Frage F1 wurde dazu über fünf Teilfragen (F1a bis F1e) untersucht, deren Ergebnisse im Folgenden zusammengeführt werden.
@@ -1524,7 +1516,7 @@ Alle fünf Nutzungsarten lassen sich zwar in den Chatlogs wiederfinden, die Gewi
 Deutlicher fällt die Abweichung von Selbstauskunft und Chatlogs beim kritischen Prüfen aus (F1c).
 Fast die Hälfte der Teilnehmenden gab an, ChatGPT-Antworten kritisch zu prüfen, beobachtet wurde das in den Chatlogs aber nur bei 14,29 %.
 Die Abweichungen verliefen überwiegend in Richtung einer stärker berichteten als beobachteten kritischen Prüfung.
-Dies könnte auf eine optimistischere Selbstdarstellung hindeuten, lässt sich aufgrund der kleinen Stichprobe und Operationalisierung nicht jedoch nicht eindeutig als Antwortverzerrung interpretieren.
+Dies könnte auf eine optimistischere Selbstdarstellung hindeuten, lässt sich aufgrund der kleinen Stichprobe und Operationalisierung jedoch nicht eindeutig als Antwortverzerrung interpretieren.
 Beim Interaktionsstil (F1d) zeigt sich dagegen keine klare Richtung.
 Einige Teilnehmende kommunizieren in den Chatlogs freundlicher, andere unfreundlicher als angegeben.
 Beide Abweichsrichtungen halten sich etwa die Waage, was dafür sprechen könnte, dass der Umgangston im Gegensatz zum kritischen Prüfen nicht als ein besonders sozial erwünschtes Thema wahrgenommen wird.
@@ -1534,7 +1526,7 @@ Die Clusteranalyse (F1e) deutet darauf hin, dass sich die Diskrepanzmuster nicht
 Dabei unterscheiden sich die Cluster vor allem in der Richtung und Kombination der Abweichungen, weniger im allgemeinen Ausmaß.
 
 Besonders auffällig ist Cluster 2.
-Diesem umfasste ausschließlich männliche Teilnehmende, mit der geringsten Nutzungshäufigkeit und KI-Erfahrung sowie überdurchschnittlicher sozialer Erwünschtheit: Alle sechs Personen schreiben sich kritisches Prüfen zu, obwohl dies in der Mehrheit der Chatlogs nicht sichtbar war.
+Dieses umfasste ausschließlich männliche Teilnehmende, mit der geringsten Nutzungshäufigkeit und KI-Erfahrung sowie überdurchschnittlicher sozialer Erwünschtheit: Alle sechs Personen schreiben sich kritisches Prüfen zu, obwohl dies in der Mehrheit der Chatlogs nicht sichtbar war.
 Cluster 3 bildet den Gegenpol, homogen aus KI-erfahrenen Sozialwissenschaftler:innen mit der geringsten sozialen Erwünschtheit, bei denen der Interaktionsstil in Chatlogs und Selbstauskunft übereinstimmte.
 Außerdem trat in diesem Cluster die umgekehrte Abweichungsrichtung beim kritischen Prüfen auf.
 
@@ -1542,7 +1534,7 @@ Um die Diskrepanzmuster auf Personenebene ergänzend zu untersuchen, wurden Korr
 Nichtsdestotrotz zeigen die Korrelationen in dieselbe Richtung: mehr Erfahrung mit KI und geringere soziale Erwünschtheit gehen tendenziell mit selteneren Diskrepanzen einher.
 Für die Informationsnutzung zeigte sich dieses Muster jedoch nicht.
 
-Zusammengenommen beantwortet F1, dass Selbstauskünfte und Chatlogdaten werder durchgängig übereinstimmungen noch in eine einheitlich Richtung voneninander abweichen.
+Zusammengenommen beantwortet F1, dass Selbstauskünfte und Chatlogdaten weder durchgängig übereinstimmungen noch in eine einheitlich Richtung abweichen.
 Das Ausmaß und die Richtung der Diskrepanzen unterscheiden sich sowohl zwischen den untersuchten Konstrukten als auch zwischen den Personen.
 Als besonder hoch zeigte sich die Übereinstimmung bei *Lernen und Prüfungsvorbereitung* sowie *Schreiben und Textarbeit*.
 Größere personenbezogene Abweichungen traten bei Informationssuche und der technischen Unterstützung auf.
@@ -1564,6 +1556,8 @@ Wir können außerdem nicht ausschließen, dass Teilnehmende nur einen Teil ihre
 Trotz zugesicherter Anonymität ist denkbar, dass gerade Chats fehlen, die im Studienkontext als schlechte wissenschaftliche Praxis gelten würden.
 Das würde tendenziell zu einer Unterschätzung problematischer Nutzung in den Logs führen und die hier berichteten Diskrepanzen eher konservativ ausfallen lassen.
 
+Zudem erfasst der durchgeführte Fragebogen
+
 Hinzu kommt, dass die Stichprobengröße von n = 21 zwar eine explorative Clusteranalyse erlaubt, die Gruppenvergleiche mit den Kontextvariablen jedoch statistisch unterpowert macht.
 Keiner der berichteten deskriptiven Unterschiede erreichte statistische Signifikanz, sodass sie als Tendenzen und nicht als gesicherte Gruppenunterschiede zu lesen sind.
 Auch die durchschnittliche Silhouettenweite von 0,46 liegt nach @kaufman1990a unterhalb der Schwelle für eine ausreichende Clusterstruktur, was für eine vorsichtige, eher typologisierende als kategorial-trennscharfe Interpretation der vier Gruppen spricht.
@@ -1582,7 +1576,7 @@ Trotz dieser Einschränkungen stellt die Kombination aus Selbstauskunft und Chat
 
 ## Ausblick
 
-Die vorliegende Studie versteht sich als explorativer erster Schritt und eröffnet einiger Anknüpfpunkte für die weitere Forschung.
+Die vorliegende Studie versteht sich als explorativer erster Schritt und eröffnet einige Anknüpfpunkte für die weitere Forschung.
 Künftige Studien sollten größere und möglichst probabilistisch gezogene Stichproben anstreben, um die hier gefundenen Clustermuster, insbesondere den auffälligen Kontrast zwischen dem eher unerfahrenen, sozial erwünscht antwortenden Cluster zwei und dem erfahrenen, akkurat berichtenden Cluster drei, konfirmatorisch zu testen.
 Auch eine Ausweitung auf mehrere KI-Anwendungen und Plattformen wäre sinnvoll, um zu prüfen, ob sich die beobachteten Diskrepanzmuster über verschiedene Tools hinweg replizieren lassen.
 Denkbar wäre zudem eine Ausweitung auf andere Datenerhebungsverfahren, etwa Web-basierte Trackingverfahren, bei denen keine eigenständige Auswahl der Chatlogs die Daten verzerren könnte.
@@ -1591,7 +1585,7 @@ Längsschnittliche Designs könnten zudem klären, ob sich die Diskrepanzen zwis
 Angesichts der Fehleranalyse wäre außerdem eine robustere Klassifikation, etwa durch Fine-Tuning oder Few-Shot-Beispiele im Prompt des Large-Language-Modells ein sinnvoller nächster Schritt.
 Nicht zuletzt könnten qualitative Anschlussstudien wie etwa kognitive Interviews im Sinne des Response-Prozess-Modells von @tourangeau2000 klären, an welcher Stelle im Antwortprozess, beim Erinnern, beim Urteilen oder beim Übertragen auf die Antwortkategorien, die beobachteten Fehleinschätzungen tatsächlich entstehen.
 
-Für zukünftige Untersuchungen sprechen unsere Ergebnisse insgesamte bedingt dafür, Selbstauskünfte zur KI-Nutzung durch Verhaltensdaten zu ergänzen [@nielsen2015; @ohme2024].
+Für zukünftige Untersuchungen sprechen unsere Ergebnisse insgesamt dafür, Selbstauskünfte zur KI-Nutzung durch Verhaltensdaten zu ergänzen [@nielsen2015; @ohme2024].
 Die Chatlogdaten sollten dabei nicht als fehlerfreier Goldstandard, sondern als zusätzliche Datenquelle verstanden werden.
 Die explorativen Cluster sprechen außerdem gegen einen einheitlichen Korrekturfaktor für soziale Erwünschtheit, da sich die Abweichungsmuster je nach Person und Konstrukt unterscheiden.
 
@@ -1621,10 +1615,48 @@ Die ausgeschlossene Gruppe umfasst nur Fälle mit vollständigen Angaben zu den 
 Vergleich der Analysestichprobe mit den ausgeschlossenen Fällen
 :::
 
+```{r}
+llm_metriken <- readr::read_csv(
+  here::here(
+    "tabs",
+    "T20_llm_metriken.csv"
+  ),
+  show_col_types = FALSE
+)
+
+llm_metriken_export <- llm_metriken |>
+  mutate(
+    across(
+      c(
+        Accuracy,
+        'Macro F1',
+        'Weighted F1',
+        `Cohen's Kappa`
+      ),
+      ~ formatC(
+        .x,
+        format = "f",
+        digits = 3,
+        decimal.mark = ","
+      )
+    )
+  )
+
+readr::write_csv(
+  llm_metriken_export,
+  here::here(
+    "tabs",
+    "T20_llm_metriken_de.csv"
+  ),
+  na = ""
+)
+```
+
+
 ::: {#tbla-llm-metriken}
 ```{r}
-anhang_tab("T20_llm_metriken.csv")
-```
+anhang_tab("T20_llm_metriken_de.csv") 
+``` 
 
 Gütemaße der Zero-Shot-Textklassifikation gegen den Goldstandard (n = 32 Chats)
 :::

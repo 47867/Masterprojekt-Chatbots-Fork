@@ -38,13 +38,14 @@ global_digits <- 2
 #
 # write_csv(
 #   df_sample,
-#   here::here("data", "raw", "analysis_data.csv")
+#   here::here("data", "processed", "data_without_chatlogs.csv")
 # )
 
 # Anonymisierten Datensatz einlesen
 df_sample <- read_csv(
-  here::here("data", "raw", "analysis_data.csv")
+  here::here("data", "processed", "data_without_chatlogs.csv")
 )
+
 
 df_sample <- df_sample |>
   mutate(
