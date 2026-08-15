@@ -1,0 +1,21 @@
+# Never bake private/raw survey & chat data into the image
+data/raw/
+
+# renv's local package cache — restored fresh inside the container instead
+renv/library/
+renv/local/
+renv/staging/
+renv/python/
+
+# R / Quarto build artifacts
+.Rproj.user/
+_freeze/
+*.Rout
+.Rhistory
+.RData
+
+# VCS / editor cruft
+.git/
+.gitignore
+.vscode/
+.idea/
