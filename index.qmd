@@ -168,7 +168,6 @@ Für künftige Forschung wird empfohlen, Selbstauskünfte systematisch durch Ver
 \phantomsection
 \addcontentsline{toc}{section}{Abbildungsverzeichnis}
 \listoffigures
-
 \clearpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
@@ -437,27 +436,7 @@ Um den Fragebogen zu optimieren, wurden vor Beginn der tatsächlichen Erhebung P
 Ziel des Pretests war es, mögliche Probleme hinsichtlich Verständlichkeit, Benutzerfreundlichkeit und technischer Umsetzung des Fragebogens zu identifizieren.
 Die Teilnehmenden wurden gebeten, den Fragebogen vollständig auszufüllen und sowohl während der Bearbeitung als auch im Anschluss daran Rückmeldung an die Autor:innen zu geben.
 
-Die erste Runde des Pretests erfolgte am 09.
-Juli 2026 und zeigte mehrere Verbesserungsmöglichkeiten.
-So hatten einige Teilnehmende Schwierigkeiten, die Schaltflächen zum Kopieren der KI-Ausgabe sowie zur erneuten Generierung der Antwort unter „Erneut versuchen“ in der Benutzeroberfläche von ChatGPT zu finden.
-Zudem war der Prompt für den JSON-Export in der ursprünglichen Version der Anleitung nicht ausreichend früh und visuell hervorgehoben und wurde daher nicht unmittelbar gefunden.
-Darüber hinaus zeigte sich ein bislang nicht berücksichtigter technischer Sonderfall: Bei sehr langen Chatverläufen verweigerte ChatGPT teilweise die Ausgabe da die Antwort das maximal zulässige Ausgabelimit überschritten hätte.
-Weiterhin fiel auf, dass verschiedene technische Fehlerursachen in der Frage zu technischen Schwierigkeiten nicht eindeutig voneinander abgegrenzt waren.
-Um disjunkte Antwortoptionen zu ermöglichen, wurde die Frage daher in mehrere separate Fragen aufgeteilt.
-Zusätzlich wurden einzelne sprachliche Formulierungen (z. B. die Verwendung des Begriffs „Chatlogs“ anstelle von „Chatverläufe“) nicht verstanden und kleinere Unstimmigkeiten im Fragebogen entdeckt.
-
-Auf Grundlage dieser Rückmeldungen wurden mehrere Anpassungen vorgenommen.
-Die Hinweise auf die Schaltflächen „Kopieren“ und „Erneut versuchen“ wurden direkt in die Anleitung integriert und durch Abbildungen ergänzt.
-Der Prompt für den JSON-Export wurde bereits direkt bei der Erstnennung in der Anleitung platziert und zusätzlich mit einer Kopierfunktion versehen.
-Darüber hinaus wurde eine zusätzliche Antwortoption zur Frage nach technischen Schwierigkeiten für den Fall, dass die JSON-Ausgabe aufgrund des maximalen Antwortlimits von ChatGPT nicht erstellt werden konnte, aufgenommen.
-Außerdem wurden einzelne Formulierungen vereinfacht, die Gestaltung der Anleitungen verbessert und kleinere Fehler im Fragebogen behoben.
-
-Die überarbeitete Version des Fragebogens wurde anschließend in einer weiteren Pretest-Runde am 09.
-Juli 2026 überprüft.
-Dabei zeigte sich, dass die Datenschutzerklärung von einer Testperson als sehr umfangreich wahrgenommen wurde und dadurch zunächst abschreckend wirkte.
-Daraufhin wurde die Datenschutzerklärung in einer scrollbaren Ansicht dargestellt, sodass die Frage zur informierten Einwilligung unmittelbar sichtbar war.
-Zusätzlich wurden die Studieninformationen übersichtlicher gestaltet und bereits zu Beginn auf die Teilnahmevoraussetzung, ChatGPT zumindest gelegentlich für Studienzwecke zu nutzen, hingewiesen.
-Darüber hinaus zeigten sich keine weiteren Verständlichkeits- oder Bedienprobleme, sodass der Fragebogen in seiner finalen Form für die Hauptstudie eingesetzt wurde.
+Der Fragebogen wurde in zwei Pretestrunden auf Verständlichkeit, Benutzerfreundlichkeit und technische Funktionsfähigkeit geprüft. Dabei zeigten sich insbesondere Schwierigkeiten beim Auffinden der Exportfunktionen, beim Export sehr langer Chats und bei der Darstellung der Datenschutzerklärung. Daraufhin wurden die Anleitung und Antwortoptionen überarbeitet, Exporthinweise visuell hervorgehoben und die Datenschutzerklärung übersichtlicher eingebunden. In der zweiten Runde traten keine weiteren grundlegenden Bedienprobleme auf, sodass der Fragebogen für die Haupterhebung freigegeben wurde.
 
 Die Feldphase startete am 09.
 Juli 2026 und endete am 30.
@@ -812,17 +791,21 @@ Bei komplexeren Aufgaben können LLMs zusätzliches Training in Form von Fine-Tu
 
 [^2]: Das Integrieren einiger exemplarischer Fälle in den Prompt
 
-Die Validierung erfolgte in zwei getrennten Schritten. Zunächst wurden 30 unabhängig von der Haupterhebung zusammengestellte Beispielchats zur Promptentwicklung und Modellauswahl verwendet. Anschließend wurde die Übertragbarkeit des ausgewählten Modells anhand von 32 Chats aus der Haupterhebung überprüft, die manuell codiert und mit den Modellvorhersagen verglichen wurden.
+Die Validierung erfolgte in zwei getrennten Schritten.
+Zunächst wurden 30 unabhängig von der Haupterhebung zusammengestellte Beispielchats zur Promptentwicklung und Modellauswahl verwendet.
+Anschließend wurde die Übertragbarkeit des ausgewählten Modells anhand von 32 Chats aus der Haupterhebung überprüft, die manuell codiert und mit den Modellvorhersagen verglichen wurden.
 
-Im ersten Validierungsschritt wurden die 30 Beispielchats mit verschiedenen GPT-Modellen, Promptvarianten und Klassifikationsstrategien im Zero-Shot-Verfahren getestet.
+Im ersten Validierungsschritt wurden die 30 Beispielchats mit verschiedenen GPT-Modellen, Promptvarianten und Klassifikationsstrategien im Zero-Shot-Verfahren[^3] getestet.
 Das mit einer Accuracy von $0{,}87 - 0{,}90$ über alle Tasks und einem F1-Makro von $0{,}67 - 0{,}81$ am Modell mit der besten Leistung war das zu dem Zeitpunkt aktuelle Frontier-Modell GPT-5.5.
 Diese Ergebnisse erzielte es nach drei Runden der Promptverfeinerung.
+
+[^3]: Prompts, bei denen keine Beispiele oder weitere Erklärungen gegeben werden.
 
 ![Zero-Shot Textklassifikation von GPT-5.5 (alle Aufgaben in einem Prompt)](plots/performance_gpt55_combined.png)
 
 <!-- $$$ Ist das noch aktuell?-->
 
-Die Ergebnisse der Evaluation zeigen, dass GPT-5.5 grundsätzlich in der Lage ist, die für die Analyse notwendigen Klassifkationsaufgaben auszuführen.
+Die Ergebnisse der Evaluation zeigen, dass GPT-5.5 grundsätzlich in der Lage ist, die für die Analyse notwendigen Klassifikationsaufgaben auszuführen.
 Deshalb können die Zero-Shot-Leistungskennzahlen als geeignete Schätzung der zu erwartenden Modellperformance mit den im Survey erhobenen Daten verwendet werden.
 Diese Annahme basiert darauf, dass beide Datensätze hinsichtlich ihrer Domäne (Chatverläufe von Studierenden), des Aufgabenkontexts (Nutzungsart von ChatGPT), des Labelschemas sowie der strukturellen Ähnlichkeiten der Chats (iterative Prompt-Verfeinerung, Frage-Antwort-Strukturen) vergleichbar sind.
 Dennoch ist nicht auszuschließen, dass Unterschiede in der Datenverteilung zu einer abweichenden tatsächlichen Performance auf dem Analysedatensatz führen können.
@@ -830,13 +813,14 @@ Dennoch ist nicht auszuschließen, dass Unterschiede in der Datenverteilung zu e
 Dies könnte insbesondere die Klassifikation von Inhalten betreffen, da die hier analysierten Daten von drei CSS-Masterstudierenden stammen und dementsprechend eine hohe Homogenität der Inhalte zu erwarten ist.
 Da GPT-5.5 bei der Inhaltsklassifikation über alle Evaluationsrunden hinweg eine sehr hohe Genauigkeit erreichte, deutet dies darauf hin, dass eine solche Einschränkung für die weitere Analyse von nicht zu großer Bedeutung sein dürfte.
 
-Im zweiten Validierungsschritt wurde die Übertragbarkeit der Evaluationsergebnisse anhand von 32 Chats aus der Haupterhebung überprüft. Diese entsprachen einer zufällig gezogenen Stichprobe von rund 30 % der gespendeten Chats.
+Im zweiten Validierungsschritt wurde die Übertragbarkeit der Evaluationsergebnisse anhand von 32 Chats aus der Haupterhebung überprüft.
+Diese entsprachen einer zufällig gezogenen Stichprobe von rund 30 % der gespendeten Chats.
 Die Annotation wurde von zwei der Autor:innen durchgeführt, die Übereinstimmung der Coder lag für die Interaktionsstil-Klassifikation bei 90.6 % und für die beiden anderen Klassifikationen jeweils bei 100%.
 Im Anschluss wurden in einer gemeinsamen Diskussion ein konsensbasierter Goldstandard festgelegt.
 Auf dieser Grundlage wurden die Leistungskennzahlen für GPT-5.5 erneut berechnet.
 Für das Erkennen des Aufgabentyps erzielte das Modell eine Accuracy von 1, bei kritischen Nachfragen lag die Accuracy bei 0,938 mit einem Macro-F1-Score von 0,881.
 Die schlechteste Leistung zeigte das Modell mit einer Accuracy von 0,844 und einem Macro-F1-Score von 0,604 bei der Interaktionsstil-Klassifikation (@tbla-llm-metriken).
-Dieser vergleichsweise niedrige Macro-F1-Wert lässt sich insbesondere aud eine Tendenz von GPT-5.5 erklären, neutrale Chats als unfreundlich zu klassifizieren — dies geschah in vier Fällen (@figb-konfusssion).
+Dieser vergleichsweise niedrige Macro-F1-Wert lässt sich insbesondere auf eine Tendenz von GPT-5.5 erklären, neutrale Chats als unfreundlich zu klassifizieren — dies geschah in vier Fällen (@figb-konfusssion).
 Diese Klassifikationsunsicherheit wird in der nachgelagerten Clusteranalyse nicht mehr explizit abgebildet, da die generierten Labels dort als feststehende Merkmalsausprägungen behandelt werden und die Distanzberechnung nicht zwischen einer sicheren und einer fehlerhaften Zuordnung unterscheiden kann.
 Insbesondere für die Sentiment-Dimension kann dies die später gezeigte Clusterlösung beeinflussen, wenn einzelne Fälle fälschlicherweise als unfreundlich klassifiziert werden.
 Dieser Aspekt ist daher bei der Interpretation der Ergebnisse zu berücksichtigen.
@@ -892,7 +876,7 @@ Die studienbezogene *Informationsnutzung* wurde im Fragebogen über fünf Aufgab
 Die Teilnehmenden verteilten insgesamt zehn Punkte auf diese fünf Kategorien, sodass ihre typische Nutzung als relative Verteilung verschiedener Nutzungsarten erfasst wurde.
 So ergibt sich eine quasi-metrische Skala, die die subjektive Gewichtung der einzelnen Nutzungsarten zwischen den Teilnehmenden vergleichbar macht.
 Der Anteil eines Aufgabenbereichs ergibt sich, indem die für diesen Bereich vergebene Punktzahl durch die maximal mögliche Gesamtpunktzahl (zehn) dividiert wird.
-Analog dazu werden die Klassifikationen der einzelnen Chats auf den selben Wertebereich \[0,1\] überführt: Für jeden Aufgabenbereich wird der Anteil an den insgesamt gespendeten Chats einer Person berechnet und so mit den Selbstauskünften vergleichbar gemacht.
+Analog dazu werden die Klassifikationen der einzelnen Chats auf denselben Wertebereich $0,1$ überführt: Für jeden Aufgabenbereich wird der Anteil an den insgesamt gespendeten Chats einer Person berechnet und so mit den Selbstauskünften vergleichbar gemacht.
 
 Der *Interaktionsstil* wurde über die Selbsteinschätzung des eigenen Kommunikationsverhaltens gegenüber ChatGPT erhoben.
 Die Teilnehmenden bewerteten auf einer fünfstufigen ordinalen Skala („sehr unfreundlich“ bis „sehr freundlich“), wie freundlich beziehungsweise unfreundlich sie typischerweise mit dem generativen Chatbot kommunizierten.
@@ -1054,7 +1038,7 @@ Ergänzend wird für Forschungsfrage 1e untersucht, ob die Diskrepanzen mit dem 
 Der Zusammenhang zwischen Informationsnutzung und den metrischen personenbezogenen Merkmalen wird anhand von Spearman-Rangkorrelationen untersucht.
 Geschlechterunterschiede werden aufgrund der kleinen Gruppen und der nicht vorausgesetzten Normalverteilung mit einem Wilcoxon-Rangsummentest analysiert.
 
-Für den Interaktionsstil und das kritische Prüfen werden jeweils binäre Indikatioren verwendet.
+Für den Interaktionsstil und das kritische Prüfen werden jeweils binäre Indikatoren verwendet.
 Die Zusammenhänge dieser Indikatoren mit den metrischen personenbezogenen Merkmalen werden ebenfalls anhand von Spearman-Rangkorrelationen untersucht.
 Ein positiver Korrelationskoeffizient bezeichnet dabei einen Zusammenhang mit häufigeren Diskrepanzen, ein negativer Koeffizient eine Korrelation mit häufigeren Übereinstimmungen.
 
@@ -1094,11 +1078,12 @@ Das Ergebnis liegt im Intervall von $[-1, 1]$, wobei $1$ heißt, dass die Person
 Anschließend wird der Durchschnitt für alle Personen ermittelt der anzeigt, wie eng gruppiert alle Personen im jeweiligen Cluster sind.
 Ein Cluster mit einer durchschnittlichen Silhouette von $0,5$ wird als ausreichend für unsere Zwecke betrachtet, $0,7$ als stark nach @kaufman1990a.
 Dieser Prozess wird für $k = 2$ bis $k = 10$ wiederholt, sprich für bis zu zehn Cluster.
-Als Clusterzahl wird anschließend derjenige Wert von $k$ verwendet, für den die die höchste durchschnittliche Silhouette berechnet wird.
-Nachdem die Cluster ermittelt wurden, werden diese auf inhaltliche Unterschied analysiert.
+Als Clusterzahl wird anschließend derjenige Wert von $k$ verwendet, für den die höchste durchschnittliche Silhouette berechnet wird.
+Nachdem die Cluster ermittelt wurden, werden diese auf inhaltliche Unterschiede analysiert.
 Dazu werden die einzelnen Cluster deskriptiv auf Unterschiede in den im Fragebogen erhobenen Kontextvariablen, wie Studienrichtung oder soziale Erwünschtheit, untersucht.
-Ergänzend werden Unterschiede in nicht zur Clusterbildung verwendeten Kontextvariablen explorativ untersucht. Für soziale Erwünschtheit wird eine Welch-ANOVA und für die ordinalen Variablen wird ein Kruskal-Wallis-Tests durchgeführt. Nominale Merkmale werden aufgrund der kleinen Zellbesetzungen mit Pearson-Chi-Quadrat-Tests und simulierten p-Werten verglichen. 
-
+Ergänzend werden Unterschiede in nicht zur Clusterbildung verwendeten Kontextvariablen explorativ untersucht.
+Für soziale Erwünschtheit wird eine Welch-ANOVA und für die ordinalen Variablen wird ein Kruskal-Wallis-Tests durchgeführt.
+Nominale Merkmale werden aufgrund der kleinen Zellbesetzungen mit Pearson-Chi-Quadrat-Tests und simulierten p-Werten verglichen.
 
 Im folgenden Abschnitt werden die Ergebnisse der aufgeführten statistischen Analyse erläutert.
 Zunächst erfolgt ein deskriptiver graphischer Überblick, bevor die einzelnen Werte zwischen den Gruppen statistisch verglichen werden.
@@ -1162,7 +1147,8 @@ aggregate_comparison |>
 ```
 
 Hinsichtlich F1b lässt sich festhalten, dass sich alle Nutzungsarten in den Chatlogs finden lassen.
-Die Teilnehmenden unterschätzen in der Selbsteinschätzung tendenziell die Nutzung von technischen Hilfsmitteln und das Schreiben von Texten, während sie die Nutzung von Informationen überschätzen.
+Auf Aggregatebene berichteten die Teilnehmenden technische und analytische Unterstützung im Fragebogen seltener als in den Chatlogs beobachtet.
+Schreiben und Textarbeit wurden dagegen häufiger berichtet, während sich die Anteile bei Informationssuche und Verständnis kaum unterschieden.
 
 <!-- ??? Abbildung 2 hat zwei title -> einen entfernen, man sollte auch die nummerichen werte in den appendix tun --->
 
@@ -1229,7 +1215,7 @@ plot_task_differences
 ```
 
 Trotz teils geringer Unterschiede auf Aggregatebene bestehen deutliche Abweichungen auf Personenebene.
-Im Durschnitt hätten `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte zwischen den fünf Nutzungsarten umverteilt werden müssen, damit Selbstauskunft und Chatlogverteilung vollständig übereinstimmen ($TVD =$ `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")`, $SD =$ `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")`).
+Die mittlere Total-Variation-Distanz betrug `r formatC(mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` ($SD =$ `r formatC(100 * sd(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")`). Somit hätten durchschnittlich `r formatC(100 * mean(person_discrepancy$total_variation), format = "f", digits = global_digits, decimal.mark = ",")` Prozentpunkte zwischen den fünf Nutzungsarten umverteilt werden müssen, damit Selbstauskunft und Chatlogverteilung vollständig übereinstimmen.
 
 Diese Funde deuten darauf hin, dass die Selbstauskunft der Teilnehmenden in Bezug auf die Nutzung von *`r as.character(task_agreement_summary[[1, "task"]])`* und *`r as.character(task_agreement_summary[[2, "task"]])`* am häufigsten eine exakte Übereinstimmung aufweist, während die Selbstauskunft in Bezug auf *`r as.character(task_agreement_summary[[5, "task"]])`* am wenigsten zuverlässig ist.
 Im Hinblick auf F1a zeigt sich, dass sich Teilnehmende innerhalb der Nutzungsarten unterschiedlich gut selbst einschätzen können, die Werte sich jedoch überwiegend ausmitteln.
@@ -1309,14 +1295,54 @@ association_table |>
     decimals = global_digits,
     dec_mark = ","
   ) |>
+  
+  # Alter, KI-Erfahrung und soziale Erwünschtheit einrücken
+  tab_style(
+    style = cell_text(
+      indent = px(20)
+    ),
+    locations = cells_stub(
+      rows = Merkmal %in% c(
+        "KI-Erfahrung",
+        "Alter",
+        "Soziale Erwünschtheit"
+      )
+    )
+  ) |>
+  
+  # Dimensionsüberschriften nicht einrücken
+    tab_style(
+    style = cell_text(
+      indent = px(14)
+    ),
+    locations = cells_stub(
+      rows = Merkmal %in% c(
+        "KI-Erfahrung",
+        "Alter",
+        "Soziale Erwünschtheit"
+      )
+    )
+  ) |>
+  tab_style(
+    style = cell_text(
+      indent = px(0),
+      weight = "bold"
+    ),
+    locations = cells_row_groups(
+      groups = everything()
+    )
+  ) |>
+  cols_width(
+    rho ~ pct(22),
+    p_value ~ pct(22),
+    p_adjusted ~ pct(28)
+  ) |>
   tab_options(
-    table.font.size = 10,
-    data_row.padding = px(3),
-    heading.title.font.size = 10
-  ) |> 
-  cols_align(
-    align = "left",
-    columns = "Merkmal"
+    table.font.size = px(12),
+    table.width = pct(100),
+    data_row.padding = px(6),
+    row_group.padding = px(7),
+    column_labels.padding = px(6)
   )
 ```
 
@@ -1358,10 +1384,10 @@ Die duchschnitlliche Silhouettenweite beträgt 0,46 (@tbla-silhouette-k).
 Nach der Klassifikation von @kaufman1990a liegt dieser Wert unterhalb des Schwellenwerts von 0,51 für eine „vernünftige“ Clusterstruktur und ist damit als schwach, aber erkennbar einzuordnen.
 Eine Fünf-Cluster-Lösung läge zwar oberhalb dieses Schwellenwerts, würde jedoch zu sehr kleinen CLustern mit lediglich zwei Personen führen.
 Bei $k=6$ bzw.
-$k=7$, wobei $k=7$ anhand der Silhouettenwerde das tatsächliche Optimum darstellen würde, entstähen sogar Ein-Personen-Cluster (@tbla-silhouette-k, @figb-silhouette-k).
+$k=7$, wobei $k=7$ anhand der Silhouettenweite das tatsächliche Optimum darstellen würde, entstähen sogar Ein-Personen-Cluster (@tbla-silhouette-k, @figb-silhouette-k).
 
 Für jedes der vier Cluster wird eine reale Beobachtung als Medoid, also als Clusterzentrum, ausgewählt.
-Die zweidimensonale MDS-Projektion der Gower-Distanzen stellt die resultierende Clusterstruktur dar (@fig-silhouette_pms).
+Die zweidimensionale MDS-Projektion der Gower-Distanzen stellt die resultierende Clusterstruktur dar (@fig-silhouette_pms).
 Die vier Cluster liegen räumlich weitgehend getrennt voneinander, wobei sie unterschiedliche Bereiche des Merkmalsraums einnehmen.
 Dabei ist zu beachten, dass die MDS-Darstellung die tatsächlichen Distanzen im höherdimensionalen Merkmalsraum lediglich approximiert.
 Die dargestellten Abstände sind daher als Orientierung und nicht als exakte Abbildung der Gower-Distanzen zu interpretieren.
@@ -1419,7 +1445,7 @@ Cluster eins bleibt über alle Bereiche hinweg innerhalb geringer Abweichungen (
 Ergänzend zu den aufgabenbezogenen Diskrepanzen zeigen die kategorialen Diskrepanzvariablen ein deutlich trennschärferes Bild: Bei der Sentiment-Diskrepanz unterscheiden sich die Cluster nahezu vollständig voneinander.
 (@fig-sent).
 In Cluster eins sind ausnahmslos alle Personen im beobachteten Verhalten unfreundlicher als sie angegeben haben, in Cluster vier durchgängig freundlicher.
-Cluster zwei und drei schätzen ihren umgangston (nahezu) korrekt ein.
+Cluster zwei und drei schätzen ihren Umgangston nahezu korrekt ein.
 
 ```{r}
 #| label: fig-sent
@@ -1477,7 +1503,7 @@ Das passt zu dem Befund, dass die Mitglieder dieses Clusters ihren Umgangston vo
 Bei den übrigen drei Variablen fallen die Unterschiede zwischen den Clustern klein aus.
 KI-Erfahrung und beide Informationskompetenz-Items liegen bei allen vier Clustern im oberen Skalenbereich zwischen etwa siebzig und neunzig Prozent, wobei Cluster drei auch hier jeweils die höchsten Werte erreicht.
 
-Die soziodemografischen Merkmale läst sich folgendes beobachten (@figb-soziodemografie).
+Hinsichtlich der soziodemografischen Merkmale lässt sich Folgendes beobachten (@figb-soziodemografie).
 Bei der Fächergruppe fällt auf, dass Cluster drei vollständig aus Studierenden der Sozialwissenschaften besteht, während sich die übrigen Cluster jeweils aus drei bis vier verschiedenen Fächergruppen zusammensetzen.
 Ein ähnlich homogenes Bild zeigt sich bei Cluster zwei, das ausschließlich männliche Teilnehmer umfasst, wohingegen die anderen Cluster gemischt sind.
 Beim angestrebten Abschluss dominiert in allen Clustern der Master, in Cluster drei sogar ausschließlich.
@@ -1508,9 +1534,8 @@ Sämtliche hier beschriebenen Unterschiede in den Kontextvariablen sind bei Grup
 
 Ausgangspunkt dieser Arbeit war die Beobachtung, dass die bisherige Forschung zur Nutzung generativer KI-Chatbots im Studium ausschließlich auf Selbstauskünften beruht, obwohl aus der Internet- und Social-Media-Forschung bekannt ist, dass Selbstauskünfte und beobachtetes Verhalten oft nur moderat übereinstimmen [@scharkow2016; @parry2021].
 
-<!-- @Hannah von Laura: ich habe diesen Satz rausgenommen, weil soziale Erwünschtheit in F1 nicht auftaucht, nur in F1e. Hier der alte Text: Da die Nutzung von ChatGPT im Hochschulkontext normativ aufgeladen ist, wollten wir prüfen, ob soziale Erwünschtheit die Validität von Selbstauskünften zur KI-Nutzung zusätzlich beeinträchtigt (Ling et al., 2026). -->
+<!-- @Hannah von Laura: ich habe diesen Satz rausgenommen, weil soziale Erwünschtheit in F1 nicht auftaucht, nur vllt indirekt in F1e. Hier der alte Text: Da die Nutzung von ChatGPT im Hochschulkontext normativ aufgeladen ist, wollten wir prüfen, ob soziale Erwünschtheit die Validität von Selbstauskünften zur KI-Nutzung zusätzlich beeinträchtigt (Ling et al., 2026). -->
 
-Da die Nutzung von ChatGPT im Hochschulkontext normativ aufgeladen ist, haben wir geprüft, inwiefern sich Selbstauskünfte von der in gespendeten Chatlogs beobachteten Nutzung unterscheiden.
 Die übergeordnete Frage F1 wurde dazu über fünf Teilfragen (F1a bis F1e) untersucht, deren Ergebnisse im Folgenden zusammengeführt werden.
 
 Bei den Nutzungsarten (F1a und F1b) variierte das Ausmaß der Übereinstimmung zwischen Selbstauskünften und Chatlogsdaten deutlich nach Aufgabenbereich.
@@ -1528,25 +1553,15 @@ Einige Teilnehmende kommunizieren in den Chatlogs freundlicher, andere unfreundl
 Beide Abweichsrichtungen halten sich etwa die Waage, was dafür sprechen könnte, dass der Umgangston im Gegensatz zum kritischen Prüfen nicht als ein besonders sozial erwünschtes Thema wahrgenommen wird.
 <!--$$$ Ist ein hot take meinerseits-->
 
-Die Clusteranalyse (F1e) deutet darauf hin, dass sich die Diskrepanzmuster nicht gleichmäßig über die Stichprobe verteilen Der PAM-Algorithmus findet vier, über drei Robustheitschecks stabile, Cluster, deren Merkmale auch in drei Robustheitsanalysen weitgehend erhalten bleiben.
-Dabei unterscheiden sich die Cluster vor allem in der Richtung und Kombination der Abweichungen, weniger im allgemeinen Ausmaß.
-
-Besonders auffällig ist Cluster 2.
-Dieses umfasste ausschließlich männliche Teilnehmende, mit der geringsten Nutzungshäufigkeit und KI-Erfahrung sowie überdurchschnittlicher sozialer Erwünschtheit: Alle sechs Personen schreiben sich kritisches Prüfen zu, obwohl dies in der Mehrheit der Chatlogs nicht sichtbar war.
-Cluster 3 bildet den Gegenpol, homogen aus KI-erfahrenen Sozialwissenschaftler:innen mit der geringsten sozialen Erwünschtheit, bei denen der Interaktionsstil in Chatlogs und Selbstauskunft übereinstimmte.
-Außerdem trat in diesem Cluster die umgekehrte Abweichungsrichtung beim kritischen Prüfen auf.
+Die Clusteranalyse deutet darauf hin, dass sich die Diskrepanzen nicht gleichmäßig über die Stichprobe verteilen, sondern in unterschiedlichen Kombinationen und Richtungen auftreten. Der Kontrast zwischen Cluster 2 und 3 spricht dabei explorativ dafür, dass KI-Erfahrung und soziale Erwünschtheit mit bestimmten Diskrepanzmustern zusammenhängen könnten. Aufgrund der kleinen Gruppen und statistisch nicht signifikanten Unterschiede ist diese Interpretation jedoch vorläufig und sollte in größeren Stichproben überprüft werden.
 
 Um die Diskrepanzmuster auf Personenebene ergänzend zu untersuchen, wurden Korrelationsanalysen zu Alter, KI-Erfahrung und sozialer Erwünschtheit durchgeführt, welche nach einer Benjamini-Hochberg-Korrektur nicht statistisch signifikant war.
 Nichtsdestotrotz zeigen die Korrelationen in dieselbe Richtung: mehr Erfahrung mit KI und geringere soziale Erwünschtheit gehen tendenziell mit selteneren Diskrepanzen einher.
 Für die Informationsnutzung zeigte sich dieses Muster jedoch nicht.
 
-Zusammengenommen beantwortet F1, dass Selbstauskünfte und Chatlogdaten weder durchgängig übereinstimmungen noch in eine einheitlich Richtung abweichen.
-Das Ausmaß und die Richtung der Diskrepanzen unterscheiden sich sowohl zwischen den untersuchten Konstrukten als auch zwischen den Personen.
-Als besonder hoch zeigte sich die Übereinstimmung bei *Lernen und Prüfungsvorbereitung* sowie *Schreiben und Textarbeit*.
-Größere personenbezogene Abweichungen traten bei Informationssuche und der technischen Unterstützung auf.
-Beim kritischen Prüfen zeigte sich zusätzlich eine gerichtete Abweichung: Dieses wurde häufiger im Survey angegeben, als es in der Mehrheit der Chatlogs sichtbar war.
+Insgesamt stimmen Selbstauskünfte und Chatlogdaten weder durchgängig überein noch weichen sie in einer einheitlichen Richtung voneinander ab. Ausmaß und Richtung der Diskrepanzen unterscheiden sich vielmehr zwischen den untersuchten Konstrukten und Personen.
 
-Ein pauschaler Effekt sozialer Erwünschtheit, der die Selbstauskunft der eigenen KI-Nutzung durchgehend gleichermaßen beeinflusst, lässt sich nicht ableiten.
+Ein pauschaler Zusammenhang mit sozialer Erwünschtheit, der die Selbstauskunft der eigenen KI-Nutzung durchgehend gleichermaßen beinhaltet, lässt sich nicht ableiten.
 Die Ergebnisse lassen sich vielmehr mit dem mehrstufigen Antwortmodell von @tourangeau2000 vereinbaren, bei dem Erinnerung, Urteilsbildung und die Übertragung auf Antwortkategorien je nach Konstrukt und Person unterschiedlich fehleranfällig sein können.
 
 ```{=html}
@@ -1562,9 +1577,11 @@ Wir können außerdem nicht ausschließen, dass Teilnehmende nur einen Teil ihre
 Trotz zugesicherter Anonymität ist denkbar, dass gerade Chats fehlen, die im Studienkontext als schlechte wissenschaftliche Praxis gelten würden.
 Das würde tendenziell zu einer Unterschätzung problematischer Nutzung in den Logs führen und die hier berichteten Diskrepanzen eher konservativ ausfallen lassen.
 
-Zudem erfasst der durchgeführte Fragebogen die typische Nutzung, die Chatlogs bilden lediglich die fünf zuletzt gespendeten Chats ab. Beide Quellen beziehen sich demnach nicht zwingend auf denselben Zeitraum und denselben Verhaltensausschnit, was eine Vergleichbarkeit erschwert.
+Zudem erfasst der durchgeführte Fragebogen die typische Nutzung, die Chatlogs bilden lediglich die fünf zuletzt gespendeten Chats ab.
+Beide Quellen beziehen sich demnach nicht zwingend auf denselben Zeitraum und denselben Verhaltensausschnitt, was eine Vergleichbarkeit erschwert.
 
-Im Fragebogen können sich die Anteile zu den fünf Nutzungsarten in Zehn-Prozent-Schritten ändern, während Chatloganteile bei den fünf Chats nur in Zwanzig-Prozent-Schritten bewegen. Identifizierte exakte Einstimmungen sind daher teilweise durch unterschiedliche Messbereiche erschwert.
+Im Fragebogen können sich die Anteile zu den fünf Nutzungsarten in Zehn-Prozent-Schritten ändern, während sich die Chatloganteile bei den fünf Chats nur in Zwanzig-Prozent-Schritten bewegen.
+Identifizierte exakte Übereinstimmungen sind daher teilweise durch unterschiedliche Messraster erschwert.
 
 Hinzu kommt, dass die Stichprobengröße von n = 21 zwar eine explorative Clusteranalyse erlaubt, die Gruppenvergleiche mit den Kontextvariablen jedoch statistisch unterpowert macht.
 Keiner der berichteten deskriptiven Unterschiede erreichte statistische Signifikanz, sodass sie als Tendenzen und nicht als gesicherte Gruppenunterschiede zu lesen sind.
@@ -1585,17 +1602,12 @@ Trotz dieser Einschränkungen stellt die Kombination aus Selbstauskunft und Chat
 ## Ausblick
 
 Die vorliegende Studie versteht sich als explorativer erster Schritt und eröffnet einige Anknüpfpunkte für die weitere Forschung.
-Künftige Studien sollten größere und möglichst probabilistisch gezogene Stichproben anstreben, um die hier gefundenen Clustermuster, insbesondere den auffälligen Kontrast zwischen dem eher unerfahrenen, sozial erwünscht antwortenden Cluster zwei und dem erfahrenen, akkurat berichtenden Cluster drei, konfirmatorisch zu testen.
-Auch eine Ausweitung auf mehrere KI-Anwendungen und Plattformen wäre sinnvoll, um zu prüfen, ob sich die beobachteten Diskrepanzmuster über verschiedene Tools hinweg replizieren lassen.
-Denkbar wäre zudem eine Ausweitung auf andere Datenerhebungsverfahren, etwa Web-basierte Trackingverfahren, bei denen keine eigenständige Auswahl der Chatlogs die Daten verzerren könnte.
+Künftige Studien sollten die gefundenen Diskrepanzmuster zunächst in größeren und heterogeneren Stichproben überprüfen. Weniger selektive Verhaltensdaten, etwa aus Trackingverfahren, könnten zudem klären, inwieweit die Auswahl gespendeter Chats die Ergebnisse beeinflusst. Schließlich sollten eine robustere Textklassifikation und qualitative Interviews untersuchen, ob die beobachteten Abweichungen auf Messfehler, Erinnerungsprobleme oder Prozesse sozialer Erwünschtheit zurückgehen.
 
-Längsschnittliche Designs könnten zudem klären, ob sich die Diskrepanzen zwischen Selbstauskunft und Verhalten mit wachsender Vertrautheit im Umgang mit generativer KI verändern, wie es der Befund zu Cluster drei nahelegt.
-Angesichts der Fehleranalyse wäre außerdem eine robustere Klassifikation, etwa durch Fine-Tuning oder Few-Shot-Beispiele im Prompt des Large-Language-Modells ein sinnvoller nächster Schritt.
-Nicht zuletzt könnten qualitative Anschlussstudien wie etwa kognitive Interviews im Sinne des Response-Prozess-Modells von @tourangeau2000 klären, an welcher Stelle im Antwortprozess, beim Erinnern, beim Urteilen oder beim Übertragen auf die Antwortkategorien, die beobachteten Fehleinschätzungen tatsächlich entstehen.
+Künftige Studien sollten die LLM-Klassifikation anhand größerer Goldstandards validieren und insbesondere die Erkennung des Interaktionsstils, etwa durch Few-Shot-Beispiele oder Fine-Tuning, verbessern. Ergänzende kognitive Interviews könnten klären, an welcher Stelle des Antwortprozesses — beim Erinnern, Urteilen oder Übertragen auf Antwortkategorien — die beobachteten Diskrepanzen entstehen [@tourangeau2000].
 
 Für zukünftige Untersuchungen sprechen unsere Ergebnisse insgesamt dafür, Selbstauskünfte zur KI-Nutzung durch Verhaltensdaten zu ergänzen [@nielsen2015; @ohme2024].
 Die Chatlogdaten sollten dabei nicht als fehlerfreier Goldstandard, sondern als zusätzliche Datenquelle verstanden werden.
-Die explorativen Cluster sprechen außerdem gegen einen einheitlichen Korrekturfaktor für soziale Erwünschtheit, da sich die Abweichungsmuster je nach Person und Konstrukt unterscheiden.
 
 \newpage
 
@@ -1662,11 +1674,10 @@ readr::write_csv(
 )
 ```
 
-
 ::: {#tbla-llm-metriken}
 ```{r}
 anhang_tab("T20_llm_metriken_de.csv") 
-``` 
+```
 
 Gütemaße der Zero-Shot-Textklassifikation gegen den Goldstandard (n = 32 Chats)
 :::
