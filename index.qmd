@@ -1374,20 +1374,13 @@ Deskriptiv lassen sich jedoch einige mögliche Muster erkennen.
 
 ### Clusteranalyse
 
-Der PAM-Algorithmus identifiziert Vier-Cluster mit einer Mindestgröße von drei Personen pro Cluster.
-Diese Bedingung wurde gewählt, da bei einem cluster von eins zum Beispiel Clustern der Clustermittelwert faktisch dem Wert einzelner Beobachtungen entspricht und somit keine belastbare Grundlage für die Beschreibung eines Typs bietet.
-Zudem stellt die Mindestgröße sicher, dass für die anschließenden Gruppenvergleiche eine ausreichende Anzahl an Beobachtungen pro Gruppe vorliegt.
-Die einzelnen Cluster umfassen sechs, sechs, vier und fünf Personen.
-Die duchschnitlliche Silhouettenweite beträgt 0,46 (@tbla-silhouette-k).
-Nach der Klassifikation von @kaufman1990a liegt dieser Wert unterhalb des Schwellenwerts von 0,51 für eine „vernünftige“ Clusterstruktur und ist damit als schwach, aber erkennbar einzuordnen.
-Eine Fünf-Cluster-Lösung läge zwar oberhalb dieses Schwellenwerts, würde jedoch zu sehr kleinen CLustern mit lediglich zwei Personen führen.
-Bei $k=6$ bzw.
-$k=7$, wobei $k=7$ anhand der Silhouettenweite das tatsächliche Optimum darstellen würde, entstähen sogar Ein-Personen-Cluster (@tbla-silhouette-k, @figb-silhouette-k).
+Die Clusterzahl wurde anhand der durchschnittlichen Silhouettenweite unter der zusätzlichen Bedingung bestimmt, dass jedes Cluster mindestens drei Personen umfassen musste. Diese Mindestgröße sollte verhindern, dass Clusterprofile faktisch einzelne Beobachtungen abbilden und sich nicht sinnvoll als explorative Typen beschreiben lassen. Ohne diese Einschränkung erzielte die Sieben-Cluster-Lösung die höchste durchschnittliche Silhouettenweite. Sie enthielt jedoch ebenso wie die Sechs-Cluster-Lösung Ein-Personen-Cluster. Auch die Fünf-Cluster-Lösung wurde trotz einer höheren Silhouettenweite ausgeschlossen, da ihr kleinstes Cluster nur zwei Personen umfasste (@tbla-silhouette-k; @figb-silhouette-k). Unter den zulässigen Lösungen wies daher die Vier-Cluster-Lösung die höchste durchschnittliche Silhouettenweite auf und wurde für die weitere Analyse ausgewählt. Die vier Cluster umfassen sechs, sechs, vier und fünf Personen. Ihre durchschnittliche Silhouettenweite von 0,46 deutet nach @kaufman1990a auf eine schwache Clusterstruktur hin. Die Cluster werden deshalb als explorative Typen und nicht als trennscharfe Gruppen interpretiert.
+
 
 Für jedes der vier Cluster wird eine reale Beobachtung als Medoid (Clusterzentrum) ausgewählt.
-Eine multidimensionale Skalierung (MDS) überführt die Gower-Distanzen zur grafischen Darstellung in einen zweidimensionalen Raum (@fig-silhouette_pms).
+Eine multidimensionale Skalierung überführt die Gower-Distanzen zur grafischen Darstellung in einen zweidimensionalen Raum (@fig-silhouette_pms).
 Nahe beieinanderliegende Punkte weisen auf ähnliche Diskrepanzprofile hin.
-Dabei ist zu beachten, dass die MDS-Darstellung die tatsächlichen Distanzen im höherdimensionalen Merkmalsraum lediglich approximiert, weswegen sie nur zur visuellen Veranschaulichung dient.
+Dabei ist zu beachten, dass die multidimensionale Darstellung die tatsächlichen Distanzen im höherdimensionalen Merkmalsraum lediglich approximiert, weswegen sie nur zur visuellen Veranschaulichung dient.
 Die gefundenen vier Cluster liegen räumlich weitgehend getrennt voneinander, wobei sie unterschiedliche Bereiche des Merkmalsraums einnehmen.
 Zudem sind einzelne Beobachtungen erkennbar, die deutlich von ihrem jeweiligen Clusterzentrum entfernt liegen.
 Die beiden Beobachtungen im unteren rechten Bereich der Projektion würden bei einer Fünf-Cluster-Lösung ein eigenes zusätzliches Cluster bilden.
