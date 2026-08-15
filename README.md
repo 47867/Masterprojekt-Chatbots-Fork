@@ -79,7 +79,7 @@ Das Quarto-Dokument führt die erforderlichen R-Skripte in der vorgesehenen Reih
 ``` bash
 Rscript R_code/01_data_prep.R
 Rscript R_code/02_data_analysis.R
-Rscript R_code/03_sample_modification
+Rscript R_code/03_sample_modification.R
 Rscript R_code/04_discrepancy_analysis.R
 ```
 
