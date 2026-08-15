@@ -1127,9 +1127,9 @@ plot_agreement <- ggplot(
   ) +
   scale_fill_manual(
     values = c(
-      "Negative Abweichung" = "#C76D5E",
-      "Übereinstimmung" = "#2C6E9B",
-      "Positive Abweichung" = "#5B9279"
+      "Negative Abweichung" = "#2A78D6",
+      "Übereinstimmung" = "#898781",
+      "Positive Abweichung" = "#E34948"
     ),
     guide = "none"
   ) +
